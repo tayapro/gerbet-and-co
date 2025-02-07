@@ -1,0 +1,7 @@
+core.python*
+.env
+__pycache__/
+*.py[cod]
+.github/
+*.sqlite3
+staticfiles/
