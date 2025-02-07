@@ -11,7 +11,7 @@
             <h2>{{ product.title }}</h2>
             <p>{{ product.description }}</p>
             <p><strong>Price:</strong> ${{ product.price }}</p>
-            <a href="{% url 'add_to_bag' product.id %}" class="btn btn-success">Add to Bag</a>
+            <a href="{% url 'add_to_bag' product.id %}?next={{ request.path }}" class="btn btn-success">Add to Bag</a>
         </div>
     </div>
 </div>

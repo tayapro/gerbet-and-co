@@ -1,33 +1,32 @@
 {% extends 'base.html' %}
+{% load bag_filters %}
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Shopping Bag</h2>
+    <h2 class="text-center mb-5">Shopping Bag</h2>
     {% if bag %}
         <div class="row">
             {% for item in bag %}
             <div class="col-md-12 mb-3">
                 <div class="d-flex align-items-center border p-3 rounded">
                     <div class="me-3">
-                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="img-fluid" style="width: 80px; height: 80px; object-fit: cover;">
+                        <img src="{{ item.image_url }}" alt="{{ item.title }}" class="img-fluid" style="width: 80px; height: 80px; object-fit: cover;">
                     </div>
                     <div class="flex-grow-1">
-                        {% for item in bag %}
-                        <h5 class="mb-1">{{ item.product.title }}</h5>
+                        <h5 class="mb-1">{{ item.title }}</h5>
                         <p class="mb-1">Quantity: {{ item.quantity }}</p>
-                        <p class="mb-1">Price: ${{ item.product.price }}</p>
-                        <p class="mb-1">Subtotal: ${{ item.quantity|floatformat:2|add:item.product.price }}</p>
-                    {% endfor %}
+                        <p class="mb-1">Price: ${{ item.price|floatformat:2 }}</p>
+                        <p class="mb-1">Subtotal: ${{ item.price|subtotal:item.quantity|floatformat:2 }}</p>
                     </div>
                     <div>
-                        <a href="{% url 'remove_from_bag' item.product.id %}" class="btn btn-danger btn-sm">Remove</a>
+                        <a href="{% url 'remove_from_bag' item.product_id %}" class="btn btn-danger btn-sm">Remove</a>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
         <div class="d-flex justify-content-between align-items-center mt-4">
-            <h4>Total: ${{ bag.get_total_price }}</h4>
+            <h4>Total: ${{ bag.get_total_price|floatformat:2 }}</h4>
             <a href="#" class="btn btn-primary">Proceed to Checkout</a>
         </div>
     {% else %}

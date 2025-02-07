@@ -1,5 +1,5 @@
 from django.conf import settings
-from products.models import Product
+from decimal import Decimal
 
 
 # Utility class that manages the shopping bag using Django sessions.
@@ -15,15 +15,20 @@ class Bag:
 
         self.bag = bag
 
-        print(f"BAG: {bag}")
-
-    def add(self, product_id, quantity=1):
+    def add(self, product_id, product_data=None, quantity=1):
         product_id = str(product_id)
+        if not product_data:
+            raise ValueError("product_data must include all required fields")
 
         if product_id not in self.bag:
-            self.bag[product_id] = {'quantity': quantity}
+            self.bag[product_id] = {
+                'quantity': quantity,
+                'price': str(product_data['price']),
+                'title': product_data['title'],
+                'image_url': product_data.get('image_url', '')
+            }
         else:
-            self.bag[product_id]['quantity'] += quantity
+            self.bag[product_id]['quantity'] += 1
 
         self.save()
 
@@ -38,15 +43,24 @@ class Bag:
             self.save()
 
     def __iter__(self):
-        product_ids = self.bag.keys()
-        products = Product.objects.filter(id__in=product_ids)
-        bag_instance = self.bag.copy()
+        for product_id, item in self.bag.items():
+            try:
+                item['price'] = item.get('price', 0.00)
 
-        for product in products:
-            bag_instance[str(product.id)]['product'] = product
+                # Add missing fields with defaults
+                item.setdefault('title', 'Unknown Product')
+                item.setdefault('image_url', '')
 
-        for item in bag_instance.values():
-            yield item
+                item['product_id'] = int(product_id)
+
+                yield item
+
+            except (KeyError, ValueError) as e:
+                print(f"Removing invalid bag item {product_id}: {str(e)}")
+                del self.bag[product_id]
+
+        self.save()
+        return iter([])
 
     def get_total_quantity(self):
         return sum(item['quantity'] for item in self.bag.values())
@@ -58,11 +72,13 @@ class Bag:
             self.save()
 
     def get_total_price(self):
-        return sum(
-            item['quantity'] * item['product'].price 
-            for item in self.bag.values()
-            if 'product' in item
-        )
+        total = Decimal('0.00')
+        for item in self.bag.values():
+            # Convert float-stored price to Decimal for precision
+            price = Decimal(str(item['price'])).quantize(Decimal('0.00'))
+            quantity = Decimal(str(item['quantity']))
+            total += price * quantity
+        return float(total)
 
     def clear(self):
         self.session[settings.BAG_SESSION_ID] = {}
