@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% block content %}
 <div class="container mt-4">
     <h2>Product detail: </h2>
@@ -10,7 +11,7 @@
             <h2>{{ product.title }}</h2>
             <p>{{ product.description }}</p>
             <p><strong>Price:</strong> ${{ product.price }}</p>
-            <button class="btn btn-success">Add to Cart</button>
+            <a href="{% url 'add_to_bag' product.id %}" class="btn btn-success">Add to Bag</a>
         </div>
     </div>
 </div>
