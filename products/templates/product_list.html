@@ -10,6 +10,11 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ product.title }}</h5>
                     <p class="card-text">${{ product.price }}</p>
+                    {% if product.stock > 0 %}
+                        <p class="card-text">In stock: {{ product.stock }}</p>
+                    {% else %}
+                        <p class="card-text">Out of stock</p>
+                    {% endif %}
                     <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a>
                 </div>
             </div>
