@@ -17,6 +17,9 @@ class Bag:
 
         self.bag = bag
 
+    def is_empty(self):
+        return len(self.bag) == 0
+
     def add(self, product_id, product_data=None, quantity=1):
         product_id = str(product_id)
         if not product_data:
@@ -65,7 +68,7 @@ class Bag:
         return iter([])
 
     def get_total_quantity(self):
-        return sum(item['quantity'] for item in self.bag.values())
+        return sum(int(item['quantity']) for item in self.bag.values())
 
     def adjust_quantity(self, product_id, quantity):
         product_id = str(product_id)
@@ -88,7 +91,10 @@ class Bag:
         return total
 
     def get_grand_total(self):
-        return self.get_total_price() + self.get_delivery_cost()
+        if not self.get_total_price():
+            return 0
+        else:
+            return self.get_total_price() + self.get_delivery_cost()
 
     def clear(self):
         self.session[settings.BAG_SESSION_ID] = {}

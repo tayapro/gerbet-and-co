@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container mt-4">
     <h2 class="text-center mb-5">Shopping Bag</h2>
-    {% if bag %}
+    {% if bag.get_total_quantity %}
         <div class="row">
             {% for item in bag %}
             <div class="col-md-12 mb-3">
@@ -36,7 +36,15 @@
 
         </div>
     {% else %}
-        <p>Your bag is empty.</p>
+        <div class="text-center mt-4">
+            <p class="m-3 text-muted">Your bag is empty. Keep shopping to find something you love!</p>
+            <a href="{% url 'product_list' %}" class="btn btn-outline-secondary rounded-3 btn-lg mt-3">
+                <span class="icon">
+                    <i class="bi bi-chevron-double-left text-muted"></i>
+                </span>
+                <span class="text-uppercase">Keep Shopping</span>
+            </a>
+        </div>
     {% endif %}
 </div>
 {% endblock %}

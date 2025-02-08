@@ -69,11 +69,17 @@
                             <a class="nav-link" href="/accounts/">Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/bag/">
-                                <span id="bag-icon-wrapper" class="h5">
-                                <i class="bi bi-bag"></i>
-                                </span>
-                            </a>
+                            {% if not bag.is_empty %}
+                                <a href="{% url 'view_bag' %}" class="nav-link position-relative">
+                                    <i class="bi bi-bag fs-4"></i>
+                                    <span class="position-absolute top-10 start-100 translate-middle badge rounded-pill bg-danger bg-gradient">
+                                        {{ bag_total_items }}
+                                        <span class="visually-hidden">items in bag</span>
+                                    </span>
+                                </a>
+                            {% else %}
+                                <i class="bi bi-bag fs-4"></i>
+                            {% endif %}
                         </li>
                     </ul>
                 </div>
