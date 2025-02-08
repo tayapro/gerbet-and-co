@@ -26,6 +26,16 @@ def remove_from_bag(request, product_id):
     return redirect("view_bag")
 
 
+def update_bag(request, product_id):
+    bag = Bag(request)
+    action = request.POST.get("action")
+
+    if action in ["increase", "decrease"]:
+        bag.add(product_id, quantity=1, action=action)
+
+    return redirect("view_bag")
+
+
 def view_bag(request):
     bag = Bag(request)
     return render(request, "bag/view_bag.html", {"bag": bag})

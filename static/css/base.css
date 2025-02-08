@@ -3,3 +3,15 @@
     padding: 0.35em 0.65em;
     min-width: 1.8em;
 }
+
+/* Hide number input spinners in Chrome, Safari, Edge, and Opera */
+.qty_input::-webkit-inner-spin-button,
+.qty_input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide number input arrows in Firefox */
+.qty_input {
+    -moz-appearance: textfield;
+}

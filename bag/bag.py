@@ -20,25 +20,34 @@ class Bag:
     def is_empty(self):
         return len(self.bag) == 0
 
-    def add(self, product_id, product_data=None, quantity=1):
-        product_id = str(product_id)
-        if not product_data:
-            raise ValueError("product_data must include all required fields")
+    def save(self):
+        self.session.modified = True
 
-        if product_id not in self.bag:
+    def add(self, product_id, product_data=None, quantity=1, action="add"):
+        product_id = str(product_id)
+
+        if not product_data and product_id not in self.bag:
+            raise ValueError("product_data must be provided for new items")
+
+        if product_id in self.bag:
+            if self.bag[product_id]['quantity'] <= 1:
+                del self.bag[product_id]
+
+            if action == "increase":
+                self.bag[product_id]['quantity'] += 1
+            elif action == "decrease":
+                self.bag[product_id]['quantity'] -= 1
+            else:
+                self.bag[product_id]['quantity'] += 1
+        else:
             self.bag[product_id] = {
-                'quantity': quantity,
+                'quantity': max(quantity, 1),
                 'price': str(product_data['price']),
                 'title': product_data['title'],
                 'image_url': product_data.get('image_url', '')
             }
-        else:
-            self.bag[product_id]['quantity'] += 1
 
         self.save()
-
-    def save(self):
-        self.session.modified = True
 
     def remove(self, product_id):
         product_id = str(product_id)

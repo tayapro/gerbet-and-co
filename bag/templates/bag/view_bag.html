@@ -18,8 +18,22 @@
                         <p class="mb-1">Price: &#8364;{{ item.price|floatformat:2 }}</p>
                         <p class="mb-1">Subtotal: &#8364;{{ item.price|subtotal:item.quantity|floatformat:2 }}</p>
                     </div>
+                    <form method="POST" action="{% url 'update_bag' item.product_id %}" class="d-inline-block update-form">
+                        {% csrf_token %}
+                        <div class="input-group" style="max-width: 140px;">
+                            <button type="submit" name="action" value="decrease" class="btn btn-outline-secondary btn-sm"
+                                    {% if item.quantity == 1 %}disabled{% endif %}>
+                                <i class="bi bi-dash"></i>
+                            </button>
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="99"
+                                   class="form-control text-center qty_input m-0 p-0 px-1">
+                            <button type="submit" name="action" value="increase" class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                        </div>
+                    </form>
                     <div>
-                        <a href="{% url 'remove_from_bag' item.product_id %}" class="btn btn-danger btn-sm">Remove</a>
+                        <a href="{% url 'remove_from_bag' item.product_id %}" class="mx-3 btn btn-danger btn-sm">Remove</a>
                     </div>
                 </div>
             </div>
