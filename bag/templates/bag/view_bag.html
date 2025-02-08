@@ -15,8 +15,8 @@
                     <div class="flex-grow-1">
                         <h5 class="mb-1">{{ item.title }}</h5>
                         <p class="mb-1">Quantity: {{ item.quantity }}</p>
-                        <p class="mb-1">Price: ${{ item.price|floatformat:2 }}</p>
-                        <p class="mb-1">Subtotal: ${{ item.price|subtotal:item.quantity|floatformat:2 }}</p>
+                        <p class="mb-1">Price: &#8364;{{ item.price|floatformat:2 }}</p>
+                        <p class="mb-1">Subtotal: &#8364;{{ item.price|subtotal:item.quantity|floatformat:2 }}</p>
                     </div>
                     <div>
                         <a href="{% url 'remove_from_bag' item.product_id %}" class="btn btn-danger btn-sm">Remove</a>
@@ -26,7 +26,7 @@
             {% endfor %}
         </div>
         <div class="d-flex justify-content-between align-items-center mt-4">
-            <h4>Total: ${{ bag.get_total_price|floatformat:2 }}</h4>
+            <h4>Total: &#8364;{{ bag.get_total_price|floatformat:2 }}</h4>
             <a href="#" class="btn btn-primary">Proceed to Checkout</a>
         </div>
     {% else %}

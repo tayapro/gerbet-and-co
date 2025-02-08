@@ -1,5 +1,5 @@
-from django.conf import settings
 from decimal import Decimal
+from django.conf import settings
 
 
 # Utility class that manages the shopping bag using Django sessions.
@@ -72,13 +72,10 @@ class Bag:
             self.save()
 
     def get_total_price(self):
-        total = Decimal('0.00')
+        total = 0
         for item in self.bag.values():
-            # Convert float-stored price to Decimal for precision
-            price = Decimal(str(item['price'])).quantize(Decimal('0.00'))
-            quantity = Decimal(str(item['quantity']))
-            total += price * quantity
-        return float(total)
+            total += Decimal(str(item['price'])) * Decimal(item['quantity'])
+        return total
 
     def clear(self):
         self.session[settings.BAG_SESSION_ID] = {}
