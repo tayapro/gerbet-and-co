@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'products',
     'bag',
+    'checkout',
 
     # Other
     'crispy_forms',

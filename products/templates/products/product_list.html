@@ -15,7 +15,14 @@
                     {% else %}
                         <p class="card-text">Out of stock</p>
                     {% endif %}
-                    <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a>
+                    <div class="d-flex align-items-center justify-content-around">
+                        <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a>
+                        <a href="{% url 'add_to_bag' product.id %}?next={{ request.path }}">
+                            <span id="bag-icon-wrapper" class="h5">
+                                <i class="bi bi-bag"></i>
+                            </span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
