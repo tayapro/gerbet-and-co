@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import DeliveryCosts
+from .models import CheckoutConfig
 
 
-@admin.register(DeliveryCosts)
-class DeliveryCostsAdmin(admin.ModelAdmin):
-    list_display = ('free_delivery_threshold', 'delivery_cost')
+@admin.register(CheckoutConfig)
+class CheckoutConfigAdmin(admin.ModelAdmin):
+    list_display = ('id', 'free_delivery_threshold', 'delivery_cost',
+                    'stripe_currency')

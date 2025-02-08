@@ -1,7 +1,7 @@
 from decimal import Decimal
 from django.conf import settings
 
-from checkout.models import DeliveryCosts
+from checkout.utils import get_checkout_settings
 
 
 # Utility class that manages the shopping bag using Django sessions.
@@ -74,15 +74,12 @@ class Bag:
             self.save()
 
     def get_delivery_cost(self):
-        try:
-            delivery_settings = DeliveryCosts.objects.first()
-        except DeliveryCosts.DoesNotExist:
-            return 0
-
+        checkout_settings = get_checkout_settings()
         total = self.get_total_price()
-        if delivery_settings and total >= delivery_settings.free_delivery_threshold:
-            return 0  # Free shipping
-        return delivery_settings.delivery_cost if delivery_settings else 0
+        return (
+            0 if total >= checkout_settings.free_delivery_threshold
+            else checkout_settings.delivery_cost
+        )
 
     def get_total_price(self):
         total = 0
