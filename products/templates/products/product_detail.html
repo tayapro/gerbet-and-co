@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load products_filters %}
 
 {% block content %}
 <div class="container mt-4">
@@ -9,6 +10,11 @@
         </div>
         <div class="col-md-6">
             <h2>{{ product.title }}</h2>
+            {% if product.rating %}
+                <small class="text-muted"><i class="bi bi-star-fill"></i> {{ product.rating|rating_format }} / 5</small>
+            {% else %}
+                <small class="text-muted">No Rating</small>
+            {% endif %}
             <p>{{ product.description }}</p>
             <p><strong>Price:</strong> &#8364;{{ product.price }}</p>
             <a href="{% url 'add_to_bag' product.id %}?next={{ request.path }}" class="add-to-bag btn btn-success">Add to Bag</a>

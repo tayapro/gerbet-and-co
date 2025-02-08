@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load products_filters %}
+
 {% block content %}
 <div class="container mt-4">
     <h2>Product list: </h2>
@@ -6,9 +8,13 @@
         {% for product in products %}
         <div class="col-md-4 mb-4">
             <div class="card">
-                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}">
+                <a href="{% url 'product_detail' product.id %}">
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}">
+                </a>
                 <div class="card-body">
-                    <h5 class="card-title">{{ product.title }}</h5>
+                    <a href="{% url 'product_detail' product.id %}" class="link-underline link-underline-opacity-0 text-black text-opacity-50">
+                        <h4 class="card-title">{{ product.title }}</h4>
+                    </a>
                     <p class="card-text">&#8364;{{ product.price }}</p>
                     {% if product.stock > 0 %}
                         <p class="card-text">In stock: {{ product.stock }}</p>
@@ -16,11 +22,14 @@
                         <p class="card-text">Out of stock</p>
                     {% endif %}
                     <div class="d-flex align-items-center justify-content-around">
-                        <a href="{% url 'product_detail' product.id %}" class="btn btn-primary">View Details</a>
-                        <a href="{% url 'add_to_bag' product.id %}?next={{ request.path }}">
-                            <span id="bag-icon-wrapper" class="h5">
-                                <i class="bi bi-bag"></i>
-                            </span>
+                        {% if product.rating %}
+                            <small class="text-muted"><i class="bi bi-star-fill"></i> {{ product.rating|rating_format }} / 5</small>
+                        {% else %}
+                            <small class="text-muted">No Rating</small>
+                        {% endif %}
+                        <a href="{% url 'add_to_bag' product.id %}?next={{ request.path }}" 
+                            class="link-underline link-underline-opacity-0 text-black text-opacity-50">
+                            <p class="h5">Add to Bag</p>
                         </a>
                     </div>
                 </div>
