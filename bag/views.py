@@ -29,9 +29,25 @@ def remove_from_bag(request, product_id):
 def update_bag(request, product_id):
     bag = Bag(request)
     action = request.POST.get("action")
+    quantity = request.POST.get("quantity")
 
-    if action in ["increase", "decrease"]:
-        bag.add(product_id, quantity=1, action=action)
+    try:
+        quantity = int(quantity)
+
+        if quantity < 1:
+            quantity = 1
+        elif quantity > 99:
+            quantity = 99
+
+        if action == "increase":
+            bag.add(product_id, quantity=1, action="increase")
+        if action == "decrease":
+            bag.add(product_id, quantity=-1, action="decrease")
+        if action == "update":
+            bag.add(product_id, quantity=quantity, action="update")
+
+    except ValueError:
+        pass
 
     return redirect("view_bag")
 

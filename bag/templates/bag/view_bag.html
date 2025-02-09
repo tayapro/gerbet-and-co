@@ -20,13 +20,14 @@
                     </div>
                     <form method="POST" action="{% url 'update_bag' item.product_id %}" class="d-inline-block update-form">
                         {% csrf_token %}
-                        <div class="input-group" style="max-width: 140px;">
+                        <div class="input-group">
                             <button type="submit" name="action" value="decrease" class="btn btn-outline-secondary btn-sm"
                                     {% if item.quantity == 1 %}disabled{% endif %}>
                                 <i class="bi bi-dash"></i>
                             </button>
+                            <input type="hidden" name="action" value="update">
                             <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="99"
-                                   class="form-control text-center qty_input m-0 p-0 px-1">
+                                class="form-control text-center qty_input m-0 p-0 px-1" onchange="this.form.submit()">
                             <button type="submit" name="action" value="increase" class="btn btn-outline-secondary btn-sm">
                                 <i class="bi bi-plus"></i>
                             </button>

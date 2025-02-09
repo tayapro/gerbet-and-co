@@ -18,7 +18,7 @@ class Bag:
         self.bag = bag
 
     def is_empty(self):
-        return len(self.bag) == 0
+        return self.get_total_quantity() == 0
 
     def save(self):
         self.session.modified = True
@@ -30,15 +30,12 @@ class Bag:
             raise ValueError("product_data must be provided for new items")
 
         if product_id in self.bag:
-            if self.bag[product_id]['quantity'] <= 1:
-                del self.bag[product_id]
-
             if action == "increase":
                 self.bag[product_id]['quantity'] += 1
-            elif action == "decrease":
+            if action == "decrease":
                 self.bag[product_id]['quantity'] -= 1
-            else:
-                self.bag[product_id]['quantity'] += 1
+            if action == "update":
+                self.bag[product_id]['quantity'] = max(quantity, 1)
         else:
             self.bag[product_id] = {
                 'quantity': max(quantity, 1),
