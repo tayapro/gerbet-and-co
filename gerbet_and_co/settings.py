@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 import dj_database_url
+from django.contrib.messages import constants as messages
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -132,6 +133,13 @@ LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+MESSAGE_TAGS = {
+    messages.SUCCESS: "alert-success",
+    messages.ERROR: "alert-danger",
+    messages.WARNING: "alert-warning",
+    messages.INFO: "alert-info",
+}
 
 WSGI_APPLICATION = 'gerbet_and_co.wsgi.application'
 

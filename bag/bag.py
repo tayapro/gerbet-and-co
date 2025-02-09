@@ -32,10 +32,12 @@ class Bag:
         if product_id in self.bag:
             if action == "increase":
                 self.bag[product_id]['quantity'] += 1
-            if action == "decrease":
+            elif action == "decrease":
                 self.bag[product_id]['quantity'] -= 1
-            if action == "update":
+            elif action == "update":
                 self.bag[product_id]['quantity'] = max(quantity, 1)
+            else:
+                self.bag[product_id]['quantity'] += 1
         else:
             self.bag[product_id] = {
                 'quantity': max(quantity, 1),

@@ -1,0 +1,52 @@
+{% load bag_filters %}
+
+{% block content %}
+<div id="bag-items-container">
+    {% for item in bag %}
+        <div class="d-flex align-items-center border p-3 rounded m-2">
+            <div class="me-3">
+                <img src="{{ item.image_url }}" alt="{{ item.title }}" 
+                    class="img-fluid" style="width: 80px; height: 80px; object-fit: cover;">
+            </div>
+            <div class="d-flex align-items-center justify-content-between flex-grow-1">
+                <div>
+                    <h5 class="mb-1">{{ item.title }}</h5>
+                    <p class="mb-1">Quantity: {{ item.quantity }}</p>
+                    <p class="mb-1">Price: &#8364;{{ item.price|floatformat:2 }}</p>
+                    <p class="mb-1">Subtotal: &#8364;{{ item.price|subtotal:item.quantity|floatformat:2 }}</p>
+                </div>
+                <div class="d-flex">
+                    <div>
+                        {% include "bag/htmx/update_quantity_form.html" %}
+                    </div>
+                    <div class="mx-3">
+                        <a href="{% url 'remove_from_bag' item.product_id %}" class="btn btn-danger btn-sm remove-item"
+                            data-bs-toggle="modal" data-bs-target="#confirmRemoveModal" data-href="{% url 'remove_from_bag' item.product_id %}">
+                            <i class="bi bi-trash3"></i> Remove
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="text-center mt-4">
+            <p class="m-3 text-muted">Your bag is empty. Keep shopping to find something you love!</p>
+            <a href="{% url 'product_list' %}" class="btn btn-outline-secondary rounded-3 btn-lg mt-3">
+                <span class="icon">
+                    <i class="bi bi-chevron-double-left text-muted"></i>
+                </span>
+                <span class="text-uppercase">Keep Shopping</span>
+            </a>
+        </div>
+    {% endfor %}
+    <div class="d-flex justify-content-between align-items-center m-4">
+        <div>
+            <p>Subtotal: &#8364;{{ bag.get_total_price|floatformat:2 }}</p>
+            <p>Delivery: {% if bag.get_delivery_cost == 0 %} Free {% else %} ${{ bag.get_delivery_cost }} {% endif %}</p>
+            <p><strong>Grand Total: ${{ bag.get_grand_total }}</strong></p>
+        </div>
+            <a href="#" class="btn btn-primary">Proceed to Checkout</a>
+
+    </div>
+</div>
+{% endblock %}

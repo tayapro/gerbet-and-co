@@ -17,7 +17,18 @@
             {% endif %}
             <p>{{ product.description }}</p>
             <p><strong>Price:</strong> &#8364;{{ product.price }}</p>
-            <a href="{% url 'add_to_bag' product.id %}?next={{ request.path }}" class="add-to-bag btn btn-success">Add to Bag</a>
+            <form hx-post="{% url 'add_to_bag' product.id %}" 
+                hx-trigger="click" 
+                hx-target="#bag-toast-container" 
+                hx-swap="outerHTML"
+                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                hx-select-oob="#bag-quantity">
+                {% csrf_token %}
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-bag-plus"></i> Add to Bag
+                </button>
+            </form>
         </div>
     </div>
 </div>

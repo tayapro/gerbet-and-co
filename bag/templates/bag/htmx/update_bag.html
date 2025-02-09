@@ -1,0 +1,9 @@
+<div id="bag-items-container">
+    {% include "bag/includes/bag_items.html" %}
+</div>
+
+<span id="bag-quantity" class="position-absolute top-10 start-100 translate-middle badge rounded-pill bg-danger bg-gradient"
+      hx-swap-oob="outerHTML">
+    {{ bag_total_items }}
+    <span class="visually-hidden">items in bag</span>
+</span>

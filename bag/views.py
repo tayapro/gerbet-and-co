@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+
 from .bag import Bag
 from products.models import Product
 
@@ -15,6 +16,14 @@ def add_to_bag(request, product_id):
     }
     bag.add(product_id=product.id, product_data=product_data, quantity=1)
 
+    updated_bag_quantity = bag.get_total_quantity()
+
+    if request.headers.get("HX-Request"):
+        return render(request, "bag/htmx/bag_toast.html",
+                      {"product_name": product_data['title'],
+                       "bag_total_items": updated_bag_quantity},
+                      content_type="text/html")
+
     next = request.GET.get("next", reverse("product_list"))
 
     return redirect(next)
@@ -28,6 +37,7 @@ def remove_from_bag(request, product_id):
 
 def update_bag(request, product_id):
     bag = Bag(request)
+    product = get_object_or_404(Product, id=product_id)
     action = request.POST.get("action")
     quantity = request.POST.get("quantity")
 
@@ -40,14 +50,31 @@ def update_bag(request, product_id):
             quantity = 99
 
         if action == "increase":
-            bag.add(product_id, quantity=1, action="increase")
-        if action == "decrease":
-            bag.add(product_id, quantity=-1, action="decrease")
-        if action == "update":
-            bag.add(product_id, quantity=quantity, action="update")
+            bag.add(product_id,
+                    product_data={"title": product.title,
+                                  "price": product.price},
+                    quantity=1, action="increase")
+        elif action == "decrease":
+            if bag.bag[str(product_id)]["quantity"] > 1:
+                bag.add(product_id,
+                        product_data={"title": product.title,
+                                      "price": product.price},
+                        quantity=-1, action="decrease")
+        else:
+            bag.add(product_id,
+                    product_data={"title": product.title,
+                                  "price": product.price},
+                    quantity=quantity, action="update")
 
-    except ValueError:
+    except (ValueError, KeyError):
         pass
+
+    updated_bag_quantity = bag.get_total_quantity()
+
+    if request.headers.get("HX-Request"):
+        return render(request, "bag/htmx/update_bag.html",
+                      {"bag": bag, "bag_total_items": updated_bag_quantity,
+                       "product_name": product.title})
 
     return redirect("view_bag")
 

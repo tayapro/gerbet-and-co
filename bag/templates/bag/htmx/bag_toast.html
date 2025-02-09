@@ -1,0 +1,26 @@
+<span id="bag-quantity" class="position-absolute top-10 start-100 translate-middle badge rounded-pill bg-danger bg-gradient"
+      hx-swap-oob="outerHTML">
+    {{ bag_total_items }}
+</span>
+
+<div id="bag-toast-container" class="toast position-absolute bg-success text-white show"
+     role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex align-items-center p-2">
+        <div class="toast-body">
+            <i class="bi bi-check-circle-fill me-2"></i> 
+            {{ product_name }} has been added to your bag!
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let toastEl = document.getElementById("bag-toast");
+
+        if (toastEl) {
+            let bsToast = new bootstrap.Toast(toastEl);
+            bsToast.show();
+        }
+    });
+</script>
