@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container m-5">
+    <h2 class="text-center mb-4">Checkout</h2>
+
+    <div class="row">
+        <div class="col-md-7">
+            <form method="POST" action="{% url 'checkout' %}" id="checkout-form">
+                {% csrf_token %}
+
+                <h4 class="mb-3">Shipping Information:</h4>
+                {{ shipping_form|crispy }}
+
+                <h4 class="mb-3 mt-4">Order Details:</h4>
+                {{ order_form|crispy }}
+
+                <button type="submit" class="btn btn-primary w-100 mt-4">Proceed to Payment</button>
+            </form>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card border-secondary">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">Order Summary</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Subtotal: </strong> €{{request.session.bag_total|floatformat:2 }}</p>
+                    <p>
+                        <strong>Delivery: </strong>
+                        {% if request.session.delivery_cost == 0 %}
+                            Free
+                        {% else %}
+                            €{{ request.session.delivery_cost }}
+                        {% endif %}
+                    </p>
+                    <hr>
+                    <p class="h5"><strong>Total: </strong> €{{request.session.bag_total|floatformat:2 }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

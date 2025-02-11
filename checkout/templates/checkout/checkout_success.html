@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+    <h2 class="mt-3">Thank You for Your Order!</h2>
+    <p class="lead">Your order has been successfully placed.</p>
+
+    <div class="card border-success mt-4 mx-auto" style="max-width: 500px;">
+        <div class="card-body">
+            <h5 class="card-title">Order Summary</h5>
+            <p><strong>Order ID:</strong> {{ order.order_id }}</p>
+            <p><strong>Total Paid:</strong> €{{ order.total_price|floatformat:2 }}</p>
+            <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+        </div>
+    </div>
+
+    <a href="{% url 'product_list' %}" class="btn btn-outline-primary mt-4">
+        <i class="bi bi-shop"></i> Continue Shopping
+    </a>
+</div>
+{% endblock %}

@@ -45,7 +45,7 @@
             <p>Delivery: {% if bag.get_delivery_cost == 0 %} Free {% else %} ${{ bag.get_delivery_cost }} {% endif %}</p>
             <p><strong>Grand Total: ${{ bag.get_grand_total }}</strong></p>
         </div>
-            <a href="#" class="btn btn-primary">Proceed to Checkout</a>
+            <a href="{% url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
 
     </div>
 </div>

@@ -188,3 +188,7 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 BAG_SESSION_ID = 'bag'
+
+# Stripe
+STRIPE_PUBLIC_KEY = os.environ['STRIPE_PUBLIC_KEY']
+STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
