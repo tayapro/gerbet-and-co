@@ -26,17 +26,17 @@
                     <h5 class="mb-0">Order Summary</h5>
                 </div>
                 <div class="card-body">
-                    <p><strong>Subtotal: </strong> €{{request.session.bag_total|floatformat:2 }}</p>
+                    <p><strong>Subtotal: </strong> €{{bag_total|floatformat:2 }}</p>
                     <p>
                         <strong>Delivery: </strong>
-                        {% if request.session.delivery_cost == 0 %}
+                        {% if delivery_cost == 0 %}
                             Free
                         {% else %}
-                            €{{ request.session.delivery_cost }}
+                            €{{ delivery_cost }}
                         {% endif %}
                     </p>
                     <hr>
-                    <p class="h5"><strong>Total: </strong> €{{request.session.bag_total|floatformat:2 }}</p>
+                    <p class="h5"><strong>Total: </strong> €{{grand_total|floatformat:2 }}</p>
                 </div>
             </div>
         </div>

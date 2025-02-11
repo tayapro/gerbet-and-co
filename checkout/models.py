@@ -57,7 +57,7 @@ class Order(models.Model):
                              null=True, blank=True)
     email = models.EmailField()
     shipping_info = models.ForeignKey(ShippingInfo, on_delete=models.CASCADE)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    grand_total = models.DecimalField(max_digits=10, decimal_places=2)
     stripe_payment_intent = models.CharField(max_length=255,
                                              null=True, blank=True,
                                              unique=True)
@@ -65,16 +65,6 @@ class Order(models.Model):
                                   blank=False, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    def save(self, *args, **kwargs):
-        """Generate a formatted order ID (ORD-XXXX-YYYY) if not already set"""
-        if not self.order_id:
-            uuid_str = str(self.order_id).replace("-", "")
-            # order_id will be formatted as ORD-XXXX-YYYY, where:
-            # XXXX - First 4 characters of the UUID
-            # YYYY - Last 4 characters of the UUID
-            self.order_id = f"ORD-{uuid_str[:4]}-{uuid_str[-4:]}"
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Order {self.order_id} - {self.shipping_info.full_name}"

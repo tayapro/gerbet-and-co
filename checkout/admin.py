@@ -4,7 +4,7 @@ from .models import CheckoutConfig, ShippingInfo, Order
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("order_id", "user", "email", "total_price",
+    list_display = ("order_id", "user", "email", "grand_total",
                     "status", "created_at", "stripe_pid")
     search_fields = ("order_id", "email", "user__username",
                      "stripe_pid")
