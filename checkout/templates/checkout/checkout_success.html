@@ -10,7 +10,7 @@
         <div class="card-body">
             <h5 class="card-title">Order Summary</h5>
             <p><strong>Order ID:</strong> {{ order.order_id }}</p>
-            <p><strong>Total Paid:</strong> €{{ order.total_price|floatformat:2 }}</p>
+            <p><strong>Total Paid:</strong> €{{ order.grand_total|floatformat:2 }}</p>
             <p><strong>Status:</strong> {{ order.get_status_display }}</p>
         </div>
     </div>
