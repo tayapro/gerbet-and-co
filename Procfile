@@ -1,0 +1,1 @@
+web: gunicorn gerbet_and_co.wsgi:application

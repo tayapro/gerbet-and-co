@@ -22,3 +22,4 @@ sqlparse==0.5.3
 stripe==11.5.0
 typing_extensions==4.12.2
 urllib3==2.3.0
+whitenoise==6.9.0
