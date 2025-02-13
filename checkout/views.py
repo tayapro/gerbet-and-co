@@ -9,21 +9,6 @@ from .models import CheckoutConfig, Order, ShippingInfo
 from bag.bag import Bag
 
 
-def create_payment_intent(order):
-    checkout_config = CheckoutConfig.objects.first()
-    currency = checkout_config.stripe_currency if checkout_config else "eur"
-
-    intent = stripe.PaymentIntent.create(
-        amount=int(order.grand_total * 100),
-        currency=currency.lower(),
-        automatic_payment_methods={
-            'enabled': True,
-        },
-        metadata={"order_id": str(order.order_id)}
-    )
-    return intent
-
-
 def checkout(request):
     bag = Bag(request)
     if bag.is_empty():
@@ -38,7 +23,7 @@ def checkout(request):
     currency = checkout_config.stripe_currency.lower() if checkout_config else 'eur'
 
     # Create temporary order early for ID reference
-    if 'temp_order_id' not in request.session:
+    if 'order_id' not in request.session:
         temp_order = Order.objects.create(
             status='pending',
             stripe_pid=uuid.uuid4(),
@@ -46,7 +31,7 @@ def checkout(request):
             email='temp@example.com',  # Will be updated later
             shipping_info=ShippingInfo.objects.create()
         )
-        request.session['temp_order_id'] = str(temp_order.order_id)
+        request.session['order_id'] = str(temp_order.order_id)
 
     if request.method == "GET":
         try:
@@ -56,7 +41,7 @@ def checkout(request):
                 currency=currency,
                 automatic_payment_methods={'enabled': True},
                 metadata={
-                    "order_id": request.session['temp_order_id'],
+                    "order_id": request.session['order_id'],
                     "status": "initialized"
                 }
             )
@@ -68,9 +53,9 @@ def checkout(request):
 
     elif request.method == "POST":
         payment_intent_id = request.session.get('payment_intent_id')
-        temp_order_id = request.session.get('temp_order_id')
+        order_id = request.session.get('order_id')
 
-        if not payment_intent_id or not temp_order_id:
+        if not payment_intent_id or not order_id:
             messages.error(request, "Session expired, please try again")
             print("Session expired, please try again")
             return redirect('checkout')
@@ -81,7 +66,7 @@ def checkout(request):
         if shipping_form.is_valid() and order_form.is_valid():
             try:
                 # Get existing temporary order
-                order = Order.objects.get(order_id=temp_order_id)
+                order = Order.objects.get(order_id=order_id)
 
                 intent = stripe.PaymentIntent.retrieve(payment_intent_id)
                 # Only update if payment hasn't succeeded yet
@@ -122,7 +107,7 @@ def checkout(request):
 
                 # Clean up session
                 del request.session['payment_intent_id']
-                del request.session['temp_order_id']
+                del request.session['order_id']
 
                 return redirect(reverse("checkout_success", args=[order.order_id]))
 
@@ -146,7 +131,6 @@ def checkout(request):
                 "amount": int(grand_total * 100),
                 "grand_total": grand_total,
                 "currency": currency,
-                "temp_order_id": temp_order_id
             }
             return render(request, "checkout/checkout.html", context)
 
@@ -161,7 +145,7 @@ def checkout(request):
         "amount": int(grand_total * 100),
         "grand_total": grand_total,
         "currency": currency,
-        "temp_order_id": request.session['temp_order_id']
+        "order_id": request.session['order_id']
     }
     return render(request, "checkout/checkout.html", context)
 

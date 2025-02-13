@@ -9,15 +9,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const stripe = Stripe(stripePublicKey)
 
-    const optionsElements = document.getElementById('checkout_details')
+    const currency = document.getElementById('currency').value
+    if (!currency) {
+        document.getElementById('card-errors').textContent =
+            'Missing currency reference'
+        return
+    }
 
-    console.log('Currency JS: ', optionsElements.dataset.currency)
-    console.log('Amount JS: ', optionsElements.dataset.amount)
+    const amount = document.getElementById('amount').value
+    if (!amount) {
+        document.getElementById('card-errors').textContent =
+            'Missing amount reference'
+        return
+    }
 
     const elements = stripe.elements({
         mode: 'payment',
-        currency: optionsElements.dataset.currency,
-        amount: parseInt(optionsElements.dataset.amount),
+        currency: currency,
+        amount: parseInt(amount),
         paymentMethodCreation: 'manual',
     })
 
@@ -29,16 +38,14 @@ document.addEventListener('DOMContentLoaded', function () {
     })
     paymentElement.mount('#payment-element')
 
-    const tempOrderId = document.getElementById('temp_order_id').value
-    if (!tempOrderId) {
+    const orderId = document.getElementById('order_id').value
+    if (!orderId) {
         document.getElementById('card-errors').textContent =
             'Missing order reference'
         return
     }
-    console.log('OrderID from JS: ', tempOrderId)
-    const successUrl =
-        window.location.origin + `/checkout/success/${tempOrderId}/`
-    console.log('Successful URL from JS: ', successUrl)
+
+    const successUrl = window.location.origin + `/checkout/success/${orderId}/`
 
     form.addEventListener('submit', async (event) => {
         event.preventDefault()
