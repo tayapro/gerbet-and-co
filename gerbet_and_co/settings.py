@@ -31,7 +31,8 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['gerbet-and-co-84c4ca4e68bb.herokuapp.com',
+                 'localhost', '127.0.0.1']
 
 
 # Static files (CSS, JavaScript, Images)
@@ -192,3 +193,4 @@ BAG_SESSION_ID = 'bag'
 # Stripe
 STRIPE_PUBLIC_KEY = os.environ['STRIPE_PUBLIC_KEY']
 STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
+STRIPE_WH_SECRET = os.environ['STRIPE_WH_SECRET']
