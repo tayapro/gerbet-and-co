@@ -1,0 +1,13 @@
+Thank you for your order (#{{ order.order_id }})
+
+Order Details:
+- Total: €{{ order.grand_total }}
+- Payment ID: {{ order.stripe_pid }}
+
+Shipping Address:
+{{ order.shipping_info.full_name }}
+{{ order.shipping_info.street_address1 }}
+{{ order.shipping_info.town_or_city }}
+{{ order.shipping_info.country }}
+
+Thank you for shopping with us!
