@@ -1,12 +1,55 @@
-# checkout/views.py
+from django.conf import settings
+from django.core.mail import send_mail
+from django.db import OperationalError
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from django.conf import settings
+from tenacity import (
+    retry,
+    retry_if_exception_type,
+    stop_after_attempt,
+    wait_exponential,
+)
 import stripe
+import logging
 
-from .models import Order
+from .models import Order, WebhookEvent
+
+
+logger = logging.getLogger(__name__)
+
+# Configure retry settings
+WEBHOOK_RETRY_CONFIG = {
+    'stop': stop_after_attempt(3),
+    'wait': wait_exponential(multiplier=1, min=2, max=10),
+    'retry': retry_if_exception_type((OperationalError,)),
+}
+
+
+@retry(**WEBHOOK_RETRY_CONFIG)
+def handle_payment_event(payment_intent, event_type):
+    try:
+        order = Order.objects.get(stripe_pid=payment_intent.id)
+
+        if event_type == 'payment_intent.succeeded':
+            logger.info(f"Processing successful payment for order {order.order_id}")
+            order.status = 'complete'
+            send_order_confirmation_email(order)
+
+        elif event_type == 'payment_intent.payment_failed':
+            logger.warning(f"Payment failed for order {order.order_id}")
+            order.status = 'failed'
+            send_payment_failure_email(order)
+
+        order.save()
+        return True
+
+    except Order.DoesNotExist:
+        logger.error(f"Order not found for payment intent {payment_intent.id}")
+        raise
+    except Exception as e:
+        logger.error(f"Error processing {event_type}: {str(e)}")
+        raise
 
 
 @csrf_exempt
@@ -19,47 +62,29 @@ def stripe_webhook(request):
         event = stripe.Webhook.construct_event(
             payload, sig_header, settings.STRIPE_WH_SECRET
         )
-    except ValueError as e:
+    except ValueError:
         # Invalid payload
         return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError as e:
+    except stripe.error.SignatureVerificationError:
         # Invalid signature
         return HttpResponse(status=400)
 
-    # Handle the event
-    if event.type == 'payment_intent.succeeded':
+    WebhookEvent.objects.create(
+        stripe_id=event.id,
+        type=event.type,
+        data=dict(event)
+    )
+
+    if event.type in ['payment_intent.succeeded',
+                      'payment_intent.payment_failed']:
         payment_intent = event.data.object
-        handle_payment_succeeded(payment_intent)
-    elif event.type == 'payment_intent.payment_failed':
-        payment_intent = event.data.object
-        handle_payment_failed(payment_intent)
-    # TODO: Add more event types
+        try:
+            handle_payment_event(payment_intent, event.type)
+        except Exception as e:
+            logger.error(f"Final attempt failed for {event.type}: {str(e)}")
+            return HttpResponse(status=500)
 
     return HttpResponse(status=200)
-
-
-def handle_payment_succeeded(payment_intent):
-    try:
-        order = Order.objects.get(stripe_pid=payment_intent.id)
-        order.status = 'complete'
-        order.save()
-
-        send_order_confirmation_email(order)
-
-    except Order.DoesNotExist:
-        pass
-
-
-def handle_payment_failed(payment_intent):
-    try:
-        order = Order.objects.get(stripe_pid=payment_intent.id)
-        order.status = 'failed'
-        order.save()
-
-        send_payment_failure_email(order)
-
-    except Order.DoesNotExist:
-        pass
 
 
 def send_order_confirmation_email(order):

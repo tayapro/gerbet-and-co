@@ -68,3 +68,15 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order {self.order_id} - {self.shipping_info.full_name}"
+
+
+class WebhookEvent(models.Model):
+    stripe_id = models.CharField(max_length=255, unique=True)
+    type = models.CharField(max_length=255)
+    data = models.JSONField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    attempts = models.IntegerField(default=0)
+    last_error = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.type} ({self.stripe_id})"

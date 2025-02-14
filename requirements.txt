@@ -12,6 +12,7 @@ django-crispy-forms==2.3
 django-htmx==1.21.0
 gunicorn==23.0.0
 idna==3.10
+logging==0.4.9.6
 oauthlib==3.2.2
 packaging==24.2
 pillow==11.1.0
@@ -22,6 +23,7 @@ requests==2.32.3
 requests-oauthlib==2.0.0
 sqlparse==0.5.3
 stripe==11.5.0
+tenacity==9.0.0
 typing_extensions==4.12.2
 urllib3==2.3.0
 whitenoise==6.9.0
