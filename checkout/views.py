@@ -71,7 +71,6 @@ def checkout_old(request):
             try:
                 # Get existing temporary order
                 order = Order.objects.get(order_id=order_id)
-                logger.info(f"Order is {order}")
 
                 intent = stripe.PaymentIntent.retrieve(payment_intent_id)
                 # Only update if payment hasn't succeeded yet
@@ -247,6 +246,7 @@ def checkout(request):
                 order.stripe_pid = intent.id
                 order.stripe_payment_intent = intent.client_secret
                 order.shipping_info = shipping_info
+                order.status = 'processing'
 
                 if request.user.is_authenticated:
                     order.user = request.user
