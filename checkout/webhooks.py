@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.core.mail import send_mail
-from django.db import OperationalError
+from django.db import OperationalError, transaction, IntegrityError
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.template.loader import render_to_string
@@ -62,18 +62,21 @@ def stripe_webhook(request):
         event = stripe.Webhook.construct_event(
             payload, sig_header, settings.STRIPE_WH_SECRET
         )
-    except ValueError:
-        # Invalid payload
-        return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError:
-        # Invalid signature
+    except (ValueError, stripe.error.SignatureVerificationError):
         return HttpResponse(status=400)
 
-    WebhookEvent.objects.create(
-        stripe_id=event.id,
-        type=event.type,
-        data=dict(event)
-    )
+    if WebhookEvent.objects.filter(stripe_id=event.id).exists():
+        return HttpResponse(status=200)  # Event already processed
+
+    try:
+        WebhookEvent.objects.create(
+            stripe_id=event.id,
+            type=event.type,
+            data=dict(event)
+        )
+    except IntegrityError:
+        logger.error(f"Duplicate event: {event.id}")
+        return HttpResponse(status=400)
 
     if event.type in ['payment_intent.succeeded',
                       'payment_intent.payment_failed']:
@@ -85,7 +88,6 @@ def stripe_webhook(request):
             return HttpResponse(status=500)
 
     return HttpResponse(status=200)
-
 
 def send_order_confirmation_email(order):
     print("send_order_confirmation_email")

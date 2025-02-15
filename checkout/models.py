@@ -75,6 +75,7 @@ class WebhookEvent(models.Model):
     type = models.CharField(max_length=255)
     data = models.JSONField()
     created_at = models.DateTimeField(auto_now_add=True)
+    processed = models.BooleanField(default=False)
     attempts = models.IntegerField(default=0)
     last_error = models.TextField(blank=True)
 
