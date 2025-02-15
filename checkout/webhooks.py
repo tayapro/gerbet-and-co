@@ -27,28 +27,29 @@ WEBHOOK_RETRY_CONFIG = {
 
 
 @retry(**WEBHOOK_RETRY_CONFIG)
+def get_order_with_retry(payment_intent_id):
+    return Order.objects.select_for_update().get(stripe_pid=payment_intent_id)
+
+
 def handle_payment_event(payment_intent, event_type):
     try:
-        order = Order.objects.get(stripe_pid=payment_intent.id)
+        with transaction.atomic():
+            order = get_order_with_retry(payment_intent.id)
 
-        if event_type == 'payment_intent.succeeded':
-            logger.info(f"Processing successful payment for order {order.order_id}")
-            order.status = 'complete'
-            send_order_confirmation_email(order)
+            if event_type == 'payment_intent.succeeded':
+                logger.info(f"Processing payment for order {order.order_id}")
+                order.status = 'complete'
+                send_order_confirmation_email(order)
 
-        elif event_type == 'payment_intent.payment_failed':
-            logger.warning(f"Payment failed for order {order.order_id}")
-            order.status = 'failed'
-            send_payment_failure_email(order)
+            elif event_type == 'payment_intent.payment_failed':
+                logger.warning(f"Payment failed for order {order.order_id}")
+                order.status = 'failed'
 
-        order.save()
-        return True
+            order.save()
+            return True
 
     except Order.DoesNotExist:
-        logger.error(f"Order not found for payment intent {payment_intent.id}")
-        raise
-    except Exception as e:
-        logger.error(f"Error processing {event_type}: {str(e)}")
+        logger.error(f"Order missing for PI {payment_intent.id}.")
         raise
 
 
@@ -88,6 +89,7 @@ def stripe_webhook(request):
             return HttpResponse(status=500)
 
     return HttpResponse(status=200)
+
 
 def send_order_confirmation_email(order):
     print("send_order_confirmation_email")
