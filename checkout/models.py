@@ -58,6 +58,7 @@ class Order(models.Model):
     email = models.EmailField()
     shipping_info = models.ForeignKey(ShippingInfo, on_delete=models.CASCADE)
     grand_total = models.DecimalField(max_digits=10, decimal_places=2)
+    grand_total_cents = models.PositiveIntegerField(default=0)
     stripe_payment_intent = models.CharField(max_length=255,
                                              null=True, blank=True,
                                              unique=True)
@@ -65,6 +66,10 @@ class Order(models.Model):
                                   blank=False, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        self.grand_total_cents = int(self.grand_total * 100)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return (f"Order {self.order_id} - {self.shipping_info.full_name}, "
@@ -76,6 +81,11 @@ class Order(models.Model):
         indexes = [
             models.Index(fields=['stripe_pid'])
         ]
+
+
+# class OrderItem(models.Model):
+#     quantity = models.IntegerField(null=False, blank=False, default=0)
+#     order_item_total = 
 
 
 class WebhookEvent(models.Model):

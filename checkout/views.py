@@ -20,13 +20,14 @@ def checkout(request):
     stripe_secret_key = settings.STRIPE_SECRET_KEY
     stripe.api_key = stripe_secret_key
 
-    grand_total = int(bag.get_grand_total() * 100)
+    grand_total = bag.get_grand_total()
+    grand_total_cents = int(bag.get_grand_total() * 100)
+    bag_total = bag.get_total_price()
+    delivery_cost = bag.get_delivery_cost()
     checkout_config = CheckoutConfig.objects.first()
     currency = (
         checkout_config.stripe_currency.lower()
         if checkout_config else 'eur')
-
-    print(f"REQUEST.SESSION: {request.session}")
 
     # Handle POST request
     if request.method == "POST":
@@ -56,7 +57,7 @@ def checkout(request):
 
                 # Retrieve the PaymentIntent
                 intent = stripe.PaymentIntent.retrieve(payment_intent_id)
-                print(f"Retrieved PaymentIntent: {intent}")
+                logger.info(f"Retrieved PaymentIntent: {intent}")
 
                 # Confirm the PaymentIntent if necessary
                 if intent.status in {
@@ -64,9 +65,11 @@ def checkout(request):
                         "requires_confirmation",
                         "requires_action", }:
                     intent = stripe.PaymentIntent.confirm(payment_intent_id)
-                    print(f"Confirmed PaymentIntent: {intent}")
+                    logger.info(f"Confirmed PaymentIntent: {intent}")
 
                 if intent.status == 'succeeded':
+                    order.save()
+
                     # Clean up, order status will handled by webhook
                     bag.clear()
                     del request.session['payment_intent_id']
@@ -87,7 +90,7 @@ def checkout(request):
                 return redirect('checkout')
             except Exception as e:
                 messages.error(request, f"Order processing failed: {e}")
-                print(f"Order processing failed: {e}")
+                logger.error(f"Order processing failed: {e}")
                 return redirect('checkout')
         else:
             messages.error(request, "Please check your form entries")
@@ -96,22 +99,23 @@ def checkout(request):
                 "order_form": order_form,
                 "stripe_public_key": stripe_public_key,
                 "client_secret": request.session.get('client_secret'),
-                "bag_total": bag.get_total_price(),
-                "delivery_cost": bag.get_delivery_cost(),
-                "amount": grand_total,
-                "grand_total": bag.get_grand_total(),
+                "bag_total": bag_total,
+                "delivery_cost": delivery_cost,
+                "amount": grand_total_cents,
+                "grand_total": grand_total,
                 "currency": currency,
             }
             return render(request, "checkout/checkout.html", context)
 
     # Handle GET request
     intent = stripe.PaymentIntent.create(
-        amount=grand_total,
+        amount=grand_total_cents,
         currency=currency,
         automatic_payment_methods={"enabled": True},)
 
     order = Order.objects.create(
             grand_total=grand_total,
+            grand_total_cents=grand_total_cents,
             stripe_payment_intent=intent.client_secret,
             stripe_pid=intent.id,
             shipping_info=ShippingInfo.objects.create())
@@ -120,17 +124,15 @@ def checkout(request):
     request.session['order_id'] = order.id
     request.session['payment_intent_id'] = intent.id
 
-    print(f"ORDER: {order}")
-
     context = {
         "shipping_form": ShippingInfoForm(),
         "order_form": OrderForm(),
         "stripe_public_key": stripe_public_key,
         "client_secret": intent.client_secret,
-        "bag_total": bag.get_total_price(),
-        "delivery_cost": bag.get_delivery_cost(),
-        "amount": grand_total,
-        "grand_total": bag.get_grand_total(),
+        "bag_total": bag_total,
+        "delivery_cost": delivery_cost,
+        "amount": grand_total_cents,
+        "grand_total": grand_total,
         "currency": currency,
         "order_id": request.session['order_id'],
         "stripe_pid": request.session['stripe_pid'],
