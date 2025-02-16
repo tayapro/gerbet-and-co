@@ -67,7 +67,10 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Order {self.order_id} - {self.shipping_info.full_name}"
+        return (f"Order {self.order_id} - {self.shipping_info.full_name}, "
+                f"status {self.status}, grand total {self.grand_total}, "
+                f"stripe_payment_intent {self.stripe_payment_intent}, "
+                f"stripe_pid {self.stripe_pid}")
 
     class Meta:
         indexes = [
