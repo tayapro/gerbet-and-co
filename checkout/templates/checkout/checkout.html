@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load bag_filters %}
 {% load crispy_forms_tags %}
 
 {% block content %}
@@ -25,7 +26,15 @@
                 <input type="hidden" name="amount" id="amount" value="{{ amount }}">
                 <input type="hidden" name="currency" id="currency" value="{{ currency }}">
 
-                <button type="submit" class="btn btn-primary w-100 mt-4" id="submit-button">Proceed to Payment</button>
+                <div class="form-check mt-4">
+                    <input type="checkbox" class="form-check-input" id="confirm-order-checkbox">
+                    <label class="form-check-label" for="confirm-order-checkbox">
+                        I confirm my order details.
+                    </label>
+                </div>    
+
+                <button type="submit" class="btn btn-primary w-100 mt-4" id="submit-button" disabled>
+                    Proceed to Payment</button>
             </form>
         </div>
 
@@ -35,6 +44,18 @@
                     <h5 class="mb-0">Order Summary</h5>
                 </div>
                 <div class="card-body">
+                    <ul class="list-group mb-3">
+                        {% for item in bag %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>{{ item.title }}</strong> <br>
+                                    <small>€{{ item.price|floatformat:2 }} x {{ item.quantity }}</small>
+                                </div>
+                                <span>€{{ item.price|subtotal:item.quantity|floatformat:2 }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
                     <p><strong>Subtotal: </strong> €{{bag_total|floatformat:2 }}</p>
                     <p>
                         <strong>Delivery: </strong>
@@ -58,4 +79,5 @@
     {{ stripe_public_key|json_script:"id_stripe_public_key" }}
     {{ client_secret|json_script:"id_client_secret" }}
     <script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
+    <script src="{% static 'checkout/js/confirm_checkbox.js' %}"></script>
 {% endblock %}
