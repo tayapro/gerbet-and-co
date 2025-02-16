@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CheckoutConfig, ShippingInfo, Order
+from .models import CheckoutConfig, ShippingInfo, Order, OrderItem
 
 
 @admin.register(Order)
@@ -12,6 +12,16 @@ class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ("order_id", "order_id", "created_at",
                        "stripe_pid")
     list_editable = ("status",)
+
+
+@admin.register(OrderItem)
+class OrderItemAdmin(admin.ModelAdmin):
+    """Admin panel configuration for OrderItem model"""
+    list_display = ('order', 'product', 'quantity', 'order_item_total')
+    list_filter = ('order',)
+    search_fields = ('order__order_id', 'product__title')
+    ordering = ('order',)
+    readonly_fields = ('order_item_total',)
 
 
 @admin.register(CheckoutConfig)

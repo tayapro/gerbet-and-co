@@ -2,6 +2,8 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import User
 
+from products.models import Product
+
 
 class CheckoutConfig(models.Model):
     free_delivery_threshold = models.DecimalField(max_digits=10,
@@ -83,9 +85,23 @@ class Order(models.Model):
         ]
 
 
-# class OrderItem(models.Model):
-#     quantity = models.IntegerField(null=False, blank=False, default=0)
-#     order_item_total = 
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, null=False, blank=False,
+                              on_delete=models.CASCADE,
+                              related_name='lineitems')
+    product = models.ForeignKey(Product, null=False, blank=False,
+                                on_delete=models.CASCADE)
+    quantity = models.IntegerField(null=False, blank=False, default=0)
+    order_item_total = models.DecimalField(max_digits=6, decimal_places=2,
+                                           null=False, blank=False,
+                                           editable=False)
+
+    def save(self, *args, **kwargs):
+        self.order_item_total = self.product.price * self.quantity
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f'The {self.product.title} on order {self.order.order_id}'
 
 
 class WebhookEvent(models.Model):
