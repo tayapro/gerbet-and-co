@@ -12,10 +12,45 @@
             <p><strong>Order ID:</strong> {{ order.order_id }}</p>
             <p><strong>Total Paid:</strong> €{{ order.grand_total|floatformat:2 }}</p>
             <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+
+            <div class="row justify-content-center px-0 mx-0">
+                <div class="list-group px-0 mx-0">
+                    {% for item in order.lineitems.all %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ item.product.title }}</strong>
+                                <p class=" text-start mb-0">Quantity: {{ item.quantity }}</p>
+                            </div>
+                            <span class="badge bg-secondary">€{{ item.order_item_total|floatformat:2 }}</span>
+                        </div>
+                    {% empty %}
+                        <p>No items found in your order.</p>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 
-    <a href="{% url 'product_list' %}" class="btn btn-outline-primary mt-4">
+    <div class="card border-secondary mt-4 mx-auto" style="max-width: 500px;">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">Payment Details</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>Subtotal: </strong> €{{ order.order_total|floatformat:2 }}</p>
+            <p>
+                <strong>Delivery: </strong>
+                {% if order.delivery_cost == 0 %}
+                    Free
+                {% else %}
+                    €{{ order.delivery_cost }}
+                {% endif %}
+            </p>
+            <hr>
+            <p class="h5"><strong>Grand Total: </strong> €{{ order.grand_total|floatformat:2 }}</p>
+        </div>
+    </div>
+
+    <a href="{% url 'product_list' %}" class="btn btn-outline-primary m-4">
         <i class="bi bi-shop"></i> Continue Shopping
     </a>
 </div>

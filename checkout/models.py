@@ -61,6 +61,10 @@ class Order(models.Model):
     shipping_info = models.ForeignKey(ShippingInfo, on_delete=models.CASCADE)
     grand_total = models.DecimalField(max_digits=10, decimal_places=2)
     grand_total_cents = models.PositiveIntegerField(default=0)
+    delivery_cost = models.DecimalField(max_digits=6, decimal_places=2,
+                                        null=False, default=0)
+    order_total = models.DecimalField(max_digits=10, decimal_places=2,
+                                      null=False, default=0)
     stripe_payment_intent = models.CharField(max_length=255,
                                              null=True, blank=True,
                                              unique=True)

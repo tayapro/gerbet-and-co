@@ -20,9 +20,9 @@ logger = logging.getLogger(__name__)
 
 # Configure retry settings
 WEBHOOK_RETRY_CONFIG = {
-    'stop': stop_after_attempt(3),
-    'wait': wait_exponential(multiplier=1, min=2, max=10),
-    'retry': retry_if_exception_type((OperationalError,)),
+    "stop": stop_after_attempt(3),
+    "wait": wait_exponential(multiplier=1, min=2, max=10),
+    "retry": retry_if_exception_type((OperationalError,)),
 }
 
 
@@ -36,14 +36,14 @@ def handle_payment_event(payment_intent, event_type):
         with transaction.atomic():
             order = get_order_with_retry(payment_intent.id)
 
-            if event_type == 'payment_intent.succeeded':
+            if event_type == "payment_intent.succeeded":
                 logger.info(f"Processing payment for order {order.order_id}")
-                order.status = 'complete'
+                order.status = "complete"
                 send_order_confirmation_email(order)
 
-            elif event_type == 'payment_intent.payment_failed':
+            elif event_type == "payment_intent.payment_failed":
                 logger.warning(f"Payment failed for order {order.order_id}")
-                order.status = 'failed'
+                order.status = "failed"
 
             order.save()
             return True
@@ -79,8 +79,8 @@ def stripe_webhook(request):
         logger.error(f"Duplicate event: {event.id}")
         return HttpResponse(status=400)
 
-    if event.type in ['payment_intent.succeeded',
-                      'payment_intent.payment_failed']:
+    if event.type in ["payment_intent.succeeded",
+                      "payment_intent.payment_failed"]:
         payment_intent = event.data.object
         try:
             handle_payment_event(payment_intent, event.type)
