@@ -28,6 +28,8 @@ WEBHOOK_RETRY_CONFIG = {
 
 @retry(**WEBHOOK_RETRY_CONFIG)
 def get_order_with_retry(payment_intent_id):
+    test_order = Order.objects.select_for_update().get(stripe_pid=payment_intent_id)
+    print(f"test_order: {test_order}")
     return Order.objects.select_for_update().get(stripe_pid=payment_intent_id)
 
 
@@ -37,6 +39,7 @@ def handle_payment_event(payment_intent, event_type):
             order = get_order_with_retry(payment_intent.id)
 
             if event_type == "payment_intent.succeeded":
+                print("BLLAAAAA")
                 logger.info(f"Processing payment for order {order.order_id}")
                 send_order_confirmation_email(order)
 
@@ -48,7 +51,7 @@ def handle_payment_event(payment_intent, event_type):
             return True
 
     except Order.DoesNotExist:
-        logger.error(f"Order missing for PI {payment_intent.id}.")
+        # logger.error(f"Order missing for PI {payment_intent.id}.")
         raise
 
 
@@ -75,7 +78,7 @@ def stripe_webhook(request):
             data=dict(event)
         )
     except IntegrityError:
-        logger.error(f"Duplicate event: {event.id}")
+        # logger.error(f"Duplicate event: {event.id}")
         return HttpResponse(status=400)
 
     if event.type in ["payment_intent.succeeded",
@@ -84,7 +87,7 @@ def stripe_webhook(request):
         try:
             handle_payment_event(payment_intent, event.type)
         except Exception as e:
-            logger.error(f"Final attempt failed for {event.type}: {str(e)}")
+            # logger.error(f"Final attempt failed for {event.type}: {str(e)}")
             return HttpResponse(status=500)
 
     return HttpResponse(status=200)

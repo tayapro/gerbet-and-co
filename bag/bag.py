@@ -30,7 +30,7 @@ class Bag:
         product_id = str(product_id)
 
         if not product_data and product_id not in self.bag:
-            logger.error("product_data must be provided for new items")
+            # logger.error("product_data must be provided for new items")
             raise ValueError("product_data must be provided for new items")
 
         if product_id in self.bag:
@@ -73,8 +73,8 @@ class Bag:
                 yield item
 
             except (KeyError, ValueError) as e:
-                logger.error(f"Removing invalid bag item {product_id}: "
-                             f"{str(e)}")
+                # logger.error(f"Removing invalid bag item {product_id}: "
+                #              f"{str(e)}")
                 del self.bag[product_id]
 
         self.save()

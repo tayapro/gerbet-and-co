@@ -58,7 +58,7 @@ def checkout(request):
                         "requires_confirmation",
                         "requires_action", }:
                     intent = stripe.PaymentIntent.confirm(payment_intent_id)
-                    logger.info(f"Confirmed PaymentIntent: {intent}")
+                    # logger.info(f"Confirmed PaymentIntent: {intent}")
 
                 if intent.status == "succeeded":
                     # Update order instance
@@ -103,7 +103,7 @@ def checkout(request):
                 return redirect("checkout")
             except Exception as e:
                 messages.error(request, f"Order processing failed: {e}")
-                logger.error(f"Order processing failed: {e}")
+                # logger.error(f"Order processing failed: {e}")
                 return redirect("checkout")
         else:
             messages.error(request, "Please check your form entries")
