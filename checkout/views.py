@@ -70,7 +70,7 @@ def checkout(request):
                     if request.user.is_authenticated:
                         order.user = request.user
 
-                    # order.save()
+                    order.save()
 
                     # Create OrderItems from Bag items
                     for item_id, item in bag.bag.items():

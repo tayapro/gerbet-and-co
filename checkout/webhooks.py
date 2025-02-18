@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives, get_connection
 from django.db import OperationalError, transaction, IntegrityError
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -28,6 +28,8 @@ WEBHOOK_RETRY_CONFIG = {
 
 @retry(**WEBHOOK_RETRY_CONFIG)
 def get_order_with_retry(payment_intent_id):
+    test_order = Order.objects.select_for_update().get(stripe_pid=payment_intent_id)
+    print(f"test_order.email: {test_order.email}")
     return Order.objects.select_for_update().get(stripe_pid=payment_intent_id)
 
 
@@ -92,18 +94,53 @@ def stripe_webhook(request):
 
 
 def send_order_confirmation_email(order):
-    print("send_order_confirmation_email")
+    # Define recipient list and subject
+    print(f"order.email: {order.email}")
+    recipient = [order.email]
+    subject = f"Order Confirmation - #{order.order_id}"
+    email_from = settings.EMAIL_HOST_USER
+    print(f"recipient: {recipient}, subject: {subject}, email_from: {email_from}")
+
+    # Prepare email content
+    context = {"order": order}
+    print(f"context: {context}")
+    text_content = render_to_string(
+        "checkout/emails/confirmation_email.txt", context)
+    html_content = render_to_string(
+        "checkout/emails/confirmation_email.html", context)
+
+    # Create and send email
+    email = EmailMultiAlternatives(subject, text_content, email_from,
+                                    recipient)
+    email.attach_alternative(html_content, "text/html")
+    email.send()
+
     # subject = f"Order Confirmation - #{order.order_id}"
-    # body = render_to_string(
-    #     'checkout/emails/confirmation_email.txt',
-    #     {'order': order}
+
+    # # First, render the plain text content.
+    # text_content = render_to_string(
+    #     "checkout/emails/confirmation_email.txt",
+    #     context={"my_variable": 42},
     # )
-    # send_mail(
+
+    # # Secondly, render the HTML content.
+    # html_content = render_to_string(
+    #     "templates/emails/my_email.html",
+    #     context={"my_variable": 42},
+    # )
+
+    # # Then, create a multipart email instance.
+    # msg = EmailMultiAlternatives(
     #     subject,
-    #     body,
+    #     text_content,
     #     settings.DEFAULT_FROM_EMAIL,
-    #     [order.email]
+    #     [order.email],
+    #     headers={subject: settings.DEFAULT_FROM_EMAIL},
     # )
+
+    # # Lastly, attach the HTML content to the email instance and send.
+    # msg.attach_alternative(html_content, "text/html")
+    # msg.send()
 
 
 def send_payment_failure_email(order):

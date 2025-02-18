@@ -145,6 +145,18 @@ MESSAGE_TAGS = {
     messages.INFO: "alert-info",
 }
 
+
+SOCIALACCOUNT_PROVIDERS = {
+  "google": {
+    "SCOPE": [
+        "profile",
+        "email"
+    ],
+    "AUTH_PARAMS": {"account_type": "online"}
+  },
+}
+
+
 WSGI_APPLICATION = 'gerbet_and_co.wsgi.application'
 
 
@@ -203,6 +215,17 @@ BAG_SESSION_ID = 'bag'
 STRIPE_PUBLIC_KEY = os.environ['STRIPE_PUBLIC_KEY']
 STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
 STRIPE_WH_SECRET = os.environ['STRIPE_WH_SECRET']
+
+
+# Email sender settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
+
 
 # Logging
 LOGGING = {

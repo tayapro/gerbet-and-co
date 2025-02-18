@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmation</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Order Confirmation</h1>
+        </div>
+        <p>Thank you for your order (#{{ order.order_id }})</p>
+
+        <div class="order-details">
+            <h2>Order Details:</h2>
+            <ul>
+                <li>Total: €{{ order.grand_total }}</li>
+                <li>Payment ID: {{ order.stripe_pid }}</li>
+            </ul>
+        </div>
+
+        <div class="shipping-address">
+            <h2>Shipping Address:</h2>
+            <p>
+                {{ order.shipping_info.full_name }}<br>
+                {{ order.shipping_info.street_address1 }}<br>
+                {{ order.shipping_info.town_or_city }}<br>
+                {{ order.shipping_info.country }}
+            </p>
+        </div>
+
+        <p>Thank you for shopping with us!</p>
+    </div>
+</body>
+</html>
