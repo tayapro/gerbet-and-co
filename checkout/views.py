@@ -51,7 +51,6 @@ def checkout(request):
 
                 # Retrieve the PaymentIntent
                 intent = stripe.PaymentIntent.retrieve(payment_intent_id)
-                logger.info(f"Retrieved PaymentIntent: {intent}")
 
                 # Confirm the PaymentIntent if necessary
                 if intent.status in {
@@ -70,6 +69,7 @@ def checkout(request):
                     if request.user.is_authenticated:
                         order.user = request.user
 
+                    order.status = "complete"
                     order.save()
 
                     # Create OrderItems from Bag items

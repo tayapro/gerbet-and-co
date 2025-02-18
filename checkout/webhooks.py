@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.core.mail import EmailMultiAlternatives, get_connection
+from django.core.mail import EmailMultiAlternatives
 from django.db import OperationalError, transaction, IntegrityError
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -28,8 +28,6 @@ WEBHOOK_RETRY_CONFIG = {
 
 @retry(**WEBHOOK_RETRY_CONFIG)
 def get_order_with_retry(payment_intent_id):
-    test_order = Order.objects.select_for_update().get(stripe_pid=payment_intent_id)
-    print(f"test_order.email: {test_order.email}")
     return Order.objects.select_for_update().get(stripe_pid=payment_intent_id)
 
 
@@ -40,14 +38,13 @@ def handle_payment_event(payment_intent, event_type):
 
             if event_type == "payment_intent.succeeded":
                 logger.info(f"Processing payment for order {order.order_id}")
-                order.status = "complete"
                 send_order_confirmation_email(order)
 
             elif event_type == "payment_intent.payment_failed":
                 logger.warning(f"Payment failed for order {order.order_id}")
                 order.status = "failed"
+                order.save()
 
-            order.save()
             return True
 
     except Order.DoesNotExist:
