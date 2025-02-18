@@ -10,6 +10,8 @@ from .forms import ShippingInfoForm, OrderForm
 from .models import CheckoutConfig, Order, OrderItem, ShippingInfo
 from bag.bag import Bag
 
+import datetime
+
 logger = logging.getLogger(__name__)
 
 
@@ -70,6 +72,9 @@ def checkout(request):
                         order.user = request.user
 
                     order.save()
+
+                    now = datetime.datetime.now()
+                    print(f"order_email from checkout view: {order.email}, time: {now.time()}")
 
                     # Create OrderItems from Bag items
                     for item_id, item in bag.bag.items():
