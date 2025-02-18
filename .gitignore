@@ -5,3 +5,4 @@ __pycache__/
 .github/
 *.sqlite3
 staticfiles/
+.DS_Store
