@@ -69,7 +69,6 @@ def checkout(request):
                     if request.user.is_authenticated:
                         order.user = request.user
 
-                    order.status = "complete"
                     order.save()
 
                     # Create OrderItems from Bag items
