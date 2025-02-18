@@ -2,11 +2,6 @@ from django.conf import settings
 from django.db import OperationalError, transaction, IntegrityError
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from tenacity import (
-    retry,
-    retry_if_exception_type,
-    stop_after_attempt,
-)
 import stripe
 import logging
 import time
@@ -28,7 +23,8 @@ def get_order_with_retry(payment_intent_id):
         except Order.DoesNotExist:
             if attempt < 5:
                 time.sleep(1)
-    return False
+
+    raise Exception("Run out of attempts")
 
 
 def handle_payment_event(payment_intent, event_type):
@@ -55,7 +51,7 @@ def handle_payment_event(payment_intent, event_type):
         return True
 
     except Order.DoesNotExist:
-        # logger.error(f"Order missing for PI {payment_intent.id}.")
+        logger.error(f"Order missing for PI {payment_intent.id}.")
         raise
 
 
@@ -82,7 +78,7 @@ def stripe_webhook(request):
             data=dict(event)
         )
     except IntegrityError:
-        # logger.error(f"Duplicate event: {event.id}")
+        logger.error(f"Duplicate event: {event.id}")
         return HttpResponse(status=400)
 
     if event.type in ["payment_intent.succeeded",
@@ -91,7 +87,7 @@ def stripe_webhook(request):
         try:
             handle_payment_event(payment_intent, event.type)
         except Exception as e:
-            # logger.error(f"Final attempt failed for {event.type}: {str(e)}")
+            logger.error(f"Final attempt failed for {event.type}: {str(e)}")
             return HttpResponse(status=500)
 
     return HttpResponse(status=200)

@@ -17,15 +17,14 @@ def get_checkout_settings():
 
 
 def send_order_confirmation_email(order):
-    print(f"order.email: {order.email}")
     recipient = [order.email]
     subject = f"Order Confirmation - #{order.order_id}"
     email_from = settings.EMAIL_HOST_USER
-    print(f"recipient: {recipient}, subject: {subject}, email_from: {email_from}")
+    print(f"recipient: {recipient}, subject: {subject}, "
+          f"email_from: {email_from}")
 
     # Prepare email content
     context = {"order": order}
-    print(f"context: {context}")
     text_content = render_to_string(
         "checkout/emails/confirmation_email.txt", context)
     html_content = render_to_string(
@@ -51,4 +50,3 @@ def send_payment_failure_email(order):
     #     settings.DEFAULT_FROM_EMAIL,
     #     [order.email]
     # )
-

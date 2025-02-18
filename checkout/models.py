@@ -79,7 +79,7 @@ class Order(models.Model):
 
     def __str__(self):
         return (f"Order {self.order_id} - {self.shipping_info.full_name}, "
-                f"email {self.email}"
+                f"email {self.email}, "
                 f"status {self.status}, grand total {self.grand_total}, "
                 f"stripe_payment_intent {self.stripe_payment_intent}, "
                 f"stripe_pid {self.stripe_pid}")

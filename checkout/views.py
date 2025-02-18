@@ -1,6 +1,7 @@
 from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.contrib import messages
 from django.conf import settings
+from django.db import transaction
 from decimal import Decimal
 import logging
 import stripe
@@ -9,8 +10,6 @@ from products.models import Product
 from .forms import ShippingInfoForm, OrderForm
 from .models import CheckoutConfig, Order, OrderItem, ShippingInfo
 from bag.bag import Bag
-
-import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -51,6 +50,16 @@ def checkout(request):
                 shipping_info = shipping_form.save()
                 order_form_instance = order_form.save(commit=False)
 
+                # Update order instance
+                order = Order.objects.get(id=order_id)
+                order.shipping_info = shipping_info
+                order.email = order_form_instance.email
+
+                if request.user.is_authenticated:
+                    order.user = request.user
+
+                order.save()
+
                 # Retrieve the PaymentIntent
                 intent = stripe.PaymentIntent.retrieve(payment_intent_id)
 
@@ -60,22 +69,9 @@ def checkout(request):
                         "requires_confirmation",
                         "requires_action", }:
                     intent = stripe.PaymentIntent.confirm(payment_intent_id)
-                    # logger.info(f"Confirmed PaymentIntent: {intent}")
+                    logger.info(f"Confirmed PaymentIntent: {intent}")
 
                 if intent.status == "succeeded":
-                    # Update order instance
-                    order = Order.objects.get(id=order_id)
-                    order.shipping_info = shipping_info
-                    order.email = order_form_instance.email
-
-                    if request.user.is_authenticated:
-                        order.user = request.user
-
-                    order.save()
-
-                    now = datetime.datetime.now()
-                    print(f"order_email from checkout view: {order.email}, time: {now.time()}")
-
                     # Create OrderItems from Bag items
                     for item_id, item in bag.bag.items():
                         product = get_object_or_404(Product, id=item_id)
@@ -95,6 +91,8 @@ def checkout(request):
                     return redirect(reverse("checkout_success",
                                             args=[order.order_id]))
                 else:
+                    # Delete order if payment fails
+                    # order.delete()
                     messages.error(request,
                                    f"Payment not successful: {intent.status}")
                     return redirect("checkout")
@@ -107,7 +105,7 @@ def checkout(request):
                 return redirect("checkout")
             except Exception as e:
                 messages.error(request, f"Order processing failed: {e}")
-                # logger.error(f"Order processing failed: {e}")
+                logger.error(f"Order processing failed: {e}")
                 return redirect("checkout")
         else:
             messages.error(request, "Please check your form entries")
