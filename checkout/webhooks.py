@@ -9,6 +9,7 @@ from tenacity import (
 )
 import stripe
 import logging
+import time
 
 from .models import Order, WebhookEvent
 from .utils import send_order_confirmation_email, send_payment_failure_email
@@ -23,11 +24,20 @@ WEBHOOK_RETRY_CONFIG = {
 }
 
 
-@retry(**WEBHOOK_RETRY_CONFIG)
+# @retry(**WEBHOOK_RETRY_CONFIG)
 def get_order_with_retry(payment_intent_id):
-    test_order = Order.objects.select_for_update().get(stripe_pid=payment_intent_id)
-    print(f"test_order: {test_order}")
-    return Order.objects.select_for_update().get(stripe_pid=payment_intent_id)
+    for attempt in range(1, 6):
+        try:
+            order = Order.objects.get(stripe_pid=payment_intent_id,)
+            return order
+        except Order.DoesNotExist:
+            if attempt < 5:  # Only sleep if not the final attempt
+                time.sleep(1)
+    return None
+
+    # test_order = Order.objects.select_for_update().get(stripe_pid=payment_intent_id)
+    # print(f"test_order: {test_order}")
+    # return Order.objects.select_for_update().get(stripe_pid=payment_intent_id)
 
 
 def handle_payment_event(payment_intent, event_type):
