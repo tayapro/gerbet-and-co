@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="height: 70vh;">
+    <div class="card p-4 shadow-sm" style="max-width: 400px; width: 100%;">
+        <h2 class="text-center mb-3">Login</h2>
+
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            {{ form|crispy }}
+
+            <div class="d-grid gap-2 mt-3">
+                <button type="submit" class="btn btn-primary">Log In</button>
+                {% comment %} <a href="{% url 'password_reset' %}" class="btn btn-link">Forgot Password?</a> {% endcomment %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

@@ -15,3 +15,8 @@
 .qty_input {
     -moz-appearance: textfield;
 }
+
+#bag-toast-container,
+#messages-container {
+    z-index: 1050;
+}

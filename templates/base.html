@@ -70,7 +70,7 @@
                         </ul>
                         <ul class="navbar-nav d-flex align-items-center">
                             <li class="nav-item">
-                                <a class="nav-link" href="/accounts/">Login</a>
+                                <a class="nav-link" href="{% url 'login' %}?next={{ next }}">Login</a>
                             </li>
                             <li class="nav-item">
                                 <a href="{% url 'view_bag' %}" class="nav-link position-relative">
@@ -89,6 +89,15 @@
         </header>
 
         <div id="bag-toast-container"></div>
+
+        <div id="messages-container" class="container position-fixed top-30 end-0 p-3">
+            {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible fade show shadow-md" role="alert">
+                <i class="bi bi-info-circle-fill me-2"></i> {{ message | safe }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
 
         {% block content %}
         {% endblock %}
