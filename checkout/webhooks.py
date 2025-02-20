@@ -37,7 +37,8 @@ def handle_payment_event(payment_intent, event_type):
         if event_type == "payment_intent.succeeded":
             order.status = "complete"
             now = datetime.datetime.now()
-            print(f"order_email from handle_payment_event: {order.email}, time: {now.time()}")
+            print(f"order_email from handle_payment_event: {order.email}, "
+                  f"time: {now.time()}")
             logger.info(f"Processing payment for order {order.order_id}")
             send_order_confirmation_email(order)
 
