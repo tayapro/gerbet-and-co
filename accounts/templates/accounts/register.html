@@ -6,7 +6,7 @@
     <div class="card p-4 mt-5 shadow-sm" style="max-width: 450px; width: 100%;">
         <h2 class="text-center mb-3">Create an Account</h2>
 
-        <form method="POST" action="{% url 'register' %}">
+        <form method="POST" action="{% url 'register' %}?next={{ next }}">
             {% csrf_token %}
             {{ form|crispy }}
 
