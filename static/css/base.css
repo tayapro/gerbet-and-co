@@ -20,3 +20,20 @@
 #messages-container {
     z-index: 1050;
 }
+
+.navbar-dark,
+.navbar[data-bs-theme='dark'] {
+    --bs-navbar-color: rgba(255, 255, 255, 0.75) !important;
+    --bs-navbar-hover-color: rgba(255, 255, 255, 0.95) !important;
+    --bs-navbar-disabled-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+#custom-navbar-toggler {
+    font-size: 1.5rem !important;
+    color: white !important;
+    border-style: none !important;
+}
+
+#custom-navbar-toggler:focus {
+    box-shadow: none !important;
+}

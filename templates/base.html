@@ -48,45 +48,49 @@
         <title>Gerbet and Co {% block extra_title %}{% endblock %}</title>
     </head>
     <body>
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light position-fixed top-0 start-0 z-3 w-100">
-                <div class="container">
-                    <a class="navbar-brand" href="/">Gerbet & Co.</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
-                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav me-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'product_list' %}?next={{ next }}">Shop</a>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark position-fixed top-0 start-0 z-3 w-100">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Gerbet & Co.</a>
+                <button id="custom-navbar-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div class="collapse navbar-collapse text-end mx-3" id="navbarNav">
+                    <ul class="navbar-nav me-sm-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'product_list' %}?next={{ next }}">Shop</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'about' %}?next={{ next }}">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'help' %}?next={{ next }}">Help</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-sm-auto align-items-sm-center">
+                        {% if user.is_authenticated %}
+                            <li class="nav-item align-middle">
+                                <a class="nav-link" href="{% url 'logout' %}?next={{ next }}">Logout</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'about' %}?next={{ next }}">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'help' %}?next={{ next }}">Help</a>
-                            </li>
-                        </ul>
-                        <ul class="navbar-nav d-flex align-items-center">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'login' %}?next={{ next }}">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{% url 'view_bag' %}" class="nav-link position-relative">
+                            <li class="nav-item position-relative">
+                                <a href="{% url 'view_bag' %}" class="nav-link">
                                     <i class="bi bi-bag fs-4"></i>
                                     <span id="bag-quantity" 
-                                        class="position-absolute top-10 start-100 translate-middle badge rounded-pill bg-danger bg-gradient {% if bag.is_empty %}d-none{% endif %}"
-                                        hx-swap-oob="outerHTML">
-                                        {{ bag_total_items }}
+                                          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger bg-gradient {% if bag.is_empty %}d-none{% endif %}"
+                                          hx-swap-oob="outerHTML">
+                                          {{ bag_total_items }}
                                     </span>
                                 </a>
                             </li>
-                        </ul>
-                    </div>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'login' %}?next={{ next }}">Get started</a>
+                            </li>
+                        {% endif %}
+                    </ul>
                 </div>
-            </nav>
-        </header>
+            </div>
+        </nav>        
 
         <div id="bag-toast-container"></div>
 
