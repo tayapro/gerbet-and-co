@@ -37,3 +37,9 @@
 #custom-navbar-toggler:focus {
     box-shadow: none !important;
 }
+
+/* Custom placeholder styling */
+.custom-placeholder::placeholder {
+    font-size: 0.8rem;
+    color: rgb(174, 175, 177);
+}

@@ -94,7 +94,7 @@
 
         <div id="bag-toast-container"></div>
 
-        <div id="messages-container" class="container position-fixed top-30 end-0 p-3">
+        <div id="messages-container" class="position-fixed top-30 end-0 p-3">
             {% for message in messages %}
             <div class="alert {{ message.tags }} alert-dismissible fade show shadow-md" role="alert">
                 <i class="bi bi-info-circle-fill me-2"></i> {{ message | safe }}

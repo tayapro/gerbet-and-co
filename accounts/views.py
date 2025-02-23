@@ -1,23 +1,26 @@
 from django.contrib import messages
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.urls import reverse
+
+from .forms import CustomUserCreationForm
 
 
 def register(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            auth_login(request, user)
+            auth_login(request, user,
+                       backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, "Account created successfully!")
             return redirect("product_list")
         else:
             messages.error(request, "Please correct the errors below.")
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
 
     return render(request, "accounts/register.html", {"form": form})
 
