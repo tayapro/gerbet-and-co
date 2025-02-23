@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
@@ -13,6 +14,13 @@ def register(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
+            email = form.cleaned_data.get("email")
+            if User.objects.filter(email=email).exists():
+                messages.error(request,
+                               "Account with this email already exists.")
+                return render(request, "accounts/register.html",
+                              {"form": form})
+
             user = form.save()
             auth_login(request, user,
                        backend='django.contrib.auth.backends.ModelBackend')
