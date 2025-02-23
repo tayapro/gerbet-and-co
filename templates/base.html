@@ -76,7 +76,7 @@
                                 <a href="{% url 'view_bag' %}" class="nav-link">
                                     <i class="bi bi-bag fs-4"></i>
                                     <span id="bag-quantity" 
-                                          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger bg-gradient {% if bag.is_empty %}d-none{% endif %}"
+                                          class="position-absolute top-10 start-90 translate-middle badge rounded-pill bg-danger bg-gradient {% if bag.is_empty %}d-none{% endif %}"
                                           hx-swap-oob="outerHTML">
                                           {{ bag_total_items }}
                                     </span>
@@ -103,8 +103,10 @@
             {% endfor %}
         </div>
 
-        {% block content %}
-        {% endblock %}
+        <div class="container-fluid d-flex justify-content-center align-items-center my-5 pt-5">
+            {% block content %}
+            {% endblock %}
+        </div>
 
         {% block postloadjs %}
         {% endblock %}        

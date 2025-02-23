@@ -139,7 +139,7 @@ def checkout(request):
 
     # Save order_id and stripe_pid in the session
     request.session["order_id"] = order.id
-    request.session["payment_intent_id"] = intent.id
+    request.session["stripe_pid"] = intent.id
 
     context = {
         "shipping_form": ShippingInfoForm(),

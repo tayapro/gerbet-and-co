@@ -2,29 +2,27 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center m-5">
-    <div class="card mt-5 p-4 shadow-sm" style="max-width: 450px; width: 100%;">
-        <h2 class="text-center mb-3">Login</h2>
+<div class="card mt-5 p-4 shadow-sm" style="max-width: 450px; width: 100%;">
+    <h2 class="text-center mb-3">Login</h2>
 
-        <form method="POST" action="{% url 'login' %}?next={{ next }}">
-            {% csrf_token %}
-            {{ form|crispy }}
+    <form method="POST" action="{% url 'login' %}?next={{ next }}">
+        {% csrf_token %}
+        {{ form|crispy }}
 
-            <p>
-                <label for="id_remember_me">Remember Me:</label>
-                <input type="checkbox" name="remember_me" id="id_remember_me">
-            </p>
-
-            <div class="d-grid gap-2 mt-3">
-                <button type="submit" class="btn btn-primary">Login</button>
-                {% comment %} <a href="{% url 'password_reset' %}" class="btn btn-link">Forgot Password?</a> {% endcomment %}
-            </div>
-        </form>
-
-        <p class="text-center mt-3">
-            Do not have an account? <a href="{% url 'register' %}">Register</a>
+        <p>
+            <label for="id_remember_me">Remember Me:</label>
+            <input type="checkbox" name="remember_me" id="id_remember_me">
         </p>
-    </div>
+
+        <div class="d-grid gap-2 mt-3">
+            <button type="submit" class="btn btn-primary">Login</button>
+            {% comment %} <a href="{% url 'password_reset' %}" class="btn btn-link">Forgot Password?</a> {% endcomment %}
+        </div>
+    </form>
+
+    <p class="text-center mt-3">
+        Do not have an account? <a href="{% url 'register' %}">Register</a>
+    </p>
 </div>
 {% endblock %}
 

@@ -4,70 +4,67 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container mt-5 pt-5">
+<div class="row">
     <h2 class="text-center mb-3">Checkout</h2>
+    <div class="col-md-7">
+        <form method="POST" action="{% url 'checkout' %}" id="checkout-form">
+            {% csrf_token %}
 
-    <div class="row">
-        <div class="col-md-7">
-            <form method="POST" action="{% url 'checkout' %}" id="checkout-form">
-                {% csrf_token %}
+            <h4 class="mb-3">Shipping Information:</h4>
+            {{ shipping_form|crispy }}
 
-                <h4 class="mb-3">Shipping Information:</h4>
-                {{ shipping_form|crispy }}
+            <h4 class="mb-3 mt-4">Order Details:</h4>
+            {{ order_form|crispy }}
 
-                <h4 class="mb-3 mt-4">Order Details:</h4>
-                {{ order_form|crispy }}
+            <!-- Stripe Payment Element -->
+            <div id="payment-element" class="mt-3"></div>
+            <div id="card-errors" class="text-danger mt-2"></div>
 
-                <!-- Stripe Payment Element -->
-                <div id="payment-element" class="mt-3"></div>
-                <div id="card-errors" class="text-danger mt-2"></div>
+            <input type="hidden" name="order_id" id="order_id" value="{{ order_id }}">
+            <input type="hidden" name="amount" id="amount" value="{{ amount }}">
+            <input type="hidden" name="currency" id="currency" value="{{ currency }}">
 
-                <input type="hidden" name="order_id" id="order_id" value="{{ order_id }}">
-                <input type="hidden" name="amount" id="amount" value="{{ amount }}">
-                <input type="hidden" name="currency" id="currency" value="{{ currency }}">
+            <div class="form-check mt-4">
+                <input type="checkbox" class="form-check-input" id="confirm-order-checkbox">
+                <label class="form-check-label" for="confirm-order-checkbox">
+                    I confirm my order details.
+                </label>
+            </div>    
 
-                <div class="form-check mt-4">
-                    <input type="checkbox" class="form-check-input" id="confirm-order-checkbox">
-                    <label class="form-check-label" for="confirm-order-checkbox">
-                        I confirm my order details.
-                    </label>
-                </div>    
+            <button type="submit" class="btn btn-primary w-100 mt-4" id="submit-button" disabled>
+                Proceed to Payment</button>
+        </form>
+    </div>
 
-                <button type="submit" class="btn btn-primary w-100 mt-4" id="submit-button" disabled>
-                    Proceed to Payment</button>
-            </form>
-        </div>
+    <div class="col-md-5">
+        <div class="card border-secondary">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0">Order Summary</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group mb-3">
+                    {% for item in bag %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ item.title }}</strong> <br>
+                                <small>€{{ item.price|floatformat:2 }} x {{ item.quantity }}</small>
+                            </div>
+                            <span>€{{ item.price|subtotal:item.quantity|floatformat:2 }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
 
-        <div class="col-md-5">
-            <div class="card border-secondary">
-                <div class="card-header bg-secondary text-white">
-                    <h5 class="mb-0">Order Summary</h5>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group mb-3">
-                        {% for item in bag %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <strong>{{ item.title }}</strong> <br>
-                                    <small>€{{ item.price|floatformat:2 }} x {{ item.quantity }}</small>
-                                </div>
-                                <span>€{{ item.price|subtotal:item.quantity|floatformat:2 }}</span>
-                            </li>
-                        {% endfor %}
-                    </ul>
-
-                    <p><strong>Subtotal: </strong> €{{bag_total|floatformat:2 }}</p>
-                    <p>
-                        <strong>Delivery: </strong>
-                        {% if delivery_cost == 0 %}
-                            Free
-                        {% else %}
-                            €{{ delivery_cost }}
-                        {% endif %}
-                    </p>
-                    <hr>
-                    <p class="h5"><strong>Total: </strong> €{{grand_total|floatformat:2 }}</p>
-                </div>
+                <p><strong>Subtotal: </strong> €{{bag_total|floatformat:2 }}</p>
+                <p>
+                    <strong>Delivery: </strong>
+                    {% if delivery_cost == 0 %}
+                        Free
+                    {% else %}
+                        €{{ delivery_cost }}
+                    {% endif %}
+                </p>
+                <hr>
+                <p class="h5"><strong>Total: </strong> €{{grand_total|floatformat:2 }}</p>
             </div>
         </div>
     </div>

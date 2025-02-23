@@ -2,34 +2,31 @@
 {% load products_filters %}
 
 {% block content %}
-<div class="container mt-5 pt-5">
-    <h2 class="text-center mb-3">Product detail: </h2>
-    <div class="row">
-        <div class="col-md-6">
-            <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.title }}">
-        </div>
-        <div class="col-md-6">
-            <h2>{{ product.title }}</h2>
-            {% if product.rating %}
-                <small class="text-muted"><i class="bi bi-star-fill"></i> {{ product.rating|rating_format }} / 5</small>
-            {% else %}
-                <small class="text-muted">No Rating</small>
-            {% endif %}
-            <p>{{ product.description }}</p>
-            <p><strong>Price:</strong> &#8364;{{ product.price }}</p>
-            <form hx-post="{% url 'add_to_bag' product.id %}" 
-                hx-trigger="click" 
-                hx-target="#bag-toast-container" 
-                hx-swap="outerHTML"
-                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                hx-select-oob="#bag-quantity">
-                {% csrf_token %}
-                <input type="hidden" name="quantity" value="1">
-                <button type="submit" class="btn btn-success">
-                    <i class="bi bi-bag-plus"></i> Add to Bag
-                </button>
-            </form>
-        </div>
+<div class="row">
+    <div class="col-md-6">
+        <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.title }}">
+    </div>
+    <div class="col-md-6">
+        <h2>{{ product.title }}</h2>
+        {% if product.rating %}
+            <small class="text-muted"><i class="bi bi-star-fill"></i> {{ product.rating|rating_format }} / 5</small>
+        {% else %}
+            <small class="text-muted">No Rating</small>
+        {% endif %}
+        <p>{{ product.description }}</p>
+        <p><strong>Price:</strong> &#8364;{{ product.price }}</p>
+        <form hx-post="{% url 'add_to_bag' product.id %}" 
+            hx-trigger="click" 
+            hx-target="#bag-toast-container" 
+            hx-swap="outerHTML"
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            hx-select-oob="#bag-quantity">
+            {% csrf_token %}
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" class="btn btn-success">
+                <i class="bi bi-bag-plus"></i> Add to Bag
+            </button>
+        </form>
     </div>
 </div>
 {% endblock %}
