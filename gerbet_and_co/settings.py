@@ -229,6 +229,14 @@ EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
 
 
+# Session settings
+SESSION_COOKIE_AGE = 2592000  # 30 days in seconds
+SESSION_SAVE_EVERY_REQUEST = True
+
+# Custom session settings for "Remember Me"
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+
 # Logging
 # LOGGING = {
 #     'version': 1,

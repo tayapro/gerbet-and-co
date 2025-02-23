@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
@@ -50,11 +51,15 @@ def login(request):
         if form.is_valid():
             user = form.get_user()
             auth_login(request, user)
+
+            remember_me = request.POST.get('remember_me')
+            if remember_me:
+                request.session.set_expiry(settings.SESSION_COOKIE_AGE)
+            else:
+                request.session.set_expiry(0)
+
             messages.success(request, "Successfully logged in!")
             return redirect("product_list")
-        else:
-            messages.error(request,
-                           "Invalid username or password. Please try again.")
     else:
         form = AuthenticationForm()
 
