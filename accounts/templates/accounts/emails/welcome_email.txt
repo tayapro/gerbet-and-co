@@ -1,0 +1,8 @@
+Hi {{ user.username}},
+
+Welcome to Gerbet & Co.! We're thrilled to have you join our community.
+
+Discover our curated collection of products and enjoy exclusive offers just for you.
+
+Happy shopping!
+Best regards, The Gerbet & Co. Team

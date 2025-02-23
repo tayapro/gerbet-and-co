@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from .forms import CustomUserCreationForm
+from .utils import send_welcome_email
 
 
 def register(request):
@@ -16,7 +17,14 @@ def register(request):
             auth_login(request, user,
                        backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, "Account created successfully!")
-            return redirect("product_list")
+
+            try:
+                send_welcome_email(request, user)
+            except Exception:
+                messages.warning(request,
+                                 "Account created, but welcome email failed to send.")
+
+            return redirect("home")
         else:
             messages.error(request, "Please correct the errors below.")
     else:

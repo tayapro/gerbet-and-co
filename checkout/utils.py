@@ -20,8 +20,6 @@ def send_order_confirmation_email(order):
     recipient = [order.email]
     subject = f"Order Confirmation - #{order.order_id}"
     email_from = settings.EMAIL_HOST_USER
-    print(f"recipient: {recipient}, subject: {subject}, "
-          f"email_from: {email_from}")
 
     # Prepare email content
     context = {"order": order}
