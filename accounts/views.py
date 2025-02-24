@@ -31,7 +31,8 @@ def register(request):
                 send_welcome_email(request, user)
             except Exception:
                 messages.warning(request,
-                                 "Account created, but welcome email failed to send.")
+                                 "Account created, but welcome email "
+                                 "failed to send.")
 
             return redirect("home")
         else:

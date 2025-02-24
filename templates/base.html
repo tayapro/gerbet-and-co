@@ -72,21 +72,21 @@
                             <li class="nav-item align-middle">
                                 <a class="nav-link" href="{% url 'logout' %}?next={{ next }}">Logout</a>
                             </li>
-                            <li class="nav-item position-relative">
-                                <a href="{% url 'view_bag' %}" class="nav-link">
-                                    <i class="bi bi-bag fs-4"></i>
-                                    <span id="bag-quantity" 
-                                          class="position-absolute top-10 start-90 translate-middle badge rounded-pill bg-danger bg-gradient {% if bag.is_empty %}d-none{% endif %}"
-                                          hx-swap-oob="outerHTML">
-                                          {{ bag_total_items }}
-                                    </span>
-                                </a>
-                            </li>
                         {% else %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'login' %}?next={{ next }}">Get started</a>
                             </li>
                         {% endif %}
+                        <li class="nav-item position-relative">
+                            <a href="{% url 'view_bag' %}" class="nav-link">
+                                <i class="bi bi-bag fs-4"></i>
+                                <span id="bag-quantity" 
+                                      class="position-absolute top-10 start-90 translate-middle badge rounded-pill bg-danger bg-gradient {% if bag.is_empty %}d-none{% endif %}"
+                                      hx-swap-oob="outerHTML">
+                                      {{ bag_total_items }}
+                                </span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
