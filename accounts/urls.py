@@ -3,6 +3,7 @@ from django.urls import path
 from . import views
 
 from .forms import CustomPasswordResetForm
+from .views import CustomPasswordResetConfirmView
 
 urlpatterns = [
     path("register/", views.register, name="register"),
@@ -15,7 +16,8 @@ urlpatterns = [
             form_class=CustomPasswordResetForm,
             template_name="accounts/password_reset_form.html",
             email_template_name="accounts/emails/password_reset_email.txt",
-            html_email_template_name="accounts/emails/password_reset_email.html",
+            html_email_template_name=(
+                "accounts/emails/password_reset_email.html"),
             subject_template_name="accounts/emails/password_reset_subject.txt"
         ),
         name="password_reset",
@@ -29,7 +31,7 @@ urlpatterns = [
     ),
     path(
         "reset/<uidb64>/<token>/",
-        auth_views.PasswordResetConfirmView.as_view(
+        CustomPasswordResetConfirmView.as_view(
             template_name="accounts/password_reset_confirm.html"
         ),
         name="password_reset_confirm"),

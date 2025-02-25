@@ -236,6 +236,8 @@ SESSION_SAVE_EVERY_REQUEST = True
 # Custom session settings for "Remember Me"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
+PASSWORD_RESET_TIMEOUT = 3600  # 1 hour in seconds
+
 
 # Logging
 # LOGGING = {

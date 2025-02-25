@@ -5,6 +5,12 @@
 <div class="card mt-5 p-4 shadow-sm" style="max-width: 450px; width: 100%;">
     <h2 class="text-center mb-3">Login</h2>
 
+    {% if request.GET.password_reset == 'success' %}
+        <div class="alert alert-success text-center">
+            <p>Your password has been successfully reset. Please log in with your new password.</p>
+        </div>
+    {% endif %}
+
     <form method="POST" action="{% url 'login' %}?next={{ next }}">
         {% csrf_token %}
         {{ form|crispy }}
