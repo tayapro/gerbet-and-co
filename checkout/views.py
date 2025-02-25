@@ -85,8 +85,9 @@ def checkout(request):
 
                     # Clean up
                     bag.clear()
-                    del request.session["payment_intent_id"]
                     del request.session["order_id"]
+                    del request.session["stripe_pid"]
+                    del request.session["payment_intent_id"]
 
                     return redirect(reverse("checkout_success",
                                             args=[order.order_id]))
@@ -140,6 +141,7 @@ def checkout(request):
     # Save order_id and stripe_pid in the session
     request.session["order_id"] = order.id
     request.session["stripe_pid"] = intent.id
+    request.session["payment_intent_id"] = intent.id
 
     context = {
         "shipping_form": ShippingInfoForm(),

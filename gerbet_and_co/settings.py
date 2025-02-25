@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = 'DEVELOPMENT' in os.environ
 
 ALLOWED_HOSTS = ['gerbet-and-co-84c4ca4e68bb.herokuapp.com',
                  'localhost', '127.0.0.1']
@@ -127,9 +127,6 @@ AUTHENTICATION_BACKENDS = [
 
 SITE_ID = 1
 
-# Email sender settings
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
@@ -220,14 +217,17 @@ STRIPE_WH_SECRET = os.environ['STRIPE_WH_SECRET']
 
 
 # Email sender settings
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+if 'DEVELOPMENT' in os.environ:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
-
 
 # Session settings
 SESSION_COOKIE_AGE = 2592000  # 30 days in seconds
