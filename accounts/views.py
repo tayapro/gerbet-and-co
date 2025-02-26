@@ -2,13 +2,16 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.views import PasswordResetConfirmView
 
+
 from .forms import CustomUserCreationForm
+from checkout.models import Order
 from .utils import send_welcome_email
 
 
@@ -80,6 +83,21 @@ def logout(request):
         return redirect(next)
 
     return render(request, "accounts/logout.html", {"next": next})
+
+
+@login_required
+def profile(request):
+    next = request.GET.get('next', '/')
+
+    user = request.user
+    orders = Order.objects.filter(user=user)
+
+    context = {
+        'user': user,
+        'orders': orders,
+        'next': next
+    }
+    return render(request, 'accounts/profile.html', context)
 
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center my-4">My Profile</h2>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>Profile Details</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4>Order History</h4>
+        </div>
+        <div class="card-body">
+            {% if orders %}
+                <ul class="list-group">
+                    {% for order in orders %}
+                        <li class="list-group-item">
+                            <p><strong>Order ID:</strong> {{ order.order_id }}</p>
+                            <p><strong>Order status:</strong> {{ order.status }}</p>
+                            <p><strong>Date:</strong> {{ order.created_at }}</p>
+                            <p><strong>Total:</strong> &#8364; {{ order.grand_total }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>You have no orders.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
