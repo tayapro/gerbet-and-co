@@ -9,8 +9,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.views import PasswordResetConfirmView
 
-
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, ProfileUpdateForm
 from checkout.models import Order
 from .utils import send_welcome_email
 
@@ -63,7 +62,7 @@ def login(request):
             else:
                 request.session.set_expiry(0)
 
-            messages.success(request, "Successfully logged in!")
+            messages.success(request, "Successfully logged in.")
             return redirect("product_list")
     else:
         form = AuthenticationForm()
@@ -79,7 +78,7 @@ def logout(request):
 
     if request.method == "POST":
         auth_logout(request)
-        messages.success(request, "You have been logged out!")
+        messages.success(request, "You have been logged out.")
         return redirect(next)
 
     return render(request, "accounts/logout.html", {"next": next})
@@ -87,17 +86,40 @@ def logout(request):
 
 @login_required
 def profile(request):
-    next = request.GET.get('next', '/')
+    next = request.GET.get("next", "/")
 
     user = request.user
     orders = Order.objects.filter(user=user)
 
     context = {
-        'user': user,
-        'orders': orders,
-        'next': next
+        "user": user,
+        "orders": orders,
+        "next": next
     }
-    return render(request, 'accounts/profile.html', context)
+    return render(request, "accounts/profile.html", context)
+
+
+@login_required
+def profile_details_view(request):
+    return render(request, "accounts/htmx/profile_details_view.html",
+                  {"user": request.user})
+
+
+@login_required
+def profile_details_update(request):
+    if request.method == "POST":
+        form = ProfileUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return render(request,
+                          "accounts/htmx/profile_details_view.html",
+                          {"user": request.user})
+    else:
+        form = ProfileUpdateForm(instance=request.user)
+
+    return render(request,
+                  "accounts/htmx/profile_details_update.html",
+                  {"form": form})
 
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):

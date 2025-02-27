@@ -1,0 +1,14 @@
+{% load crispy_forms_tags %}
+<div id="profile-details" class="p-5">
+    <form method="POST" hx-post="{% url "profile_details_update" %}" hx-target="#profile-details" hx-swap="outerHTML">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-primary">Update Profile</button>
+            <button type="button" class="btn btn-secondary" 
+            hx-get="{% url 'profile_details_view' %}" 
+            hx-target="#profile-details"
+            hx-swap="outerHTML">Cancel</button>
+        </div>
+    </form>
+</div>

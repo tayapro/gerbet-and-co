@@ -1,21 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
+<div style="max-width: 600px; width: 100%;">
     <h2 class="text-center my-4">My Profile</h2>
-    <div class="card mb-4">
-        <div class="card-header">
-            <h4>Profile Details</h4>
+    <div class="card my-5 shadow-sm" style="max-width: 600px; width: 100%;">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Profile Details</h4>
+            <button class="btn btn-outline-secondary" 
+            hx-get="{% url "profile_details_update" %}"
+            hx-target="#profile-details" 
+            hx-swap="outerHTML"><i class="bi bi-pencil fs-5"></i></button>
         </div>
-        <div class="card-body">
+        <div class="card-body" id="profile-details">
             <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
             <p><strong>Email:</strong> {{ user.email }}</p>
         </div>
     </div>
 
-    <div class="card">
+    <div class="card my-5 shadow-sm" style="max-width: 600px; width: 100%;">
         <div class="card-header">
-            <h4>Order History</h4>
+            <h4 class="py-2 mb-0">Order History</h4>
         </div>
         <div class="card-body">
             {% if orders %}
