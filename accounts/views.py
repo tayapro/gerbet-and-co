@@ -5,11 +5,16 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
+from django.contrib.auth.views import (
+    PasswordChangeView,
+    PasswordResetConfirmView,
+)
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
-from django.contrib.auth.views import PasswordResetConfirmView
 
-from .forms import CustomUserCreationForm, ProfileUpdateForm
+from .forms import (
+    CustomUserCreationForm, CustomPasswordChangeForm, ProfileUpdateForm
+)
 from checkout.models import Order
 from .utils import send_welcome_email
 
@@ -122,9 +127,19 @@ def profile_details_update(request):
                   {"form": form})
 
 
+class CustomPasswordChangeView(PasswordChangeView):
+    template_name = "accounts/profile_password_update.html"
+    form_class = CustomPasswordChangeForm
+
+    def form_valid(self, form):
+        form.save()
+        # Redirect to the login page with a success message
+        return redirect(reverse_lazy("login") + "?password_change=success")
+
+
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
     def form_valid(self, form):
         form.save()
 
         # Redirect to the login page with a success message
-        return redirect(reverse_lazy('login') + '?password_reset=success')
+        return redirect(reverse_lazy("login") + "?password_reset=success")

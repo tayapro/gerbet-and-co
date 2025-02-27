@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
+from django.contrib.auth.forms import (
+    PasswordChangeForm, PasswordResetForm, UserCreationForm
+)
 from django.contrib.auth.models import User
 
 
@@ -77,5 +79,23 @@ class ProfileUpdateForm(forms.ModelForm):
             self.add_error('last_name', 'Last name cannot be empty')
         if not email:
             self.add_error('email', 'Email cannot be empty')
+
+        return cleaned_data
+
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    def clean(self):
+        cleaned_data = super().clean()
+        old_password = cleaned_data.get('old_password')
+        new_password1 = cleaned_data.get('new_password1')
+        new_password2 = cleaned_data.get('new_password2')
+
+        if (
+            old_password
+            and (new_password1 == new_password2)
+            and old_password == new_password1
+        ):
+            raise forms.ValidationError(
+                "The new password cannot be the same as the old password.")
 
         return cleaned_data

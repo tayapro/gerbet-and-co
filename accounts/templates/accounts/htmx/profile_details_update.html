@@ -3,7 +3,7 @@
     <form method="POST" hx-post="{% url "profile_details_update" %}" hx-target="#profile-details" hx-swap="outerHTML">
         {% csrf_token %}
         {{ form|crispy }}
-        <div class="text-center mt-4">
+        <div class="d-flex justify-content-center mt-4 gap-4">
             <button type="submit" class="btn btn-primary">Update Profile</button>
             <button type="button" class="btn btn-secondary" 
             hx-get="{% url 'profile_details_view' %}" 
@@ -11,4 +11,8 @@
             hx-swap="outerHTML">Cancel</button>
         </div>
     </form>
+    <div class="text-center mt-4">
+    <a class="btn btn-outline-secondary" type="button" href="{% url 'profile_password_update' %}">
+        Change Password</a>
+    </div>
 </div>
