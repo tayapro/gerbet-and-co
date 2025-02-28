@@ -1,3 +1,18 @@
+<div id="profile-toast-container" 
+     class="toast align-items-center justify-content-between text-bg-success border-0 position-fixed top-0 end-0 m-3 p-3 show" 
+     style="z-index: 1050;"
+     role="alert" aria-live="assertive" aria-atomic="true"
+     hx-swap-oob="true">
+    <div class="d-flex"
+         style="z-index: 1050;">
+        <div class="toast-body p-0">
+            <p class="fs-6 m-0">Profile updated successfully.</p>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+</div>
+
 <div class="card-body" id="profile-details">
     <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
     <p><strong>Email:</strong> {{ user.email }}</p>

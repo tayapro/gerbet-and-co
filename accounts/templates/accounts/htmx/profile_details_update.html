@@ -1,6 +1,9 @@
 {% load crispy_forms_tags %}
 <div id="profile-details" class="p-5">
-    <form method="POST" hx-post="{% url "profile_details_update" %}" hx-target="#profile-details" hx-swap="outerHTML">
+    <form hx-post="{% url 'profile_details_update' %}"
+      hx-target="#profile-details"
+      hx-swap="outerHTML"
+      hx-trigger="submit">
         {% csrf_token %}
         {{ form|crispy }}
         <div class="d-flex justify-content-center mt-4 gap-4">

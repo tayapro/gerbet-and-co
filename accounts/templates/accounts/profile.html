@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div id="profile-toast-container"></div>
+
 <div style="max-width: 600px; width: 100%;">
     <h2 class="text-center my-4">My Profile</h2>
     <div class="card my-5 shadow-sm" style="max-width: 600px; width: 100%;">
@@ -39,4 +41,7 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block postloadjs %}
 {% endblock %}
