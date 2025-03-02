@@ -4,6 +4,9 @@ from django.contrib.auth.forms import (
     PasswordChangeForm, PasswordResetForm, UserCreationForm
 )
 from django.contrib.auth.models import User
+from django_countries.widgets import CountrySelectWidget
+
+from .models import UserContactInfo
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -41,9 +44,9 @@ class CustomUserCreationForm(UserCreationForm):
     def save(self, commit=True):
         """Save user instance with cleaned data."""
         user = super().save(commit=False)
-        user.email = self.cleaned_data['email']
-        user.first_name = self.cleaned_data['first_name']
-        user.last_name = self.cleaned_data['last_name']
+        user.email = self.cleaned_data["email"]
+        user.first_name = self.cleaned_data["first_name"]
+        user.last_name = self.cleaned_data["last_name"]
 
         if commit:
             user.save()
@@ -53,7 +56,7 @@ class CustomUserCreationForm(UserCreationForm):
 
 class CustomPasswordResetForm(PasswordResetForm):
     def clean_email(self):
-        email = self.cleaned_data['email']
+        email = self.cleaned_data["email"]
         if not User.objects.filter(email=email).exists():
             raise forms.ValidationError("There is no user registered with "
                                         "the specified email address.")
@@ -65,30 +68,46 @@ class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ["first_name", "last_name", "email"]
 
     def clean(self):
         cleaned_data = super().clean()
-        first_name = cleaned_data.get('first_name')
-        last_name = cleaned_data.get('last_name')
-        email = cleaned_data.get('email')
+        first_name = cleaned_data.get("first_name")
+        last_name = cleaned_data.get("last_name")
+        email = cleaned_data.get("email")
 
         if not first_name:
-            self.add_error('first_name', 'First name cannot be empty')
+            self.add_error("first_name", "First name cannot be empty")
         if not last_name:
-            self.add_error('last_name', 'Last name cannot be empty')
+            self.add_error("last_name", "Last name cannot be empty")
         if not email:
-            self.add_error('email', 'Email cannot be empty')
+            self.add_error("email", "Email cannot be empty")
 
         return cleaned_data
+
+
+class UserContactInfoUpdateForm(forms.ModelForm):
+    class Meta:
+        model = UserContactInfo
+        fields = [
+            "street_address1", "street_address2",
+            "town_or_city", "county", "postcode", 
+            "country", "phone_number"
+        ]
+
+        widgets = {
+            "country": CountrySelectWidget(attrs={
+                "class": "form-control",
+            })
+        }
 
 
 class CustomPasswordChangeForm(PasswordChangeForm):
     def clean(self):
         cleaned_data = super().clean()
-        old_password = cleaned_data.get('old_password')
-        new_password1 = cleaned_data.get('new_password1')
-        new_password2 = cleaned_data.get('new_password2')
+        old_password = cleaned_data.get("old_password")
+        new_password1 = cleaned_data.get("new_password1")
+        new_password2 = cleaned_data.get("new_password2")
 
         if (
             old_password

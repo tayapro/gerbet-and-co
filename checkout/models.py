@@ -1,6 +1,7 @@
 import uuid
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
+from django_countries.fields import CountryField
 
 from products.models import Product
 
@@ -32,7 +33,7 @@ class ShippingInfo(models.Model):
     street_address2 = models.CharField(max_length=256, blank=True, null=True)
     town_or_city = models.CharField(max_length=100)
     county = models.CharField(max_length=100, blank=True, null=True)
-    country = models.CharField(max_length=100)
+    country = CountryField(blank_label="Country", null=False, blank=False)
     postcode = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):

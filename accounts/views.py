@@ -7,14 +7,14 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.views import (
     PasswordChangeView,
-    PasswordResetConfirmView,
-)
+    PasswordResetConfirmView)
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 
 from .forms import (
-    CustomUserCreationForm, CustomPasswordChangeForm, ProfileUpdateForm
-)
+    CustomUserCreationForm, CustomPasswordChangeForm,
+    ProfileUpdateForm, UserContactInfoUpdateForm)
+from .models import UserContactInfo
 from checkout.models import Order
 from .utils import send_welcome_email
 
@@ -90,45 +90,74 @@ def logout(request):
 
 
 @login_required
-def profile(request):
+def account(request):
     next = request.GET.get("next", "/")
 
     user = request.user
     orders = Order.objects.filter(user=user)
+    addresses = UserContactInfo.objects.filter(user=user)
 
     context = {
         "user": user,
         "orders": orders,
-        "next": next
+        "addresses": addresses,
+        "next": next,
     }
-    return render(request, "accounts/profile.html", context)
+    return render(request, "accounts/account.html", context)
 
 
 @login_required
-def profile_details_view(request):
-    return render(request, "accounts/htmx/profile_details_view.html",
+def profile_view(request):
+    return render(request, "accounts/htmx/profile_view.html",
                   {"user": request.user})
 
 
 @login_required
-def profile_details_update(request):
+def profile_update(request):
     if request.method == "POST":
         form = ProfileUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
             return render(request,
-                          "accounts/htmx/profile_details_view.html",
+                          "accounts/htmx/profile_view.html",
                           {"user": request.user})
     else:
         form = ProfileUpdateForm(instance=request.user)
 
     return render(request,
-                  "accounts/htmx/profile_details_update.html",
+                  "accounts/htmx/profile_update.html",
                   {"form": form})
 
 
+@login_required
+def address_create(request):
+    if request.method == "POST":
+        form = UserContactInfoUpdateForm(request.POST)
+        if form.is_valid():
+            address = form.save(commit=False)
+            address.user = request.user
+            address.save()
+            messages.success(request, "New address added successfully.")
+            return redirect("account")
+    else:
+        form = UserContactInfoUpdateForm()
+
+    context = {
+        "form": form
+    }
+    return render(request, "accounts/address_create.html", context)
+
+
+@login_required
+def address_view(request):
+    addresses = UserContactInfo.objects.filter(user=request.user)
+
+    return render(request, "accounts/address_view.html", 
+                  {"addresses": addresses})
+
+
 class CustomPasswordChangeView(PasswordChangeView):
-    template_name = "accounts/profile_password_update.html"
+    template_name = "accounts/password_update.html"
     form_class = CustomPasswordChangeForm
 
     def form_valid(self, form):

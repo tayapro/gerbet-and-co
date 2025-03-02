@@ -1,7 +1,7 @@
 {% load crispy_forms_tags %}
-<div id="profile-details" class="p-5">
-    <form hx-post="{% url 'profile_details_update' %}"
-      hx-target="#profile-details"
+<div id="account-details" class="p-5">
+    <form hx-post="{% url 'profile_update' %}"
+      hx-target="#account-details"
       hx-swap="outerHTML"
       hx-trigger="submit">
         {% csrf_token %}
@@ -9,13 +9,13 @@
         <div class="d-flex justify-content-center mt-4 gap-4">
             <button type="submit" class="btn btn-primary">Update Profile</button>
             <button type="button" class="btn btn-secondary" 
-            hx-get="{% url 'profile_details_view' %}" 
-            hx-target="#profile-details"
+            hx-get="{% url 'profile_view' %}" 
+            hx-target="#account-details"
             hx-swap="outerHTML">Cancel</button>
         </div>
     </form>
     <div class="text-center mt-4">
-    <a class="btn btn-outline-secondary" type="button" href="{% url 'profile_password_update' %}">
+    <a class="btn btn-outline-secondary" type="button" href="{% url 'password_update' %}">
         Change Password</a>
     </div>
 </div>

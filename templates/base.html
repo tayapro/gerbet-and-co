@@ -70,7 +70,7 @@
                     <ul class="navbar-nav ms-sm-auto align-items-sm-center">
                         {% if user.is_authenticated %}
                             <li class="nav-item align-middle">
-                                <a class="nav-link" href="{% url 'profile' %}?next={{ next }}">
+                                <a class="nav-link" href="{% url 'account' %}?next={{ next }}">
                                     <i class="bi bi-person-circle fs-4"></i>
                                 </a>
                             </li>
