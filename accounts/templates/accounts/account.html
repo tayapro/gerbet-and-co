@@ -5,71 +5,97 @@
 
 <div style="max-width: 600px; width: 100%;">
     <h2 class="text-center my-4">Account</h2>
-    <div class="card my-5 shadow-sm" style="max-width: 600px; width: 100%;">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h4 class="mb-0">Resident Profile</h4>
-            <button class="btn btn-outline-secondary" 
-            hx-get="{% url "profile_update" %}"
-            hx-target="#account-details" 
-            hx-swap="outerHTML"><i class="bi bi-pencil fs-5"></i></button>
-        </div>
-        <div class="card-body" id="account-details">
-            <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
-            <p><strong>Email:</strong> {{ user.email }}</p>
-        </div>
-    </div>
 
-    <div class="card my-5 shadow-sm" style="max-width: 600px; width: 100%;">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h4 class="mb-0">Address book</h4>
-            <div class="mb-3 text-end">
-                <a href="{% url 'address_create' %}" class="btn btn-success">Add New Address</a>
-            </div>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <button class="nav-link active" id="nav-resident-profile-tab" data-bs-toggle="tab" 
+                  data-bs-target="#nav-resident-profile" type="button" role="tab" aria-controls="nav-resident-profile" 
+                  aria-selected="true">Resident Profile</button>
+          <button class="nav-link" id="address-book-tab" data-bs-toggle="tab" 
+                  data-bs-target="#nav-address-book" type="button" role="tab" aria-controls="nav-address-book" 
+                  aria-selected="false">Address book</button>
+          <button class="nav-link" id="nav-delivery-at-the-door-tab" data-bs-toggle="tab" 
+                  data-bs-target="#nav-delivery-at-the-door" type="button" role="tab" aria-controls="nav-delivery-at-the-door" 
+                  aria-selected="false">Deliveries at the Door</button>
         </div>
-        <div class="card-body" id="">
-            {% if addresses %}
-            <div class="row row-cols-1 row-cols-md-2 g-4">
-                {% for address in addresses %}
-                    <div class="col">
-                        <div class="card shadow-sm">
-                            <div class="card-body">
-                                <p><strong>Phone:</strong> {{ address.phone_number }}</p>
-                                <p><strong>Address 1:</strong> {{ address.street_address1 }}</p>
-                                <p><strong>Address 2:</strong> {{ address.street_address2 }}</p>
-                                <p><strong>City:</strong> {{ address.town_or_city }}</p>
-                                <p><strong>County:</strong> {{ address.county }}</p>
-                                <p><strong>Postcode:</strong> {{ address.postcode }}</p>
-                                <p><strong>Country:</strong> {{ address.country }}</p>
-                            </div>
-                        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-resident-profile" role="tabpanel" 
+                aria-labelledby="nav-resident-profile-tab" tabindex="0">
+            <div class="card my-5 shadow-sm" style="max-width: 600px; width: 100%;">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Resident Profile</h4>
+                    <button class="btn btn-outline-secondary" 
+                    hx-get="{% url "profile_update" %}"
+                    hx-target="#account-details" 
+                    hx-swap="outerHTML"><i class="bi bi-pencil fs-5"></i></button>
+                </div>
+                <div class="card-body" id="account-details">
+                    <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                </div>
+            </div>    
+        </div>
+
+        <div class="tab-pane fade" id="nav-address-book" role="tabpanel" 
+             aria-labelledby="nav-address-book-tab" tabindex="0">
+            <div class="card my-5 shadow-sm" style="max-width: 600px; width: 100%;">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Address book</h4>
+                    <div class="mb-3 text-end">
+                        <a href="{% url 'address_create' %}" class="btn btn-success">Add New Address</a>
                     </div>
-                {% endfor %}
+                </div>
+                <div class="card-body" id="">
+                    {% if addresses %}
+                    <div class="row row-cols-1 row-cols-md-2 g-4">
+                        {% for address in addresses %}
+                            <div class="col">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <p><strong>Phone:</strong> {{ address.phone_number }}</p>
+                                        <p><strong>Address 1:</strong> {{ address.street_address1 }}</p>
+                                        <p><strong>Address 2:</strong> {{ address.street_address2 }}</p>
+                                        <p><strong>City:</strong> {{ address.town_or_city }}</p>
+                                        <p><strong>County:</strong> {{ address.county }}</p>
+                                        <p><strong>Postcode:</strong> {{ address.postcode }}</p>
+                                        <p><strong>Country:</strong> {{ address.country }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-center">You have no saved addresses.</p>
+                {% endif %}
+                </div>
             </div>
-        {% else %}
-            <p class="text-center">You have no saved addresses.</p>
-        {% endif %}
         </div>
-    </div>
-
-    <div class="card my-5 shadow-sm" style="max-width: 600px; width: 100%;">
-        <div class="card-header">
-            <h4 class="py-2 mb-0">Deliveries at the Door</h4>
-        </div>
-        <div class="card-body">
-            {% if orders %}
-                <ul class="list-group">
-                    {% for order in orders %}
-                        <li class="list-group-item">
-                            <p><strong>Order ID:</strong> {{ order.order_id }}</p>
-                            <p><strong>Order status:</strong> {{ order.status }}</p>
-                            <p><strong>Date:</strong> {{ order.created_at }}</p>
-                            <p><strong>Total:</strong> &#8364; {{ order.grand_total }}</p>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>You have no orders.</p>
-            {% endif %}
+        
+        <div class="tab-pane fade" id="nav-delivery-at-the-door" role="tabpanel" 
+             aria-labelledby="nav-delivery-at-the-door-tab" tabindex="0">
+        
+             <div class="card my-5 shadow-sm" style="max-width: 600px; width: 100%;">
+                <div class="card-header">
+                    <h4 class="py-2 mb-0">Deliveries at the Door</h4>
+                </div>
+                <div class="card-body">
+                    {% if orders %}
+                        <ul class="list-group">
+                            {% for order in orders %}
+                                <li class="list-group-item">
+                                    <p><strong>Order ID:</strong> {{ order.order_id }}</p>
+                                    <p><strong>Order status:</strong> {{ order.status }}</p>
+                                    <p><strong>Date:</strong> {{ order.created_at }}</p>
+                                    <p><strong>Total:</strong> &#8364; {{ order.grand_total }}</p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>You have no orders.</p>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
 </div>
