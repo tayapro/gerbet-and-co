@@ -16,9 +16,20 @@
     -moz-appearance: textfield;
 }
 
-#bag-toast-container,
 #messages-container {
     z-index: 1050;
+}
+
+#toast-container {
+    width: 100%;
+    padding: 0.7rem;
+    opacity: 1 !important;
+    transition: opacity 0.5s ease-in-out !important;
+}
+
+#toast-container.hide {
+    opacity: 0 !important;
+    pointer-events: none;
 }
 
 .navbar-dark,

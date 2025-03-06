@@ -10,9 +10,9 @@ def add_to_bag(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
     product_data = {
-        'title': product.title,
-        'price': product.price,
-        'image_url': product.image.url if product.image else '',
+        "title": product.title,
+        "price": product.price,
+        "image_url": product.image.url if product.image else "",
     }
     bag.add(product_id=product.id, product_data=product_data, quantity=1)
 

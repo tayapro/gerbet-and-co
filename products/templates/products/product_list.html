@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="row">
-    <h2 class="text-center mb-3">Product list:</h2>
+    <h2 class="text-center my-5">Product list:</h2>
 
     {% for product in products %}
     <div class="col-md-4 mb-4">
@@ -29,7 +29,7 @@
                     {% endif %}
                     <form hx-post="{% url 'add_to_bag' product.id %}" 
                         hx-trigger="click" 
-                        hx-target="#bag-toast-container" 
+                        hx-target="#toast-container" 
                         hx-swap="outerHTML"
                         hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                         hx-select-oob="#bag-quantity">

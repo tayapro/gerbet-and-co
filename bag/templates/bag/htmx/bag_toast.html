@@ -3,13 +3,14 @@
     {{ bag_total_items }}
 </span>
 
-<div id="bag-toast-container" class="toast position-absolute bg-success text-white show"
+
+<div id="toast-container" class="toast border border-0 rounded-0 d-flex justify-content-center show"
      role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="d-flex align-items-center p-2">
-        <div class="toast-body">
-            <i class="bi bi-check-circle-fill me-2"></i> 
-            {{ product_name }} has been added to your bag!
+    <div class="d-flex align-items-center justify-content-center">
+        <div class="toast-body d-flex align-items-center p-0">
+            <i class="bi bi-check-circle-fill mx-2 fs-6"></i> 
+            <p class="fs-6 m-0">{{ product_name }} has been added to your bag!</p>
         </div>
-        <button type="button" class="btn-close btn-close-white me-2" data-bs-dismiss="toast" aria-label="Close"></button>
+        <button type="button" class="fs-6 btn-close mx-2" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
 </div>

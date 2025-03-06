@@ -118,9 +118,13 @@ def profile_update(request):
         form = ProfileUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
+            context = {
+                "user": request.user,
+                "toast_message": "Your profile has been successfully changed.",
+            }
             return render(request,
                           "accounts/htmx/profile_view.html",
-                          {"user": request.user})
+                          context)
     else:
         form = ProfileUpdateForm(instance=request.user)
 
@@ -152,7 +156,7 @@ def address_create(request):
 def address_view(request):
     addresses = UserContactInfo.objects.filter(user=request.user)
 
-    return render(request, "accounts/address_view.html", 
+    return render(request, "accounts/address_view.html",
                   {"addresses": addresses})
 
 
