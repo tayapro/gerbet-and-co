@@ -4,15 +4,15 @@
 
 {% block content %}
 <div class="container">
-    <h2 class="text-center my-4">Add New Contact Details</h2>
+    <h2>{% if address %}Edit{% else %}Add{% endif %} Address</h2>
     <div class="card my-5 shadow-sm" style="max-width: 600px; margin: auto;">
         <div class="card-body">
             <form method="post">
                 {% csrf_token %}
                 {{ form|crispy }}
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Save Address</button>
-                    <a href="{% url 'address_view' %}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">{% if address %}Update{% else %}Create{% endif %} Address</button>
+                    <a href="{% url 'account' %}?tab={{tab}}" class="btn btn-secondary">Cancel</a>
                 </div>
             </form>
         </div>

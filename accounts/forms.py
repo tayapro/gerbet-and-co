@@ -86,12 +86,12 @@ class ProfileUpdateForm(forms.ModelForm):
         return cleaned_data
 
 
-class UserContactInfoUpdateForm(forms.ModelForm):
+class AddressForm(forms.ModelForm):
     class Meta:
         model = UserContactInfo
         fields = [
             "street_address1", "street_address2",
-            "town_or_city", "county", "postcode", 
+            "town_or_city", "county", "postcode",
             "country", "phone_number"
         ]
 

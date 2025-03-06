@@ -8,14 +8,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import (
     PasswordChangeView,
     PasswordResetConfirmView)
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 
 from checkout.models import Order
 from .constants import Tabs
 from .forms import (
     CustomUserCreationForm, CustomPasswordChangeForm,
-    ProfileUpdateForm, UserContactInfoUpdateForm)
+    ProfileUpdateForm, AddressForm)
 from .models import UserContactInfo
 from .utils import send_welcome_email
 
@@ -91,7 +91,7 @@ def logout(request):
 
 
 @login_required
-def account(request):
+def account_view(request):
     next = request.GET.get("next", "/")
 
     user = request.user
@@ -160,7 +160,7 @@ def profile_update(request):
 @login_required
 def address_create(request):
     if request.method == "POST":
-        form = UserContactInfoUpdateForm(request.POST)
+        form = AddressForm(request.POST)
         if form.is_valid():
             address = form.save(commit=False)
             address.user = request.user
@@ -168,12 +168,13 @@ def address_create(request):
             messages.success(request, "New address added successfully.")
             return redirect(f"{reverse('account')}?tab={Tabs.ADDRESS_BOOK}")
     else:
-        form = UserContactInfoUpdateForm()
+        form = AddressForm()
 
     context = {
-        "form": form
+        "form": form,
+        "tab": Tabs.ADDRESS_BOOK,
     }
-    return render(request, "accounts/address_create.html", context)
+    return render(request, "accounts/address_form.html", context)
 
 
 @login_required
@@ -182,6 +183,43 @@ def address_view(request):
 
     return render(request, "accounts/address_view.html",
                   {"addresses": addresses})
+
+
+@login_required
+def address_update(request, id):
+    address = get_object_or_404(UserContactInfo, id=id, user=request.user)
+
+    if request.method == "POST":
+        form = AddressForm(request.POST, instance=address)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Address updated successfully.")
+            return redirect(f"{reverse('account')}?tab={Tabs.ADDRESS_BOOK}")
+    else:
+        form = AddressForm(instance=address)
+
+    context = {
+        "form": form,
+        "address": address,
+        "tab": Tabs.ADDRESS_BOOK,
+    }
+    return render(request, "accounts/address_form.html", context)
+
+
+@login_required
+def address_delete(request, id):
+    address = get_object_or_404(UserContactInfo, id=id, user=request.user)
+
+    if request.method == "POST":
+        address.delete()
+        messages.success(request, "Address deleted successfully.")
+        return redirect(f"{reverse('account')}?tab={Tabs.ADDRESS_BOOK}")
+
+    context = {
+        "address": address,
+        "tab": Tabs.ADDRESS_BOOK,
+    }
+    return render(request, "accounts/address_delete.html", context)
 
 
 class CustomPasswordChangeView(PasswordChangeView):

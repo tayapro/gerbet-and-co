@@ -16,16 +16,16 @@ urlpatterns = [
          name="profile_update"),
     path("account/address/create/", views.address_create,
          name="address_create"),
-    path("account/address/view/", views.address_view,
-         name="address_view"),
-    # path("account/address/update/", views.address_update,
-    #      name="address_update"),
-    # path("account/address/delete", views.address_delete,
-    #      name="address_delete"),
+    # path("account/address/view/", views.address_view,
+    #      name="address_view"),
+    path("account/address/update/<int:id>/", views.address_update,
+         name="address_update"),
+    path("account/address/delete/<int:id>/", views.address_delete,
+         name="address_delete"),
     path("account/password/update", views.CustomPasswordChangeView.as_view(),
          name='password_update'),
 
-    path("account/", views.account, name="account"),
+    path("account/", views.account_view, name="account"),
 
     path(
         "password_reset/",
