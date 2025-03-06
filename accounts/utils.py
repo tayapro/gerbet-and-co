@@ -27,7 +27,7 @@ def send_welcome_email(request, user, **kwargs):
 
         # Send the email
         email = EmailMultiAlternatives(subject, text_content, email_from,
-                                    recipient_list)
+                                       recipient_list)
         email.attach_alternative(html_content, "text/html")
 
         email.send()

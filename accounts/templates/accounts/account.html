@@ -4,36 +4,36 @@
 <div style="max-width: 600px; width: 100%;">
     <h2 class="text-center my-4">Account</h2>
 
-    <nav>
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-          <button class="nav-link active" id="nav-resident-profile-tab" data-bs-toggle="tab" 
-                  data-bs-target="#nav-resident-profile" type="button" role="tab" aria-controls="nav-resident-profile" 
-                  aria-selected="true">Resident Profile</button>
-          <button class="nav-link" id="address-book-tab" data-bs-toggle="tab" 
-                  data-bs-target="#nav-address-book" type="button" role="tab" aria-controls="nav-address-book" 
-                  aria-selected="false">Address book</button>
-          <button class="nav-link" id="nav-delivery-at-the-door-tab" data-bs-toggle="tab" 
-                  data-bs-target="#nav-delivery-at-the-door" type="button" role="tab" aria-controls="nav-delivery-at-the-door" 
-                  aria-selected="false">Deliveries at the Door</button>
-        </div>
+    <nav class="nav nav-tabs" id="nav-tab" role="tablist">
+        {% for tab in tabs %}
+        <button class="nav-link 
+                    {% if request.GET.tab == tab.id or not request.GET.tab and tab.is_default %}active{% endif %}" 
+                id="nav-{{ tab.id }}-tab" 
+                data-bs-toggle="tab" 
+                data-bs-target="#nav-{{ tab.id }}" 
+                type="button" 
+                role="tab" 
+                aria-controls="nav-{{ tab.id }}" 
+                aria-selected="{% if request.GET.tab == tab.id or not request.GET.tab and tab.is_default %}true{% else %}false{% endif %}">
+            {{ tab.label }}
+        </button>
+        {% endfor %}
     </nav>
+
     <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="nav-resident-profile" role="tabpanel" 
-                aria-labelledby="nav-resident-profile-tab" tabindex="0">
-            {% include "accounts/includes/resident_profile.html" %}
+        {% for tab in tabs %}
+        <div class="tab-pane fade 
+                    {% if request.GET.tab == tab.id or not request.GET.tab and tab.is_default %}show active{% endif %}" 
+            id="nav-{{ tab.id }}" 
+            role="tabpanel" 
+            aria-labelledby="nav-{{ tab.id }}-tab" 
+            tabindex="0">
+            {% include tab.template %}
         </div>
-
-        <div class="tab-pane fade" id="nav-address-book" role="tabpanel" 
-             aria-labelledby="nav-address-book-tab" tabindex="0">
-            {% include "accounts/includes/address_book.html" %}
-        </div>
-
-        <div class="tab-pane fade" id="nav-delivery-at-the-door" role="tabpanel" 
-             aria-labelledby="nav-delivery-at-the-door-tab" tabindex="0">
-            {% include "accounts/includes/deliveries_at_the_door.html" %}
-        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
+
 {% block postloadjs %}
 {% endblock %}

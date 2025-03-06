@@ -32,6 +32,28 @@
     pointer-events: none;
 }
 
+/* Horizontal scrolling for Account tabs on mobile */
+@media (max-width: 768px) {
+    .nav-tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        scrollbar-width: none; /* Hide scrollbar in Firefox */
+    }
+
+    .nav-tabs::-webkit-scrollbar {
+        display: none; /* Hide scrollbar in Chrome/Safari */
+    }
+
+    .nav-tabs {
+        padding-right: 40px;
+    }
+}
+
+/* Ensure tab buttons don’t shrink */
+.nav-tabs .nav-link {
+    white-space: nowrap;
+}
+
 .navbar-dark,
 .navbar[data-bs-theme='dark'] {
     --bs-navbar-color: rgba(255, 255, 255, 0.75) !important;

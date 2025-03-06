@@ -11,11 +11,12 @@ from django.contrib.auth.views import (
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 
+from checkout.models import Order
+from .constants import Tabs
 from .forms import (
     CustomUserCreationForm, CustomPasswordChangeForm,
     ProfileUpdateForm, UserContactInfoUpdateForm)
 from .models import UserContactInfo
-from checkout.models import Order
 from .utils import send_welcome_email
 
 
@@ -97,11 +98,34 @@ def account(request):
     orders = Order.objects.filter(user=user)
     addresses = UserContactInfo.objects.filter(user=user)
 
+    tabs = [
+        {
+            'id': Tabs.RESIDENT_PROFILE,
+            'label': 'Resident Profile',
+            'template': 'accounts/includes/resident_profile.html',
+            'is_default': True,
+        },
+        {
+            'id': Tabs.ADDRESS_BOOK,
+            'label': 'Address Book',
+            'template': 'accounts/includes/address_book.html',
+            'is_default': False,
+        },
+        {
+            'id': Tabs.DELIVERY_AT_DOOR,
+            'label': 'Deliveries at the Door',
+            'template': 'accounts/includes/deliveries_at_the_door.html',
+            'is_default': False,
+        },
+    ]
+
     context = {
         "user": user,
         "orders": orders,
         "addresses": addresses,
         "next": next,
+        "tabs": tabs,
+        "default_tab": Tabs.DEFAULT_TAB
     }
     return render(request, "accounts/account.html", context)
 
@@ -142,7 +166,7 @@ def address_create(request):
             address.user = request.user
             address.save()
             messages.success(request, "New address added successfully.")
-            return redirect("account")
+            return redirect(f"{reverse('account')}?tab={Tabs.ADDRESS_BOOK}")
     else:
         form = UserContactInfoUpdateForm()
 
