@@ -1,15 +1,17 @@
-from django.shortcuts import render, reverse, redirect, get_object_or_404
-from django.contrib import messages
 from django.conf import settings
-from django.db import transaction
+from django.contrib import messages
+from django.forms.models import model_to_dict
+from django.shortcuts import render, reverse, redirect, get_object_or_404
 from decimal import Decimal
 import logging
 import stripe
 
+from accounts.models import UserContactInfo
 from products.models import Product
-from .forms import ShippingInfoForm, OrderForm
+from .forms import ShippingInfoForm
 from .models import CheckoutConfig, Order, OrderItem, ShippingInfo
 from bag.bag import Bag
+
 
 logger = logging.getLogger(__name__)
 
@@ -32,14 +34,32 @@ def checkout(request):
         checkout_config.stripe_currency.lower()
         if checkout_config else "eur")
 
+    default_address = None
+    if request.user.is_authenticated:
+        default_address = ShippingInfo.objects.filter(
+            user=request.user,
+            is_default=True
+        ).first()
+
+    full_name = ""
+
+    if request.user.is_authenticated:
+        full_name = f"{request.user.first_name} {request.user.last_name}"
+    else:
+        full_name = (f"{request.POST.get('first_name')} "
+                     f"{request.POST.get('last_name')}")
+
     # Handle POST request
     if request.method == "POST":
-        shipping_form = ShippingInfoForm(request.POST)
-        order_form = OrderForm(request.POST)
+        form = ShippingInfoForm(request.POST, user=request.user)
 
-        if shipping_form.is_valid() and order_form.is_valid():
+        if form.is_valid():
             try:
+                shipping_info = form.save(commit=False)
+
                 order_id = request.session.get("order_id")
+                order = Order.objects.get(id=order_id)
+
                 payment_intent_id = request.session.get("payment_intent_id")
 
                 if not order_id or not payment_intent_id:
@@ -47,17 +67,27 @@ def checkout(request):
                                    "Session expired, please try again")
                     return redirect("checkout")
 
-                shipping_info = shipping_form.save()
-                order_form_instance = order_form.save(commit=False)
+                if request.user.is_authenticated:
+                    shipping_info.user = request.user
+
+                    if form.cleaned_data["use_default"] and default_address:
+                        shipping_info = default_address
+                        shipping_info.pk = None
+                    elif form.cleaned_data["save_as_default"]:
+                        shipping_info.is_default = True
+
+                    order.user = request.user
+                    order.email = request.user.email
+
+                shipping_info.save()
 
                 # Update order instance
-                order = Order.objects.get(id=order_id)
+                order.user = (
+                    request.user if request.user.is_authenticated else None
+                )
+                order.full_name = full_name
+                order.email = f"{request.POST.get('email')}"
                 order.shipping_info = shipping_info
-                order.email = order_form_instance.email
-
-                if request.user.is_authenticated:
-                    order.user = request.user
-
                 order.save()
 
                 # Retrieve the PaymentIntent
@@ -111,8 +141,9 @@ def checkout(request):
         else:
             messages.error(request, "Please check your form entries")
             context = {
-                "shipping_form": shipping_form,
-                "order_form": order_form,
+                "full_name": full_name,
+                "user": request.user,
+                "form": form,
                 "stripe_public_key": stripe_public_key,
                 "client_secret": request.session.get("client_secret"),
                 "bag_total": bag_total,
@@ -143,9 +174,25 @@ def checkout(request):
     request.session["stripe_pid"] = intent.id
     request.session["payment_intent_id"] = intent.id
 
+    initial = {}
+    user_is_authenticated = False
+
+    if request.user.is_authenticated:
+        user_is_authenticated = True
+        default_address = UserContactInfo.objects.filter(
+            user=request.user,
+            is_default=True).first()
+
+    if default_address:
+        initial = model_to_dict(default_address)
+        initial["use_default"] = True
+    form = ShippingInfoForm(initial=initial)
+
     context = {
-        "shipping_form": ShippingInfoForm(),
-        "order_form": OrderForm(),
+        "user": request.user,
+        "form": form,
+        "default_address": default_address,
+        "user_is_authenticated": user_is_authenticated,
         "stripe_public_key": stripe_public_key,
         "client_secret": intent.client_secret,
         "bag_total": bag_total,

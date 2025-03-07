@@ -9,6 +9,7 @@ from django.contrib.auth.views import (
     PasswordChangeView,
     PasswordResetConfirmView)
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
 from django.urls import reverse, reverse_lazy
 
 from checkout.models import Order
@@ -164,6 +165,8 @@ def address_create(request):
         if form.is_valid():
             address = form.save(commit=False)
             address.user = request.user
+            if form.cleaned_data['set_as_default']:
+                address.is_default = True
             address.save()
             messages.success(request, "New address added successfully.")
             return redirect(f"{reverse('account')}?tab={Tabs.ADDRESS_BOOK}")
@@ -192,11 +195,17 @@ def address_update(request, id):
     if request.method == "POST":
         form = AddressForm(request.POST, instance=address)
         if form.is_valid():
+            if form.cleaned_data['set_as_default']:
+                address.is_default = True
+            else:
+                address.is_default = False
             form.save()
             messages.success(request, "Address updated successfully.")
             return redirect(f"{reverse('account')}?tab={Tabs.ADDRESS_BOOK}")
     else:
-        form = AddressForm(instance=address)
+        form = AddressForm(instance=address, initial={
+            "set_as_default": address.is_default
+        })
 
     context = {
         "form": form,
@@ -220,6 +229,16 @@ def address_delete(request, id):
         "tab": Tabs.ADDRESS_BOOK,
     }
     return render(request, "accounts/address_delete.html", context)
+
+
+@login_required
+@require_POST
+def set_default_address(request, id):
+    address = get_object_or_404(UserContactInfo, id=id, user=request.user)
+    address.is_default = True
+    address.save()
+    messages.success(request, "Default shipping address updated")
+    return redirect(f"{reverse('account')}?tab={Tabs.ADDRESS_BOOK}")
 
 
 class CustomPasswordChangeView(PasswordChangeView):

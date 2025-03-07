@@ -33,8 +33,8 @@ class CheckoutConfigAdmin(admin.ModelAdmin):
 
 @admin.register(ShippingInfo)
 class ShippingInfoAdmin(admin.ModelAdmin):
-    list_display = ("full_name", "phone_number", "street_address1",
+    list_display = ("phone_number", "street_address1",
                     "town_or_city", "country", "postcode")
-    search_fields = ("full_name", "phone_number", "street_address1",
+    search_fields = ("phone_number", "street_address1",
                      "town_or_city", "country", "postcode")
     list_filter = ("country", "town_or_city")

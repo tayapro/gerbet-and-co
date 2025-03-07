@@ -27,7 +27,9 @@ class CheckoutConfig(models.Model):
 
 
 class ShippingInfo(models.Model):
-    full_name = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
+                             blank=True)
+    is_default = models.BooleanField(default=False)
     phone_number = models.CharField(max_length=20)
     street_address1 = models.CharField(max_length=256)
     street_address2 = models.CharField(max_length=256, blank=True, null=True)
@@ -35,6 +37,14 @@ class ShippingInfo(models.Model):
     county = models.CharField(max_length=100, blank=True, null=True)
     country = CountryField(blank_label="Country", null=False, blank=False)
     postcode = models.CharField(max_length=20, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if self.is_default and self.user:
+            ShippingInfo.objects.filter(
+                user=self.user,
+                is_default=True
+            ).exclude(pk=self.pk).update(is_default=False)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Shipping Info for {self.full_name}"
@@ -79,11 +89,11 @@ class Order(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return (f"Order {self.order_id} - {self.shipping_info.full_name}, "
-                f"email {self.email}, "
-                f"status {self.status}, grand total {self.grand_total}, "
-                f"stripe_payment_intent {self.stripe_payment_intent}, "
-                f"stripe_pid {self.stripe_pid}")
+        if self.user:
+            name = f"{self.user.first_name} {self.user.last_name}"
+        else:
+            name = "Guest User"
+        return f"Order {self.order_id} - {name}, email {self.email}"
 
     class Meta:
         indexes = [

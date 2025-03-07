@@ -5,6 +5,7 @@ from django.db import models
 
 class UserContactInfo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_default = models.BooleanField(default=False)
     phone_number = models.CharField(max_length=20, null=True, blank=True)
     street_address1 = models.CharField(max_length=80, null=True, blank=True)
     street_address2 = models.CharField(max_length=80, null=True, blank=True)

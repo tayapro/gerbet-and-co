@@ -18,6 +18,16 @@
                             <p><strong>Country:</strong> {{ address.country }}</p>
                         </div>
                         <div class="m-2">
+                            <form method="post" action="{% url 'set_default_address' address.id %}" 
+                                    class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" 
+                                        class="btn btn-sm btn-outline-secondary {% if address.is_default %}disabled{% endif %}"
+                                        title="Set as default">
+                                <i class="bi bi-star-fill"></i>
+                                </button>
+                            </form>
+
                             <a href="{% url 'address_update' address.id %}" class="btn btn-sm btn-outline-primary">
                                 Edit
                             </a>

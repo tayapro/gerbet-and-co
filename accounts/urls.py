@@ -22,6 +22,8 @@ urlpatterns = [
          name="address_update"),
     path("account/address/delete/<int:id>/", views.address_delete,
          name="address_delete"),
+    path("address/set-default/<int:id>/", views.set_default_address,
+         name="set_default_address"),
     path("account/password/update", views.CustomPasswordChangeView.as_view(),
          name='password_update'),
 

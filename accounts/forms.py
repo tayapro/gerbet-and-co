@@ -87,12 +87,18 @@ class ProfileUpdateForm(forms.ModelForm):
 
 
 class AddressForm(forms.ModelForm):
+    set_as_default = forms.BooleanField(
+        required=False,
+        label="Set as default shipping address",
+        help_text="Checkout will use this address by default"
+    )
+
     class Meta:
         model = UserContactInfo
         fields = [
             "street_address1", "street_address2",
             "town_or_city", "county", "postcode",
-            "country", "phone_number"
+            "country", "phone_number", "set_as_default"
         ]
 
         widgets = {
