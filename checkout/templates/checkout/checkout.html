@@ -10,6 +10,23 @@
         <form method="POST" action="{% url 'checkout' %}" id="checkout-form">
             {% csrf_token %}
         
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                <h4>Form Errors:</h4>
+                <ul>
+                {% for field in form %}
+                    {% if field.errors %}
+                        <li>{{ field.label }}: {{ field.errors|striptags }}</li>
+                    {% endif %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+
             <div class="card mb-4">
                 <div class="card-header">
                     <h4 class="m-1">Shipping Information:</h4>
@@ -37,13 +54,27 @@
                 <div class="card-body m-4">
                     <div id="address-fields" 
                          style="display: {% if form.use_default.value and default_address %}none{% else %}block{% endif %}">
-                        <!-- Render all fields except checkboxes -->
-                        {{ form.street_address1|as_crispy_field }}
-                        {{ form.street_address2|as_crispy_field }}
-                        {{ form.town_or_city|as_crispy_field }}
-                        {{ form.county|as_crispy_field }}
-                        {{ form.postcode|as_crispy_field }}
-                        {{ form.country|as_crispy_field }}
+                         {% if not user.is_authenticated %}
+                         <div class="row">
+                             <div class="col-md-6">
+                                 {{ form.first_name|as_crispy_field }}
+                             </div>
+                             <div class="col-md-6">
+                                 {{ form.last_name|as_crispy_field }}
+                             </div>
+                             <div class="col-md-6">
+                                {{ form.email|as_crispy_field }}
+                            </div>
+                         </div>
+                         {% endif %}
+                         
+                         {{ form.phone_number|as_crispy_field }}
+                         {{ form.street_address1|as_crispy_field }}
+                         {{ form.street_address2|as_crispy_field }}
+                         {{ form.town_or_city|as_crispy_field }}
+                         {{ form.county|as_crispy_field }}
+                         {{ form.postcode|as_crispy_field }}
+                         {{ form.country|as_crispy_field }}
                     </div>
         
                     {% if user.is_authenticated %}
@@ -64,23 +95,8 @@
                 </div>
                 <div class="card-body m-4">
                     {% if user.is_authenticated %}
+                        <input type="hidden" name="full_name" id="full_name" value="{{ full_name }}">
                         <input type="hidden" name="email" id="email" value="{{ user.email }}">
-                    {% else %}
-                        <div class="mb-3">
-                            <label for="first_name" class="form-label">First Name</label>
-                            <input type="text" name="first_name" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="last_name" class="form-label">Last Name</label>
-                            <input type="text" name="last_name" class="form-control" required>
-                        </div>
-                        <div id="div_id_email" class="mb-3">
-                            <label for="email" class="form-label requiredField">
-                                Email<span class="asteriskField">*</span>
-                            </label>
-                            <input type="email" name="email" maxlength="256" class="textinput form-control" 
-                                   required="" id="email">
-                        </div>
                     {% endif %}
         
                     <!-- Stripe Payment Element -->
@@ -93,7 +109,6 @@
             <input type="hidden" name="order_id" id="order_id" value="{{ order_id }}">
             <input type="hidden" name="amount" id="amount" value="{{ amount }}">
             <input type="hidden" name="currency" id="currency" value="{{ currency }}">
-            <input type="hidden" name="full_name" id="full_name" value="{{ full_name }}">
         
             <!-- Confirmation checkbox -->
             <div class="form-check mt-4">

@@ -5,11 +5,6 @@ from django.template.loader import render_to_string
 from checkout.models import CheckoutConfig
 
 
-def get_full_name(user):
-    full_name = f"{user.first_name} {user.last_name}"
-    return full_name
-
-
 def get_checkout_settings():
     settings, created = CheckoutConfig.objects.get_or_create(
         defaults={

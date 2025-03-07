@@ -1,3 +1,16 @@
+function getFullName(form) {
+    let name
+    if (form.full_name) {
+        name = form.full_name.value.trim()
+    } else {
+        let firstName = form.first_name ? form.first_name.value.trim() : ''
+        let lastName = form.last_name ? form.last_name.value.trim() : ''
+        name = `${firstName} ${lastName}`.trim()
+    }
+
+    return name
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('checkout-form')
     const stripePublicKey = JSON.parse(
@@ -59,6 +72,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return
         }
 
+        const name = getFullName(form)
+
         const { paymentIntent, error } = await stripe.confirmPayment({
             elements,
             clientSecret,
@@ -66,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return_url: successUrl,
                 payment_method_data: {
                     billing_details: {
-                        name: form.full_name.value.trim(),
+                        name: name,
                         email: form.email.value.trim(),
                         address: {
                             line1: form.street_address1.value.trim(),
