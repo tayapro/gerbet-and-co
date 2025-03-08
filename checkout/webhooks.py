@@ -58,6 +58,11 @@ def handle_payment_event(payment_intent, event_type):
 
 @csrf_exempt
 def stripe_webhook(request):
+    print("\n=== WEBHOOK TRIGGERED ===")
+    logger.warning("Webhook endpoint accessed - raw headers: %s",
+                   dict(request.headers))
+    logger.warning("Request body length: %d", len(request.body))
+
     payload = request.body
     sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
     event = None

@@ -1,5 +1,5 @@
 from django import forms
-from .models import ShippingInfo, Order
+from .models import ShippingInfo
 
 
 class ShippingInfoForm(forms.ModelForm):
@@ -65,19 +65,3 @@ class ShippingInfoForm(forms.ModelForm):
         fields = ["first_name", "last_name", "phone_number", "street_address1",
                   "street_address2", "town_or_city", "county",
                   "country", "postcode"]
-
-
-class OrderForm(forms.ModelForm):
-    class Meta:
-        model = Order
-        fields = ["email"]
-
-
-class CheckoutForm(forms.ModelForm):
-    def clean(self):
-        cleaned_data = super().clean()
-        if not self.instance.user:
-            if not cleaned_data.get("email"):
-                raise forms.ValidationError("Email is required "
-                                            "for guest checkout")
-        return cleaned_data
