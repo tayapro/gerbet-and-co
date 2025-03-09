@@ -15,15 +15,17 @@ from django.urls import reverse, reverse_lazy
 from checkout.models import Order
 from .constants import Tabs
 from .forms import (
-    CustomUserCreationForm, CustomPasswordChangeForm,
-    ProfileUpdateForm, AddressForm)
+    UserRegistrationForm,
+    CustomPasswordChangeForm,
+    UserProfileForm,
+    AddressForm)
 from .models import UserContactInfo
 from .utils import send_welcome_email
 
 
 def register(request):
     if request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
+        form = UserRegistrationForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data.get("email")
             if User.objects.filter(email=email).exists():
@@ -33,9 +35,6 @@ def register(request):
                               {"form": form})
 
             user = form.save()
-            auth_login(request, user,
-                       backend='django.contrib.auth.backends.ModelBackend')
-            messages.success(request, "Account created successfully!")
 
             try:
                 send_welcome_email(request, user)
@@ -44,11 +43,11 @@ def register(request):
                                  "Account created, but welcome email "
                                  "failed to send.")
 
-            return redirect("home")
+            return redirect(reverse_lazy("login") + "?registration=success")
         else:
             messages.error(request, "Please correct the errors below.")
     else:
-        form = CustomUserCreationForm()
+        form = UserRegistrationForm()
 
     return render(request, "accounts/register.html", {"form": form})
 
@@ -140,7 +139,7 @@ def profile_view(request):
 @login_required
 def profile_update(request):
     if request.method == "POST":
-        form = ProfileUpdateForm(request.POST, instance=request.user)
+        form = UserProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
             context = {
@@ -151,7 +150,7 @@ def profile_update(request):
                           "accounts/htmx/profile_view.html",
                           context)
     else:
-        form = ProfileUpdateForm(instance=request.user)
+        form = UserProfileForm(instance=request.user)
 
     return render(request,
                   "accounts/htmx/profile_update.html",

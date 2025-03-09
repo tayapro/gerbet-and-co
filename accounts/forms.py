@@ -1,7 +1,7 @@
 from django import forms
-from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import (
-    PasswordChangeForm, PasswordResetForm, UserCreationForm
+    PasswordChangeForm, PasswordResetForm,
+    UserCreationForm
 )
 from django.contrib.auth.models import User
 from django_countries.widgets import CountrySelectWidget
@@ -9,11 +9,7 @@ from django_countries.widgets import CountrySelectWidget
 from .models import UserContactInfo
 
 
-class CustomUserCreationForm(UserCreationForm):
-    """
-    A custom user creation form that includes additional fields:
-    email, first_name, and last_name.
-    """
+class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(required=True)
     first_name = forms.CharField(max_length=30, required=False)
     last_name = forms.CharField(max_length=30, required=False)
@@ -29,8 +25,8 @@ class CustomUserCreationForm(UserCreationForm):
         placeholders = {
             "username": "Enter your username",
             "email": "Enter your email",
-            "first_name": "Enter your first name",
-            "last_name": "Enter your last name",
+            "first_name": "First name (optional)",
+            "last_name": "Last name (optional)",
             "password1": "Enter your password",
             "password2": "Enter your password again",
         }
@@ -42,7 +38,6 @@ class CustomUserCreationForm(UserCreationForm):
             })
 
     def save(self, commit=True):
-        """Save user instance with cleaned data."""
         user = super().save(commit=False)
         user.email = self.cleaned_data["email"]
         user.first_name = self.cleaned_data["first_name"]
@@ -54,21 +49,18 @@ class CustomUserCreationForm(UserCreationForm):
         return user
 
 
-class CustomPasswordResetForm(PasswordResetForm):
-    def clean_email(self):
-        email = self.cleaned_data["email"]
-        if not User.objects.filter(email=email).exists():
-            raise forms.ValidationError("There is no user registered with "
-                                        "the specified email address.")
-        return email
-
-
-class ProfileUpdateForm(forms.ModelForm):
-    User = get_user_model()
-
+class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ["first_name", "last_name", "email"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._set_placeholders({
+            "first_name": "Update first name",
+            "last_name": "Update last name",
+        })
+        self.fields["email"].disabled = True
 
     def clean(self):
         cleaned_data = super().clean()
@@ -106,6 +98,15 @@ class AddressForm(forms.ModelForm):
                 "class": "form-control",
             })
         }
+
+
+class CustomPasswordResetForm(PasswordResetForm):
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        if not User.objects.filter(email=email).exists():
+            raise forms.ValidationError("There is no user registered with "
+                                        "the specified email address.")
+        return email
 
 
 class CustomPasswordChangeForm(PasswordChangeForm):

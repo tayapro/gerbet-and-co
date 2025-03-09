@@ -13,23 +13,20 @@ def send_welcome_email(request, user, **kwargs):
         **kwargs: Additional keyword arguments that may be passed with
         the signal.
     """
-    try:
-        subject = "Welcome to Gerbet & Co!"
-        email_from = settings.EMAIL_HOST_USER
-        recipient_list = [user.email]
+    subject = "Welcome to Gerbet & Co!"
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [user.email]
 
-        # Render email content
-        context = {'user': user}
-        text_content = render_to_string('accounts/emails/welcome_email.txt',
-                                        context)
-        html_content = render_to_string('accounts/emails/welcome_email.html',
-                                        context)
+    # Render email content
+    context = {'user': user}
+    text_content = render_to_string('accounts/emails/welcome_email.txt',
+                                    context)
+    html_content = render_to_string('accounts/emails/welcome_email.html',
+                                    context)
 
-        # Send the email
-        email = EmailMultiAlternatives(subject, text_content, email_from,
-                                       recipient_list)
-        email.attach_alternative(html_content, "text/html")
+    # Send the email
+    email = EmailMultiAlternatives(subject, text_content, email_from,
+                                   recipient_list)
+    email.attach_alternative(html_content, "text/html")
 
-        email.send()
-    except Exception as e:
-        print(f"Error {e}")
+    email.send()

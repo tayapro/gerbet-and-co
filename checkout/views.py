@@ -25,7 +25,11 @@ def checkout(request):
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
     stripe_secret_key = settings.STRIPE_SECRET_KEY
     checkout_config = CheckoutConfig.objects.first()
-    currency = checkout_config.stripe_currency.lower() if checkout_config else "eur"
+    currency = (
+        checkout_config.stripe_currency.lower()
+        if checkout_config
+        else "eur"
+    )
     stripe.api_key = stripe_secret_key
 
     # Calculate totals
@@ -36,9 +40,6 @@ def checkout(request):
 
     # Handle existing order
     order_id = request.session.get("order_id")
-    order = None
-    if order_id:
-        order = Order.objects.filter(id=order_id).first()
 
     # Handle POST request
     if request.method == "POST":

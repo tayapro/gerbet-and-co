@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'DEVELOPMENT' in os.environ
+DEBUG = os.getenv('DEVELOPMENT', 'False') == 'True'
 
 ALLOWED_HOSTS = ['gerbet-and-co-84c4ca4e68bb.herokuapp.com',
                  'localhost', '127.0.0.1']
@@ -218,7 +218,7 @@ STRIPE_WH_SECRET = os.environ['STRIPE_WH_SECRET']
 
 
 # Email sender settings
-if 'DEVELOPMENT' in os.environ:
+if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -239,8 +239,6 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 PASSWORD_RESET_TIMEOUT = 3600  # 1 hour in seconds
 
-
-# settings.py
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

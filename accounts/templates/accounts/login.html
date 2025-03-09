@@ -7,7 +7,14 @@
 
     {% if request.GET.password_reset or request.GET.password_change %}
         <div class="alert alert-success text-center">
-            <p>Your password has been successfully changed. Please log in with your new password.</p>
+            <p>Your password has been successfully changed.<br>Please log in with your new password.</p>
+        </div>
+    {% endif %}
+
+    {% if request.GET.registration %}
+        <div class="alert alert-success text-center">
+            <p class="mb-0">Welcome to Gerbet & Co!</p>
+            <p class="m-0">Please log in with your credentials.</p>
         </div>
     {% endif %}
 

@@ -18,7 +18,7 @@ def get_checkout_settings():
 
 def send_order_confirmation_email(order):
     recipient = [order.email]
-    subject = f"Order Confirmation - #{order.order_id}"
+    subject = f"Gerbet & Co Order Confirmation - #{order.order_id}"
     email_from = settings.EMAIL_HOST_USER
 
     # Prepare email content
@@ -37,7 +37,7 @@ def send_order_confirmation_email(order):
 
 def send_payment_failure_email(order):
     print("send_payment_failure_email")
-    # subject = f"Payment Failed - Order #{order.order_id}"
+    # subject = f"Gerbet & Co - Payment Failed - Order #{order.order_id}"
     # body = render_to_string(
     #     'checkout/emails/payment_failed_email.txt',
     #     {'order': order}
