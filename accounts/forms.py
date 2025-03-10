@@ -56,10 +56,10 @@ class UserProfileForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._set_placeholders({
-            "first_name": "Update first name",
-            "last_name": "Update last name",
-        })
+        # self._set_placeholders({
+        #     "first_name": "Update first name",
+        #     "last_name": "Update last name",
+        # })
         self.fields["email"].disabled = True
 
     def clean(self):

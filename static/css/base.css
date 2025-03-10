@@ -21,8 +21,6 @@
 }
 
 #toast-container {
-    width: 100%;
-    padding: 0.7rem;
     opacity: 1 !important;
     transition: opacity 0.5s ease-in-out !important;
 }

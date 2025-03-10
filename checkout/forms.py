@@ -1,19 +1,19 @@
 from django import forms
-from .models import ShippingInfo
+from .models import Order, ShippingInfo
 
 
 class ShippingInfoForm(forms.ModelForm):
-    first_name = forms.CharField(
+    guest_first_name = forms.CharField(
         required=False,
         label="First Name",
         help_text="Required for guest users"
     )
-    last_name = forms.CharField(
+    guest_last_name = forms.CharField(
         required=False,
         label="Last Name",
         help_text="Required for guest users"
     )
-    email = forms.CharField(
+    guest_email = forms.CharField(
         required=False,
         label="Email",
         help_text="Required for guest users"
@@ -32,36 +32,57 @@ class ShippingInfoForm(forms.ModelForm):
     )
 
     def __init__(self, *args, **kwargs):
-        user = kwargs.pop("user", None)
+        self.user = kwargs.pop("user", None)
         super().__init__(*args, **kwargs)
 
         # Remove name fields for authenticated users
-        if user and user.is_authenticated:
-            del self.fields["first_name"]
-            del self.fields["last_name"]
-            del self.fields["email"]
+        if self.user and self.user.is_authenticated:
+            del self.fields["guest_first_name"]
+            del self.fields["guest_last_name"]
+            del self.fields["guest_email"]
         else:
             # Require for guests
-            self.fields["first_name"].required = True
-            self.fields["last_name"].required = True
-            self.fields["email"].required = True
+            self.fields["guest_first_name"].required = True
+            self.fields["guest_last_name"].required = True
+            self.fields["guest_email"].required = True
 
     def clean(self):
         cleaned_data = super().clean()
-        if not self.instance.user:
-            if not cleaned_data.get("first_name"):
+        if not self.user or not self.user.is_authenticated:
+            if not cleaned_data.get("guest_first_name"):
                 raise forms.ValidationError("First name is required for "
                                             "guest orders")
-            if not cleaned_data.get("last_name"):
+            if not cleaned_data.get("guest_last_name"):
                 raise forms.ValidationError("Last name is required for "
                                             "guest orders")
-            if not cleaned_data.get("email"):
+            if not cleaned_data.get("guest_email"):
                 raise forms.ValidationError("Email is required for "
                                             "guest orders")
         return cleaned_data
 
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+
+        if self.user and self.user.is_authenticated:
+            instance.user = self.user
+            instance.is_default = self.cleaned_data.get("save_as_default",
+                                                        False)
+
+        if commit:
+            instance.save()
+
+        # Handle guest data separately
+        if not self.user.is_authenticated:
+            Order.objects.filter(pk=instance.order.pk).update(
+                guest_first_name=self.cleaned_data["guest_first_name"],
+                guest_last_name=self.cleaned_data["guest_last_name"],
+                guest_email=self.cleaned_data["guest_email"]
+            )
+
+        return instance
+
     class Meta:
         model = ShippingInfo
-        fields = ["first_name", "last_name", "phone_number", "street_address1",
-                  "street_address2", "town_or_city", "county",
-                  "country", "postcode"]
+        fields = ["guest_first_name", "guest_last_name", "phone_number",
+                  "street_address1", "street_address2", "town_or_city",
+                  "county", "country", "postcode"]

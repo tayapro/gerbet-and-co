@@ -28,7 +28,7 @@ class CheckoutConfig(models.Model):
 
 class ShippingInfo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
-                             blank=True)
+                             blank=True, related_name="checkout_addresses")
     is_default = models.BooleanField(default=False)
     phone_number = models.CharField(max_length=20)
     street_address1 = models.CharField(max_length=256)
@@ -40,10 +40,10 @@ class ShippingInfo(models.Model):
 
     def save(self, *args, **kwargs):
         if self.is_default and self.user:
-            ShippingInfo.objects.filter(
-                user=self.user,
-                is_default=True
-            ).exclude(pk=self.pk).update(is_default=False)
+            shipping_info = ShippingInfo.objects.filter(
+                user=self.user
+                ).exclude(pk=self.pk)
+            shipping_info.update(is_default=False)
         super().save(*args, **kwargs)
 
     def __str__(self):
