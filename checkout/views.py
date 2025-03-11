@@ -162,10 +162,14 @@ def get_initial_shipping_data(user):
 def process_shipping_info(form, user):
     """Process and save shipping information"""
     shipping_info = form.save(commit=False)
+    print(f"User authenticated: {user.is_authenticated}")
     if user.is_authenticated:
+        print("BLAAAAAA")
+        print(f"cleaned_data: {form.cleaned_data}")
         shipping_info.user = user
         if form.cleaned_data.get("save_as_default"):
             shipping_info.is_default = True
+            print(f"BLAAAA {shipping_info.is_default}")
     shipping_info.save()
     return shipping_info
 

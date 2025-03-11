@@ -45,6 +45,9 @@ class ShippingInfoForm(forms.ModelForm):
             self.fields["guest_first_name"].required = True
             self.fields["guest_last_name"].required = True
             self.fields["guest_email"].required = True
+            # Remove fields irrelevant for guest users
+            del self.fields["save_as_default"]
+            del self.fields["use_default"]
 
     def clean(self):
         cleaned_data = super().clean()
@@ -58,6 +61,21 @@ class ShippingInfoForm(forms.ModelForm):
             if not cleaned_data.get("guest_email"):
                 raise forms.ValidationError("Email is required for "
                                             "guest orders")
+
+        # Validate address fields for authenticated users 
+        # if "use_default" is not checked
+        if self.user and self.user.is_authenticated and not cleaned_data.get("use_default"):
+            required_fields = [
+                "phone_number",
+                "street_address1",
+                "town_or_city",
+                "postcode",
+                "country"
+            ]
+            for field in required_fields:
+                if not cleaned_data.get(field):
+                    raise forms.ValidationError(f"{field.replace('_', ' ').capitalize()} is required.")
+
         return cleaned_data
 
     def save(self, commit=True):
@@ -65,19 +83,19 @@ class ShippingInfoForm(forms.ModelForm):
 
         if self.user and self.user.is_authenticated:
             instance.user = self.user
-            instance.is_default = self.cleaned_data.get("save_as_default",
-                                                        False)
-
-        if commit:
-            instance.save()
+            if self.cleaned_data.get("save_as_default", False):
+                instance.is_default = True
 
         # Handle guest data separately
-        if not self.user.is_authenticated:
+        if not self.user and not self.user.is_authenticated:
             Order.objects.filter(pk=instance.order.pk).update(
                 guest_first_name=self.cleaned_data["guest_first_name"],
                 guest_last_name=self.cleaned_data["guest_last_name"],
                 guest_email=self.cleaned_data["guest_email"]
             )
+
+        if commit:
+            instance.save()
 
         return instance
 

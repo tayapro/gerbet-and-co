@@ -70,32 +70,33 @@
                     <div id="address-fields" 
                          style="display: {% if form.use_default.value and default_address %}none{% else %}block{% endif %}">
                          {% if not user.is_authenticated %}
-                         <div class="row">
-                             <div class="col-md-6">
-                                 {{ form.first_name|as_crispy_field }}
-                             </div>
-                             <div class="col-md-6">
-                                 {{ form.last_name|as_crispy_field }}
-                             </div>
-                             <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
+                                {{ form.first_name|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.last_name|as_crispy_field }}
+                            </div>
+                            <div class="col-md-6">
                                 {{ form.email|as_crispy_field }}
                             </div>
-                         </div>
+                        </div>
                          {% endif %}
                          
-                         {{ form.phone_number|as_crispy_field }}
-                         {{ form.street_address1|as_crispy_field }}
-                         {{ form.street_address2|as_crispy_field }}
-                         {{ form.town_or_city|as_crispy_field }}
-                         {{ form.county|as_crispy_field }}
-                         {{ form.postcode|as_crispy_field }}
-                         {{ form.country|as_crispy_field }}
+                        {{ form.phone_number|as_crispy_field }}
+                        {{ form.street_address1|as_crispy_field }}
+                        {{ form.street_address2|as_crispy_field }}
+                        {{ form.town_or_city|as_crispy_field }}
+                        {{ form.county|as_crispy_field }}
+                        {{ form.postcode|as_crispy_field }}
+                        {{ form.country|as_crispy_field }}
 
-                         <div class="form-check mb-3">
-                            {{ form.save_as_default }}
-                            <label class="form-check-label" for="{{ form.save_as_default.id_for_label }}">
-                                Save this as my default address
-                            </label>
+                        <input type="hidden" name="save_as_default" value="false">
+                        <div class="form-check mb-3">
+                            <input type="checkbox" name="save_as_default"
+                            id="{{ form.save_as_default.id_for_label }}"
+                            value="true">
+                            <label for="{{ form.save_as_default.id_for_label }}">Save this as my default address</label>
                         </div>
                     </div>
                 </div>
@@ -181,39 +182,47 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const elements = {
-                useDefaultCheckbox: document.getElementById("{{ form.use_default.id_for_label }}"),
-                addressFields: document.getElementById("address-fields"),
-                preview: document.getElementById("default-address-preview")
-            };
+            const useDefaultCheckbox = document.getElementById("{{ form.use_default.id_for_label }}")
+            const saveAsDefaultCheckbox = document.getElementById("{{ form.save_as_default.id_for_label }}")
+            const addressFields = document.getElementById("address-fields")
+            const preview = document.getElementById("default-address-preview")
+
+            if (saveAsDefaultCheckbox) {
+                saveAsDefaultCheckbox.value = saveAsDefaultCheckbox.checked ? "true" : "false"
+
+                saveAsDefaultCheckbox.addEventListener("change", function () {
+                    this.value = this.checked ? "true" : "false"
+                })
+            }
+            
     
-            if (!(elements.useDefaultCheckbox && elements.addressFields && elements.preview)) {
-                if (elements.addressFields) elements.addressFields.style.display = 'block';
-                if (elements.preview) elements.preview.style.display = 'none';
-                return;
+            if (!(useDefaultCheckbox && addressFields && preview)) {
+                if (addressFields) addressFields.style.display = "block"
+                if (preview) preview.style.display = "none"
+                return
             }
     
             const clearFields = () => {
-                const fields = elements.addressFields.querySelectorAll("input, select, textarea");
+                const fields = addressFields.querySelectorAll("input, select, textarea")
                 fields.forEach(field => {
-                    field.value = "";
-                });
-            };
+                    field.value = ""
+                })
+            }
     
             const toggleFields = (checked) => {
-                const fields = elements.addressFields.querySelectorAll("input, select, textarea");
-                elements.addressFields.style.display = checked ? 'none' : 'block';
-                elements.preview.style.display = checked ? 'block' : 'none';
+                const fields = addressFields.querySelectorAll("input, select, textarea")
+                addressFields.style.display = checked ? "none" : "block"
+                preview.style.display = checked ? "block" : "none"
                 fields.forEach(field => {
-                    if (checked) field.value = ""; // Clear value if using default address
-                });
-            };
+                    if (checked) field.value = "" // Clear value if using default address
+                })
+            }
     
-            elements.useDefaultCheckbox.addEventListener('change', (e) => {
-                toggleFields(e.target.checked);
-            });
+            useDefaultCheckbox.addEventListener("change", (e) => {
+                toggleFields(e.target.checked)
+            })
     
-            toggleFields(elements.useDefaultCheckbox.checked);
-        });
-    </script>    
+            toggleFields(useDefaultCheckbox.checked)
+        })
+    </script> 
 {% endblock %}

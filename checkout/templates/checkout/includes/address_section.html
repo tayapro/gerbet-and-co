@@ -1,0 +1,36 @@
+<div id="address-section">
+    <div class="form-check mb-3">
+        {{ form.use_default }}
+        <label class="form-check-label" for="{{ form.use_default.id_for_label }}">
+            Use my default address
+        </label>
+    </div>
+
+    {% if use_default and default_address %}
+        <!-- Show Default Address Preview -->
+        <div id="default-address-preview">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p><strong>Phone number: </strong>{{ default_address.phone_number }}</p>
+                    <p><strong>Street address 1: </strong>{{ default_address.street_address1 }}</p>
+                    <p><strong>Street address 2: </strong>{{ default_address.street_address2 }}</p>
+                    <p><strong>Town or city: </strong>{{ default_address.town_or_city }}</p>
+                    <p><strong>County: </strong>{{ default_address.county }}</p>
+                    <p><strong>Postcode: </strong>{{ default_address.postcode }}</p>
+                    <p><strong>Country: </strong>{{ default_address.country }}</p>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <!-- Show Address Form -->
+        <div id="address-fields">
+            {{ form.phone_number|as_crispy_field }}
+            {{ form.street_address1|as_crispy_field }}
+            {{ form.street_address2|as_crispy_field }}
+            {{ form.town_or_city|as_crispy_field }}
+            {{ form.county|as_crispy_field }}
+            {{ form.postcode|as_crispy_field }}
+            {{ form.country|as_crispy_field }}
+        </div>
+    {% endif %}
+</div>
