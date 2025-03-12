@@ -98,14 +98,39 @@ def handle_checkout_get(request, stripe_public_key, bag_total, delivery_cost,
 
 def handle_checkout_post(request, bag, order_id, currency):
     """Handle form submission"""
+    use_default = request.POST.get("use_default") == "on"
+
+    order = get_object_or_404(Order, id=order_id)
+
+    if request.user.is_authenticated and use_default:
+        default_address = UserContactInfo.objects.filter(
+            user=request.user, is_default=True
+        ).first()
+
+        if default_address:
+            shipping_info = ShippingInfo.objects.create(
+                user=request.user,
+                phone_number=default_address.phone_number,
+                street_address1=default_address.street_address1,
+                street_address2=default_address.street_address2,
+                town_or_city=default_address.town_or_city,
+                county=default_address.county,
+                postcode=default_address.postcode,
+                country=default_address.country,
+                is_default=True
+            )
+
+            order.shipping_info = shipping_info
+            order.save()
+
+            return finalize_order(request, bag, order, currency)
+
     form = ShippingInfoForm(request.POST, user=request.user)
 
     if not form.is_valid():
         return handle_invalid_form(request, form, currency)
 
     try:
-        # Retrieve existing order
-        order = Order.objects.get(id=order_id)
         shipping_info = process_shipping_info(form, request.user)
 
         # Update order with shipping info

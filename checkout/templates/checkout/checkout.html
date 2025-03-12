@@ -30,6 +30,9 @@
             <div class="card mb-4">
                 <div class="card-header">
                     <h4 class="m-1">Shipping Information:</h4>
+                </div>
+        
+                <div class="card-body m-4">
                     {% if user.is_authenticated and default_address %}
                         <div class="form-check mb-3">
                             {{ form.use_default }}
@@ -64,9 +67,7 @@
                                 {{ form.country|as_crispy_field }}
                             {% endif %}
                     {% endif %}
-                </div>
-        
-                <div class="card-body m-4">
+
                     <div id="address-fields" 
                          style="display: {% if form.use_default.value and default_address %}none{% else %}block{% endif %}">
                          {% if not user.is_authenticated %}
@@ -206,6 +207,7 @@
                 const fields = addressFields.querySelectorAll("input, select, textarea")
                 fields.forEach(field => {
                     field.value = ""
+                    field.removeAttribute("required")
                 })
             }
     
@@ -214,7 +216,12 @@
                 addressFields.style.display = checked ? "none" : "block"
                 preview.style.display = checked ? "block" : "none"
                 fields.forEach(field => {
-                    if (checked) field.value = "" // Clear value if using default address
+                    if (checked) {
+                        field.value = "";
+                        field.removeAttribute("required");
+                    } else {
+                        field.setAttribute("required", "required");
+                    }
                 })
             }
     

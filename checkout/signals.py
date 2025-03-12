@@ -19,16 +19,6 @@ def sync_profile_address(sender, instance, created, **kwargs):
     logger.info("Signal triggered for ShippingInfo.")
     print("Signal triggered!")
 
-    # Log relevant details for debugging
-    print(f"user: {instance.user}")
-    print(f"phone_number: {instance.phone_number}")
-    print(f"street_address1: {instance.street_address1}")
-    print(f"street_address2: {instance.street_address2}")
-    print(f"town_or_city: {instance.town_or_city}")
-    print(f"county: {instance.county}")
-    print(f"postcode: {instance.postcode}")
-    print(f"country: {instance.country}")
-
     # Ensure all required fields are present
     required_fields = [
         instance.phone_number,
@@ -38,7 +28,7 @@ def sync_profile_address(sender, instance, created, **kwargs):
         instance.country,
     ]
 
-    if all(required_fields) and instance.is_default and instance.user:
+    if all(required_fields) and not instance.is_default and instance.user:
         # Create a new default address
         new_address = UserContactInfo.objects.create(
             user=instance.user,
