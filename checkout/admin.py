@@ -4,10 +4,10 @@ from .models import CheckoutConfig, ShippingInfo, Order, OrderItem
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("order_id", "user", "email", "grand_total",
+    list_display = ("order_id", "user", "guest_email", "grand_total",
                     "order_total", "delivery_cost",
                     "status", "created_at", "stripe_pid")
-    search_fields = ("order_id", "email", "user__username",
+    search_fields = ("order_id", "guest_email", "user__username",
                      "stripe_pid")
     list_filter = ("status", "created_at")
     readonly_fields = ("order_id", "order_id", "created_at",
@@ -18,17 +18,17 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
     """Admin panel configuration for OrderItem model"""
-    list_display = ('order', 'product', 'quantity', 'order_item_total')
-    list_filter = ('order',)
-    search_fields = ('order__order_id', 'product__title')
-    ordering = ('order',)
-    readonly_fields = ('order_item_total',)
+    list_display = ("order", "product", "quantity", "order_item_total")
+    list_filter = ("order",)
+    search_fields = ("order__order_id", "product__title")
+    ordering = ("order",)
+    readonly_fields = ("order_item_total",)
 
 
 @admin.register(CheckoutConfig)
 class CheckoutConfigAdmin(admin.ModelAdmin):
-    list_display = ('id', 'free_delivery_threshold', 'delivery_cost',
-                    'stripe_currency')
+    list_display = ("id", "free_delivery_threshold", "delivery_cost",
+                    "stripe_currency")
 
 
 @admin.register(ShippingInfo)

@@ -1,14 +1,13 @@
 function getFullName(form) {
-    let name
-    if (form.full_name) {
-        name = form.full_name.value.trim()
-    } else {
-        let firstName = form.first_name ? form.first_name.value.trim() : ''
-        let lastName = form.last_name ? form.last_name.value.trim() : ''
-        name = `${firstName} ${lastName}`.trim()
-    }
+    const isGuest = form.elements['guest_first_name'] !== undefined
 
-    return name
+    if (isGuest) {
+        const firstName = form.guest_first_name.value.trim()
+        const lastName = form.guest_last_name.value.trim()
+        return `${firstName} ${lastName}`.trim()
+    } else {
+        return form.full_name.value.trim()
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -65,6 +64,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const submitButton = document.getElementById('submit-button')
         submitButton.disabled = true
 
+        const isGuest = document.getElementById('id_guest_first_name') !== null
+
+        const emailField = isGuest ? 'guest_email' : 'email'
+        const email = form[emailField]?.value.trim() || ''
+
         // Validate elements first
         const { error: elementsError } = await elements.submit()
         if (elementsError) {
@@ -82,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 payment_method_data: {
                     billing_details: {
                         name: name,
-                        email: form.email.value.trim(),
+                        email: email,
                         address: {
                             line1: form.street_address1.value.trim(),
                             city: form.town_or_city.value.trim(),

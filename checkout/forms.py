@@ -62,9 +62,13 @@ class ShippingInfoForm(forms.ModelForm):
                 raise forms.ValidationError("Email is required for "
                                             "guest orders")
 
-        # Validate address fields for authenticated users 
+        # Validate address fields for authenticated users
         # if "use_default" is not checked
-        if self.user and self.user.is_authenticated and not cleaned_data.get("use_default"):
+        if (
+            self.user
+            and self.user.is_authenticated
+            and not cleaned_data.get("use_default")
+        ):
             required_fields = [
                 "phone_number",
                 "street_address1",
@@ -74,7 +78,7 @@ class ShippingInfoForm(forms.ModelForm):
             ]
             for field in required_fields:
                 if not cleaned_data.get(field):
-                    raise forms.ValidationError(f"{field.replace('_', ' ').capitalize()} is required.")
+                    raise forms.ValidationError(field, f"{self.fields[field].label} is required.")
 
         return cleaned_data
 
@@ -87,7 +91,7 @@ class ShippingInfoForm(forms.ModelForm):
                 instance.is_default = True
 
         # Handle guest data separately
-        if not self.user and not self.user.is_authenticated:
+        if self.user is None:
             Order.objects.filter(pk=instance.order.pk).update(
                 guest_first_name=self.cleaned_data["guest_first_name"],
                 guest_last_name=self.cleaned_data["guest_last_name"],
@@ -101,6 +105,6 @@ class ShippingInfoForm(forms.ModelForm):
 
     class Meta:
         model = ShippingInfo
-        fields = ["guest_first_name", "guest_last_name", "phone_number",
-                  "street_address1", "street_address2", "town_or_city",
-                  "county", "country", "postcode"]
+        fields = ["guest_first_name", "guest_last_name", "guest_email",
+                  "phone_number", "street_address1", "street_address2",
+                  "town_or_city", "county", "country", "postcode"]

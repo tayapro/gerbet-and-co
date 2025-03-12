@@ -7,7 +7,7 @@
 <div class="row">
     <h2 class="text-center my-5">Checkout</h2>
     <div class="col-md-7">
-        <form method="POST" action="{% url 'checkout' %}" id="checkout-form">
+        <form method="POST" action="{% url 'checkout' %}" id="checkout-form" novalidate>
             {% csrf_token %}
         
             {% if form.errors %}
@@ -57,15 +57,15 @@
                                     </div>
                                 </div>
                             </div>
-                            {% else %}
-                                {{ form.phone_number|as_crispy_field }}
-                                {{ form.street_address1|as_crispy_field }}
-                                {{ form.street_address2|as_crispy_field }}
-                                {{ form.town_or_city|as_crispy_field }}
-                                {{ form.county|as_crispy_field }}
-                                {{ form.postcode|as_crispy_field }}
-                                {{ form.country|as_crispy_field }}
-                            {% endif %}
+                        {% else %}
+                            {{ form.phone_number|as_crispy_field }}
+                            {{ form.street_address1|as_crispy_field }}
+                            {{ form.street_address2|as_crispy_field }}
+                            {{ form.town_or_city|as_crispy_field }}
+                            {{ form.county|as_crispy_field }}
+                            {{ form.postcode|as_crispy_field }}
+                            {{ form.country|as_crispy_field }}
+                        {% endif %}
                     {% endif %}
 
                     <div id="address-fields" 
@@ -73,13 +73,13 @@
                          {% if not user.is_authenticated %}
                         <div class="row">
                             <div class="col-md-6">
-                                {{ form.first_name|as_crispy_field }}
+                                {{ form.guest_first_name|as_crispy_field }}
                             </div>
                             <div class="col-md-6">
-                                {{ form.last_name|as_crispy_field }}
+                                {{ form.guest_last_name|as_crispy_field }}
                             </div>
                             <div class="col-md-6">
-                                {{ form.email|as_crispy_field }}
+                                {{ form.guest_email|as_crispy_field }}
                             </div>
                         </div>
                          {% endif %}
@@ -92,13 +92,15 @@
                         {{ form.postcode|as_crispy_field }}
                         {{ form.country|as_crispy_field }}
 
-                        <input type="hidden" name="save_as_default" value="false">
-                        <div class="form-check mb-3">
-                            <input type="checkbox" name="save_as_default"
-                            id="{{ form.save_as_default.id_for_label }}"
-                            value="true">
-                            <label for="{{ form.save_as_default.id_for_label }}">Save this as my default address</label>
-                        </div>
+                        {% if user.is_authenticated %}
+                            <input type="hidden" name="save_as_default" value="false">
+                            <div class="form-check mb-3">
+                                <input type="checkbox" name="save_as_default"
+                                id="{{ form.save_as_default.id_for_label }}"
+                                value="true">
+                                <label for="{{ form.save_as_default.id_for_label }}">Save this as my default address</label>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -187,48 +189,30 @@
             const saveAsDefaultCheckbox = document.getElementById("{{ form.save_as_default.id_for_label }}")
             const addressFields = document.getElementById("address-fields")
             const preview = document.getElementById("default-address-preview")
-
-            if (saveAsDefaultCheckbox) {
-                saveAsDefaultCheckbox.value = saveAsDefaultCheckbox.checked ? "true" : "false"
-
-                saveAsDefaultCheckbox.addEventListener("change", function () {
-                    this.value = this.checked ? "true" : "false"
-                })
-            }
-            
-    
-            if (!(useDefaultCheckbox && addressFields && preview)) {
-                if (addressFields) addressFields.style.display = "block"
-                if (preview) preview.style.display = "none"
-                return
-            }
-    
-            const clearFields = () => {
-                const fields = addressFields.querySelectorAll("input, select, textarea")
-                fields.forEach(field => {
-                    field.value = ""
-                    field.removeAttribute("required")
-                })
-            }
-    
+        
+            if (!useDefaultCheckbox || !addressFields) return
+        
             const toggleFields = (checked) => {
-                const fields = addressFields.querySelectorAll("input, select, textarea")
                 addressFields.style.display = checked ? "none" : "block"
                 preview.style.display = checked ? "block" : "none"
-                fields.forEach(field => {
-                    if (checked) {
-                        field.value = "";
-                        field.removeAttribute("required");
-                    } else {
-                        field.setAttribute("required", "required");
-                    }
+                
+                // Clear fields when using default address
+                addressFields.querySelectorAll("input, select, textarea").forEach(field => {
+                    if (checked) field.value = ""
                 })
+        
+                // Reset save_as_default when using default address
+                if (saveAsDefaultCheckbox) {
+                    saveAsDefaultCheckbox.checked = false
+                    saveAsDefaultCheckbox.value = "false"
+                }
             }
-    
+        
             useDefaultCheckbox.addEventListener("change", (e) => {
                 toggleFields(e.target.checked)
             })
-    
+        
+            // Initial toggle based on checkbox state
             toggleFields(useDefaultCheckbox.checked)
         })
     </script> 

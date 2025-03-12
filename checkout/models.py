@@ -68,9 +68,9 @@ class Order(models.Model):
                               choices=STATUS_CHOICES, default='pending')
     user = models.ForeignKey(User, on_delete=models.SET_NULL,
                              null=True, blank=True)
-    first_name = models.CharField(max_length=50, blank=True)
-    last_name = models.CharField(max_length=50, blank=True)
-    email = models.EmailField()
+    guest_first_name = models.CharField(max_length=50, blank=True)
+    guest_last_name = models.CharField(max_length=50, blank=True)
+    guest_email = models.EmailField()
     shipping_info = models.ForeignKey(ShippingInfo, on_delete=models.CASCADE)
     grand_total = models.DecimalField(max_digits=10, decimal_places=2)
     grand_total_cents = models.PositiveIntegerField(default=0)

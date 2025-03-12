@@ -185,16 +185,20 @@ def get_initial_shipping_data(user):
 
 
 def process_shipping_info(form, user):
-    """Process and save shipping information"""
+    """Process and save shipping information for both users and guests"""
     shipping_info = form.save(commit=False)
-    print(f"User authenticated: {user.is_authenticated}")
-    if user.is_authenticated:
-        print("BLAAAAAA")
-        print(f"cleaned_data: {form.cleaned_data}")
+
+    # For authenticated users
+    if user and user.is_authenticated:
         shipping_info.user = user
         if form.cleaned_data.get("save_as_default"):
             shipping_info.is_default = True
-            print(f"BLAAAA {shipping_info.is_default}")
+
+    # For guests (no user association)
+    else:
+        shipping_info.user = None
+        shipping_info.is_default = False
+
     shipping_info.save()
     return shipping_info
 
@@ -250,16 +254,16 @@ def update_order_details(order, request, shipping_info, form):
         order.email = request.user.email
     else:
         # Use guest details from validated form
-        order.email = form.cleaned_data["email"]
-        order.first_name = form.cleaned_data["first_name"]
-        order.last_name = form.cleaned_data["last_name"]
+        order.guest_email = form.cleaned_data["guest_email"]
+        order.guest_first_name = form.cleaned_data["guest_first_name"]
+        order.guest_last_name = form.cleaned_data["guest_last_name"]
 
     order.save(update_fields=[
         "shipping_info",
         "user",
-        "email",
-        "first_name",
-        "last_name"
+        "guest_email",
+        "guest_first_name",
+        "guest_last_name"
     ])
 
 
