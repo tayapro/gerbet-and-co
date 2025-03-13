@@ -10,21 +10,20 @@
     <div class="col-md-7">
         <form method="POST" action="{% url 'checkout' %}" id="checkout-form" novalidate>
             {% csrf_token %}
-        
             {% if form.errors %}
-            <div class="alert alert-danger">
-                <h4>Form Errors:</h4>
-                <ul>
-                {% for field in form %}
-                    {% if field.errors %}
-                        <li>{{ field.label }}: {{ field.errors|striptags }}</li>
-                    {% endif %}
-                {% endfor %}
-                {% for error in form.non_field_errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-                </ul>
-            </div>
+                <div class="alert alert-danger" id="form-errors">
+                    <h4>Form Errors:</h4>
+                    <ul>
+                    {% for field in form %}
+                        {% if field.errors %}
+                            <li>{{ field.label }}: {{ field.errors|striptags }}</li>
+                        {% endif %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
             {% endif %}
 
 
@@ -41,57 +40,30 @@
                                 Use my default address
                             </label>
                         </div>
-        
-                        {% if form.use_default.value %}
-                            <div id="default-address-preview" 
-                                style="display: block">
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <p><strong>Phone number: </strong>{{ default_address.phone_number }}</p>
-                                        <strong>Street address 1: </strong>{{ default_address.street_address1 }}</p>
-                                        <strong>Street address 2: </strong>{{ default_address.street_address2 }}</p>
-                                        <strong>Town or city: </strong>{{ default_address.town_or_city }}</p>
-                                        <strong>County: </strong>{{ default_address.county }}</p>
-                                        <strong>Postcode: </strong>{{ default_address.postcode }}</p>
-                                        <strong>Country: </strong>{{ default_address.country }}</p>
+                        <div id="default-address-preview" 
+                            style="display: block">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <p><strong>Phone number: </strong>{{ default_address.phone_number }}</p>
+                                    <strong>Street address 1: </strong>{{ default_address.street_address1 }}</p>
+                                    <strong>Street address 2: </strong>{{ default_address.street_address2 }}</p>
+                                    <strong>Town or city: </strong>{{ default_address.town_or_city }}</p>
+                                    <strong>County: </strong>{{ default_address.county }}</p>
+                                    <strong>Postcode: </strong>{{ default_address.postcode }}</p>
+                                    <strong>Country: </strong>{{ default_address.country }}</p>
 
-                                    </div>
                                 </div>
                             </div>
-                        {% else %}
-                            {{ form.phone_number|as_crispy_field }}
-                            {{ form.street_address1|as_crispy_field }}
-                            {{ form.street_address2|as_crispy_field }}
-                            {{ form.town_or_city|as_crispy_field }}
-                            {{ form.county|as_crispy_field }}
-                            {{ form.postcode|as_crispy_field }}
-                            {{ form.country|as_crispy_field }}
-                        {% endif %}
+                        </div>
                     {% endif %}
 
                     <div id="address-fields" 
                          style="display: {% if form.use_default.value and default_address %}none{% else %}block{% endif %}">
-                         {% if not user.is_authenticated %}
-                        <div class="row">
-                            <div class="col-md-6">
-                                {{ form.guest_first_name|as_crispy_field }}
-                            </div>
-                            <div class="col-md-6">
-                                {{ form.guest_last_name|as_crispy_field }}
-                            </div>
-                            <div class="col-md-6">
-                                {{ form.guest_email|as_crispy_field }}
-                            </div>
-                        </div>
-                         {% endif %}
-                         
-                        {{ form.phone_number|as_crispy_field }}
-                        {{ form.street_address1|as_crispy_field }}
-                        {{ form.street_address2|as_crispy_field }}
-                        {{ form.town_or_city|as_crispy_field }}
-                        {{ form.county|as_crispy_field }}
-                        {{ form.postcode|as_crispy_field }}
-                        {{ form.country|as_crispy_field }}
+                         {% for field in form %}
+                            {% if field.name != "use_default" and field.name != "save_as_default" %}
+                                {{ field|as_crispy_field }}
+                            {% endif %}
+                        {% endfor %}
 
                         {% if user.is_authenticated %}
                             <input type="hidden" name="save_as_default" value="false">
@@ -186,6 +158,28 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById("checkout-form");
+            
+            if (!form) return;
+        
+            form.addEventListener("input", function (event) {
+                const field = event.target;
+        
+                if (field.classList.contains("is-invalid")) {
+                    field.classList.remove("is-invalid");
+                }
+        
+                const errorMessage = field.nextElementSibling;
+                if (errorMessage && errorMessage.classList.contains("invalid-feedback")) {
+                    errorMessage.style.display = "none"; // Hide error message
+                }
+
+                const formErrors = document.getElementById("form-errors");
+                if (formErrors) {
+                    formErrors.remove();
+                }
+            });
+
             const useDefaultCheckbox = document.getElementById("{{ form.use_default.id_for_label }}")
             const saveAsDefaultCheckbox = document.getElementById("{{ form.save_as_default.id_for_label }}")
             const addressFields = document.getElementById("address-fields")
@@ -209,12 +203,35 @@
                 }
             }
         
+            // Initial toggle based on checkbox state
+            toggleFields(useDefaultCheckbox.checked)
+
             useDefaultCheckbox.addEventListener("change", (e) => {
                 toggleFields(e.target.checked)
             })
-        
-            // Initial toggle based on checkbox state
-            toggleFields(useDefaultCheckbox.checked)
         })
+
+        document.getElementById("checkout-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            const clientSecret = document.getElementById("id_client_secret").textContent;
+        
+            console.log("Initiating Stripe payment with clientSecret:", clientSecret);
+        
+            const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                payment_method: { card: cardElement }
+            });
+        
+            if (error) {
+                console.error("Stripe Error:", error);
+                document.getElementById("card-errors").textContent = error.message;
+            } else if (paymentIntent.status === "succeeded") {
+                console.log("Payment successful:", paymentIntent);
+                document.getElementById("checkout-form").submit();
+            } else {
+                console.error("Unexpected payment status:", paymentIntent.status);
+            }
+        });        
+        
     </script> 
 {% endblock %}

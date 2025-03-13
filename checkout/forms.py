@@ -49,6 +49,28 @@ class ShippingInfoForm(forms.ModelForm):
             del self.fields["save_as_default"]
             del self.fields["use_default"]
 
+        # Define the exact order of fields
+        field_order = [
+            "use_default",  # Only present for authenticated users
+            "guest_first_name",  # Only present for guests
+            "guest_last_name",
+            "guest_email",
+            "phone_number",
+            "street_address1",
+            "street_address2",
+            "town_or_city",
+            "county",
+            "postcode",
+            "country",
+            "save_as_default"
+        ]
+
+        self.fields = {
+            key: self.fields[key]
+            for key in field_order
+            if key in self.fields
+        }
+
     def clean(self):
         cleaned_data = super().clean()
         if not self.user or not self.user.is_authenticated:
@@ -73,7 +95,6 @@ class ShippingInfoForm(forms.ModelForm):
                 "phone_number",
                 "street_address1",
                 "town_or_city",
-                "postcode",
                 "country"
             ]
             for field in required_fields:

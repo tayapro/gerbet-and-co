@@ -240,16 +240,15 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 PASSWORD_RESET_TIMEOUT = 3600  # 1 hour in seconds
 
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {message}',
-            'style': '{',
-        },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "detailed": {
+            "format": (
+                "%(asctime)s [%(levelname)s] %(filename)s:%(lineno)d - "
+                "%(message)s"
+            ),
+            "datefmt": "%Y-%m-%d %H:%M:%S",
         },
     },
     'handlers': {
@@ -258,22 +257,27 @@ LOGGING = {
             'formatter': 'verbose',
             'level': 'DEBUG',
         },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'stripe_debug.log',
+        },
     },
     'loggers': {
         'django': {
-            'handlers': ['console'],
+            'handlers': ['file'],
             'level': 'INFO',
-            'propagate': False,
+            'propagate': True,
         },
         'checkout': {
-            'handlers': ['console'],
+            'handlers': ['file'],
             'level': 'DEBUG',
             'propagate': False,
         },
         'stripe': {
-            'handlers': ['console'],
+            'handlers': ['file'],
             'level': 'INFO',
-            'propagate': False,
+            'propagate': True,
         },
     },
     'root': {

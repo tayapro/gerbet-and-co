@@ -1,5 +1,6 @@
 import uuid
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
 from django_countries.fields import CountryField
 
@@ -100,6 +101,13 @@ class Order(models.Model):
         else:
             name = "Guest User"
         return f"Order {self.order_id} - {name}, email {self.email}"
+
+    def clean(self):
+        """Ensure either user or guest data exists"""
+        if not self.user and not self.guest_email:
+            raise ValidationError("Email required for guest orders")
+        if self.user and self.guest_email:
+            raise ValidationError("Registered users can't have guest email")
 
     class Meta:
         indexes = [

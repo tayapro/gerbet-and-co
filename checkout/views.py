@@ -146,6 +146,15 @@ def handle_checkout_post(request, bag, order_id, currency):
         return handle_invalid_form(request, form, currency)
 
     try:
+        # Ensure it passes validation again
+        if not form.is_valid():
+            print("BLAAAAAA")
+            logger.error("Form validation failed again after correction: %s",
+                         form.errors)
+            # messages.error(request, "There was an issue
+            #  with your address details.")
+            return redirect("checkout")
+
         shipping_info = process_shipping_info(form, request.user)
 
         # Update order with shipping info
@@ -292,6 +301,7 @@ def finalize_order(request, bag, order, currency):
         )
         intent = stripe.PaymentIntent.retrieve(order.stripe_pid)
         logger.debug(f"PaymentIntent status: {intent.status}")
+        logger.debug(f"Retrieved Stripe PaymentIntent: {intent}")
 
         if intent.status in {"requires_payment_method",
                              "requires_confirmation", "requires_action"}:
@@ -317,6 +327,11 @@ def finalize_order(request, bag, order, currency):
         )
         messages.error(request, f"Payment not successful: {intent.status}")
         return redirect("checkout")
+
+    except stripe.error.CardError as e:
+        err = e.json_body.get("error", {})
+        logger.error(f"Stripe Card Error: {err}")
+        messages.error(request, f"Card Error: {err.get('message')}")
 
     except Exception as e:
         logger.error(

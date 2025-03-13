@@ -1,0 +1,17 @@
+Watching for file changes with StatReloader
+"GET /products/?next= HTTP/1.1" 200 10154
+"GET /bag/ HTTP/1.1" 200 9534
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 29889
+Checkout POST - User: stipaxa1, Authenticated: True, Use Default: False
+Initial Order State - ID: 391, User: None, Guest Email: 
+Form validation failed with errors:
+Field 'town_or_city': This field is required.
+Field 'country': This field is required.
+Field '__all__': town_or_city
+message='Request to Stripe api' method=get url=https://api.stripe.com/v1/payment_intents/pi_3R2JGAKs0E3e1wm72g9XEUYl
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents/pi_3R2JGAKs0E3e1wm72g9XEUYl response_code=200
+"POST /checkout/ HTTP/1.1" 200 31380
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/gerbet_and_co/settings.py changed, reloading.
