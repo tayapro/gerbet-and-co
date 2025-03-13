@@ -99,15 +99,29 @@ def handle_checkout_get(request, stripe_public_key, bag_total, delivery_cost,
 def handle_checkout_post(request, bag, order_id, currency):
     """Handle form submission"""
     use_default = request.POST.get("use_default") == "on"
+    logger.info(
+        f"Checkout POST - User: {request.user}, "
+        f"Authenticated: {request.user.is_authenticated}, "
+        f"Use Default: {use_default}"
+    )
 
     order = get_object_or_404(Order, id=order_id)
+    logger.debug(
+        f"Initial Order State - ID: {order.id}, "
+        f"User: {order.user_id}, Guest Email: {order.guest_email}"
+    )
 
     if request.user.is_authenticated and use_default:
+        logger.info("Processing default address for authenticated user")
         default_address = UserContactInfo.objects.filter(
             user=request.user, is_default=True
         ).first()
 
         if default_address:
+            logger.debug(
+                f"Using default address - ID: {default_address.id}, "
+                f"Email: {default_address.user.email}"
+            )
             shipping_info = ShippingInfo.objects.create(
                 user=request.user,
                 phone_number=default_address.phone_number,
@@ -120,8 +134,9 @@ def handle_checkout_post(request, bag, order_id, currency):
                 is_default=True
             )
 
+            order.user = request.user
             order.shipping_info = shipping_info
-            order.save()
+            order.save(update_fields=["user", "shipping_info"])
 
             return finalize_order(request, bag, order, currency)
 
@@ -251,7 +266,8 @@ def update_order_details(order, request, shipping_info, form):
     if request.user.is_authenticated:
         # Use authenticated user details
         order.user = request.user
-        order.email = request.user.email
+
+        logger.error(f"ORDER: update_order_details: {order.email}")
     else:
         # Use guest details from validated form
         order.guest_email = form.cleaned_data["guest_email"]
@@ -270,21 +286,45 @@ def update_order_details(order, request, shipping_info, form):
 def finalize_order(request, bag, order, currency):
     """Finalize order processing"""
     try:
+        logger.info(
+            f"Finalizing order {order.id} - User: {order.user_id}, "
+            f"Guest Email: {order.guest_email}, Status: {order.status}"
+        )
         intent = stripe.PaymentIntent.retrieve(order.stripe_pid)
+        logger.debug(f"PaymentIntent status: {intent.status}")
 
         if intent.status in {"requires_payment_method",
                              "requires_confirmation", "requires_action"}:
+            logger.info("Confirming payment intent")
             intent = stripe.PaymentIntent.confirm(order.stripe_pid)
+            logger.debug(f"Post-confirmation status: {intent.status}")
 
         if intent.status == "succeeded":
+            logger.info("Payment succeeded, creating order items")
             create_order_items(bag, order)
             bag.clear()
+            logger.debug(
+                f"Updated Order State - ID: {order.id}, "
+                f"User: {order.user_id}, Guest Email: {order.guest_email}, "
+                f"Shipping Info: {order.shipping_info_id}"
+            )
+            logger.info(f"Order {order.id} finalized successfully")
             return redirect(reverse("checkout_success", args=[order.order_id]))
 
+        logger.warning(
+            f"Payment not successful - Status: {intent.status}, "
+            f"Last Payment Error: {intent.last_payment_error}"
+        )
         messages.error(request, f"Payment not successful: {intent.status}")
         return redirect("checkout")
 
     except Exception as e:
+        logger.error(
+            f"Order processing failed - Order: {order.id}, "
+            f"User: {order.user_id}, Guest Email: {order.guest_email}, "
+            f"Error: {str(e)}",
+            exc_info=True
+        )
         logger.error(f"Order processing failed: {e}")
         messages.error(request, f"Order processing failed: {e}")
         return redirect("checkout")

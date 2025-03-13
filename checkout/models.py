@@ -90,6 +90,10 @@ class Order(models.Model):
         self.grand_total_cents = int(self.grand_total * 100)
         super().save(*args, **kwargs)
 
+    @property
+    def email(self):
+        return self.user.email if self.user else self.guest_email
+
     def __str__(self):
         if self.user:
             name = f"{self.user.first_name} {self.user.last_name}"

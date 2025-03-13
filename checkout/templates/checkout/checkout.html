@@ -6,6 +6,7 @@
 {% block content %}
 <div class="row">
     <h2 class="text-center my-5">Checkout</h2>
+
     <div class="col-md-7">
         <form method="POST" action="{% url 'checkout' %}" id="checkout-form" novalidate>
             {% csrf_token %}

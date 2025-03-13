@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import (
     PasswordChangeView,
     PasswordResetConfirmView)
+from django.db import transaction
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.urls import reverse, reverse_lazy
@@ -232,10 +233,19 @@ def address_delete(request, id):
 
 @login_required
 @require_POST
+@transaction.atomic
 def set_default_address(request, id):
+    # Retrieve and reset all addresses for the user
+    UserContactInfo.objects.filter(
+        user=request.user, is_default=True
+    ).update(is_default=False)
+
+    # Set the selected address as the default
     address = get_object_or_404(UserContactInfo, id=id, user=request.user)
     address.is_default = True
     address.save()
+    
+    # Send success message and redirect
     messages.success(request, "Default shipping address updated")
     return redirect(f"{reverse('account')}?tab={Tabs.ADDRESS_BOOK}")
 

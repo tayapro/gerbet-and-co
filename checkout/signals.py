@@ -17,7 +17,6 @@ def sync_profile_address(sender, instance, created, **kwargs):
     - All required fields are populated
     """
     logger.info("Signal triggered for ShippingInfo.")
-    print("Signal triggered!")
 
     # Ensure all required fields are present
     required_fields = [
@@ -47,7 +46,6 @@ def sync_profile_address(sender, instance, created, **kwargs):
         UserContactInfo.objects.filter(
             user=instance.user
         ).exclude(id=new_address.id).update(is_default=False)
-        print("Updated other addresses to is_default=False")
     else:
         if not all(required_fields):
             print("Signal ignored: Missing required fields.")

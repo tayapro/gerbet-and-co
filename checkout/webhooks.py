@@ -7,7 +7,8 @@ import logging
 import time
 
 from .models import Order, WebhookEvent
-from .utils import send_order_confirmation_email, send_payment_failure_email
+from .utils import (send_order_confirmation_email, send_payment_failure_email,
+                    get_email)
 
 import datetime
 
@@ -28,6 +29,69 @@ def get_order_with_retry(payment_intent_id):
 
 
 def handle_payment_event(payment_intent, event_type):
+    try:
+        order = get_order_with_retry(payment_intent.id)
+
+        if order.user_id:
+            # Authenticated user order
+            if not order.user or not order.user.email:
+                logger.error(f"User {order.user_id} has no email")
+                raise ValueError("User account missing email")
+        else:
+            # Guest order
+            if not order.guest_email:
+                logger.error(f"Guest order {order.id} missing email")
+                raise ValueError("Guest email required")
+
+        logger.info(
+            f"Handling {event_type} for order {order.id} - "
+            f"User: {order.user_id}, Guest Email: {order.guest_email}, "
+            f"Status: {order.status}, Amount: {order.grand_total}"
+        )
+
+        logger.debug(f"PaymentIntent metadata: {payment_intent.metadata}")
+
+        if event_type == "payment_intent.succeeded":
+            logger.debug(f"Email check - User exists: {bool(order.user)}, "
+                         f"Guest email: {order.guest_email}")
+            order.status = "complete"
+
+            logger.info(f"WEBHOOK EMAIL: {order.email}")
+
+            if not order.email:
+                logger.error(
+                    f"Missing email details - User: {order.user}, "
+                    f"Guest Email: {order.guest_email}"
+                )
+                raise ValueError("Missing email for order confirmation")
+
+            logger.info(f"Processing payment for order {order.id} to"
+                        f" email {order.email}")
+            send_order_confirmation_email(order)
+
+        elif event_type == "payment_intent.payment_failed":
+            logger.warning(f"Payment failed for order {order.id}")
+            order.status = "failed"
+            if order.user or hasattr(order, 'guest_email'):
+                send_payment_failure_email(
+                    order.user.email if order.user else order.guest_email,
+                    order
+                )
+
+        order.save()
+        return True
+    except Exception as e:
+        logger.error(
+            f"Payment handling failed - PI: {payment_intent.id}, "
+            f"Amount: {payment_intent.amount}, "
+            f"Currency: {payment_intent.currency}, "
+            f"Error: {str(e)}",
+            exc_info=True
+        )
+        raise
+
+
+def handle_payment_event_old(payment_intent, event_type):
     try:
         order = get_order_with_retry(payment_intent.id)
 

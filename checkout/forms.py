@@ -78,7 +78,9 @@ class ShippingInfoForm(forms.ModelForm):
             ]
             for field in required_fields:
                 if not cleaned_data.get(field):
-                    raise forms.ValidationError(field, f"{self.fields[field].label} is required.")
+                    raise forms.ValidationError(
+                        field, f"{self.fields[field].label} is required."
+                    )
 
         return cleaned_data
 
