@@ -16,17 +16,7 @@ def get_checkout_settings():
     return settings
 
 
-def get_email(order):
-    # Get email from appropriate source
-    return (
-        order.user.email
-        if order.user
-        else getattr(order, 'guest_email', None)
-    )
-
-
 def send_order_confirmation_email(order):
-    # recipient_email = get_email(order)
     recipient = [order.email]
     subject = f"Gerbet & Co Order Confirmation - #{order.order_id}"
     email_from = settings.EMAIL_HOST_USER

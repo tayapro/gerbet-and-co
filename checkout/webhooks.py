@@ -7,10 +7,7 @@ import logging
 import time
 
 from .models import Order, WebhookEvent
-from .utils import (send_order_confirmation_email, send_payment_failure_email,
-                    get_email)
-
-import datetime
+from .utils import send_order_confirmation_email, send_payment_failure_email
 
 
 logger = logging.getLogger(__name__)
@@ -91,38 +88,8 @@ def handle_payment_event(payment_intent, event_type):
         raise
 
 
-def handle_payment_event_old(payment_intent, event_type):
-    try:
-        order = get_order_with_retry(payment_intent.id)
-
-        now = datetime.datetime.now()
-        print(f"order from handle_payment_event: {order}, time: {now.time()}")
-
-        if event_type == "payment_intent.succeeded":
-            order.status = "complete"
-            now = datetime.datetime.now()
-            print(f"order_email from handle_payment_event: {order.email}, "
-                  f"time: {now.time()}")
-            logger.info(f"Processing payment for order {order.order_id}")
-            send_order_confirmation_email(order)
-
-        elif event_type == "payment_intent.payment_failed":
-            logger.warning(f"Payment failed for order {order.order_id}")
-            order.status = "failed"
-            send_payment_failure_email(order)
-
-        order.save()
-
-        return True
-
-    except Order.DoesNotExist:
-        logger.error(f"Order missing for PI {payment_intent.id}.")
-        raise
-
-
 @csrf_exempt
 def stripe_webhook(request):
-    print("\n=== WEBHOOK TRIGGERED ===")
     logger.warning("Webhook endpoint accessed - raw headers: %s",
                    dict(request.headers))
     logger.warning("Request body length: %d", len(request.body))
