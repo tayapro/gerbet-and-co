@@ -8,7 +8,7 @@
     <h2 class="text-center my-5">Checkout</h2>
 
     <div class="col-md-7">
-        <form method="POST" action="{% url 'checkout' %}" id="checkout-form" novalidate>
+        <form method="POST" action="{% url 'checkout' %}" id="checkout-form" novalidate class="mx-auto w-100" style="max-width: 550px;">
             {% csrf_token %}
             {% if form.errors %}
                 <div class="alert alert-danger" id="form-errors">
@@ -29,12 +29,12 @@
 
             <div class="card mb-4">
                 <div class="card-header">
-                    <h4 class="m-1">Shipping Information:</h4>
+                    <h4 class="m-1 text-center">Delivery Details</h4>
                 </div>
         
-                <div class="card-body m-4">
+                <div class="card-body m-2">
                     {% if user.is_authenticated and default_address %}
-                        <div class="form-check mb-3">
+                        <div class="form-check mb-3 ps-0">
                             {{ form.use_default }}
                             <label class="form-check-label" for="{{ form.use_default.id_for_label }}">
                                 Use my default address
@@ -67,7 +67,7 @@
 
                         {% if user.is_authenticated %}
                             <input type="hidden" name="save_as_default" value="false">
-                            <div class="form-check mb-3">
+                            <div class="form-check mb-3 ps-0">
                                 <input type="checkbox" name="save_as_default"
                                 id="{{ form.save_as_default.id_for_label }}"
                                 value="true">
@@ -81,7 +81,7 @@
             <!-- Payment Section -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h4 class="m-4">Payment Details:</h4>
+                    <h4 class="m-1 text-center">Payment Details</h4>
                 </div>
                 <div class="card-body m-4">
                     {% if user.is_authenticated %}
@@ -106,7 +106,7 @@
                 <label class="form-check-label" for="confirm-order-checkbox">
                     I confirm my order details.
                 </label>
-            </div>    
+            </div>
         
             <button type="submit" class="btn btn-primary w-100 mt-3 mb-5" id="submit-button" disabled>
                 Proceed to Payment
@@ -115,9 +115,9 @@
     </div>
 
     <div class="col-md-5">
-        <div class="card border-secondary">
-            <div class="card-header bg-secondary text-white">
-                <h5 class="mb-0">Order Summary</h5>
+        <div class="card mx-auto w-100" style="max-width: 550px;">
+            <div class="card-header">
+                <h4 class="m-1 text-center">Order Summary</h5>
             </div>
             <div class="card-body">
                 <ul class="list-group mb-3">
@@ -132,8 +132,8 @@
                     {% endfor %}
                 </ul>
 
-                <p><strong>Subtotal: </strong> €{{bag_total|floatformat:2 }}</p>
-                <p>
+                <p class="ms-1"><strong>Subtotal: </strong> €{{bag_total|floatformat:2 }}</p>
+                <p class="ms-1">
                     <strong>Delivery: </strong>
                     {% if delivery_cost == 0 %}
                         Free
@@ -142,7 +142,13 @@
                     {% endif %}
                 </p>
                 <hr>
-                <p class="h5"><strong>Total: </strong> €{{grand_total|floatformat:2 }}</p>
+                <div class="d-flex justify-content-around align-items-center">
+                    <p class="h5 mb-0"><strong>Total: </strong> €{{grand_total|floatformat:2 }}</p>
+
+                    <a href="{% url 'view_bag' %}" type="button" class="btn btn-outline-secondary">
+                        <span class="font-weight-bold">Adjust Bag</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

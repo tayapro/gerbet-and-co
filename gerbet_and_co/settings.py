@@ -252,16 +252,16 @@ LOGGING = {
         },
     },
     'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
-            'level': 'DEBUG',
-        },
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'stripe_debug.log',
-        },
+            'console': {
+                'class': 'logging.StreamHandler',
+                'formatter': 'detailed',
+                'level': 'DEBUG',
+            },
+            'file': {
+                'level': 'DEBUG',
+                'class': 'logging.FileHandler',
+                'filename': 'stripe_debug.log',
+            },
     },
     'loggers': {
         'django': {

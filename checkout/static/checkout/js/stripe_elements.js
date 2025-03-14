@@ -89,7 +89,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         email: email,
                         address: {
                             line1: form.street_address1.value.trim(),
+                            line2: form.street_address2.value.trim(),
                             city: form.town_or_city.value.trim(),
+                            state: form.state.value.trim(),
+                            postcode: form.postcode.value.trim(),
                             country: form.country.value.trim(),
                         },
                     },

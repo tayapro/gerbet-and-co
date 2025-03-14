@@ -15,3 +15,191 @@ message='Request to Stripe api' method=get url=https://api.stripe.com/v1/payment
 message='Stripe API response' path=https://api.stripe.com/v1/payment_intents/pi_3R2JGAKs0E3e1wm72g9XEUYl response_code=200
 "POST /checkout/ HTTP/1.1" 200 31380
 /Users/taisiasimakova/code/code institute course/gerbet-and-co/gerbet_and_co/settings.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/gerbet_and_co/settings.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/gerbet_and_co/settings.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/gerbet_and_co/settings.py changed, reloading.
+Watching for file changes with StatReloader
+"GET / HTTP/1.1" 200 5081
+"GET /static/css/base.css HTTP/1.1" 304 0
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+"GET /bag/ HTTP/1.1" 200 9534
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30152
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+"GET /bag/ HTTP/1.1" 200 9534
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30152
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/gerbet_and_co/settings.py changed, reloading.
+Watching for file changes with StatReloader
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30166
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30160
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+"GET /static/css/base.css HTTP/1.1" 200 1638
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30184
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30237
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+"GET /static/css/base.css HTTP/1.1" 200 1638
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30257
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30180
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30156
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30139
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30138
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30164
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30164
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+"GET /static/css/base.css HTTP/1.1" 200 1638
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30182
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30194
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30314
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+"GET /static/css/base.css HTTP/1.1" 200 1638
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30275
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30282
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30282
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30292
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 3966
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
