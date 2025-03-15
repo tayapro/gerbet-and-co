@@ -6,19 +6,71 @@ function getFullName(form) {
         const lastName = form.guest_last_name.value.trim()
         return `${firstName} ${lastName}`.trim()
     } else {
-        return form.full_name.value.trim()
+        return form.full_name ? form.full_name.value.trim() : ''
     }
+}
+
+function validateForm() {
+    let isValid = true
+    const requiredFields = [
+        'phone_number',
+        'street_address1',
+        'town_or_city',
+        'postcode',
+        'country',
+    ]
+
+    requiredFields.forEach((fieldName) => {
+        const field = document.getElementById(`id_${fieldName}`)
+        if (!field || field.value.trim() === '') {
+            field.classList.add('is-invalid')
+            isValid = false
+        } else {
+            field.classList.remove('is-invalid')
+        }
+    })
+
+    // Guest users validation
+    const guestFields = ['guest_first_name', 'guest_last_name', 'guest_email']
+    if (document.getElementById('id_guest_first_name')) {
+        guestFields.forEach((fieldName) => {
+            const field = document.getElementById(`id_${fieldName}`)
+            if (!field || field.value.trim() === '') {
+                field.classList.add('is-invalid')
+                isValid = false
+            } else {
+                field.classList.remove('is-invalid')
+            }
+        })
+    }
+
+    return isValid
+}
+
+function handleError(cardErrors, error) {
+    cardErrors.textContent = error.message
 }
 
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('checkout-form')
+    const submitButton = document.getElementById('submit-button')
+    const cardErrors = document.getElementById('card-errors')
+
+    if (!form || !submitButton || !cardErrors) return
+
+    const orderId = document.getElementById('order_id').value
+    if (!orderId) {
+        document.getElementById('card-errors').textContent =
+            'Missing order reference'
+        return
+    }
+
     const stripePublicKey = JSON.parse(
         document.getElementById('id_stripe_public_key').textContent
     )
     const clientSecret = JSON.parse(
         document.getElementById('id_client_secret').textContent
     )
-
     const stripe = window.Stripe(stripePublicKey)
 
     const currency = document.getElementById('currency').value
@@ -50,93 +102,75 @@ document.addEventListener('DOMContentLoaded', function () {
     })
     paymentElement.mount('#payment-element')
 
-    const orderId = document.getElementById('order_id').value
-    if (!orderId) {
-        document.getElementById('card-errors').textContent =
-            'Missing order reference'
-        return
-    }
-
-    const successUrl = window.location.origin + `/checkout/success/${orderId}/`
-
     form.addEventListener('submit', async (event) => {
         event.preventDefault()
-        const submitButton = document.getElementById('submit-button')
         submitButton.disabled = true
 
-        const isGuest = document.getElementById('id_guest_first_name') !== null
-
-        const emailField = isGuest ? 'guest_email' : 'email'
-        const email = form[emailField]?.value.trim() || ''
-
-        const name = getFullName(form)
-
-        // Validate elements first
-        const { error: elementsError } = await elements.submit()
-        if (elementsError) {
-            handleError(elementsError)
+        if (!validateForm()) {
+            cardErrors.textContent = 'Please fix the errors before proceeding.'
+            submitButton.disabled = false
             return
         }
 
-        // Cache checkout data in Django
-        const postData = new FormData()
-        postData.append('order_id', document.getElementById('order_id').value)
-        postData.append(
-            'save_info',
-            document.getElementById('id-save-info')?.checked
-        )
-
         try {
-            await fetch('/checkout/cache_checkout_data/', {
+            // Call elements.submit() to validate inputs
+            const { error: validationError } = await elements.submit()
+            if (validationError) {
+                handleError(cardErrors, validationError)
+                submitButton.disabled = false
+                return
+            }
+
+            // Retrieve user full name and email
+            const name = getFullName(form)
+            const emailField =
+                document.getElementById('id_guest_email') ||
+                document.getElementById('id_email')
+            const email = emailField ? emailField.value.trim() : ''
+
+            // Cache checkout data in Django session
+            const postData = new FormData()
+            postData.append('order_id', orderId)
+            postData.append(
+                'save_info',
+                document.getElementById('id-save-info')?.checked
+            )
+
+            const resp = await fetch('/checkout/cache_checkout_data/', {
                 method: 'POST',
                 body: postData,
             })
 
-            const { paymentIntent, error } = await stripe.confirmPayment({
-                elements,
-                clientSecret,
-                confirmParams: {
-                    return_url: successUrl,
-                    payment_method_data: {
-                        billing_details: {
-                            name: name,
-                            email: email,
-                            //         address: {
-                            //             line1: form.street_address1.value.trim(),
-                            //             line2: form.street_address2.value.trim(),
-                            //             city: form.town_or_city.value.trim(),
-                            //             state: form.county.value.trim(),
-                            //             postal_code: form.postcode.value.trim(),
-                            //             country: form.country.value.trim(),
-                            //         },
+            if (resp.status === 200) {
+                // Confirm Stripe payment
+                const { paymentIntent, error } = await stripe.confirmPayment({
+                    elements,
+                    clientSecret,
+                    confirmParams: {
+                        return_url:
+                            window.location.origin +
+                            `/checkout/success/${orderId}/`,
+                        payment_method_data: {
+                            billing_details: {
+                                name: name,
+                                email: email,
+                            },
                         },
                     },
-                },
-                redirect: 'if_required',
-            })
+                    redirect: 'if_required',
+                })
 
-            if (error) {
-                handleError(error)
-            } else {
-                // Handle server-side confirmation
-                const paymentIntentId = document.createElement('input')
-                paymentIntentId.type = 'hidden'
-                paymentIntentId.name = 'payment_intent_id'
-                paymentIntentId.value = paymentIntent.id
-                form.appendChild(paymentIntentId)
-
-                form.submit()
+                if (error) {
+                    handleError(cardErrors, error)
+                    submitButton.disabled = false
+                } else {
+                    form.submit()
+                }
             }
         } catch (err) {
-            console.error('Error caching checkout data:', err)
-            handleError(err)
+            console.error('Error processing payment:', err)
+            handleError(cardErrors, err)
+            submitButton.disabled = false
         }
-
-        submitButton.disabled = false
     })
-
-    function handleError(error) {
-        const errorElement = document.getElementById('card-errors')
-        errorElement.textContent = error.message
-    }
 })

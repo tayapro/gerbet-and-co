@@ -120,6 +120,10 @@ def handle_checkout_post(request, bag, order_id, currency):
         f"User: {order.user_id}, Guest Email: {order.guest_email}"
     )
 
+    if not order:
+        messages.error(request, "Missing order reference.")
+        return redirect("checkout")
+
     if request.user.is_authenticated and use_default:
         logger.info("Processing default address for authenticated user")
         default_address = UserContactInfo.objects.filter(
@@ -151,28 +155,36 @@ def handle_checkout_post(request, bag, order_id, currency):
 
     form = ShippingInfoForm(request.POST, user=request.user)
 
-    if not form.is_valid():
-        return handle_invalid_form(request, form, currency)
+    # if not form.is_valid():
+    #     return handle_invalid_form(request, form, currency)
 
-    try:
-        # Ensure it passes validation again
-        if not form.is_valid():
-            logger.error("Form validation failed again after correction: %s",
-                         form.errors)
-            messages.error(request, "There was an issue"
-                           "with your address details.")
-            return redirect("checkout")
+    if form.is_valid():
+        try:
+            # # Ensure it passes validation again
+            # if not form.is_valid():
+            #     logger.error("Form validation failed again after correction: %s",
+            #                  form.errors)
+            #     messages.error(request, "There was an issue"
+            #                    "with your address details.")
+            #     return redirect("checkout")
 
-        shipping_info = process_shipping_info(form, request.user)
+            shipping_info = process_shipping_info(form, request.user)
 
-        # Update order with shipping info
-        update_order_details(order, request, shipping_info, form)
+            # Update order with shipping info
+            update_order_details(order, request, shipping_info, form)
 
-        # Process payment and finalize order
-        return finalize_order(request, bag, order)
+            # Finalize order
+            return finalize_order(request, bag, order)
 
-    except (Order.DoesNotExist, stripe.error.StripeError, Exception) as e:
-        return handle_checkout_error(request, e)
+        except (Order.DoesNotExist, stripe.error.StripeError, Exception) as e:
+            # return handle_checkout_error(request, e)
+            form.add_error(None, e)
+        return render(request, "checkout/checkout.html",
+                      {"form": form, "order": order})
+    else:
+        form.add_error(None, "please make changes.")
+        return render(request, "checkout/checkout.html",
+                      {"form": form, "order": order})
 
 
 # Helper functions
@@ -309,12 +321,6 @@ def finalize_order(request, bag, order):
         logger.debug(f"PaymentIntent status: {intent.status}")
         logger.debug(f"Retrieved Stripe PaymentIntent: {intent}")
 
-        if intent.status in {"requires_payment_method",
-                             "requires_confirmation", "requires_action"}:
-            logger.info("Confirming payment intent")
-            intent = stripe.PaymentIntent.confirm(order.stripe_pid)
-            logger.debug(f"Post-confirmation status: {intent.status}")
-
         if intent.status == "succeeded":
             logger.info("Payment succeeded, creating order items")
             create_order_items(bag, order)
@@ -332,7 +338,6 @@ def finalize_order(request, bag, order):
             f"Last Payment Error: {intent.last_payment_error}"
         )
         messages.error(request, f"Payment not successful: {intent.status}")
-        return redirect("checkout")
 
     except stripe.error.CardError as e:
         err = e.json_body.get("error", {})
@@ -348,7 +353,9 @@ def finalize_order(request, bag, order):
         )
         logger.error(f"Order processing failed: {e}")
         messages.error(request, f"Order processing failed: {e}")
-        return redirect("checkout")
+
+    return render(request, "checkout/checkout.html",
+                  {"order": order})
 
 
 def handle_invalid_form(request, form, currency):
@@ -382,14 +389,15 @@ def handle_invalid_form(request, form, currency):
             order_id=order_id
         )
 
-    except (Order.DoesNotExist, KeyError):
+    except (Order.DoesNotExist, KeyError) as e:
         # Fallback if order is missing
         context = {
             "form": form,
             "stripe_public_key": settings.STRIPE_PUBLIC_KEY,
             "currency": currency,
         }
-        messages.warning(request, "Your session has expired, please try again")
+        messages.warning(request, f"Invalid form error: {e}")
+        return redirect("checkout")
 
     return render(request, "checkout/checkout.html", context)
 
@@ -440,10 +448,6 @@ def cache_checkout_data(request):
         request.session.modified = True
         return JsonResponse({"success": True})
 
-    except Order.DoesNotExist:
-        messages.error(request, "error: Order not found")
-        return JsonResponse({"error": "Order not found"}, status=400)
-
     except Exception as e:
-        messages.error(request, f"error: {e}")
-        return JsonResponse({"error": str(e)}, status=500)
+        return JsonResponse({"Failed to cache checkout data, error": str(e)},
+                            status=500)

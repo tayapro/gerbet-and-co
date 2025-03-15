@@ -102,7 +102,7 @@
         
             <!-- Confirmation checkbox -->
             <div class="form-check mt-4">
-                <input type="checkbox" class="form-check-input" id="confirm-order-checkbox">
+                <input type="checkbox" class="form-check-input" id="confirm-order-checkbox" disabled>
                 <label class="form-check-label" for="confirm-order-checkbox">
                     I confirm my order details.
                 </label>
@@ -160,60 +160,147 @@
     {{ stripe_public_key|json_script:"id_stripe_public_key" }}
     {{ client_secret|json_script:"id_client_secret" }}
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        /*
+        document.addEventListener("DOMContentLoaded", function () {
             const form = document.getElementById("checkout-form");
-            
-            if (!form) return;
-        
             form.addEventListener("input", function (event) {
                 const field = event.target;
-        
-                if (field.classList.contains("is-invalid")) {
+            
+                // Remove "is-invalid" class when field becomes valid
+                if (field.classList.contains("is-invalid") && field.value.trim() !== "") {
                     field.classList.remove("is-invalid");
                 }
-        
+            
+                // Hide specific error message
                 const errorMessage = field.nextElementSibling;
                 if (errorMessage && errorMessage.classList.contains("invalid-feedback")) {
-                    errorMessage.style.display = "none"; // Hide error message
+                    errorMessage.style.display = "none";
                 }
-
+            
+                // Check the validity of all fields
+                const invalidFields = form.querySelectorAll(".is-invalid");
+                const submitButton = form.querySelector("button[type='submit']");
+                const confirmOrderCheckbox = form.getElementById("confirm-order-checkbox")
+            
+                if (form.checkValidity()) {
+                    // Enable the buttons
+                    submitButton.disabled = false
+                    confirmOrderCheckbox.disabled = false
+                } else {
+                    // Disable the buttons
+                    submitButton.disabled = true
+                    confirmOrderCheckbox.disabled = true
+                }
+            
+                // Remove global error message when all fields are valid
                 const formErrors = document.getElementById("form-errors");
-                if (formErrors) {
+                if (formErrors && invalidFields.length === 0) {
                     formErrors.remove();
+                }
+            });            
+        }); */
+
+        // Select all required fields in the form
+        const requiredFields = document.querySelectorAll("[required]");
+        const form = document.getElementById("checkout-form");
+
+        const firstField = requiredFields[0];
+
+        // Set focus to the first required field on page load
+        if (firstField) {
+            firstField.focus();
+        }
+
+        // Add event listeners to each required field
+        requiredFields.forEach((field) => {
+            // On blur (when the user leaves the field)
+            field.addEventListener("blur", () => {
+                if (field.value.trim() === "") {
+                    field.classList.add("is-invalid"); // Add error class
+                    showErrorMessage(field, `${field.getAttribute("name")} is required.`);
                 }
             });
 
-            const useDefaultCheckbox = document.getElementById("{{ form.use_default.id_for_label }}")
-            const saveAsDefaultCheckbox = document.getElementById("{{ form.save_as_default.id_for_label }}")
-            const addressFields = document.getElementById("address-fields")
-            const preview = document.getElementById("default-address-preview")
-        
-            if (!useDefaultCheckbox || !addressFields) return
-        
-            const toggleFields = (checked) => {
-                addressFields.style.display = checked ? "none" : "block"
-                preview.style.display = checked ? "block" : "none"
-                
-                // Clear fields when using default address
-                addressFields.querySelectorAll("input, select, textarea").forEach(field => {
-                    if (checked) field.value = ""
-                })
-        
-                // Reset save_as_default when using default address
-                if (saveAsDefaultCheckbox) {
-                    saveAsDefaultCheckbox.checked = false
-                    saveAsDefaultCheckbox.value = "false"
+            // On input (when the user types into the field)
+            field.addEventListener("input", () => {
+                if (field.value.trim() !== "") {
+                    field.classList.remove("is-invalid"); // Remove error class
+                    hideErrorMessage(field);
                 }
-            }
-        
-            // Initial toggle based on checkbox state
-            toggleFields(useDefaultCheckbox.checked)
+            });
+        });
 
-            useDefaultCheckbox.addEventListener("change", (e) => {
-                toggleFields(e.target.checked)
-            })
-        })
+        // Function to show an error message
+        function showErrorMessage(field, message) {
+            let errorMessage = field.nextElementSibling;
+            if (!errorMessage || !errorMessage.classList.contains("invalid-feedback")) {
+                errorMessage = document.createElement("div");
+                errorMessage.classList.add("invalid-feedback");
+                field.insertAdjacentElement("afterend", errorMessage);
+            }
+            errorMessage.textContent = message;
+            errorMessage.style.display = "block";
+        }
+
+        // Function to hide the error message
+        function hideErrorMessage(field) {
+            const errorMessage = field.nextElementSibling;
+            if (errorMessage && errorMessage.classList.contains("invalid-feedback")) {
+                errorMessage.style.display = "none";
+            }
+        }
+
+        /*
+        requiredFields.forEach((field) => {
+            field.addEventListener("input", (event) => {
+                console.log("BLAAAA")
+                // Check if the field is empty
+                if (field.value.trim() === "") {
+                    field.classList.add("is-invalid"); // Add an invalid class for styling
+                    showErrorMessage(field, `${field.getAttribute("name")} is required.`);
+                } else {
+                    field.classList.remove("is-invalid"); // Remove invalid class
+                    hideErrorMessage(field);
+                }
+
+                // Optionally check the overall form validity
+                toggleSubmitButton(form);
+            });
+        });
+
+        // Function to show an error message for a specific field
+        function showErrorMessage(field, message) {
+            let errorMessage = field.nextElementSibling;
+            if (!errorMessage || !errorMessage.classList.contains("invalid-feedback")) {
+                errorMessage = document.createElement("div");
+                errorMessage.classList.add("invalid-feedback");
+                field.insertAdjacentElement("afterend", errorMessage);
+            }
+            errorMessage.textContent = message;
+            errorMessage.style.display = "block";
+        }
+
+        // Function to hide the error message for a specific field
+        function hideErrorMessage(field) {
+            const errorMessage = field.nextElementSibling;
+            if (errorMessage && errorMessage.classList.contains("invalid-feedback")) {
+                errorMessage.style.display = "none";
+            }
+        }
+
+        // Disable or enable the submit button based on form validity
+        function toggleSubmitButton(form) {
+            const submitButton = form.querySelector("button[type='submit']");
+            const invalidFields = form.querySelectorAll(".is-invalid");
+            if (invalidFields.length === 0) {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+
+    */
     </script>
+    <script src="{% static "checkout/js/checkout_helpers.js" %}"></script>
     <script src="{% static "checkout/js/stripe_elements.js" %}"></script>
-    <script src="{% static "checkout/js/confirm_checkbox.js" %}"></script>
 {% endblock %}

@@ -22,7 +22,8 @@ def get_order_with_retry(payment_intent_id):
             if attempt < 5:
                 time.sleep(1)
 
-    raise Exception("Run out of attempts")
+    raise Order.DoesNotExist(f"Order with Stripe PID {payment_intent_id} "
+                             "not found after retries")
 
 
 def handle_payment_event(payment_intent, event_type):
@@ -102,7 +103,8 @@ def stripe_webhook(request):
         event = stripe.Webhook.construct_event(
             payload, sig_header, settings.STRIPE_WH_SECRET
         )
-    except (ValueError, stripe.error.SignatureVerificationError):
+    except (ValueError, stripe.error.SignatureVerificationError) as e:
+        logger.error(f"Webhook exception: {e}")
         return HttpResponse(status=400)
 
     if WebhookEvent.objects.filter(stripe_id=event.id).exists():
@@ -112,7 +114,7 @@ def stripe_webhook(request):
         WebhookEvent.objects.create(
             stripe_id=event.id,
             type=event.type,
-            data=dict(event)
+            data={"payment_intent": event.data.object.id}
         )
     except IntegrityError:
         logger.error(f"Duplicate event: {event.id}")

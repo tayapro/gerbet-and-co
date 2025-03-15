@@ -1,22 +1,52 @@
 from django import forms
+from django_countries.fields import CountryField
+from django_countries.widgets import CountrySelectWidget
+from django.core.validators import MinLengthValidator, EmailValidator
+
 from .models import Order, ShippingInfo
 
 
 class ShippingInfoForm(forms.ModelForm):
     guest_first_name = forms.CharField(
         required=False,
-        label="First Name",
-        help_text="Required for guest users"
+        validators=[MinLengthValidator(2)],
+        widget=forms.TextInput(),
     )
     guest_last_name = forms.CharField(
         required=False,
-        label="Last Name",
-        help_text="Required for guest users"
+        validators=[MinLengthValidator(2)],
+        widget=forms.TextInput(),
     )
-    guest_email = forms.CharField(
+    guest_email = forms.EmailField(
         required=False,
-        label="Email",
-        help_text="Required for guest users"
+        validators=[EmailValidator()],
+        widget=forms.EmailInput(),
+    )
+    phone_number = forms.CharField(
+        required=True,
+        validators=[MinLengthValidator(10)],
+        widget=forms.TextInput(),
+    )
+    street_address1 = forms.CharField(
+        required=True,
+        validators=[MinLengthValidator(5)],
+        widget=forms.TextInput(),
+    )
+    town_or_city = forms.CharField(
+        required=True,
+        validators=[MinLengthValidator(2)],
+        widget=forms.TextInput(),
+    )
+    postcode = forms.CharField(
+        required=True,
+        validators=[MinLengthValidator(4)],
+        widget=forms.TextInput(),
+    )
+    country = CountryField(blank_label="Select country").formfield(
+        widget=CountrySelectWidget(
+            attrs={"class": "form-control",
+                   "data-placeholder": "Select your country"}
+        )
     )
 
     use_default = forms.BooleanField(
@@ -30,6 +60,14 @@ class ShippingInfoForm(forms.ModelForm):
         label="Save as default address",
         help_text="Save this address for future checkouts"
     )
+
+    def validate_required_fields(self, fields, data, errors):
+        for field in fields:
+            if not data.get(field):
+                errors[field] = f"{fields[field].label} is required."
+
+    def is_guest_user(self):
+        return not self.user or not self.user.is_authenticated
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop("user", None)
@@ -73,37 +111,32 @@ class ShippingInfoForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        if not self.user or not self.user.is_authenticated:
-            if not cleaned_data.get("guest_first_name"):
-                raise forms.ValidationError("First name is required for "
-                                            "guest orders")
-            if not cleaned_data.get("guest_last_name"):
-                raise forms.ValidationError("Last name is required for "
-                                            "guest orders")
-            if not cleaned_data.get("guest_email"):
-                raise forms.ValidationError("Email is required for "
-                                            "guest orders")
+        errors = {}
+
+        # Validate guest users
+        if self.is_guest_user():
+            self.validate_required_fields(["guest_first_name",
+                                           "guest_last_name",
+                                           "guest_email"],
+                                          cleaned_data, errors)
 
         # Validate address fields for authenticated users
-        # if "use_default" is not checked
+        # if "use_default" is unchecked
         if (
             self.user
             and self.user.is_authenticated
             and not cleaned_data.get("use_default")
         ):
-            required_fields = [
-                "phone_number",
-                "street_address1",
-                "town_or_city",
-                "country"
-            ]
-            for field in required_fields:
-                if not cleaned_data.get(field):
-                    raise forms.ValidationError(
-                        field, f"{self.fields[field].label} is required."
-                    )
+            self.validate_required_fields(["phone_number",
+                                           "street_address1",
+                                           "town_or_city", "country"],
+                                          cleaned_data, errors)
 
-        return cleaned_data
+        if errors:
+            raise forms.ValidationError([(field, error) for field, error
+                                         in errors.items()])
+
+        return self.cleaned_data
 
     def save(self, commit=True):
         instance = super().save(commit=False)
