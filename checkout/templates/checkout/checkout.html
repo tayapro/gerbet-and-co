@@ -159,9 +159,6 @@
     {{ block.super }}
     {{ stripe_public_key|json_script:"id_stripe_public_key" }}
     {{ client_secret|json_script:"id_client_secret" }}
-    <script src="{% static "checkout/js/stripe_elements.js" %}"></script>
-    <script src="{% static "checkout/js/confirm_checkbox.js" %}"></script>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const form = document.getElementById("checkout-form");
@@ -216,28 +213,7 @@
                 toggleFields(e.target.checked)
             })
         })
-
-        document.getElementById("checkout-form").addEventListener("submit", async function(event) {
-            event.preventDefault();
-            
-            const clientSecret = document.getElementById("id_client_secret").textContent;
-        
-            console.log("Initiating Stripe payment with clientSecret:", clientSecret);
-        
-            const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-                payment_method: { card: cardElement }
-            });
-        
-            if (error) {
-                console.error("Stripe Error:", error);
-                document.getElementById("card-errors").textContent = error.message;
-            } else if (paymentIntent.status === "succeeded") {
-                console.log("Payment successful:", paymentIntent);
-                document.getElementById("checkout-form").submit();
-            } else {
-                console.error("Unexpected payment status:", paymentIntent.status);
-            }
-        });        
-        
-    </script> 
+    </script>
+    <script src="{% static "checkout/js/stripe_elements.js" %}"></script>
+    <script src="{% static "checkout/js/confirm_checkbox.js" %}"></script>
 {% endblock %}

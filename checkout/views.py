@@ -1,6 +1,9 @@
 from django.conf import settings
 from django.contrib import messages
+from django.http import JsonResponse
 from django.shortcuts import render, reverse, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 from decimal import Decimal
 import logging
 import stripe
@@ -69,7 +72,6 @@ def handle_checkout_get(request, stripe_public_key, bag_total, delivery_cost,
         delivery_cost=delivery_cost,
         grand_total=grand_total,
         grand_total_cents=grand_total_cents,
-        stripe_payment_intent=intent.client_secret,
         stripe_pid=intent.id,
         shipping_info=shipping_info
     )
@@ -89,9 +91,16 @@ def handle_checkout_get(request, stripe_public_key, bag_total, delivery_cost,
 
     # Build context
     context = build_checkout_context(
-        request, form, stripe_public_key, intent,
-        bag_total, delivery_cost, grand_total,
-        grand_total_cents, currency, order.id
+        request,
+        form,
+        stripe_public_key,
+        intent,
+        bag_total,
+        delivery_cost,
+        grand_total,
+        grand_total_cents,
+        currency,
+        order.id
     )
     return render(request, "checkout/checkout.html", context)
 
@@ -138,7 +147,7 @@ def handle_checkout_post(request, bag, order_id, currency):
             order.shipping_info = shipping_info
             order.save(update_fields=["user", "shipping_info"])
 
-            return finalize_order(request, bag, order, currency)
+            return finalize_order(request, bag, order)
 
     form = ShippingInfoForm(request.POST, user=request.user)
 
@@ -148,11 +157,10 @@ def handle_checkout_post(request, bag, order_id, currency):
     try:
         # Ensure it passes validation again
         if not form.is_valid():
-            print("BLAAAAAA")
             logger.error("Form validation failed again after correction: %s",
                          form.errors)
-            # messages.error(request, "There was an issue
-            #  with your address details.")
+            messages.error(request, "There was an issue"
+                           "with your address details.")
             return redirect("checkout")
 
         shipping_info = process_shipping_info(form, request.user)
@@ -161,7 +169,7 @@ def handle_checkout_post(request, bag, order_id, currency):
         update_order_details(order, request, shipping_info, form)
 
         # Process payment and finalize order
-        return finalize_order(request, bag, order, currency)
+        return finalize_order(request, bag, order)
 
     except (Order.DoesNotExist, stripe.error.StripeError, Exception) as e:
         return handle_checkout_error(request, e)
@@ -275,8 +283,6 @@ def update_order_details(order, request, shipping_info, form):
     if request.user.is_authenticated:
         # Use authenticated user details
         order.user = request.user
-
-        logger.error(f"ORDER: update_order_details: {order.email}")
     else:
         # Use guest details from validated form
         order.guest_email = form.cleaned_data["guest_email"]
@@ -292,7 +298,7 @@ def update_order_details(order, request, shipping_info, form):
     ])
 
 
-def finalize_order(request, bag, order, currency):
+def finalize_order(request, bag, order):
     """Finalize order processing"""
     try:
         logger.info(
@@ -411,3 +417,33 @@ def checkout_success(request, order_id):
         "order": order,
     }
     return render(request, "checkout/checkout_success.html", context)
+
+
+@require_POST
+@csrf_exempt
+def cache_checkout_data(request):
+    """
+    Caches the checkout data in the session before confirming payment.
+    """
+    try:
+        # Extract important fields from request.POST
+        order_id = request.POST.get("order_id")
+        if not Order.objects.filter(id=order_id).exists():
+            messages.error(request, "Order not found")
+            return JsonResponse({"error": "Order not found"}, status=400)
+
+        payment_intent_id = request.POST.get("payment_intent_id")
+        # Store data in session
+        request.session["checkout_cache"] = request.POST.dict()
+        if payment_intent_id:
+            request.session["payment_intent_id"] = payment_intent_id
+        request.session.modified = True
+        return JsonResponse({"success": True})
+
+    except Order.DoesNotExist:
+        messages.error(request, "error: Order not found")
+        return JsonResponse({"error": "Order not found"}, status=400)
+
+    except Exception as e:
+        messages.error(request, f"error: {e}")
+        return JsonResponse({"error": str(e)}, status=500)

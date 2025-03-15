@@ -79,9 +79,6 @@ class Order(models.Model):
                                         null=False, default=0)
     order_total = models.DecimalField(max_digits=10, decimal_places=2,
                                       null=False, default=0)
-    stripe_payment_intent = models.CharField(max_length=255,
-                                             null=True, blank=True,
-                                             unique=True)
     stripe_pid = models.CharField(max_length=255, null=False,
                                   blank=False, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)

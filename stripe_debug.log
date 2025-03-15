@@ -203,3 +203,991 @@ Signal triggered for ShippingInfo.
 "GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
 Not Found: /favicon.ico
 "GET /favicon.ico HTTP/1.1" 404 3737
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/urls.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/models.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30292
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 4661
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+Not Found: /checkout/cache_checkout_data/
+"POST /checkout/cache_checkout_data/ HTTP/1.1" 404 4737
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/urls.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/urls.py changed, reloading.
+Watching for file changes with StatReloader
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30292
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 4661
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+"POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+"POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30292
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 4663
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+"POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30292
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 4669
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+"POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30292
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 4666
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+"POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30292
+"GET /static/css/base.css HTTP/1.1" 200 1638
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 4665
+"GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 3737
+"POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+Checkout POST - User: stipaxa1, Authenticated: True, Use Default: True
+Initial Order State - ID: 417, User: None, Guest Email: 
+Processing default address for authenticated user
+Using default address - ID: 14, Email: s.tipaxa@gmail.com
+Signal triggered for ShippingInfo.
+Internal Server Error: /checkout/
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py", line 48, in checkout
+    return handle_checkout_post(request, bag, order_id, currency)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py", line 150, in handle_checkout_post
+    return finalize_order(request, bag, order, currency)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: finalize_order() takes 3 positional arguments but 4 were given
+"POST /checkout/ HTTP/1.1" 500 80635
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+Watching for file changes with StatReloader
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30292
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 304 0
+"POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+Checkout POST - User: stipaxa1, Authenticated: True, Use Default: True
+Initial Order State - ID: 418, User: None, Guest Email: 
+Processing default address for authenticated user
+Using default address - ID: 14, Email: s.tipaxa@gmail.com
+Signal triggered for ShippingInfo.
+Finalizing order 418 - User: 8, Guest Email: , Status: pending
+message='Request to Stripe api' method=get url=https://api.stripe.com/v1/payment_intents/pi_3R2c9DKs0E3e1wm70skQw0PD
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents/pi_3R2c9DKs0E3e1wm70skQw0PD response_code=200
+PaymentIntent status: succeeded
+Retrieved Stripe PaymentIntent: {
+  "amount": 730,
+  "amount_capturable": 0,
+  "amount_details": {
+    "tip": {}
+  },
+  "amount_received": 730,
+  "application": null,
+  "application_fee_amount": null,
+  "automatic_payment_methods": {
+    "allow_redirects": "always",
+    "enabled": true
+  },
+  "canceled_at": null,
+  "cancellation_reason": null,
+  "capture_method": "automatic_async",
+  "client_secret": "pi_3R2c9DKs0E3e1wm70skQw0PD_secret_kLzbIQOj0Jl1WRHAoDKB37071",
+  "confirmation_method": "automatic",
+  "created": 1741973751,
+  "currency": "eur",
+  "customer": null,
+  "description": null,
+  "id": "pi_3R2c9DKs0E3e1wm70skQw0PD",
+  "invoice": null,
+  "last_payment_error": null,
+  "latest_charge": "ch_3R2c9DKs0E3e1wm702bJCvAp",
+  "livemode": false,
+  "metadata": {},
+  "next_action": null,
+  "object": "payment_intent",
+  "on_behalf_of": null,
+  "payment_method": "pm_1R2c9kKs0E3e1wm7msoyHqMX",
+  "payment_method_configuration_details": {
+    "id": "pmc_1QnfKMKs0E3e1wm7xhbkl65a",
+    "parent": null
+  },
+  "payment_method_options": {
+    "bancontact": {
+      "preferred_language": "en"
+    },
+    "card": {
+      "installments": null,
+      "mandate_options": null,
+      "network": null,
+      "request_three_d_secure": "automatic"
+    },
+    "eps": {},
+    "giropay": {},
+    "klarna": {
+      "preferred_locale": null
+    },
+    "link": {
+      "persistent_token": null
+    }
+  },
+  "payment_method_types": [
+    "card",
+    "bancontact",
+    "eps",
+    "giropay",
+    "klarna",
+    "link"
+  ],
+  "processing": null,
+  "receipt_email": null,
+  "review": null,
+  "setup_future_usage": null,
+  "shipping": null,
+  "source": null,
+  "statement_descriptor": null,
+  "statement_descriptor_suffix": null,
+  "status": "succeeded",
+  "transfer_data": null,
+  "transfer_group": null
+}
+Payment succeeded, creating order items
+Updated Order State - ID: 418, User: 8, Guest Email: , Shipping Info: 572
+Order 418 finalized successfully
+"POST /checkout/ HTTP/1.1" 302 0
+"GET /checkout/checkout_success/452b8926-875b-40b3-9352-301bbabff01a HTTP/1.1" 200 7062
+"GET /bag/ HTTP/1.1" 200 6936
+"GET /products/?next= HTTP/1.1" 200 10160
+"POST /bag/bag/add/2/ HTTP/1.1" 200 762
+"GET /bag/ HTTP/1.1" 200 9534
+"POST /bag/update/2/ HTTP/1.1" 200 3272
+"POST /bag/update/2/ HTTP/1.1" 200 3273
+"POST /bag/update/2/ HTTP/1.1" 200 3273
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30294
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 4672
+"POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+Checkout POST - User: stipaxa1, Authenticated: True, Use Default: True
+Initial Order State - ID: 419, User: None, Guest Email: 
+Processing default address for authenticated user
+Using default address - ID: 14, Email: s.tipaxa@gmail.com
+Signal triggered for ShippingInfo.
+Finalizing order 419 - User: 8, Guest Email: , Status: pending
+message='Request to Stripe api' method=get url=https://api.stripe.com/v1/payment_intents/pi_3R2cErKs0E3e1wm70jEPZVTe
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents/pi_3R2cErKs0E3e1wm70jEPZVTe response_code=200
+PaymentIntent status: succeeded
+Retrieved Stripe PaymentIntent: {
+  "amount": 1420,
+  "amount_capturable": 0,
+  "amount_details": {
+    "tip": {}
+  },
+  "amount_received": 1420,
+  "application": null,
+  "application_fee_amount": null,
+  "automatic_payment_methods": {
+    "allow_redirects": "always",
+    "enabled": true
+  },
+  "canceled_at": null,
+  "cancellation_reason": null,
+  "capture_method": "automatic_async",
+  "client_secret": "pi_3R2cErKs0E3e1wm70jEPZVTe_secret_lFmsDM3TTOjRJv0GKV9mgX0Wk",
+  "confirmation_method": "automatic",
+  "created": 1741974101,
+  "currency": "eur",
+  "customer": null,
+  "description": null,
+  "id": "pi_3R2cErKs0E3e1wm70jEPZVTe",
+  "invoice": null,
+  "last_payment_error": null,
+  "latest_charge": "ch_3R2cErKs0E3e1wm70WjD69B8",
+  "livemode": false,
+  "metadata": {},
+  "next_action": null,
+  "object": "payment_intent",
+  "on_behalf_of": null,
+  "payment_method": "pm_1R2cF9Ks0E3e1wm7UlOt3a2e",
+  "payment_method_configuration_details": {
+    "id": "pmc_1QnfKMKs0E3e1wm7xhbkl65a",
+    "parent": null
+  },
+  "payment_method_options": {
+    "bancontact": {
+      "preferred_language": "en"
+    },
+    "card": {
+      "installments": null,
+      "mandate_options": null,
+      "network": null,
+      "request_three_d_secure": "automatic"
+    },
+    "eps": {},
+    "giropay": {},
+    "klarna": {
+      "preferred_locale": null
+    },
+    "link": {
+      "persistent_token": null
+    }
+  },
+  "payment_method_types": [
+    "card",
+    "bancontact",
+    "eps",
+    "giropay",
+    "klarna",
+    "link"
+  ],
+  "processing": null,
+  "receipt_email": null,
+  "review": null,
+  "setup_future_usage": null,
+  "shipping": null,
+  "source": null,
+  "statement_descriptor": null,
+  "statement_descriptor_suffix": null,
+  "status": "succeeded",
+  "transfer_data": null,
+  "transfer_group": null
+}
+Payment succeeded, creating order items
+Updated Order State - ID: 419, User: 8, Guest Email: , Shipping Info: 574
+Order 419 finalized successfully
+"POST /checkout/ HTTP/1.1" 302 0
+"GET /checkout/checkout_success/fc2f2b00-6f01-47c3-88b0-59f6e67ffdb6 HTTP/1.1" 200 7064
+"GET /accounts/logout/?next= HTTP/1.1" 200 5916
+"GET / HTTP/1.1" 200 5087
+"GET /products/?next= HTTP/1.1" 200 10160
+"POST /bag/bag/add/3/ HTTP/1.1" 200 763
+"GET /bag/ HTTP/1.1" 200 9537
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30293
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 304 0
+"POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+Checkout POST - User: stipaxa1, Authenticated: True, Use Default: False
+Initial Order State - ID: 420, User: None, Guest Email: 
+Signal triggered for ShippingInfo.
+ORDER: update_order_details: s.tipaxa@gmail.com
+Finalizing order 420 - User: 8, Guest Email: , Status: pending
+message='Request to Stripe api' method=get url=https://api.stripe.com/v1/payment_intents/pi_3R2cFXKs0E3e1wm72IqzfayT
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents/pi_3R2cFXKs0E3e1wm72IqzfayT response_code=200
+PaymentIntent status: succeeded
+Retrieved Stripe PaymentIntent: {
+  "amount": 750,
+  "amount_capturable": 0,
+  "amount_details": {
+    "tip": {}
+  },
+  "amount_received": 750,
+  "application": null,
+  "application_fee_amount": null,
+  "automatic_payment_methods": {
+    "allow_redirects": "always",
+    "enabled": true
+  },
+  "canceled_at": null,
+  "cancellation_reason": null,
+  "capture_method": "automatic_async",
+  "client_secret": "pi_3R2cFXKs0E3e1wm72IqzfayT_secret_ELBv53YLzuNREISBEek6Bs97r",
+  "confirmation_method": "automatic",
+  "created": 1741974143,
+  "currency": "eur",
+  "customer": null,
+  "description": null,
+  "id": "pi_3R2cFXKs0E3e1wm72IqzfayT",
+  "invoice": null,
+  "last_payment_error": null,
+  "latest_charge": "ch_3R2cFXKs0E3e1wm72XMX7NGR",
+  "livemode": false,
+  "metadata": {},
+  "next_action": null,
+  "object": "payment_intent",
+  "on_behalf_of": null,
+  "payment_method": "pm_1R2cG4Ks0E3e1wm7QZzlDIbc",
+  "payment_method_configuration_details": {
+    "id": "pmc_1QnfKMKs0E3e1wm7xhbkl65a",
+    "parent": null
+  },
+  "payment_method_options": {
+    "bancontact": {
+      "preferred_language": "en"
+    },
+    "card": {
+      "installments": null,
+      "mandate_options": null,
+      "network": null,
+      "request_three_d_secure": "automatic"
+    },
+    "eps": {},
+    "giropay": {},
+    "klarna": {
+      "preferred_locale": null
+    },
+    "link": {
+      "persistent_token": null
+    }
+  },
+  "payment_method_types": [
+    "card",
+    "bancontact",
+    "eps",
+    "giropay",
+    "klarna",
+    "link"
+  ],
+  "processing": null,
+  "receipt_email": null,
+  "review": null,
+  "setup_future_usage": null,
+  "shipping": null,
+  "source": null,
+  "statement_descriptor": null,
+  "statement_descriptor_suffix": null,
+  "status": "succeeded",
+  "transfer_data": null,
+  "transfer_group": null
+}
+Payment succeeded, creating order items
+Updated Order State - ID: 420, User: 8, Guest Email: , Shipping Info: 576
+Order 420 finalized successfully
+"POST /checkout/ HTTP/1.1" 302 0
+"GET /checkout/checkout_success/28819478-4528-46d3-9668-eb3272344ce0 HTTP/1.1" 200 7063
+"GET /accounts/logout/?next= HTTP/1.1" 200 5916
+"POST /accounts/logout/?next=/ HTTP/1.1" 302 0
+"GET / HTTP/1.1" 200 5086
+"GET /products/?next= HTTP/1.1" 200 9835
+"POST /bag/bag/add/2/ HTTP/1.1" 200 762
+"GET /bag/ HTTP/1.1" 200 9209
+"POST /bag/update/2/ HTTP/1.1" 200 3272
+"POST /bag/update/2/ HTTP/1.1" 200 3273
+"POST /bag/update/2/ HTTP/1.1" 200 3273
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30459
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 304 0
+"POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+Checkout POST - User: AnonymousUser, Authenticated: False, Use Default: False
+Initial Order State - ID: 421, User: None, Guest Email: 
+Signal triggered for ShippingInfo.
+Finalizing order 421 - User: None, Guest Email: stipaxa@gmail.com, Status: pending
+message='Request to Stripe api' method=get url=https://api.stripe.com/v1/payment_intents/pi_3R2cH7Ks0E3e1wm712Zr5LkJ
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents/pi_3R2cH7Ks0E3e1wm712Zr5LkJ response_code=200
+PaymentIntent status: succeeded
+Retrieved Stripe PaymentIntent: {
+  "amount": 1420,
+  "amount_capturable": 0,
+  "amount_details": {
+    "tip": {}
+  },
+  "amount_received": 1420,
+  "application": null,
+  "application_fee_amount": null,
+  "automatic_payment_methods": {
+    "allow_redirects": "always",
+    "enabled": true
+  },
+  "canceled_at": null,
+  "cancellation_reason": null,
+  "capture_method": "automatic_async",
+  "client_secret": "pi_3R2cH7Ks0E3e1wm712Zr5LkJ_secret_8xhLL5cW33Jmd47e1zUZAi2PT",
+  "confirmation_method": "automatic",
+  "created": 1741974241,
+  "currency": "eur",
+  "customer": null,
+  "description": null,
+  "id": "pi_3R2cH7Ks0E3e1wm712Zr5LkJ",
+  "invoice": null,
+  "last_payment_error": null,
+  "latest_charge": "ch_3R2cH7Ks0E3e1wm71R2ZqZc9",
+  "livemode": false,
+  "metadata": {},
+  "next_action": null,
+  "object": "payment_intent",
+  "on_behalf_of": null,
+  "payment_method": "pm_1R2cHcKs0E3e1wm7M6KyB55d",
+  "payment_method_configuration_details": {
+    "id": "pmc_1QnfKMKs0E3e1wm7xhbkl65a",
+    "parent": null
+  },
+  "payment_method_options": {
+    "bancontact": {
+      "preferred_language": "en"
+    },
+    "card": {
+      "installments": null,
+      "mandate_options": null,
+      "network": null,
+      "request_three_d_secure": "automatic"
+    },
+    "eps": {},
+    "giropay": {},
+    "klarna": {
+      "preferred_locale": null
+    },
+    "link": {
+      "persistent_token": null
+    }
+  },
+  "payment_method_types": [
+    "card",
+    "bancontact",
+    "eps",
+    "giropay",
+    "klarna",
+    "link"
+  ],
+  "processing": null,
+  "receipt_email": null,
+  "review": null,
+  "setup_future_usage": null,
+  "shipping": null,
+  "source": null,
+  "statement_descriptor": null,
+  "statement_descriptor_suffix": null,
+  "status": "succeeded",
+  "transfer_data": null,
+  "transfer_group": null
+}
+Payment succeeded, creating order items
+Updated Order State - ID: 421, User: None, Guest Email: stipaxa@gmail.com, Shipping Info: 578
+Order 421 finalized successfully
+"POST /checkout/ HTTP/1.1" 302 0
+"GET /checkout/checkout_success/25fe9256-bbcf-4f74-801f-fc4d422c31dc HTTP/1.1" 200 6739
+"GET /products/?next= HTTP/1.1" 200 9835
+"POST /bag/bag/add/2/ HTTP/1.1" 200 762
+"GET /bag/ HTTP/1.1" 200 9209
+message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+Signal triggered for ShippingInfo.
+"GET /checkout/ HTTP/1.1" 200 30457
+"GET /static/checkout/js/stripe_elements.js HTTP/1.1" 304 0
+"POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+Checkout POST - User: AnonymousUser, Authenticated: False, Use Default: False
+Initial Order State - ID: 422, User: None, Guest Email: 
+Form validation failed with errors:
+Field 'guest_last_name': This field is required.
+Field 'guest_email': This field is required.
+Field 'phone_number': This field is required.
+Field 'street_address1': This field is required.
+Field 'town_or_city': This field is required.
+Field 'country': This field is required.
+Field '__all__': Last name is required for guest orders
+message='Request to Stripe api' method=get url=https://api.stripe.com/v1/payment_intents/pi_3R2cICKs0E3e1wm70jthNQ0z
+message='Stripe API response' path=https://api.stripe.com/v1/payment_intents/pi_3R2cICKs0E3e1wm70jthNQ0z response_code=200
+"POST /checkout/ HTTP/1.1" 200 33086
+"POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+/Users/taisiasimakova/code/code institute course/gerbet-and-co/gerbet_and_co/settings.py changed, reloading.
+2025-03-14 17:49:18 [INFO] autoreload.py:668 - Watching for file changes with StatReloader
+2025-03-14 17:49:38 [INFO] views.py:111 - Checkout POST - User: AnonymousUser, Authenticated: False, Use Default: False
+2025-03-14 17:49:38 [DEBUG] views.py:118 - Initial Order State - ID: 422, User: None, Guest Email: 
+2025-03-14 17:49:38 [ERROR] views.py:359 - Form validation failed with errors:
+2025-03-14 17:49:38 [ERROR] views.py:361 - Field 'guest_last_name': This field is required.
+2025-03-14 17:49:38 [ERROR] views.py:361 - Field 'guest_email': This field is required.
+2025-03-14 17:49:38 [ERROR] views.py:361 - Field 'phone_number': This field is required.
+2025-03-14 17:49:38 [ERROR] views.py:361 - Field 'street_address1': This field is required.
+2025-03-14 17:49:38 [ERROR] views.py:361 - Field 'town_or_city': This field is required.
+2025-03-14 17:49:38 [ERROR] views.py:361 - Field 'country': This field is required.
+2025-03-14 17:49:38 [ERROR] views.py:361 - Field '__all__': Last name is required for guest orders
+2025-03-14 17:49:38 [INFO] _util.py:128 - message='Request to Stripe api' method=get url=https://api.stripe.com/v1/payment_intents/pi_3R2cICKs0E3e1wm70jthNQ0z
+2025-03-14 17:49:38 [INFO] _util.py:128 - message='Stripe API response' path=https://api.stripe.com/v1/payment_intents/pi_3R2cICKs0E3e1wm70jthNQ0z response_code=200
+2025-03-14 17:49:38 [INFO] basehttp.py:213 - "POST /checkout/ HTTP/1.1" 200 33086
+2025-03-14 17:49:38 [INFO] basehttp.py:213 - "GET /static/css/base.css HTTP/1.1" 200 1638
+2025-03-14 17:49:38 [INFO] basehttp.py:213 - "GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 4672
+2025-03-14 17:49:38 [INFO] basehttp.py:213 - "GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+2025-03-14 17:49:41 [WARNING] log.py:248 - Not Found: /favicon.ico
+2025-03-14 17:49:41 [WARNING] basehttp.py:213 - "GET /favicon.ico HTTP/1.1" 404 3737
+2025-03-14 17:51:06 [INFO] basehttp.py:213 - "POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+2025-03-14 17:51:49 [INFO] basehttp.py:213 - "POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+2025-03-14 18:01:22 [INFO] views.py:111 - Checkout POST - User: AnonymousUser, Authenticated: False, Use Default: False
+2025-03-14 18:01:22 [DEBUG] views.py:118 - Initial Order State - ID: 422, User: None, Guest Email: 
+2025-03-14 18:01:22 [ERROR] views.py:359 - Form validation failed with errors:
+2025-03-14 18:01:22 [ERROR] views.py:361 - Field 'guest_last_name': This field is required.
+2025-03-14 18:01:22 [ERROR] views.py:361 - Field 'guest_email': This field is required.
+2025-03-14 18:01:22 [ERROR] views.py:361 - Field 'phone_number': This field is required.
+2025-03-14 18:01:22 [ERROR] views.py:361 - Field 'street_address1': This field is required.
+2025-03-14 18:01:22 [ERROR] views.py:361 - Field 'town_or_city': This field is required.
+2025-03-14 18:01:22 [ERROR] views.py:361 - Field 'country': This field is required.
+2025-03-14 18:01:22 [ERROR] views.py:361 - Field '__all__': Last name is required for guest orders
+2025-03-14 18:01:22 [INFO] _util.py:128 - message='Request to Stripe api' method=get url=https://api.stripe.com/v1/payment_intents/pi_3R2cICKs0E3e1wm70jthNQ0z
+2025-03-14 18:01:23 [INFO] _util.py:128 - message='Stripe API response' path=https://api.stripe.com/v1/payment_intents/pi_3R2cICKs0E3e1wm70jthNQ0z response_code=200
+2025-03-14 18:01:23 [INFO] basehttp.py:213 - "POST /checkout/ HTTP/1.1" 200 33140
+2025-03-14 18:01:23 [INFO] basehttp.py:213 - "GET /static/css/base.css HTTP/1.1" 200 1638
+2025-03-14 18:01:23 [INFO] basehttp.py:213 - "GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 4672
+2025-03-14 18:01:23 [INFO] basehttp.py:213 - "GET /static/checkout/js/confirm_checkbox.js HTTP/1.1" 200 322
+2025-03-14 18:01:25 [INFO] basehttp.py:213 - "GET /products/?next= HTTP/1.1" 200 9829
+2025-03-14 18:01:26 [WARNING] log.py:248 - Not Found: /favicon.ico
+2025-03-14 18:01:26 [WARNING] basehttp.py:213 - "GET /favicon.ico HTTP/1.1" 404 3737
+2025-03-14 18:01:27 [INFO] basehttp.py:213 - "GET /bag/ HTTP/1.1" 200 9209
+2025-03-14 18:01:29 [INFO] _util.py:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+2025-03-14 18:01:29 [INFO] _util.py:128 - message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+2025-03-14 18:01:29 [INFO] signals.py:19 - Signal triggered for ShippingInfo.
+2025-03-14 18:01:29 [INFO] basehttp.py:213 - "GET /checkout/ HTTP/1.1" 200 30511
+2025-03-14 18:01:57 [INFO] basehttp.py:213 - "POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+2025-03-14 18:01:59 [INFO] views.py:111 - Checkout POST - User: AnonymousUser, Authenticated: False, Use Default: False
+2025-03-14 18:01:59 [DEBUG] views.py:118 - Initial Order State - ID: 423, User: None, Guest Email: 
+2025-03-14 18:01:59 [ERROR] views.py:359 - Form validation failed with errors:
+2025-03-14 18:01:59 [ERROR] views.py:361 - Field 'guest_email': This field is required.
+2025-03-14 18:01:59 [ERROR] views.py:361 - Field 'phone_number': This field is required.
+2025-03-14 18:01:59 [ERROR] views.py:361 - Field 'street_address1': This field is required.
+2025-03-14 18:01:59 [ERROR] views.py:361 - Field 'town_or_city': This field is required.
+2025-03-14 18:01:59 [ERROR] views.py:361 - Field '__all__': Email is required for guest orders
+2025-03-14 18:01:59 [INFO] _util.py:128 - message='Request to Stripe api' method=get url=https://api.stripe.com/v1/payment_intents/pi_3R2cY1Ks0E3e1wm71e4UUO89
+2025-03-14 18:01:59 [INFO] _util.py:128 - message='Stripe API response' path=https://api.stripe.com/v1/payment_intents/pi_3R2cY1Ks0E3e1wm71e4UUO89 response_code=200
+2025-03-14 18:01:59 [INFO] basehttp.py:213 - "POST /checkout/ HTTP/1.1" 200 32653
+2025-03-14 18:04:03 [INFO] basehttp.py:213 - "GET /products/?next= HTTP/1.1" 200 9829
+2025-03-14 18:04:05 [INFO] basehttp.py:213 - "GET /bag/ HTTP/1.1" 200 9209
+2025-03-14 18:04:07 [INFO] basehttp.py:213 - "POST /bag/update/2/ HTTP/1.1" 200 3272
+2025-03-14 18:04:07 [INFO] _util.py:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+2025-03-14 18:04:08 [INFO] _util.py:128 - message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+2025-03-14 18:04:08 [INFO] signals.py:19 - Signal triggered for ShippingInfo.
+2025-03-14 18:04:08 [INFO] basehttp.py:213 - "GET /checkout/ HTTP/1.1" 200 30665
+2025-03-14 18:04:08 [INFO] basehttp.py:213 - "GET /static/checkout/js/stripe_elements.js HTTP/1.1" 304 0
+2025-03-14 18:04:29 [INFO] basehttp.py:213 - "POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+2025-03-14 18:04:30 [INFO] views.py:111 - Checkout POST - User: AnonymousUser, Authenticated: False, Use Default: False
+2025-03-14 18:04:30 [DEBUG] views.py:118 - Initial Order State - ID: 424, User: None, Guest Email: 
+2025-03-14 18:04:30 [ERROR] views.py:359 - Form validation failed with errors:
+2025-03-14 18:04:30 [ERROR] views.py:361 - Field 'guest_email': This field is required.
+2025-03-14 18:04:30 [ERROR] views.py:361 - Field 'phone_number': This field is required.
+2025-03-14 18:04:30 [ERROR] views.py:361 - Field 'street_address1': This field is required.
+2025-03-14 18:04:30 [ERROR] views.py:361 - Field 'town_or_city': This field is required.
+2025-03-14 18:04:30 [ERROR] views.py:361 - Field 'country': This field is required.
+2025-03-14 18:04:30 [ERROR] views.py:361 - Field '__all__': Email is required for guest orders
+2025-03-14 18:04:30 [INFO] _util.py:128 - message='Request to Stripe api' method=get url=https://api.stripe.com/v1/payment_intents/pi_3R2caaKs0E3e1wm71m33hmP0
+2025-03-14 18:04:30 [INFO] _util.py:128 - message='Stripe API response' path=https://api.stripe.com/v1/payment_intents/pi_3R2caaKs0E3e1wm71m33hmP0 response_code=200
+2025-03-14 18:04:31 [INFO] basehttp.py:213 - "POST /checkout/ HTTP/1.1" 200 33049
+2025-03-14 18:05:16 [INFO] basehttp.py:213 - "GET /products/?next= HTTP/1.1" 200 9829
+2025-03-14 18:05:24 [INFO] basehttp.py:213 - "GET /bag/ HTTP/1.1" 200 9201
+2025-03-14 18:05:33 [INFO] _util.py:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+2025-03-14 18:05:34 [INFO] _util.py:128 - message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+2025-03-14 18:05:34 [INFO] signals.py:19 - Signal triggered for ShippingInfo.
+2025-03-14 18:05:34 [INFO] basehttp.py:213 - "GET /checkout/ HTTP/1.1" 200 30803
+2025-03-14 18:05:55 [INFO] basehttp.py:213 - "POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+2025-03-14 18:05:57 [INFO] views.py:111 - Checkout POST - User: AnonymousUser, Authenticated: False, Use Default: False
+2025-03-14 18:05:57 [DEBUG] views.py:118 - Initial Order State - ID: 425, User: None, Guest Email: 
+2025-03-14 18:05:57 [ERROR] views.py:359 - Form validation failed with errors:
+2025-03-14 18:05:57 [ERROR] views.py:361 - Field 'guest_email': This field is required.
+2025-03-14 18:05:57 [ERROR] views.py:361 - Field 'phone_number': This field is required.
+2025-03-14 18:05:57 [ERROR] views.py:361 - Field 'street_address1': This field is required.
+2025-03-14 18:05:57 [ERROR] views.py:361 - Field 'town_or_city': This field is required.
+2025-03-14 18:05:57 [ERROR] views.py:361 - Field '__all__': Email is required for guest orders
+2025-03-14 18:05:57 [INFO] _util.py:128 - message='Request to Stripe api' method=get url=https://api.stripe.com/v1/payment_intents/pi_3R2cbyKs0E3e1wm71pYOLa8j
+2025-03-14 18:05:57 [INFO] _util.py:128 - message='Stripe API response' path=https://api.stripe.com/v1/payment_intents/pi_3R2cbyKs0E3e1wm71pYOLa8j response_code=200
+2025-03-14 18:05:57 [INFO] basehttp.py:213 - "POST /checkout/ HTTP/1.1" 200 32945
+2025-03-14 18:06:07 [INFO] basehttp.py:213 - "GET /products/?next= HTTP/1.1" 200 9829
+2025-03-14 18:06:08 [INFO] basehttp.py:213 - "GET /bag/ HTTP/1.1" 200 9201
+2025-03-14 18:06:19 [INFO] _util.py:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+2025-03-14 18:06:20 [INFO] _util.py:128 - message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+2025-03-14 18:06:20 [INFO] signals.py:19 - Signal triggered for ShippingInfo.
+2025-03-14 18:06:20 [INFO] basehttp.py:213 - "GET /checkout/ HTTP/1.1" 200 30803
+2025-03-14 18:06:37 [INFO] basehttp.py:213 - "POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+2025-03-14 18:06:38 [INFO] views.py:111 - Checkout POST - User: AnonymousUser, Authenticated: False, Use Default: False
+2025-03-14 18:06:38 [DEBUG] views.py:118 - Initial Order State - ID: 426, User: None, Guest Email: 
+2025-03-14 18:06:38 [ERROR] views.py:359 - Form validation failed with errors:
+2025-03-14 18:06:38 [ERROR] views.py:361 - Field 'guest_email': This field is required.
+2025-03-14 18:06:38 [ERROR] views.py:361 - Field 'phone_number': This field is required.
+2025-03-14 18:06:38 [ERROR] views.py:361 - Field 'street_address1': This field is required.
+2025-03-14 18:06:38 [ERROR] views.py:361 - Field 'town_or_city': This field is required.
+2025-03-14 18:06:38 [ERROR] views.py:361 - Field 'country': This field is required.
+2025-03-14 18:06:38 [ERROR] views.py:361 - Field '__all__': Email is required for guest orders
+2025-03-14 18:06:38 [INFO] _util.py:128 - message='Request to Stripe api' method=get url=https://api.stripe.com/v1/payment_intents/pi_3R2cciKs0E3e1wm70a8Hbdsb
+2025-03-14 18:06:39 [INFO] _util.py:128 - message='Stripe API response' path=https://api.stripe.com/v1/payment_intents/pi_3R2cciKs0E3e1wm70a8Hbdsb response_code=200
+2025-03-14 18:06:39 [INFO] basehttp.py:213 - "POST /checkout/ HTTP/1.1" 200 33187
+2025-03-14 18:06:39 [INFO] basehttp.py:213 - "GET /static/checkout/js/stripe_elements.js HTTP/1.1" 304 0
+2025-03-15 12:17:05 [INFO] autoreload.py:668 - Watching for file changes with StatReloader
+2025-03-15 12:17:11 [INFO] basehttp.py:213 - "GET / HTTP/1.1" 200 4756
+2025-03-15 12:17:12 [INFO] basehttp.py:213 - "GET /static/css/base.css HTTP/1.1" 304 0
+2025-03-15 12:17:25 [INFO] basehttp.py:213 - "GET /products/?next= HTTP/1.1" 200 9829
+2025-03-15 12:17:26 [INFO] basehttp.py:213 - "GET /help/?next= HTTP/1.1" 200 4756
+2025-03-15 12:17:28 [INFO] basehttp.py:213 - "GET /about/?next= HTTP/1.1" 200 4757
+2025-03-15 12:17:30 [INFO] basehttp.py:213 - "GET /products/?next= HTTP/1.1" 200 9829
+2025-03-15 12:17:32 [INFO] basehttp.py:213 - "GET /bag/ HTTP/1.1" 200 9201
+2025-03-15 12:17:34 [INFO] _util.py:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+2025-03-15 12:17:34 [INFO] _util.py:128 - message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+2025-03-15 12:17:34 [INFO] signals.py:19 - Signal triggered for ShippingInfo.
+2025-03-15 12:17:34 [INFO] basehttp.py:213 - "GET /checkout/ HTTP/1.1" 200 29430
+2025-03-15 12:17:34 [INFO] basehttp.py:213 - "GET /static/checkout/js/stripe_elements.js HTTP/1.1" 200 4714
+2025-03-15 12:17:48 [INFO] basehttp.py:81 - - Broken pipe from ('127.0.0.1', 63513)
+2025-03-15 12:18:28 [INFO] basehttp.py:213 - "POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+2025-03-15 12:18:29 [INFO] views.py:111 - Checkout POST - User: AnonymousUser, Authenticated: False, Use Default: False
+2025-03-15 12:18:29 [DEBUG] views.py:118 - Initial Order State - ID: 427, User: None, Guest Email: 
+2025-03-15 12:18:29 [INFO] signals.py:19 - Signal triggered for ShippingInfo.
+2025-03-15 12:18:30 [INFO] views.py:306 - Finalizing order 427 - User: None, Guest Email: stipaxa@gmail.com, Status: pending
+2025-03-15 12:18:30 [INFO] _util.py:128 - message='Request to Stripe api' method=get url=https://api.stripe.com/v1/payment_intents/pi_3R2tekKs0E3e1wm70bEpe2CG
+2025-03-15 12:18:30 [INFO] _util.py:128 - message='Stripe API response' path=https://api.stripe.com/v1/payment_intents/pi_3R2tekKs0E3e1wm70bEpe2CG response_code=200
+2025-03-15 12:18:30 [DEBUG] views.py:311 - PaymentIntent status: succeeded
+2025-03-15 12:18:30 [DEBUG] views.py:312 - Retrieved Stripe PaymentIntent: {
+  "amount": 960,
+  "amount_capturable": 0,
+  "amount_details": {
+    "tip": {}
+  },
+  "amount_received": 960,
+  "application": null,
+  "application_fee_amount": null,
+  "automatic_payment_methods": {
+    "allow_redirects": "always",
+    "enabled": true
+  },
+  "canceled_at": null,
+  "cancellation_reason": null,
+  "capture_method": "automatic_async",
+  "client_secret": "pi_3R2tekKs0E3e1wm70bEpe2CG_secret_8Z53pgd2Sg7DPawmLMO5cF80J",
+  "confirmation_method": "automatic",
+  "created": 1742041054,
+  "currency": "eur",
+  "customer": null,
+  "description": null,
+  "id": "pi_3R2tekKs0E3e1wm70bEpe2CG",
+  "invoice": null,
+  "last_payment_error": null,
+  "latest_charge": "ch_3R2tekKs0E3e1wm70e0lRERx",
+  "livemode": false,
+  "metadata": {},
+  "next_action": null,
+  "object": "payment_intent",
+  "on_behalf_of": null,
+  "payment_method": "pm_1R2tfcKs0E3e1wm7WGNVP0q5",
+  "payment_method_configuration_details": {
+    "id": "pmc_1QnfKMKs0E3e1wm7xhbkl65a",
+    "parent": null
+  },
+  "payment_method_options": {
+    "bancontact": {
+      "preferred_language": "en"
+    },
+    "card": {
+      "installments": null,
+      "mandate_options": null,
+      "network": null,
+      "request_three_d_secure": "automatic"
+    },
+    "eps": {},
+    "giropay": {},
+    "klarna": {
+      "preferred_locale": null
+    },
+    "link": {
+      "persistent_token": null
+    }
+  },
+  "payment_method_types": [
+    "card",
+    "bancontact",
+    "eps",
+    "giropay",
+    "klarna",
+    "link"
+  ],
+  "processing": null,
+  "receipt_email": null,
+  "review": null,
+  "setup_future_usage": null,
+  "shipping": null,
+  "source": null,
+  "statement_descriptor": null,
+  "statement_descriptor_suffix": null,
+  "status": "succeeded",
+  "transfer_data": null,
+  "transfer_group": null
+}
+2025-03-15 12:18:30 [INFO] views.py:321 - Payment succeeded, creating order items
+2025-03-15 12:18:30 [DEBUG] views.py:324 - Updated Order State - ID: 427, User: None, Guest Email: stipaxa@gmail.com, Shipping Info: 585
+2025-03-15 12:18:30 [INFO] views.py:329 - Order 427 finalized successfully
+2025-03-15 12:18:30 [INFO] basehttp.py:213 - "POST /checkout/ HTTP/1.1" 302 0
+2025-03-15 12:18:30 [INFO] basehttp.py:213 - "GET /checkout/checkout_success/a3934af0-c7e8-4e66-a7aa-b03e9e0eab72 HTTP/1.1" 200 6737
+2025-03-15 12:24:22 [INFO] basehttp.py:213 - "GET /accounts/login/?next= HTTP/1.1" 200 6232
+2025-03-15 12:24:34 [INFO] basehttp.py:213 - "POST /accounts/login/?next= HTTP/1.1" 302 0
+2025-03-15 12:24:35 [INFO] basehttp.py:213 - "GET /products/ HTTP/1.1" 200 10482
+2025-03-15 12:24:38 [INFO] basehttp.py:213 - "GET /products/?next= HTTP/1.1" 200 10160
+2025-03-15 12:24:43 [INFO] basehttp.py:213 - "POST /bag/bag/add/1/ HTTP/1.1" 200 757
+2025-03-15 12:24:44 [INFO] basehttp.py:213 - "GET /bag/ HTTP/1.1" 200 9531
+2025-03-15 12:24:46 [INFO] _util.py:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+2025-03-15 12:24:46 [INFO] _util.py:128 - message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+2025-03-15 12:24:47 [INFO] signals.py:19 - Signal triggered for ShippingInfo.
+2025-03-15 12:24:47 [INFO] basehttp.py:213 - "GET /checkout/ HTTP/1.1" 200 29250
+2025-03-15 12:24:47 [INFO] basehttp.py:213 - "GET /static/checkout/js/stripe_elements.js HTTP/1.1" 304 0
+2025-03-15 12:25:01 [INFO] basehttp.py:213 - "POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+2025-03-15 12:25:02 [INFO] views.py:111 - Checkout POST - User: stipaxa1, Authenticated: True, Use Default: True
+2025-03-15 12:25:02 [DEBUG] views.py:118 - Initial Order State - ID: 428, User: None, Guest Email: 
+2025-03-15 12:25:02 [INFO] views.py:124 - Processing default address for authenticated user
+2025-03-15 12:25:02 [DEBUG] views.py:130 - Using default address - ID: 22, Email: s.tipaxa@gmail.com
+2025-03-15 12:25:02 [INFO] signals.py:19 - Signal triggered for ShippingInfo.
+2025-03-15 12:25:02 [INFO] views.py:306 - Finalizing order 428 - User: 8, Guest Email: , Status: pending
+2025-03-15 12:25:02 [INFO] _util.py:128 - message='Request to Stripe api' method=get url=https://api.stripe.com/v1/payment_intents/pi_3R2tliKs0E3e1wm70FoqMe32
+2025-03-15 12:25:02 [INFO] _util.py:128 - message='Stripe API response' path=https://api.stripe.com/v1/payment_intents/pi_3R2tliKs0E3e1wm70FoqMe32 response_code=200
+2025-03-15 12:25:02 [DEBUG] views.py:311 - PaymentIntent status: succeeded
+2025-03-15 12:25:02 [DEBUG] views.py:312 - Retrieved Stripe PaymentIntent: {
+  "amount": 1500,
+  "amount_capturable": 0,
+  "amount_details": {
+    "tip": {}
+  },
+  "amount_received": 1500,
+  "application": null,
+  "application_fee_amount": null,
+  "automatic_payment_methods": {
+    "allow_redirects": "always",
+    "enabled": true
+  },
+  "canceled_at": null,
+  "cancellation_reason": null,
+  "capture_method": "automatic_async",
+  "client_secret": "pi_3R2tliKs0E3e1wm70FoqMe32_secret_DwunmEHl1HLtlLxv1EMMIX0Nd",
+  "confirmation_method": "automatic",
+  "created": 1742041486,
+  "currency": "eur",
+  "customer": null,
+  "description": null,
+  "id": "pi_3R2tliKs0E3e1wm70FoqMe32",
+  "invoice": null,
+  "last_payment_error": null,
+  "latest_charge": "ch_3R2tliKs0E3e1wm70SVgcw7j",
+  "livemode": false,
+  "metadata": {},
+  "next_action": null,
+  "object": "payment_intent",
+  "on_behalf_of": null,
+  "payment_method": "pm_1R2tlxKs0E3e1wm7bGvtlrrp",
+  "payment_method_configuration_details": {
+    "id": "pmc_1QnfKMKs0E3e1wm7xhbkl65a",
+    "parent": null
+  },
+  "payment_method_options": {
+    "bancontact": {
+      "preferred_language": "en"
+    },
+    "card": {
+      "installments": null,
+      "mandate_options": null,
+      "network": null,
+      "request_three_d_secure": "automatic"
+    },
+    "eps": {},
+    "giropay": {},
+    "klarna": {
+      "preferred_locale": null
+    },
+    "link": {
+      "persistent_token": null
+    }
+  },
+  "payment_method_types": [
+    "card",
+    "bancontact",
+    "eps",
+    "giropay",
+    "klarna",
+    "link"
+  ],
+  "processing": null,
+  "receipt_email": null,
+  "review": null,
+  "setup_future_usage": null,
+  "shipping": null,
+  "source": null,
+  "statement_descriptor": null,
+  "statement_descriptor_suffix": null,
+  "status": "succeeded",
+  "transfer_data": null,
+  "transfer_group": null
+}
+2025-03-15 12:25:02 [INFO] views.py:321 - Payment succeeded, creating order items
+2025-03-15 12:25:03 [DEBUG] views.py:324 - Updated Order State - ID: 428, User: 8, Guest Email: , Shipping Info: 587
+2025-03-15 12:25:03 [INFO] views.py:329 - Order 428 finalized successfully
+2025-03-15 12:25:03 [INFO] basehttp.py:213 - "POST /checkout/ HTTP/1.1" 302 0
+2025-03-15 12:25:03 [INFO] basehttp.py:213 - "GET /checkout/checkout_success/f0592bf6-339f-4b75-84ac-cce891a4ae1d HTTP/1.1" 200 7061
+2025-03-15 12:26:28 [INFO] basehttp.py:213 - "GET /products/?next= HTTP/1.1" 200 10160
+2025-03-15 12:26:31 [INFO] basehttp.py:213 - "POST /bag/bag/add/2/ HTTP/1.1" 200 762
+2025-03-15 12:26:32 [INFO] basehttp.py:213 - "GET /bag/ HTTP/1.1" 200 9534
+2025-03-15 12:26:34 [INFO] _util.py:128 - message='Request to Stripe api' method=post url=https://api.stripe.com/v1/payment_intents
+2025-03-15 12:26:34 [INFO] _util.py:128 - message='Stripe API response' path=https://api.stripe.com/v1/payment_intents response_code=200
+2025-03-15 12:26:34 [INFO] signals.py:19 - Signal triggered for ShippingInfo.
+2025-03-15 12:26:35 [INFO] basehttp.py:213 - "GET /checkout/ HTTP/1.1" 200 29250
+2025-03-15 12:26:35 [INFO] basehttp.py:213 - "GET /static/checkout/js/stripe_elements.js HTTP/1.1" 304 0
+2025-03-15 12:27:05 [INFO] basehttp.py:213 - "POST /checkout/cache_checkout_data/ HTTP/1.1" 200 17
+2025-03-15 12:27:06 [INFO] views.py:111 - Checkout POST - User: stipaxa1, Authenticated: True, Use Default: False
+2025-03-15 12:27:07 [DEBUG] views.py:118 - Initial Order State - ID: 429, User: None, Guest Email: 
+2025-03-15 12:27:07 [INFO] signals.py:19 - Signal triggered for ShippingInfo.
+2025-03-15 12:27:07 [ERROR] views.py:287 - ORDER: update_order_details: s.tipaxa@gmail.com
+2025-03-15 12:27:07 [INFO] views.py:306 - Finalizing order 429 - User: 8, Guest Email: , Status: pending
+2025-03-15 12:27:07 [INFO] _util.py:128 - message='Request to Stripe api' method=get url=https://api.stripe.com/v1/payment_intents/pi_3R2tnSKs0E3e1wm70cwLl3LC
+2025-03-15 12:27:07 [INFO] _util.py:128 - message='Stripe API response' path=https://api.stripe.com/v1/payment_intents/pi_3R2tnSKs0E3e1wm70cwLl3LC response_code=200
+2025-03-15 12:27:07 [DEBUG] views.py:311 - PaymentIntent status: succeeded
+2025-03-15 12:27:07 [DEBUG] views.py:312 - Retrieved Stripe PaymentIntent: {
+  "amount": 730,
+  "amount_capturable": 0,
+  "amount_details": {
+    "tip": {}
+  },
+  "amount_received": 730,
+  "application": null,
+  "application_fee_amount": null,
+  "automatic_payment_methods": {
+    "allow_redirects": "always",
+    "enabled": true
+  },
+  "canceled_at": null,
+  "cancellation_reason": null,
+  "capture_method": "automatic_async",
+  "client_secret": "pi_3R2tnSKs0E3e1wm70cwLl3LC_secret_vO7xtDPQVd06xbFgy5q9bV4UD",
+  "confirmation_method": "automatic",
+  "created": 1742041594,
+  "currency": "eur",
+  "customer": null,
+  "description": null,
+  "id": "pi_3R2tnSKs0E3e1wm70cwLl3LC",
+  "invoice": null,
+  "last_payment_error": null,
+  "latest_charge": "ch_3R2tnSKs0E3e1wm70bVd8UD6",
+  "livemode": false,
+  "metadata": {},
+  "next_action": null,
+  "object": "payment_intent",
+  "on_behalf_of": null,
+  "payment_method": "pm_1R2tnxKs0E3e1wm7X2z7foDC",
+  "payment_method_configuration_details": {
+    "id": "pmc_1QnfKMKs0E3e1wm7xhbkl65a",
+    "parent": null
+  },
+  "payment_method_options": {
+    "bancontact": {
+      "preferred_language": "en"
+    },
+    "card": {
+      "installments": null,
+      "mandate_options": null,
+      "network": null,
+      "request_three_d_secure": "automatic"
+    },
+    "eps": {},
+    "giropay": {},
+    "klarna": {
+      "preferred_locale": null
+    },
+    "link": {
+      "persistent_token": null
+    }
+  },
+  "payment_method_types": [
+    "card",
+    "bancontact",
+    "eps",
+    "giropay",
+    "klarna",
+    "link"
+  ],
+  "processing": null,
+  "receipt_email": null,
+  "review": null,
+  "setup_future_usage": null,
+  "shipping": null,
+  "source": null,
+  "statement_descriptor": null,
+  "statement_descriptor_suffix": null,
+  "status": "succeeded",
+  "transfer_data": null,
+  "transfer_group": null
+}
+2025-03-15 12:27:07 [INFO] views.py:321 - Payment succeeded, creating order items
+2025-03-15 12:27:07 [DEBUG] views.py:324 - Updated Order State - ID: 429, User: 8, Guest Email: , Shipping Info: 589
+2025-03-15 12:27:07 [INFO] views.py:329 - Order 429 finalized successfully
+2025-03-15 12:27:07 [INFO] basehttp.py:213 - "POST /checkout/ HTTP/1.1" 302 0
+2025-03-15 12:27:08 [INFO] basehttp.py:213 - "GET /checkout/checkout_success/e78fad85-cced-4718-8999-5375ba93cde1 HTTP/1.1" 200 7062
+2025-03-15 12:29:47 [INFO] autoreload.py:266 - /Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+2025-03-15 12:29:48 [INFO] autoreload.py:668 - Watching for file changes with StatReloader
+2025-03-15 12:35:08 [INFO] autoreload.py:266 - /Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+2025-03-15 12:35:09 [INFO] autoreload.py:668 - Watching for file changes with StatReloader
+2025-03-15 12:35:31 [INFO] autoreload.py:266 - /Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+2025-03-15 12:35:32 [INFO] autoreload.py:668 - Watching for file changes with StatReloader
+2025-03-15 12:35:43 [INFO] autoreload.py:266 - /Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+2025-03-15 12:35:43 [INFO] autoreload.py:668 - Watching for file changes with StatReloader
+2025-03-15 12:35:59 [INFO] autoreload.py:266 - /Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+2025-03-15 12:35:59 [INFO] autoreload.py:668 - Watching for file changes with StatReloader
+2025-03-15 12:36:01 [INFO] autoreload.py:266 - /Users/taisiasimakova/code/code institute course/gerbet-and-co/checkout/views.py changed, reloading.
+2025-03-15 12:36:01 [INFO] autoreload.py:668 - Watching for file changes with StatReloader

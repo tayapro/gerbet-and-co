@@ -253,14 +253,15 @@ LOGGING = {
     },
     'handlers': {
             'console': {
+                'level': 'DEBUG',
                 'class': 'logging.StreamHandler',
                 'formatter': 'detailed',
-                'level': 'DEBUG',
             },
             'file': {
                 'level': 'DEBUG',
                 'class': 'logging.FileHandler',
                 'filename': 'stripe_debug.log',
+                'formatter': 'detailed',
             },
     },
     'loggers': {
