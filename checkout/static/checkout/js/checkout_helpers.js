@@ -16,19 +16,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     })
 
-    // Handle DefaultAddress and SaveAsDefault checkboxes
-    const useDefaultCheckbox = document.getElementById(
-        '{{ form.use_default.id_for_label }}'
+    const useDefaultCheckbox = document.querySelector(
+        '[data-id-for-label][name="use_default_address"]'
     )
-    const saveAsDefaultCheckbox = document.getElementById(
-        '{{ form.save_as_default.id_for_label }}'
+    const saveAsDefaultCheckbox = document.querySelector(
+        '[data-id-for-label][name="save_as_default"]'
     )
     const addressFields = document.getElementById('address-fields')
     const preview = document.getElementById('default-address-preview')
 
-    const toggleFields = (checked) => {
-        if (!addressFields || !preview) return
+    if (!useDefaultCheckbox || !addressFields) return
 
+    const toggleFields = (checked) => {
         addressFields.style.display = checked ? 'none' : 'block'
         preview.style.display = checked ? 'block' : 'none'
 
@@ -36,26 +35,20 @@ document.addEventListener('DOMContentLoaded', function () {
         addressFields
             .querySelectorAll('input, select, textarea')
             .forEach((field) => {
-                if (checked) {
-                    field.value = ''
-                    field.classList.remove('is-invalid') // Remove validation error
-                }
+                if (checked) field.value = ''
             })
 
-        // Reset 'save as default' when using default address
+        // Reset save_as_default when using default address
         if (saveAsDefaultCheckbox) {
             saveAsDefaultCheckbox.checked = false
             saveAsDefaultCheckbox.value = 'false'
         }
     }
 
-    if (useDefaultCheckbox) {
-        // Initial toggle based on checkbox state
-        toggleFields(useDefaultCheckbox.checked)
+    // Initial toggle based on checkbox state
+    toggleFields(useDefaultCheckbox.checked)
 
-        // Handle user changes
-        useDefaultCheckbox.addEventListener('change', (e) => {
-            toggleFields(e.target.checked)
-        })
-    }
+    useDefaultCheckbox.addEventListener('change', (e) => {
+        toggleFields(e.target.checked)
+    })
 })

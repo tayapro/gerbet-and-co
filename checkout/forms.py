@@ -64,7 +64,7 @@ class ShippingInfoForm(forms.ModelForm):
     def validate_required_fields(self, fields, data, errors):
         for field in fields:
             if not data.get(field):
-                errors[field] = f"{fields[field].label} is required."
+                errors[field] = f"{self.fields[field].label} is required."
 
     def is_guest_user(self):
         return not self.user or not self.user.is_authenticated

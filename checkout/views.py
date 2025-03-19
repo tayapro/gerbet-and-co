@@ -1,9 +1,10 @@
 from django.conf import settings
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
+from datetime import datetime, timezone, timedelta
 from decimal import Decimal
 import logging
 import stripe
@@ -21,7 +22,9 @@ logger = logging.getLogger(__name__)
 def checkout(request):
     bag = Bag(request)
     if bag.is_empty():
-        return redirect("bag:view_bag")
+        messages.error(request, "Your shopping bag is empty. "
+                       "Please add items before checking out.")
+        return redirect("product_list")
 
     # Initialize essential variables
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
@@ -62,6 +65,12 @@ def handle_checkout_get(request, stripe_public_key, bag_total, delivery_cost,
         currency=currency,
         automatic_payment_methods={"enabled": True},
     )
+
+    # Store PaymentIntent creation time in session
+    request.session["payment_intent_created_at"] = (
+        datetime.now(timezone.utc).isoformat()
+    )
+    request.session.modified = True
 
     shipping_info = ShippingInfo.objects.create(
         user=request.user if request.user.is_authenticated else None
@@ -114,15 +123,12 @@ def handle_checkout_post(request, bag, order_id, currency):
         f"Use Default: {use_default}"
     )
 
-    order = get_object_or_404(Order, id=order_id)
-    logger.debug(
-        f"Initial Order State - ID: {order.id}, "
-        f"User: {order.user_id}, Guest Email: {order.guest_email}"
-    )
+    order = get_order_or_redirect(order_id, request)
+    # Handle redirection if no order is found
+    if isinstance(order, HttpResponseRedirect):
+        return order
 
-    if not order:
-        messages.error(request, "Missing order reference.")
-        return redirect("checkout")
+    check_payment_session(request, order)
 
     if request.user.is_authenticated and use_default:
         logger.info("Processing default address for authenticated user")
@@ -155,19 +161,11 @@ def handle_checkout_post(request, bag, order_id, currency):
 
     form = ShippingInfoForm(request.POST, user=request.user)
 
-    # if not form.is_valid():
-    #     return handle_invalid_form(request, form, currency)
+    if not form.is_valid():
+        return handle_invalid_form(request, form, currency)
 
     if form.is_valid():
         try:
-            # # Ensure it passes validation again
-            # if not form.is_valid():
-            #     logger.error("Form validation failed again after correction: %s",
-            #                  form.errors)
-            #     messages.error(request, "There was an issue"
-            #                    "with your address details.")
-            #     return redirect("checkout")
-
             shipping_info = process_shipping_info(form, request.user)
 
             # Update order with shipping info
@@ -187,7 +185,120 @@ def handle_checkout_post(request, bag, order_id, currency):
                       {"form": form, "order": order})
 
 
+@require_POST
+@csrf_exempt
+def cache_checkout_data(request):
+    """
+    Caches the checkout data in the session before confirming payment.
+    """
+    logger.error("BLAAAA: cache_checkout_data")
+    try:
+        order_id = request.POST.get("order_id")
+        if not order_id:
+            return JsonResponse({"error": "Order ID is required"}, status=400)
+
+        order = get_order_or_redirect(order_id, request)
+        if isinstance(order, JsonResponse):
+            return order
+
+        session_check = check_payment_session(request, order)
+        if isinstance(session_check, JsonResponse):
+            return session_check
+
+        # Cache data in session
+        request.session["checkout_cache"] = {
+            key: request.POST[key]
+            for key in ["user_email", "order_id"]
+            if key in request.POST
+        }
+        # request.session["checkout_cache"] = request.POST.dict()
+        payment_intent_id = request.POST.get("payment_intent_id")
+        if payment_intent_id:
+            request.session["payment_intent_id"] = payment_intent_id
+        request.session.modified = True
+
+        return JsonResponse({"success": True}, status=200)
+
+    except KeyError as e:
+        logger.error(f"Missing field in request: {str(e)}")
+        return JsonResponse({"error": f"Missing field: {str(e)}"}, status=400)
+    except Exception as e:
+        logger.error(f"Cache checkout data error: {str(e)}")
+        return JsonResponse({"error": "Failed to cache checkout data",
+                             "details": str(e)}, status=500)
+
+
 # Helper functions
+def handle_expired_payment_session(request, order):
+    """
+    Handles expired payment sessions by canceling the PaymentIntent
+    and clearing session data.
+    """
+    try:
+        stripe.PaymentIntent.cancel(order.stripe_pid)
+        messages.error(request, "Your session has expired. "
+                       "Please restart checkout.")
+        request.session["payment_intent_created_at"] = None
+        request.session["order_id"] = None
+        request.session.modified = True
+    except Exception as e:
+        messages.error(request, "An error occurred while canceling your "
+                       "payment. Please try again.")
+        logger.error("Payment cancelling error: Stripe_pid "
+                     f"{order.stripe_pid} - {str(e)}")
+
+
+def check_payment_session(request, order):
+    """
+    Validates the payment session and handles expiration.
+    """
+    payment_created_at = request.session.get("payment_intent_created_at")
+    if payment_created_at:
+        try:
+            # Convert the ISO 8601 string into a datetime object
+            payment_created_at = datetime.fromisoformat(payment_created_at)
+            # Make it timezone-aware
+            request.session["payment_intent_created_at"] = (
+                datetime.now(timezone.utc).isoformat()
+            )
+        except ValueError:
+            messages.error(request, "Invalid session data. "
+                           "Please restart checkout.")
+            request.session["payment_intent_created_at"] = None
+            return JsonResponse({"error": "Invalid session data. "
+                                 "Please restart checkout."}, status=400)
+
+        # Check if the session has expired
+        if (
+            datetime.now(timezone.utc) - payment_created_at
+            > timedelta(hours=1)
+        ):
+            handle_expired_payment_session(request, order)
+            return JsonResponse({"error": "Your session has expired. "
+                                 "Please restart checkout."}, status=400)
+
+        return None
+
+
+def get_order_or_redirect(order_id, request):
+    """
+    Retrieves an order by ID or redirects to the checkout page
+    with an error message.
+    Logs the initial state of the order if found.
+    """
+    try:
+        order = Order.objects.get(id=order_id)
+        logger.debug(
+            f"Initial Order State - ID: {order.id}, "
+            f"User: {order.user_id}, Guest Email: {order.guest_email}"
+        )
+        return order
+    except Order.DoesNotExist:
+        messages.error(request, "Missing order reference.")
+        logger.error(f"Order with ID {order_id} not found.")
+        return JsonResponse({"error": "Order not found."}, status=400)
+
+
 def get_full_name(request):
     """Get user's full name"""
     if request.user.is_authenticated:
@@ -331,7 +442,8 @@ def finalize_order(request, bag, order):
                 f"Shipping Info: {order.shipping_info_id}"
             )
             logger.info(f"Order {order.id} finalized successfully")
-            return redirect(reverse("checkout_success", args=[order.order_id]))
+            return render(request, "checkout/checkout_success.html",
+                          {"order": order})
 
         logger.warning(
             f"Payment not successful - Status: {intent.status}, "
@@ -411,7 +523,10 @@ def handle_checkout_error(request, error):
 
 
 def checkout_success(request, order_id):
-    order = get_object_or_404(Order, order_id=order_id)
+    order = get_order_or_redirect(order_id, request)
+    # Handle redirection if no order is found
+    if isinstance(order, HttpResponseRedirect):
+        return order
 
     if "bag" in request.session:
         del request.session["bag"]
@@ -425,29 +540,3 @@ def checkout_success(request, order_id):
         "order": order,
     }
     return render(request, "checkout/checkout_success.html", context)
-
-
-@require_POST
-@csrf_exempt
-def cache_checkout_data(request):
-    """
-    Caches the checkout data in the session before confirming payment.
-    """
-    try:
-        # Extract important fields from request.POST
-        order_id = request.POST.get("order_id")
-        if not Order.objects.filter(id=order_id).exists():
-            messages.error(request, "Order not found")
-            return JsonResponse({"error": "Order not found"}, status=400)
-
-        payment_intent_id = request.POST.get("payment_intent_id")
-        # Store data in session
-        request.session["checkout_cache"] = request.POST.dict()
-        if payment_intent_id:
-            request.session["payment_intent_id"] = payment_intent_id
-        request.session.modified = True
-        return JsonResponse({"success": True})
-
-    except Exception as e:
-        return JsonResponse({"Failed to cache checkout data, error": str(e)},
-                            status=500)

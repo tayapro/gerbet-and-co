@@ -23,6 +23,7 @@ function validateForm() {
     requiredFields.forEach((fieldName) => {
         const field = document.getElementById(`id_${fieldName}`)
         if (!field || field.value.trim() === '') {
+            console.log('Auth user mode: ', field)
             field.classList.add('is-invalid')
             isValid = false
         } else {
@@ -35,6 +36,7 @@ function validateForm() {
     if (document.getElementById('id_guest_first_name')) {
         guestFields.forEach((fieldName) => {
             const field = document.getElementById(`id_${fieldName}`)
+            console.log('Guest mode: ', field)
             if (!field || field.value.trim() === '') {
                 field.classList.add('is-invalid')
                 isValid = false
@@ -141,31 +143,44 @@ document.addEventListener('DOMContentLoaded', function () {
                 body: postData,
             })
 
-            if (resp.status === 200) {
-                // Confirm Stripe payment
-                const { paymentIntent, error } = await stripe.confirmPayment({
-                    elements,
-                    clientSecret,
-                    confirmParams: {
-                        return_url:
-                            window.location.origin +
-                            `/checkout/success/${orderId}/`,
-                        payment_method_data: {
-                            billing_details: {
-                                name: name,
-                                email: email,
-                            },
+            const responseData = await resp.json()
+
+            if (resp.status !== 200) {
+                // If backend validation fails, show error and stop payment
+                console.log(
+                    'If backend validation fails, show error and stop payment',
+                    responseData.error
+                )
+                cardErrors.textContent =
+                    responseData.error ||
+                    'An error occurred while storing your checkout details.'
+                submitButton.disabled = false
+                return
+            }
+
+            // Confirm Stripe payment, if session storage was successful
+            const { paymentIntent, error } = await stripe.confirmPayment({
+                elements,
+                clientSecret,
+                confirmParams: {
+                    return_url:
+                        window.location.origin +
+                        `/checkout/success/${orderId}/`,
+                    payment_method_data: {
+                        billing_details: {
+                            name: name,
+                            email: email,
                         },
                     },
-                    redirect: 'if_required',
-                })
+                },
+                redirect: 'if_required',
+            })
 
-                if (error) {
-                    handleError(cardErrors, error)
-                    submitButton.disabled = false
-                } else {
-                    form.submit()
-                }
+            if (error) {
+                handleError(cardErrors, error)
+                submitButton.disabled = false
+            } else {
+                form.submit()
             }
         } catch (err) {
             console.error('Error processing payment:', err)

@@ -35,7 +35,8 @@
                 <div class="card-body m-2">
                     {% if user.is_authenticated and default_address %}
                         <div class="form-check mb-3 ps-0">
-                            {{ form.use_default }}
+                            <input type="checkbox" id="{{ form.use_default.id_for_label }}" 
+                            data-id-for-label="{{ form.use_default.id_for_label }}" name="use_default_address" checked>
                             <label class="form-check-label" for="{{ form.use_default.id_for_label }}">
                                 Use my default address
                             </label>
@@ -58,7 +59,7 @@
                     {% endif %}
 
                     <div id="address-fields" 
-                         style="display: {% if form.use_default.value and default_address %}none{% else %}block{% endif %}">
+                         style="display: {% if form.use_default.value and default_address %}none{% else %}block{% endif %}">                        
                          {% for field in form %}
                             {% if field.name != "use_default" and field.name != "save_as_default" %}
                                 {{ field|as_crispy_field }}
@@ -70,6 +71,7 @@
                             <div class="form-check mb-3 ps-0">
                                 <input type="checkbox" name="save_as_default"
                                 id="{{ form.save_as_default.id_for_label }}"
+                                data-id-for-label="{{ form.save_as_default.id_for_label }}"
                                 value="true">
                                 <label for="{{ form.save_as_default.id_for_label }}">Save this as my default address</label>
                             </div>
@@ -102,7 +104,7 @@
         
             <!-- Confirmation checkbox -->
             <div class="form-check mt-4">
-                <input type="checkbox" class="form-check-input" id="confirm-order-checkbox" disabled>
+                <input type="checkbox" class="form-check-input" id="confirm-order-checkbox">
                 <label class="form-check-label" for="confirm-order-checkbox">
                     I confirm my order details.
                 </label>
@@ -160,75 +162,90 @@
     {{ stripe_public_key|json_script:"id_stripe_public_key" }}
     {{ client_secret|json_script:"id_client_secret" }}
     <script>
-        /*
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const form = document.getElementById("checkout-form");
+            
+            if (!form) return;
+        
             form.addEventListener("input", function (event) {
                 const field = event.target;
-            
-                // Remove "is-invalid" class when field becomes valid
-                if (field.classList.contains("is-invalid") && field.value.trim() !== "") {
+        
+                if (field.classList.contains("is-invalid")) {
                     field.classList.remove("is-invalid");
                 }
-            
-                // Hide specific error message
+        
                 const errorMessage = field.nextElementSibling;
                 if (errorMessage && errorMessage.classList.contains("invalid-feedback")) {
-                    errorMessage.style.display = "none";
+                    errorMessage.style.display = "none"; // Hide error message
                 }
-            
-                // Check the validity of all fields
-                const invalidFields = form.querySelectorAll(".is-invalid");
-                const submitButton = form.querySelector("button[type='submit']");
-                const confirmOrderCheckbox = form.getElementById("confirm-order-checkbox")
-            
-                if (form.checkValidity()) {
-                    // Enable the buttons
-                    submitButton.disabled = false
-                    confirmOrderCheckbox.disabled = false
-                } else {
-                    // Disable the buttons
-                    submitButton.disabled = true
-                    confirmOrderCheckbox.disabled = true
-                }
-            
-                // Remove global error message when all fields are valid
+
                 const formErrors = document.getElementById("form-errors");
-                if (formErrors && invalidFields.length === 0) {
+                if (formErrors) {
                     formErrors.remove();
                 }
-            });            
-        }); */
-
-        // Select all required fields in the form
-        const requiredFields = document.querySelectorAll("[required]");
-        const form = document.getElementById("checkout-form");
-
-        const firstField = requiredFields[0];
-
-        // Set focus to the first required field on page load
-        if (firstField) {
-            firstField.focus();
-        }
-
-        // Add event listeners to each required field
-        requiredFields.forEach((field) => {
-            // On blur (when the user leaves the field)
-            field.addEventListener("blur", () => {
-                if (field.value.trim() === "") {
-                    field.classList.add("is-invalid"); // Add error class
-                    showErrorMessage(field, `${field.getAttribute("name")} is required.`);
-                }
             });
 
-            // On input (when the user types into the field)
-            field.addEventListener("input", () => {
-                if (field.value.trim() !== "") {
-                    field.classList.remove("is-invalid"); // Remove error class
-                    hideErrorMessage(field);
+            /*
+            const useDefaultCheckbox = document.getElementById("{{ form.use_default.id_for_label }}")
+            const saveAsDefaultCheckbox = document.getElementById("{{ form.save_as_default.id_for_label }}")
+            const addressFields = document.getElementById("address-fields")
+            const preview = document.getElementById("default-address-preview")
+        
+            if (!useDefaultCheckbox || !addressFields) return
+        
+            const toggleFields = (checked) => {
+                addressFields.style.display = checked ? "none" : "block"
+                preview.style.display = checked ? "block" : "none"
+                
+                // Clear fields when using default address
+                addressFields.querySelectorAll("input, select, textarea").forEach(field => {
+                    if (checked) field.value = ""
+                })
+        
+                // Reset save_as_default when using default address
+                if (saveAsDefaultCheckbox) {
+                    saveAsDefaultCheckbox.checked = false
+                    saveAsDefaultCheckbox.value = "false"
                 }
-            });
-        });
+            }
+        
+            // Initial toggle based on checkbox state
+            toggleFields(useDefaultCheckbox.checked)
+
+            useDefaultCheckbox.addEventListener("change", (e) => {
+                toggleFields(e.target.checked)
+            })*/
+
+
+            // Select all required fields in the form
+            const requiredFields = document.querySelectorAll("[required]");
+
+            const firstField = requiredFields[0];
+
+            // Set focus to the first required field on page load
+            if (firstField) {
+                firstField.focus();
+            }
+
+            // Add event listeners to each required field
+            requiredFields.forEach((field) => {
+                // On blur (when the user leaves the field)
+                field.addEventListener("blur", () => {
+                    if (field.value.trim() === "") {
+                        field.classList.add("is-invalid"); // Add error class
+                        showErrorMessage(field, `${field.getAttribute("name")} is required.`);
+                    }
+                });
+
+                // On input (when the user types into the field)
+                field.addEventListener("input", () => {
+                    if (field.value.trim() !== "") {
+                        field.classList.remove("is-invalid"); // Remove error class
+                        hideErrorMessage(field);
+                    }
+                });
+            })
+        })
 
         // Function to show an error message
         function showErrorMessage(field, message) {
@@ -249,7 +266,9 @@
                 errorMessage.style.display = "none";
             }
         }
+    </script>
 
+    <script>
         /*
         requiredFields.forEach((field) => {
             field.addEventListener("input", (event) => {
