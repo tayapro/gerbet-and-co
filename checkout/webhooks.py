@@ -29,6 +29,7 @@ def get_order_with_retry(payment_intent_id):
 def handle_payment_event(payment_intent, event_type):
     try:
         order = get_order_with_retry(payment_intent.id)
+        logger.info(f"webhooks handle_payment_event: order - {order}")
 
         if order.user_id:
             # Authenticated user order

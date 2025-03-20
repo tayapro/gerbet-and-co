@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 
     const useDefaultCheckbox = document.querySelector(
-        '[data-id-for-label][name="use_default_address"]'
+        '[data-id-for-label][name="use_default"]'
     )
     const saveAsDefaultCheckbox = document.querySelector(
         '[data-id-for-label][name="save_as_default"]'

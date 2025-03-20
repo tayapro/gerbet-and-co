@@ -1,71 +1,12 @@
-function getFullName(form) {
-    const isGuest = form.elements['guest_first_name'] !== undefined
-
-    if (isGuest) {
-        const firstName = form.guest_first_name.value.trim()
-        const lastName = form.guest_last_name.value.trim()
-        return `${firstName} ${lastName}`.trim()
-    } else {
-        return form.full_name ? form.full_name.value.trim() : ''
-    }
-}
-
-function validateForm() {
-    let isValid = true
-    const requiredFields = [
-        'phone_number',
-        'street_address1',
-        'town_or_city',
-        'postcode',
-        'country',
-    ]
-
-    requiredFields.forEach((fieldName) => {
-        const field = document.getElementById(`id_${fieldName}`)
-        if (!field || field.value.trim() === '') {
-            console.log('Auth user mode: ', field)
-            field.classList.add('is-invalid')
-            isValid = false
-        } else {
-            field.classList.remove('is-invalid')
-        }
-    })
-
-    // Guest users validation
-    const guestFields = ['guest_first_name', 'guest_last_name', 'guest_email']
-    if (document.getElementById('id_guest_first_name')) {
-        guestFields.forEach((fieldName) => {
-            const field = document.getElementById(`id_${fieldName}`)
-            console.log('Guest mode: ', field)
-            if (!field || field.value.trim() === '') {
-                field.classList.add('is-invalid')
-                isValid = false
-            } else {
-                field.classList.remove('is-invalid')
-            }
-        })
-    }
-
-    return isValid
-}
-
-function handleError(cardErrors, error) {
-    cardErrors.textContent = error.message
-}
-
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('checkout-form')
     const submitButton = document.getElementById('submit-button')
     const cardErrors = document.getElementById('card-errors')
+    const csrfToken = document.querySelector(
+        '[name=csrfmiddlewaretoken]'
+    )?.value
 
     if (!form || !submitButton || !cardErrors) return
-
-    const orderId = document.getElementById('order_id').value
-    if (!orderId) {
-        document.getElementById('card-errors').textContent =
-            'Missing order reference'
-        return
-    }
 
     const stripePublicKey = JSON.parse(
         document.getElementById('id_stripe_public_key').textContent
@@ -75,24 +16,10 @@ document.addEventListener('DOMContentLoaded', function () {
     )
     const stripe = window.Stripe(stripePublicKey)
 
-    const currency = document.getElementById('currency').value
-    if (!currency) {
-        document.getElementById('card-errors').textContent =
-            'Missing currency reference'
-        return
-    }
-
-    const amount = document.getElementById('amount').value
-    if (!amount) {
-        document.getElementById('card-errors').textContent =
-            'Missing amount reference'
-        return
-    }
-
     const elements = stripe.elements({
         mode: 'payment',
-        currency: currency,
-        amount: parseInt(amount),
+        currency: document.getElementById('currency').value,
+        amount: parseInt(document.getElementById('amount').value),
         paymentMethodCreation: 'manual',
     })
 
@@ -104,88 +31,215 @@ document.addEventListener('DOMContentLoaded', function () {
     })
     paymentElement.mount('#payment-element')
 
+    // Real-time Validation Setup
+    setupValidation()
+    initializeStripeValidation()
+
+    // Form Submission Handler
     form.addEventListener('submit', async (event) => {
         event.preventDefault()
         submitButton.disabled = true
-
-        if (!validateForm()) {
-            cardErrors.textContent = 'Please fix the errors before proceeding.'
-            submitButton.disabled = false
-            return
-        }
+        clearAllErrors()
 
         try {
-            // Call elements.submit() to validate inputs
-            const { error: validationError } = await elements.submit()
-            if (validationError) {
-                handleError(cardErrors, validationError)
-                submitButton.disabled = false
+            // Step 1: Validate Django Form Fields
+            if (!validateForm()) {
+                focusFirstInvalidField()
+                throw new Error('Please fix form errors')
+            }
+
+            // Step 2: Validate Stripe Elements
+            const { error: elementsError } = await elements.submit()
+            if (elementsError) throw elementsError
+
+            // Step 3: Cache Checkout Data
+            const cacheResponse = await cacheCheckoutData()
+            if (cacheResponse.redirected) {
+                window.location.href = cacheResponse.url
                 return
             }
 
-            // Retrieve user full name and email
-            const name = getFullName(form)
-            const emailField =
-                document.getElementById('id_guest_email') ||
-                document.getElementById('id_email')
-            const email = emailField ? emailField.value.trim() : ''
-
-            // Cache checkout data in Django session
-            const postData = new FormData()
-            postData.append('order_id', orderId)
-            postData.append(
-                'save_info',
-                document.getElementById('id-save-info')?.checked
-            )
-
-            const resp = await fetch('/checkout/cache_checkout_data/', {
-                method: 'POST',
-                body: postData,
-            })
-
-            const responseData = await resp.json()
-
-            if (resp.status !== 200) {
-                // If backend validation fails, show error and stop payment
-                console.log(
-                    'If backend validation fails, show error and stop payment',
-                    responseData.error
-                )
-                cardErrors.textContent =
-                    responseData.error ||
-                    'An error occurred while storing your checkout details.'
-                submitButton.disabled = false
-                return
-            }
-
-            // Confirm Stripe payment, if session storage was successful
-            const { paymentIntent, error } = await stripe.confirmPayment({
+            // Step 4: Confirm Payment
+            const { error: paymentError } = await stripe.confirmPayment({
                 elements,
                 clientSecret,
-                confirmParams: {
-                    return_url:
-                        window.location.origin +
-                        `/checkout/success/${orderId}/`,
-                    payment_method_data: {
-                        billing_details: {
-                            name: name,
-                            email: email,
-                        },
-                    },
-                },
+                confirmParams: getConfirmParams(),
                 redirect: 'if_required',
             })
 
-            if (error) {
-                handleError(cardErrors, error)
-                submitButton.disabled = false
-            } else {
-                form.submit()
-            }
-        } catch (err) {
-            console.error('Error processing payment:', err)
-            handleError(cardErrors, err)
+            if (paymentError) throw paymentError
+
+            // Final Submission
+            form.submit()
+        } catch (error) {
+            handleError(error)
+        } finally {
             submitButton.disabled = false
         }
     })
+
+    // Helper Functions
+    function setupValidation() {
+        document.querySelectorAll('.form-control').forEach((field) => {
+            field.addEventListener('input', handleFieldInput)
+            field.addEventListener('blur', handleFieldBlur)
+        })
+    }
+
+    function initializeStripeValidation() {
+        paymentElement.on('change', (event) => {
+            cardErrors.textContent = event.error?.message || ''
+            cardErrors.style.display = event.error ? 'block' : 'none'
+        })
+    }
+
+    function handleFieldInput(event) {
+        const field = event.target
+        field.classList.remove('is-invalid')
+        hideErrorMessage(field)
+        cardErrors.textContent = ''
+    }
+
+    function handleFieldBlur(event) {
+        const field = event.target
+        if (field.required && field.value.trim() === '') {
+            showErrorMessage(
+                field,
+                `${field.labels[0]?.textContent} is required`
+            )
+        }
+    }
+
+    function validateForm() {
+        let isValid = true
+        const isGuest = !!document.getElementById('id_guest_email')
+        const useDefault = document.getElementById('id_use_default')?.checked
+
+        // Validate Guest Fields
+        if (isGuest) {
+            isValid = [
+                'guest_first_name',
+                'guest_last_name',
+                'guest_email',
+            ].every((id) => {
+                return validateField(document.getElementById(`id_${id}`))
+            })
+        }
+
+        // Validate Address Fields
+        if (!useDefault) {
+            isValid =
+                [
+                    'phone_number',
+                    'street_address1',
+                    'town_or_city',
+                    'country',
+                ].every((id) => {
+                    return validateField(document.getElementById(`id_${id}`))
+                }) && isValid
+        }
+
+        return isValid
+    }
+
+    function validateField(field) {
+        if (!field) return true
+        const isValid = field.value.trim() !== ''
+        field.classList.toggle('is-invalid', !isValid)
+        if (!isValid)
+            showErrorMessage(
+                field,
+                `${field.labels[0]?.textContent} is required`
+            )
+        return isValid
+    }
+
+    async function cacheCheckoutData() {
+        return await fetch('/checkout/cache_checkout_data/', {
+            method: 'POST',
+            body: new FormData(form),
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrfToken,
+            },
+        })
+    }
+
+    function getConfirmParams() {
+        return {
+            return_url: `${window.location.origin}/checkout/success/${
+                document.getElementById('order_id').value
+            }/`,
+            payment_method_data: {
+                billing_details: {
+                    name: getFullName(),
+                    email:
+                        document.getElementById('id_guest_email')?.value ||
+                        document.getElementById('id_email')?.value,
+                },
+            },
+        }
+    }
+
+    function getFullName() {
+        const isGuest = !!document.getElementById('id_guest_first_name')
+        if (isGuest) {
+            return `${document.getElementById('id_guest_first_name').value} ${
+                document.getElementById('id_guest_last_name').value
+            }`.trim()
+        }
+        return document.getElementById('full_name')?.value.trim() || ''
+    }
+
+    function handleError(error) {
+        console.error('Checkout Error:', error)
+        cardErrors.textContent = error.message
+        cardErrors.style.display = 'block'
+
+        if (error.type === 'validation_error') {
+            document.querySelector('#payment-element').scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+            })
+        }
+    }
+
+    function clearAllErrors() {
+        document.querySelectorAll('.is-invalid').forEach((field) => {
+            field.classList.remove('is-invalid')
+            hideErrorMessage(field)
+        })
+        cardErrors.textContent = ''
+    }
+
+    function focusFirstInvalidField() {
+        const firstInvalid = document.querySelector('.is-invalid')
+        if (firstInvalid) {
+            firstInvalid.focus()
+            firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+    }
+
+    function showErrorMessage(field, message) {
+        field.setAttribute('aria-invalid', 'true')
+        const errorId = `error-${field.id}`
+
+        let errorElement = document.getElementById(errorId)
+        if (!errorElement) {
+            errorElement = document.createElement('div')
+            errorElement.id = errorId
+            errorElement.className = 'invalid-feedback'
+            field.parentNode.appendChild(errorElement)
+        }
+
+        errorElement.textContent = message
+        field.setAttribute('aria-describedby', errorId)
+    }
+
+    function hideErrorMessage(field) {
+        const errorElement = document.getElementById(`error-${field.id}`)
+        if (errorElement) errorElement.textContent = ''
+        field.removeAttribute('aria-invalid')
+        field.removeAttribute('aria-describedby')
+    }
 })

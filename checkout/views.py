@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, reverse, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime, timezone, timedelta
@@ -125,7 +125,7 @@ def handle_checkout_post(request, bag, order_id, currency):
 
     order = get_order_or_redirect(order_id, request)
     # Handle redirection if no order is found
-    if isinstance(order, HttpResponseRedirect):
+    if not isinstance(order, Order):
         return order
 
     check_payment_session(request, order)
@@ -191,14 +191,14 @@ def cache_checkout_data(request):
     """
     Caches the checkout data in the session before confirming payment.
     """
-    logger.error("BLAAAA: cache_checkout_data")
-    try:
-        order_id = request.POST.get("order_id")
-        if not order_id:
-            return JsonResponse({"error": "Order ID is required"}, status=400)
+    logger.info("cache_checkout_data")
+    for key, value in request.session.items():
+        logger.info(f"Key: {key}, Value: {value}")
+        print(f"Key: {key}, Value: {value}")
 
-        order = get_order_or_redirect(order_id, request)
-        if isinstance(order, JsonResponse):
+    try:
+        order = get_order_or_redirect(request.POST.get("order_id"), request)
+        if not isinstance(order, Order):
             return order
 
         session_check = check_payment_session(request, order)
@@ -236,8 +236,8 @@ def handle_expired_payment_session(request, order):
     """
     try:
         stripe.PaymentIntent.cancel(order.stripe_pid)
-        messages.error(request, "Your session has expired. "
-                       "Please restart checkout.")
+        # messages.error(request, "Your session has expired. "
+        #                "Please restart checkout.")
         request.session["payment_intent_created_at"] = None
         request.session["order_id"] = None
         request.session.modified = True
@@ -282,9 +282,10 @@ def check_payment_session(request, order):
 
 def get_order_or_redirect(order_id, request):
     """
-    Retrieves an order by ID or redirects to the checkout page
-    with an error message.
-    Logs the initial state of the order if found.
+    Unified order retrieval that handles:
+    - AJAX requests (returns JSON)
+    - Regular requests (returns redirect)
+    - Session expiration checks
     """
     try:
         order = Order.objects.get(id=order_id)
@@ -294,9 +295,15 @@ def get_order_or_redirect(order_id, request):
         )
         return order
     except Order.DoesNotExist:
-        messages.error(request, "Missing order reference.")
         logger.error(f"Order with ID {order_id} not found.")
-        return JsonResponse({"error": "Order not found."}, status=400)
+
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                "error": "order_not_found",
+                "redirect": reverse("checkout")
+            }, status=404)
+
+        return HttpResponseRedirect(reverse("checkout"))
 
 
 def get_full_name(request):
@@ -524,8 +531,7 @@ def handle_checkout_error(request, error):
 
 def checkout_success(request, order_id):
     order = get_order_or_redirect(order_id, request)
-    # Handle redirection if no order is found
-    if isinstance(order, HttpResponseRedirect):
+    if not isinstance(order, Order):
         return order
 
     if "bag" in request.session:
