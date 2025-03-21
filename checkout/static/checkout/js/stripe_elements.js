@@ -142,16 +142,81 @@ document.addEventListener('DOMContentLoaded', function () {
         return isValid
     }
 
+    // function validateField(field) {
+    //     if (!field) return true
+    //     const isValid = field.value.trim() !== ''
+    //     field.classList.toggle('is-invalid', !isValid)
+    //     if (!isValid)
+    //         showErrorMessage(
+    //             field,
+    //             `${field.labels[0]?.textContent} is required`
+    //         )
+    //     return isValid
+    // }
+
     function validateField(field) {
         if (!field) return true
-        const isValid = field.value.trim() !== ''
+
+        const fieldType = field.getAttribute('data-validate') || field.type
+        let isValid = true
+
+        switch (fieldType) {
+            case 'text':
+            case 'textarea':
+                isValid = field.value.trim().length > 2
+                break
+
+            case 'email':
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+                isValid = emailRegex.test(field.value.trim())
+                break
+
+            case 'tel':
+                const phoneRegex = /^\+?\d{7,15}$/
+                isValid = phoneRegex.test(field.value.trim())
+                break
+
+            case 'number':
+                isValid =
+                    field.value.trim() !== '' && !isNaN(parseFloat(field.value))
+                break
+
+            case 'checkbox':
+                isValid = field.required ? field.checked : true
+                break
+
+            case 'select-one':
+                isValid = field.value !== '' && field.value !== 'default'
+                break
+
+            default:
+                isValid = field.value.trim().length > 2
+        }
+
+        // Apply validation feedback
         field.classList.toggle('is-invalid', !isValid)
-        if (!isValid)
-            showErrorMessage(
-                field,
-                `${field.labels[0]?.textContent} is required`
-            )
+
+        if (!isValid) {
+            const label = field.labels
+                ? field.labels[0]?.textContent
+                : 'This field'
+            const message =
+                fieldType === 'tel'
+                    ? `${label} must be a valid phone number (7-15 digits, optional + at start)`
+                    : `${label} is required or invalid`
+            showErrorMessage(field, message)
+        } else {
+            clearErrorMessage(field)
+        }
+
         return isValid
+    }
+
+    function clearErrorMessage(field) {
+        let errorSpan = field.nextElementSibling
+        if (errorSpan && errorSpan.classList.contains('invalid-feedback')) {
+            errorSpan.style.display = 'none'
+        }
     }
 
     async function cacheCheckoutData() {
@@ -222,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function showErrorMessage(field, message) {
         field.setAttribute('aria-invalid', 'true')
-        const errorId = `error-${field.id}`
+        const errorId = `error_1_${field.id}`
 
         let errorElement = document.getElementById(errorId)
         if (!errorElement) {
@@ -237,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function hideErrorMessage(field) {
-        const errorElement = document.getElementById(`error-${field.id}`)
+        const errorElement = document.getElementById(`error_1_${field.id}`)
         if (errorElement) errorElement.textContent = ''
         field.removeAttribute('aria-invalid')
         field.removeAttribute('aria-describedby')

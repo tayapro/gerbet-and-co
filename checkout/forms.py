@@ -1,9 +1,19 @@
 from django import forms
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
+from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator, EmailValidator
+import re
 
 from .models import Order, ShippingInfo
+
+
+def validate_phone_number(value):
+    """Validate phone number format: Allows + and 7-15 digits."""
+    phone_regex = re.compile(r"^\+?\d{7,15}$")
+    if not phone_regex.match(value):
+        raise ValidationError("Enter a valid phone number (7-15 digits, "
+                              "optional '+').")
 
 
 class ShippingInfoForm(forms.ModelForm):
@@ -24,7 +34,7 @@ class ShippingInfoForm(forms.ModelForm):
     )
     phone_number = forms.CharField(
         required=True,
-        validators=[MinLengthValidator(10)],
+        validators=[validate_phone_number],
         widget=forms.TextInput(),
     )
     street_address1 = forms.CharField(
@@ -108,6 +118,23 @@ class ShippingInfoForm(forms.ModelForm):
             for key in field_order
             if key in self.fields
         }
+        for field_name in ["guest_first_name",
+                           "guest_last_name",
+                           "street_address1",
+                           "street_address2",
+                           "town_or_city",
+                           "county"]:
+            self.fields[field_name].widget.attrs.update({"data-validate":
+                                                         "text"})
+        self.fields["phone_number"].widget.attrs.update({
+            "data-validate": "tel"
+        })
+        self.fields["guest_email"].widget.attrs.update({
+            "data-validate": "email"
+        })
+        self.fields["country"].widget.attrs.update({
+            "data-validate": "select-one"
+        })
 
     def clean(self):
         cleaned_data = super().clean()

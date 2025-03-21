@@ -162,7 +162,10 @@ def handle_checkout_post(request, bag, order_id, currency):
     form = ShippingInfoForm(request.POST, user=request.user)
 
     if not form.is_valid():
+        logger.error("handle_checkout_post: form is invalid")
         return handle_invalid_form(request, form, currency)
+
+    context = {"form": form, "order": order}
 
     if form.is_valid():
         try:
@@ -175,14 +178,11 @@ def handle_checkout_post(request, bag, order_id, currency):
             return finalize_order(request, bag, order)
 
         except (Order.DoesNotExist, stripe.error.StripeError, Exception) as e:
-            # return handle_checkout_error(request, e)
             form.add_error(None, e)
-        return render(request, "checkout/checkout.html",
-                      {"form": form, "order": order})
+            return render(request, "checkout/checkout.html", context)
     else:
         form.add_error(None, "please make changes.")
-        return render(request, "checkout/checkout.html",
-                      {"form": form, "order": order})
+        return render(request, "checkout/checkout.html", context)
 
 
 @require_POST
@@ -205,16 +205,29 @@ def cache_checkout_data(request):
         if isinstance(session_check, JsonResponse):
             return session_check
 
+        user_email = request.POST.get("user_email") or (
+            request.user.email if request.user.is_authenticated else None
+        )
+
+        user_fullname = get_full_name(request)
+
         # Cache data in session
         request.session["checkout_cache"] = {
-            key: request.POST[key]
-            for key in ["user_email", "order_id"]
-            if key in request.POST
+            "order_id": request.POST.get("order_id"),
+            "user_email": user_email,
         }
-        # request.session["checkout_cache"] = request.POST.dict()
+
         payment_intent_id = request.POST.get("payment_intent_id")
         if payment_intent_id:
             request.session["payment_intent_id"] = payment_intent_id
+
+            stripe.api_key = settings.STRIPE_SECRET_KEY
+            stripe.PaymentIntent.modify(payment_intent_id, metadata={
+                "order_id": order.id,
+                "user_email": user_email,
+                "user_fullname": user_fullname,
+            })
+
         request.session.modified = True
 
         return JsonResponse({"success": True}, status=200)
@@ -240,6 +253,7 @@ def handle_expired_payment_session(request, order):
         #                "Please restart checkout.")
         request.session["payment_intent_created_at"] = None
         request.session["order_id"] = None
+        request.session["checkout_cache"] = None
         request.session.modified = True
     except Exception as e:
         messages.error(request, "An error occurred while canceling your "
@@ -310,7 +324,7 @@ def get_full_name(request):
     """Get user's full name"""
     if request.user.is_authenticated:
         return f"{request.user.first_name} {request.user.last_name}"
-    return ""
+    return "Guest"
 
 
 def get_initial_shipping_data(user):
@@ -508,25 +522,19 @@ def handle_invalid_form(request, form, currency):
             order_id=order_id
         )
 
-    except (Order.DoesNotExist, KeyError) as e:
-        # Fallback if order is missing
+    except Order.DoesNotExist:
+        messages.warning("handle_invalid_form: order does not exist")
+        return redirect("checkout")
+
+    except KeyError as e:
+        messages.warning(request, f"Invalid form error: {e}")
         context = {
             "form": form,
             "stripe_public_key": settings.STRIPE_PUBLIC_KEY,
             "currency": currency,
         }
-        messages.warning(request, f"Invalid form error: {e}")
-        return redirect("checkout")
 
     return render(request, "checkout/checkout.html", context)
-
-
-def handle_checkout_error(request, error):
-    """Handle checkout errors"""
-    error_message = str(error)
-    logger.error(f"Checkout error: {error_message}")
-    messages.error(request, f"Order processing failed: {error_message}")
-    return redirect("checkout")
 
 
 def checkout_success(request, order_id):
@@ -534,13 +542,17 @@ def checkout_success(request, order_id):
     if not isinstance(order, Order):
         return order
 
-    if "bag" in request.session:
-        del request.session["bag"]
-        request.session.modified = True
+    # List of session keys to delete
+    session_keys_to_delete = ["bag",
+                              "order_id",
+                              "checkout_cache",
+                              "payment_intent_created_at"]
 
-    messages.success(request,
-                     (f"Thank you! Your order {order.order_id} "
-                      "was placed successfully."))
+    for key in session_keys_to_delete:
+        if key in request.session:
+            del request.session[key]
+
+    request.session.modified = True
 
     context = {
         "order": order,
