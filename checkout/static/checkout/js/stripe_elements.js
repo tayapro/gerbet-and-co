@@ -282,29 +282,64 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function getConfirmParams() {
+        const orderId = document.getElementById('order_id').value
+        const returnUrl = `${window.location.origin}/checkout/success/${orderId}/`
+
         return {
-            return_url: `${window.location.origin}/checkout/success/${
-                document.getElementById('order_id').value
-            }/`,
+            return_url: returnUrl,
             payment_method_data: {
                 billing_details: {
                     name: getFullName(),
-                    email:
-                        document.getElementById('id_guest_email')?.value ||
-                        document.getElementById('id_email')?.value,
+                    email: getEmail(),
+                    phone: getPhone(),
                 },
             },
         }
     }
 
     function getFullName() {
-        const isGuest = !!document.getElementById('id_guest_first_name')
-        if (isGuest) {
-            return `${document.getElementById('id_guest_first_name').value} ${
-                document.getElementById('id_guest_last_name').value
-            }`.trim()
+        const guestFirstName = document.getElementById('id_guest_first_name')
+        const guestLastName = document.getElementById('id_guest_last_name')
+
+        if (guestFirstName && guestLastName) {
+            return `${guestFirstName.value} ${guestLastName.value}`.trim()
         }
+
         return document.getElementById('full_name')?.value.trim() || ''
+    }
+
+    function getEmail() {
+        const guestEmailElement = document.getElementById('id_guest_email')
+        const guestEmail =
+            guestEmailElement && guestEmailElement.value
+                ? guestEmailElement.value.trim()
+                : ''
+
+        const authEmailElement = document.getElementById('email')
+        const authEmail =
+            authEmailElement && authEmailElement.value
+                ? authEmailElement.value.trim()
+                : ''
+
+        const email = guestEmail || authEmail || ''
+        console.log('Email: ', email)
+
+        return email
+    }
+
+    function getPhone() {
+        const preview = document.getElementById('default-address-preview')
+        const previewPhone =
+            preview && preview.dataset.phone ? preview.dataset.phone.trim() : ''
+
+        const phoneElement = document.getElementById('id_phone_number')
+        const phoneInput =
+            phoneElement && phoneElement.value ? phoneElement.value.trim() : ''
+
+        const phone = phoneInput || previewPhone || ''
+        console.log('Phone: ', phone)
+
+        return phone
     }
 
     function handleError(error) {
