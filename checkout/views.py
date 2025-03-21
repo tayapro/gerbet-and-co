@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
@@ -124,7 +124,6 @@ def handle_checkout_post(request, bag, order_id, currency):
     )
 
     order = get_order_or_redirect(order_id, request)
-    # Handle redirection if no order is found
     if not isinstance(order, Order):
         return order
 
@@ -197,7 +196,11 @@ def cache_checkout_data(request):
         print(f"Key: {key}, Value: {value}")
 
     try:
-        order = get_order_or_redirect(request.POST.get("order_id"), request)
+        order_id = request.POST.get("order_id")
+        if not order_id:
+            return JsonResponse({"error": "Missing order ID."}, status=400)
+
+        order = get_order_or_redirect(order_id, request)
         if not isinstance(order, Order):
             return order
 
@@ -213,7 +216,7 @@ def cache_checkout_data(request):
 
         # Cache data in session
         request.session["checkout_cache"] = {
-            "order_id": request.POST.get("order_id"),
+            "order_id": order_id,
             "user_email": user_email,
         }
 
@@ -221,12 +224,20 @@ def cache_checkout_data(request):
         if payment_intent_id:
             request.session["payment_intent_id"] = payment_intent_id
 
-            stripe.api_key = settings.STRIPE_SECRET_KEY
-            stripe.PaymentIntent.modify(payment_intent_id, metadata={
-                "order_id": order.id,
-                "user_email": user_email,
-                "user_fullname": user_fullname,
-            })
+            # Try to update Stripe metadata
+            try:
+                stripe.api_key = settings.STRIPE_SECRET_KEY
+                stripe.PaymentIntent.modify(payment_intent_id, metadata={
+                    "order_id": order.id,
+                    "user_email": user_email,
+                    "user_fullname": user_fullname,
+                })
+            except stripe.error.StripeError as e:
+                logger.error(f"Stripe error: {str(e)}")
+                return JsonResponse({
+                    "error": "Failed to update payment metadata with Stripe.",
+                    "details": str(e),
+                }, status=500)
 
         request.session.modified = True
 
@@ -236,7 +247,7 @@ def cache_checkout_data(request):
         logger.error(f"Missing field in request: {str(e)}")
         return JsonResponse({"error": f"Missing field: {str(e)}"}, status=400)
     except Exception as e:
-        logger.error(f"Cache checkout data error: {str(e)}")
+        logger.error(f"Cache checkout data error: {str(e)}", exc_info=True)
         return JsonResponse({"error": "Failed to cache checkout data",
                              "details": str(e)}, status=500)
 
@@ -314,10 +325,13 @@ def get_order_or_redirect(order_id, request):
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({
                 "error": "order_not_found",
-                "redirect": reverse("checkout")
+                "redirect_url": reverse("checkout")
             }, status=404)
 
-        return HttpResponseRedirect(reverse("checkout"))
+        return JsonResponse({
+                "error": "order_not_found",
+                "redirect_url": reverse("checkout")
+            }, status=404)
 
 
 def get_full_name(request):

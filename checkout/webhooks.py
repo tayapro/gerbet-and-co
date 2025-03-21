@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib import messages
 from django.db import IntegrityError
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -22,6 +23,12 @@ def get_order_with_retry(payment_intent_id):
             if attempt < 5:
                 time.sleep(1)
 
+    logger.error(f"Order with Stripe PID {payment_intent_id} "
+                 "not found after retries")
+
+    messages.error(f"Order with Stripe PID {payment_intent_id} "
+                   "not found after retries")
+
     raise Order.DoesNotExist(f"Order with Stripe PID {payment_intent_id} "
                              "not found after retries")
 
@@ -34,12 +41,15 @@ def handle_payment_event(payment_intent, event_type):
         if order.user_id:
             # Authenticated user order
             if not order.user or not order.user.email:
-                logger.error(f"User {order.user_id} has no email")
+                logger.error(f"User {order.user}/{order.user.email} "
+                             "has no email")
+                messages.error("User account missing email")
                 raise ValueError("User account missing email")
         else:
             # Guest order
             if not order.guest_email:
                 logger.error(f"Guest order {order.id} missing email")
+                messages.error("User account missing email")
                 raise ValueError("Guest email required")
 
         logger.info(

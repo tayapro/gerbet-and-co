@@ -97,6 +97,14 @@ class ShippingInfoForm(forms.ModelForm):
             del self.fields["save_as_default"]
             del self.fields["use_default"]
 
+            for field_name in ["guest_first_name",
+                               "guest_last_name"]:
+                self.fields[field_name].widget.attrs.update({"data-validate":
+                                                             "text"})
+            self.fields["guest_email"].widget.attrs.update({
+                "data-validate": "email"
+            })
+
         # Define the exact order of fields
         field_order = [
             "use_default",  # Only present for authenticated users
@@ -118,9 +126,7 @@ class ShippingInfoForm(forms.ModelForm):
             for key in field_order
             if key in self.fields
         }
-        for field_name in ["guest_first_name",
-                           "guest_last_name",
-                           "street_address1",
+        for field_name in ["street_address1",
                            "street_address2",
                            "town_or_city",
                            "county"]:
@@ -128,9 +134,6 @@ class ShippingInfoForm(forms.ModelForm):
                                                          "text"})
         self.fields["phone_number"].widget.attrs.update({
             "data-validate": "tel"
-        })
-        self.fields["guest_email"].widget.attrs.update({
-            "data-validate": "email"
         })
         self.fields["country"].widget.attrs.update({
             "data-validate": "select-one"

@@ -41,21 +41,34 @@ document.addEventListener('DOMContentLoaded', function () {
         submitButton.disabled = true
         clearAllErrors()
 
-        try {
-            // Step 1: Validate Django Form Fields
-            if (!validateForm()) {
-                focusFirstInvalidField()
-                throw new Error('Please fix form errors')
-            }
+        // Step 1: Validate form fields before anything else
+        const isFormValid = validateForm()
+        if (!isFormValid) {
+            focusFirstInvalidField()
+            cardErrors.textContent =
+                'Please correct the highlighted errors before continuing.'
+            submitButton.disabled = false
+            return
+        }
 
+        try {
             // Step 2: Validate Stripe Elements
             const { error: elementsError } = await elements.submit()
-            if (elementsError) throw elementsError
+            if (elementsError) {
+                handleError(cardErrors, elementsError)
+                submitButton.disabled = false
+                return
+            }
 
             // Step 3: Cache Checkout Data
             const cacheResponse = await cacheCheckoutData()
-            if (cacheResponse.redirected) {
-                window.location.href = cacheResponse.url
+            if (cacheResponse.redirect) {
+                window.location.href = cacheResponse.redirect
+                return
+            }
+            if (cacheResponse.error) {
+                cardErrors.textContent = cacheResponse.error
+                submitButton.disabled = false
                 return
             }
 
@@ -105,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (field.required && field.value.trim() === '') {
             showErrorMessage(
                 field,
-                `${field.labels[0]?.textContent} is required`
+                `${field.labels[0]?.textContent} is required or invalid`
             )
         }
     }
@@ -117,42 +130,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Validate Guest Fields
         if (isGuest) {
-            isValid = [
-                'guest_first_name',
-                'guest_last_name',
-                'guest_email',
-            ].every((id) => {
-                return validateField(document.getElementById(`id_${id}`))
-            })
+            isValid =
+                validateFields([
+                    'guest_first_name',
+                    'guest_last_name',
+                    'guest_email',
+                ]) && isValid
         }
 
         // Validate Address Fields
         if (!useDefault) {
             isValid =
-                [
+                validateFields([
                     'phone_number',
                     'street_address1',
                     'town_or_city',
+                    'postcode',
                     'country',
-                ].every((id) => {
-                    return validateField(document.getElementById(`id_${id}`))
-                }) && isValid
+                ]) && isValid
         }
 
         return isValid
     }
 
-    // function validateField(field) {
-    //     if (!field) return true
-    //     const isValid = field.value.trim() !== ''
-    //     field.classList.toggle('is-invalid', !isValid)
-    //     if (!isValid)
-    //         showErrorMessage(
-    //             field,
-    //             `${field.labels[0]?.textContent} is required`
-    //         )
-    //     return isValid
-    // }
+    function validateFields(fieldIds) {
+        let groupIsValid = true
+
+        fieldIds.forEach((id) => {
+            const field = document.getElementById(`id_${id}`)
+            if (!field) return
+
+            const fieldValid = validateField(field)
+            if (!fieldValid) {
+                groupIsValid = false
+            }
+        })
+
+        return groupIsValid
+    }
 
     function validateField(field) {
         if (!field) return true
@@ -163,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
         switch (fieldType) {
             case 'text':
             case 'textarea':
-                isValid = field.value.trim().length > 2
+                isValid = field.value.trim().length > 4
                 break
 
             case 'email':
@@ -200,10 +215,16 @@ document.addEventListener('DOMContentLoaded', function () {
             const label = field.labels
                 ? field.labels[0]?.textContent
                 : 'This field'
-            const message =
-                fieldType === 'tel'
-                    ? `${label} must be a valid phone number (7-15 digits, optional + at start)`
-                    : `${label} is required or invalid`
+
+            let message
+            if (fieldType === 'tel') {
+                message = `${label} must be a valid phone number (7-15 digits, optional + at start)`
+            } else if (fieldType === 'email') {
+                message = `${label} must be a valid email address (e.g. name@example.com)`
+            } else {
+                message = `${label} is required or invalid`
+            }
+
             showErrorMessage(field, message)
         } else {
             clearErrorMessage(field)
@@ -220,14 +241,44 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     async function cacheCheckoutData() {
-        return await fetch('/checkout/cache_checkout_data/', {
-            method: 'POST',
-            body: new FormData(form),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRFToken': csrfToken,
-            },
-        })
+        const postData = new FormData()
+        postData.append('order_id', document.getElementById('order_id').value)
+        postData.append(
+            'save_info',
+            document.getElementById('id-save-info')?.checked
+        )
+
+        try {
+            const response = await fetch('/checkout/cache_checkout_data/', {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: postData,
+            })
+
+            const data = await response.json()
+
+            if (data.redirect_url) {
+                return { redirect: true, url: data.redirect_url }
+            }
+
+            if (response.status !== 200) {
+                return {
+                    error: data.error || 'Failed to cache checkout data',
+                    status: response.status,
+                }
+            }
+
+            return { success: true }
+        } catch (err) {
+            console.error('Cache error:', err)
+            return {
+                error: 'A network error occurred.',
+                status: 500,
+            }
+        }
     }
 
     function getConfirmParams() {
@@ -281,7 +332,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const firstInvalid = document.querySelector('.is-invalid')
         if (firstInvalid) {
             firstInvalid.focus()
-            firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' })
+            // firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' })
         }
     }
 
