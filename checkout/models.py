@@ -137,8 +137,6 @@ class WebhookEvent(models.Model):
     data = models.JSONField()
     created_at = models.DateTimeField(auto_now_add=True)
     processed = models.BooleanField(default=False)
-    attempts = models.IntegerField(default=0)
-    last_error = models.TextField(blank=True)
 
     def __str__(self):
         return f"{self.type} ({self.stripe_id})"

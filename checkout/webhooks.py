@@ -122,10 +122,11 @@ def stripe_webhook(request):
         return HttpResponse(status=200)  # Event already processed
 
     try:
-        WebhookEvent.objects.create(
+        webhook_event = WebhookEvent.objects.create(
             stripe_id=event.id,
             type=event.type,
-            data={"payment_intent": event.data.object.id}
+            data={"payment_intent": event.data.object.id},
+            processed=False,
         )
     except IntegrityError:
         logger.error(f"Duplicate event: {event.id}")
@@ -136,6 +137,8 @@ def stripe_webhook(request):
         payment_intent = event.data.object
         try:
             handle_payment_event(payment_intent, event.type)
+            webhook_event.processed = True
+            webhook_event.save(update_fields=["processed"])
         except Exception as e:
             logger.error(f"Final attempt failed for {event.type}: {str(e)}")
             return HttpResponse(status=500)
