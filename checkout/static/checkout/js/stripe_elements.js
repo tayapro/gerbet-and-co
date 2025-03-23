@@ -367,7 +367,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const firstInvalid = document.querySelector('.is-invalid')
         if (firstInvalid) {
             firstInvalid.focus()
-            // firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' })
         }
     }
 

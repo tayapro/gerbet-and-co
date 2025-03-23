@@ -19,9 +19,6 @@
                             <li>{{ field.label }}: {{ field.errors|striptags }}</li>
                         {% endif %}
                     {% endfor %}
-                    {% for error in form.non_field_errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
                     </ul>
                 </div>
             {% endif %}
@@ -35,8 +32,11 @@
                 <div class="card-body m-2">
                     {% if user.is_authenticated and default_address %}
                         <div class="form-check mb-3 ps-0">
-                            <input type="checkbox" id="{{ form.use_default.id_for_label }}" 
-                            data-id-for-label="{{ form.use_default.id_for_label }}" name="use_default" checked>
+                            <input type="checkbox"
+                            name="{{ form.use_default.name }}"
+                            id="{{ form.use_default.id_for_label }}"
+                            data-id-for-label="{{ form.use_default.id_for_label }}"
+                            {% if form.use_default.value %}checked{% endif %}>
                             <label class="form-check-label" for="{{ form.use_default.id_for_label }}">
                                 Use my default address
                             </label>
@@ -52,7 +52,6 @@
                                     <strong>County: </strong>{{ default_address.county }}</p>
                                     <strong>Postcode: </strong>{{ default_address.postcode }}</p>
                                     <strong>Country: </strong>{{ default_address.country }}</p>
-
                                 </div>
                             </div>
                         </div>

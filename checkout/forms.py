@@ -85,6 +85,8 @@ class ShippingInfoForm(forms.ModelForm):
 
         # Remove name fields for authenticated users
         if self.user and self.user.is_authenticated:
+            if not self.data:
+                self.fields["use_default"].initial = True
             del self.fields["guest_first_name"]
             del self.fields["guest_last_name"]
             del self.fields["guest_email"]
