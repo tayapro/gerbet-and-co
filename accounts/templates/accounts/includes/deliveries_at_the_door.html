@@ -6,11 +6,17 @@
         {% if orders %}
             <ul class="list-group">
                 {% for order in orders %}
-                    <li class="list-group-item">
-                        <p><strong>Order ID:</strong> {{ order.order_id }}</p>
-                        <p><strong>Order status:</strong> {{ order.status }}</p>
-                        <p><strong>Date:</strong> {{ order.created_at }}</p>
-                        <p><strong>Total:</strong> &#8364; {{ order.grand_total }}</p>
+                    <li class="list-group-item bg-transparent border-0">
+                        <div class="card">
+                            <div class="card-header">
+                                <p class="mb-0"><span>Order ID:</span> {{ order.order_id }}</p>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-start mb-0"><span>Status:</span> {{ order.status }}</p>
+                                <p class="text-start mb-0"><span>Date:</span> {{ order.created_at }}</p>
+                                <p class="text-start mb-0"><span>Total:</span> &#8364; {{ order.grand_total }}</p>
+                            </div>
+                        </div>
                     </li>
                 {% endfor %}
             </ul>

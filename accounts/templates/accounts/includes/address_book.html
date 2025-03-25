@@ -2,31 +2,37 @@
     <div class="card-header">
         <h4 class="text-light m-2">Address book</h4>
     </div>
-    <div class="card-body">
+    <div class="card-body d-flex flex-column mt-4 gap-4">
         {% if addresses %}
-        <div class="row row-cols-1 g-4">
             {% for address in addresses %}
-                <div class="col">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <p class="text-start mb-0"><span>phone:</span> {{ address.phone_number }}</p>
-                            <p class="text-start mb-0"><span>address 1:</span> {{ address.street_address1 }}</p>
-                            <p class="text-start mb-0"><span>address 2:</span> {{ address.street_address2 }}</p>
-                            <p class="text-start mb-0"><span>city:</span> {{ address.town_or_city }}</p>
-                            <p class="text-start mb-0"><span>county:</span> {{ address.county }}</p>
-                            <p class="text-start mb-0"><span>postcode:</span> {{ address.postcode }}</p>
-                            <p class="text-start mb-0"><span>country:</span> {{ address.country }}</p>
+                <div class="card shadow-sm">
+                    {% if address.is_default%}
+                        <div class="card-header">
+                            <p class="mb-0 text-start" id="default-address-header">Default address</p>
                         </div>
-                        <div class="m-2 mb-3">
-                            <form method="post" action="{% url 'set_default_address' address.id %}" 
-                                    class="d-inline me-2">
-                                {% csrf_token %}
-                                <button type="submit" 
-                                        class="btn rounded-5 {% if address.is_default %}disabled{% endif %}"
-                                        title="Set as default">
-                                <i class="bi bi-star-fill"></i>
-                                </button>
-                            </form>
+                    {% endif %}
+                    <div class="card-body">
+                        <p class="text-start mb-0"><span>address 1:</span> {{ address.street_address1 }}</p>
+                        <p class="text-start mb-0"><span>address 2:</span> {{ address.street_address2 }}</p>
+                        <p class="text-start mb-0"><span>city:</span> {{ address.town_or_city }}</p>
+                        <p class="text-start mb-0"><span>county:</span> {{ address.county }}</p>
+                        <p class="text-start mb-0"><span>postcode:</span> {{ address.postcode }}</p>
+                        <p class="text-start mb-0"><span>country:</span> {{ address.country }}</p>
+                        <p class="text-start mb-0"><span>phone:</span> {{ address.phone_number }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="my-2">
+                            {% if not address.is_default%}
+                                <form method="post" action="{% url 'set_default_address' address.id %}" 
+                                        class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" 
+                                            class="btn btn-sm btn-outline-light btn-outline-light me-2 {% if address.is_default %}disabled{% endif %}"
+                                            title="Set as default">
+                                    Set As Default
+                                    </button>
+                                </form>
+                            {% endif %}
 
                             <a href="{% url 'address_update' address.id %}" class="btn btn-sm btn-outline-light me-2 btn-raspberry">
                                 Edit
@@ -38,15 +44,14 @@
                     </div>
                 </div>
             {% endfor %}
-        </div>
-    {% else %}
-        <p class="text-center">You have no saved addresses.</p>
-    {% endif %}
+        {% else %}
+            <p class="text-center">You have no saved addresses.</p>
+        {% endif %}
 
-    <div class="m-4">
-      <a href="{% url 'address_create' %}" class="btn btn-primary btn-emerald">
-        Add New Address
-      </a>
-    </div>
+        <div class="m-4">
+        <a href="{% url 'address_create' %}" class="btn btn-primary btn-emerald">
+            Add New Address
+        </a>
+        </div>
     </div>
 </div>

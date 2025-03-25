@@ -96,8 +96,12 @@ def account_view(request):
     next = request.GET.get("next", "/")
 
     user = request.user
-    orders = Order.objects.filter(user=user)
-    addresses = UserContactInfo.objects.filter(user=user)
+    orders = Order.objects.filter(user=user).order_by('-created_at')
+    addresses = (
+        UserContactInfo.objects
+        .filter(user=user)
+        .order_by('-is_default', '-updated_at')
+    )
 
     tabs = [
         {
