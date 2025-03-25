@@ -29,15 +29,17 @@ class CheckoutConfig(models.Model):
 
 class ShippingInfo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
-                             blank=True, related_name="checkout_addresses")
+                             blank=True, related_name="shipping_addresses")
     is_default = models.BooleanField(default=False)
     phone_number = models.CharField(max_length=20)
     street_address1 = models.CharField(max_length=256)
     street_address2 = models.CharField(max_length=256, blank=True, null=True)
     town_or_city = models.CharField(max_length=100)
     county = models.CharField(max_length=100, blank=True, null=True)
-    country = CountryField(blank_label="Country", null=False, blank=False)
+    country = CountryField(blank_label="Country")
     postcode = models.CharField(max_length=20, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
         if self.is_default and self.user:
@@ -48,7 +50,10 @@ class ShippingInfo(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Shipping Info for {self.full_name}"
+        if self.user:
+            return f"Billing Info for {self.user.username}"
+        return (f"Guest Billing Info: {self.street_address1}, "
+                f"{self.town_or_city}")
 
 
 class Order(models.Model):

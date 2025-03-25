@@ -26,7 +26,7 @@
                 href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/fontawesome.min.css"
                 integrity="sha384-NvKbDTEnL+A8F/AA5Tc5kmMLSJHUO868P+lDtTpJIeQdGYaUIuLr4lVGOEA1OcMy"
                 crossorigin="anonymous"/>
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato&display=swap">
+                <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
             <link rel="stylesheet" href="{% static 'css/base.css' %}">
         {% endblock %}
         
@@ -49,23 +49,26 @@
     </head>
     <body>
         <div class="position-fixed top-0 start-0 z-3 w-100">
-            <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+            <nav class="navbar navbar-expand-sm navbar-dark" id="navbar-container">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="/">Gerbet & Co.</a>
+                    <a class="navbar-brand" href="/"><h2>Gerbet & Co.</h2></a>
                     <button id="custom-navbar-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
                             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="bi bi-list"></i>
                     </button>
                     <div class="collapse navbar-collapse text-end mx-3" id="navbarNav">
-                        <ul class="navbar-nav me-sm-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'product_list' %}?next={{ next }}">Shop</a>
+                        <ul class="navbar-nav me-sm-auto align-items-sm-center">
+                            <li class="nav-item align-middle">
+                                <a class="nav-link" href="{% url 'product_list' %}?next={{ next }}">
+                                    <p>Shop</p></a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'about' %}?next={{ next }}">About</a>
+                            <li class="nav-item align-middle">
+                                <a class="nav-link" href="{% url 'about' %}?next={{ next }}">
+                                    <p>About</p></a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'help' %}?next={{ next }}">Help</a>
+                            <li class="nav-item align-middle">
+                                <a class="nav-link" href="{% url 'help' %}?next={{ next }}">
+                                    <p>Help</p></a>
                             </li>
                         </ul>
                         <ul class="navbar-nav ms-sm-auto align-items-sm-center">
@@ -76,11 +79,13 @@
                                     </a>
                                 </li>
                                 <li class="nav-item align-middle">
-                                    <a class="nav-link" href="{% url 'logout' %}?next={{ next }}">Logout</a>
+                                    <a class="nav-link" href="{% url 'logout' %}?next={{ next }}">
+                                        <p>Logout</p></a>
                                 </li>
                             {% else %}
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'login' %}?next={{ next }}">Get started</a>
+                                    <a class="nav-link" href="{% url 'login' %}?next={{ next }}">
+                                        <p>Get started</p></a>
                                 </li>
                             {% endif %}
                             <li class="nav-item position-relative">

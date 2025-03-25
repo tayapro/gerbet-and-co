@@ -1,3 +1,52 @@
+:root {
+    /* --font-family: 'Montserrat', sans-serif; */
+    --header-font-family: 'Playfair Display SC', sans-serif;
+    /* --font-family: 'Work Sans', sans-serif; */
+    --font-family: 'Lato', sans-serif;
+    --font-thin: 300;
+    --font-regular: 400;
+    --font-bold: 600;
+    --white-color: rgb(251, 251, 251);
+    --purple-75: rgba(41, 27, 50, 0.75);
+    --purple-10: rgba(41, 27, 50, 0.1);
+    --my-bs-text-light-80: rgba(255, 255, 255, 0.8);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: var(--font-family);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: var(--header-font-family);
+}
+
+.nav-item p {
+    margin-bottom: 0px;
+    letter-spacing: 1px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-image: url('/media/gerbet_background.webp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+#navbar-container {
+    background-color: var(--purple-75);
+}
+
 .nav-link .badge {
     font-size: 0.6rem;
     padding: 0.35em 0.65em;
@@ -47,7 +96,7 @@
     }
 }
 
-/* Ensure tab buttons don’t shrink */
+/* Tab buttons don’t shrink */
 .nav-tabs .nav-link {
     white-space: nowrap;
 }
@@ -97,4 +146,120 @@
     color: #dc3545;
     margin: 1rem 0;
     display: none;
+}
+
+/* Account page */
+#nav-tabContent > div > .card,
+#nav-tabContent > div > .card .card,
+#bag-items-container {
+    position: relative;
+    padding: 0px 20px;
+    border-radius: 20px;
+    background: var(--purple-10);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(15px);
+    text-align: center;
+    color: white;
+}
+
+#nav-tabContent p {
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: var(--my-bs-text-light-80);
+}
+
+#nav-tabContent span {
+    font-weight: var(--font-thin);
+}
+
+#pencil-btn {
+    color: var(--my-bs-text-light-80);
+}
+
+.btn-raspberry {
+    background-color: rgb(217, 35, 96);
+    border: 2px solid rgb(217, 35, 96);
+    color: var(--my-bs-text-light-80);
+    padding: 0.5rem 1.2rem;
+    font-weight: 500;
+    font-size: 1rem;
+    border-radius: 0.375rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-raspberry:hover,
+.btn-raspberry:focus {
+    background-color: rgb(190, 30, 85);
+    border: 2px solid rgb(190, 30, 85);
+    color: var(--my-bs-text-light-80);
+    text-decoration: none;
+}
+
+.btn-raspberry:active {
+    background-color: rgb(170, 25, 75);
+}
+
+.btn-raspberry:disabled {
+    background-color: rgb(217, 35, 96);
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.btn-emerald {
+    background-color: rgb(31, 168, 105);
+    border: none;
+    color: var(--my-bs-text-light-80);
+    padding: 0.5rem 1.2rem;
+    font-weight: 500;
+    font-size: 1rem;
+    border-radius: 0.375rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-emerald:hover,
+.btn-emerald:focus {
+    background-color: rgb(25, 140, 87);
+    color: var(--my-bs-text-light-80);
+    text-decoration: none;
+}
+
+.btn-emerald:active {
+    background-color: rgb(20, 120, 75);
+}
+
+.btn-emerald:disabled {
+    background-color: rgb(31, 168, 105);
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.btn-outline-raspberry {
+    background-color: transparent;
+    border: 2px solid rgb(217, 35, 96);
+    color: rgb(217, 35, 96);
+    padding: 0.5rem 1.2rem;
+    font-weight: 500;
+    font-size: 1rem;
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-raspberry:hover,
+.btn-outline-raspberry:focus {
+    background-color: rgb(217, 35, 96);
+    border: 2px solid rgb(217, 35, 96);
+    color: white;
+    text-decoration: none;
+}
+
+.btn-outline-raspberry:active {
+    background-color: rgb(190, 30, 85);
+    color: var(--my-bs-text-light-80);
+}
+
+.btn-outline-raspberry:disabled {
+    color: rgb(217, 35, 96);
+    border-color: rgb(217, 35, 96);
+    opacity: 0.65;
+    cursor: not-allowed;
 }

@@ -1,37 +1,37 @@
 <div class="card my-5 shadow-sm" style="max-width: 600px; width: 100%;">
     <div class="card-header">
-        <h4 class="m-2">Address book</h4>
+        <h4 class="text-light m-2">Address book</h4>
     </div>
     <div class="card-body">
         {% if addresses %}
-        <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="row row-cols-1 g-4">
             {% for address in addresses %}
                 <div class="col">
                     <div class="card shadow-sm">
                         <div class="card-body">
-                            <p><strong>Phone:</strong> {{ address.phone_number }}</p>
-                            <p><strong>Address 1:</strong> {{ address.street_address1 }}</p>
-                            <p><strong>Address 2:</strong> {{ address.street_address2 }}</p>
-                            <p><strong>City:</strong> {{ address.town_or_city }}</p>
-                            <p><strong>County:</strong> {{ address.county }}</p>
-                            <p><strong>Postcode:</strong> {{ address.postcode }}</p>
-                            <p><strong>Country:</strong> {{ address.country }}</p>
+                            <p class="text-start mb-0"><span>phone:</span> {{ address.phone_number }}</p>
+                            <p class="text-start mb-0"><span>address 1:</span> {{ address.street_address1 }}</p>
+                            <p class="text-start mb-0"><span>address 2:</span> {{ address.street_address2 }}</p>
+                            <p class="text-start mb-0"><span>city:</span> {{ address.town_or_city }}</p>
+                            <p class="text-start mb-0"><span>county:</span> {{ address.county }}</p>
+                            <p class="text-start mb-0"><span>postcode:</span> {{ address.postcode }}</p>
+                            <p class="text-start mb-0"><span>country:</span> {{ address.country }}</p>
                         </div>
-                        <div class="m-2">
+                        <div class="m-2 mb-3">
                             <form method="post" action="{% url 'set_default_address' address.id %}" 
-                                    class="d-inline">
+                                    class="d-inline me-2">
                                 {% csrf_token %}
                                 <button type="submit" 
-                                        class="btn btn-sm btn-outline-secondary {% if address.is_default %}disabled{% endif %}"
+                                        class="btn rounded-5 {% if address.is_default %}disabled{% endif %}"
                                         title="Set as default">
                                 <i class="bi bi-star-fill"></i>
                                 </button>
                             </form>
 
-                            <a href="{% url 'address_update' address.id %}" class="btn btn-sm btn-outline-primary">
+                            <a href="{% url 'address_update' address.id %}" class="btn btn-sm btn-outline-light me-2 btn-raspberry">
                                 Edit
                             </a>
-                            <a href="{% url 'address_delete' address.id %}" class="btn btn-sm btn-outline-danger">
+                            <a href="{% url 'address_delete' address.id %}" class="btn btn-sm btn-outline-light btn-outline-raspberry">
                                 Delete
                             </a>
                         </div>
@@ -43,9 +43,9 @@
         <p class="text-center">You have no saved addresses.</p>
     {% endif %}
 
-    <div class="mt-3">
-      <a href="{% url 'address_create' %}" class="btn btn-primary">
-        + Add New Address
+    <div class="m-4">
+      <a href="{% url 'address_create' %}" class="btn btn-primary btn-emerald">
+        Add New Address
       </a>
     </div>
     </div>

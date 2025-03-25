@@ -166,6 +166,9 @@ def address_create(request):
             address = form.save(commit=False)
             address.user = request.user
             if form.cleaned_data['set_as_default']:
+                UserContactInfo.objects.filter(
+                    user=request.user, is_default=True
+                ).update(is_default=False)
                 address.is_default = True
             address.save()
             messages.success(request, "New address added successfully.")
@@ -196,6 +199,9 @@ def address_update(request, id):
         form = AddressForm(request.POST, instance=address)
         if form.is_valid():
             if form.cleaned_data['set_as_default']:
+                UserContactInfo.objects.filter(
+                    user=request.user, is_default=True
+                ).exclude(id=address.id).update(is_default=False)
                 address.is_default = True
             else:
                 address.is_default = False
@@ -244,7 +250,7 @@ def set_default_address(request, id):
     address = get_object_or_404(UserContactInfo, id=id, user=request.user)
     address.is_default = True
     address.save()
-    
+
     # Send success message and redirect
     messages.success(request, "Default shipping address updated")
     return redirect(f"{reverse('account')}?tab={Tabs.ADDRESS_BOOK}")

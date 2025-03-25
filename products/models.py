@@ -26,8 +26,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2,
                                 validators=[MinValueValidator(0)])
     stock = models.PositiveIntegerField()
-    category = models.ForeignKey('Category', on_delete=models.SET_NULL,
-                                 null=True)
+    categories = models.ManyToManyField('Category', related_name='products')
     image = models.ImageField(upload_to='macarons/', blank=True,
                               null=True)
     rating = models.DecimalField(max_digits=3, decimal_places=1, null=True,

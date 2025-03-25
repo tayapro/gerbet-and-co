@@ -1,13 +1,13 @@
 <div class="card my-5 shadow-sm" style="max-width: 600px; width: 100%;">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h4 class="mb-0">Resident Profile</h4>
-        <button class="btn btn-outline-secondary" 
+        <button class="btn" 
         hx-get="{% url "profile_update" %}"
         hx-target="#account-details" 
-        hx-swap="outerHTML"><i class="bi bi-pencil fs-5"></i></button>
+        hx-swap="outerHTML"><i class="bi bi-pencil" id="pencil-btn"></i></button>
     </div>
     <div class="card-body" id="account-details">
-        <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p class="text-start"><span>name:</span> {{ user.first_name }} {{ user.last_name }}</p>
+        <p class="text-start"><span>email:</span> {{ user.email }}</p>
     </div>
 </div>
