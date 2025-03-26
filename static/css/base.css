@@ -8,7 +8,7 @@
     --font-bold: 600;
     --white-color: rgb(251, 251, 251);
     --purple-75: rgba(41, 27, 50, 0.75);
-    --purple-10: rgba(41, 27, 50, 0.1);
+    --purple-10: rgba(41, 27, 50, 0.4);
     --my-bs-text-light-60: rgba(255, 255, 255, 0.6);
     --my-bs-text-light-80: rgba(255, 255, 255, 0.8);
     --bs-success-bg-subtle: #d1e7dd;
@@ -34,6 +34,17 @@ h5 {
     font-family: var(--header-font-family);
 }
 
+.tooltip-inner {
+    background-color: var(--purple-75) !important;
+    color: var(--my-bs-text-light-80) !important;
+    border: 1px solid var(--purple-75) !important;
+    margin-bottom: 0.5rem;
+}
+
+.tooltip-arrow {
+    display: none !important;
+}
+
 .nav-item p {
     margin-bottom: 0px;
     letter-spacing: 1px;
@@ -48,6 +59,7 @@ body {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    backdrop-filter: blur(2px);
 }
 
 #navbar-container {
@@ -313,4 +325,18 @@ body {
     border-color: rgb(217, 35, 96);
     opacity: 0.65;
     cursor: not-allowed;
+}
+
+.btn-outline-raspberry-light {
+    color: var(--my-bs-text-light-80);
+    /* border: 1px solid var(--my-bs-text-light-80); */
+    background-color: transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-outline-raspberry-light:hover,
+.btn-outline-raspberry-light:focus {
+    color: #fff;
+    background-color: rgb(217, 35, 96);
+    /* border-color: rgb(217, 35, 96); */
 }

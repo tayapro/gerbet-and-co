@@ -6,11 +6,33 @@
         {% if addresses %}
             {% for address in addresses %}
                 <div class="card shadow-sm">
-                    {% if address.is_default%}
-                        <div class="card-header">
-                            <p class="mb-0 text-start" id="default-address-header">Default address</p>
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        {% if address.is_default%}
+                            <p class="mb-0 text-start" id="default-address-header">
+                                <i class="bi bi-star-fill fs-4 me-2 p-0"></i>
+                            </p>
+                        {% else %}
+                            <form method="post" action="{% url 'set_default_address' address.id %}" 
+                                    class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" 
+                                        class="btn btn-outline-raspberry-light me-2 {% if address.is_default %}disabled{% endif %}"
+                                        title="Set as default"
+                                        data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                        aria-label="Set as default">
+                                        <i class="bi bi-star fs-4 m-0 p-0"></i>
+                                </button>
+                            </form>
+                        {% endif %}
+                        <div>
+                            <a href="{% url 'address_update' address.id %}" class="btn btn-outline-raspberry-light">
+                                <i class="bi bi-pencil-square fs-4 m-0 p-0"></i>
+                            </a>
+                            <a href="{% url 'address_delete' address.id %}" class="btn btn-outline-raspberry-light">
+                                <i class="bi bi-trash3 fs-4 m-0 p-0"></i>
+                            </a>
                         </div>
-                    {% endif %}
+                    </div>
                     <div class="card-body">
                         <p class="text-start mb-0"><span>address 1:</span> {{ address.street_address1 }}</p>
                         <p class="text-start mb-0"><span>address 2:</span> {{ address.street_address2 }}</p>
@@ -19,28 +41,6 @@
                         <p class="text-start mb-0"><span>postcode:</span> {{ address.postcode }}</p>
                         <p class="text-start mb-0"><span>country:</span> {{ address.country }}</p>
                         <p class="text-start mb-0"><span>phone:</span> {{ address.phone_number }}</p>
-                    </div>
-                    <div class="card-footer">
-                        <div class="my-2">
-                            {% if not address.is_default%}
-                                <form method="post" action="{% url 'set_default_address' address.id %}" 
-                                        class="d-inline">
-                                    {% csrf_token %}
-                                    <button type="submit" 
-                                            class="btn btn-sm btn-outline-light btn-outline-light me-2 {% if address.is_default %}disabled{% endif %}"
-                                            title="Set as default">
-                                    Set As Default
-                                    </button>
-                                </form>
-                            {% endif %}
-
-                            <a href="{% url 'address_update' address.id %}" class="btn btn-sm btn-outline-light me-2 btn-raspberry">
-                                Edit
-                            </a>
-                            <a href="{% url 'address_delete' address.id %}" class="btn btn-sm btn-outline-light btn-outline-raspberry">
-                                Delete
-                            </a>
-                        </div>
                     </div>
                 </div>
             {% endfor %}
