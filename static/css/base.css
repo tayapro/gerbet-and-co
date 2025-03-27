@@ -35,8 +35,8 @@ h5 {
 }
 
 .tooltip-inner {
-    background-color: var(--purple-75) !important;
-    color: var(--my-bs-text-light-80) !important;
+    background-color: var(--my-bs-text-light-80) !important;
+    color: var(--purple-75) !important;
     border: 1px solid var(--purple-75) !important;
     margin-bottom: 0.5rem;
 }
@@ -59,7 +59,7 @@ body {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(3px);
 }
 
 #navbar-container {
@@ -211,10 +211,14 @@ body {
     font-weight: 400;
     font-size: 1.1rem;
     color: var(--my-bs-text-light-80);
+    margin-bottom: 0px;
+    padding-bottom: 0px;
 }
 
 #nav-tabContent span {
+    font-size: 1.1rem;
     font-weight: var(--font-thin);
+    color: var(--my-bs-text-light-80);
 }
 
 #default-address-header {
@@ -339,4 +343,13 @@ body {
     color: #fff;
     background-color: rgb(217, 35, 96);
     /* border-color: rgb(217, 35, 96); */
+}
+
+.profile-cells {
+    text-align: start;
+    color: var(--my-bs-text-light-80);
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none;
+    background-color: transparent !important;
 }

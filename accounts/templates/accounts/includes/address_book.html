@@ -8,9 +8,10 @@
                 <div class="card shadow-sm">
                     <div class="card-header d-flex align-items-center justify-content-between">
                         {% if address.is_default%}
-                            <p class="mb-0 text-start" id="default-address-header">
+                            <p title="Default address" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                            aria-label="Default address">
                                 <i class="bi bi-star-fill fs-4 me-2 p-0"></i>
-                            </p>
+                    </p>
                         {% else %}
                             <form method="post" action="{% url 'set_default_address' address.id %}" 
                                     class="d-inline">
@@ -34,13 +35,56 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <p class="text-start mb-0"><span>address 1:</span> {{ address.street_address1 }}</p>
-                        <p class="text-start mb-0"><span>address 2:</span> {{ address.street_address2 }}</p>
-                        <p class="text-start mb-0"><span>city:</span> {{ address.town_or_city }}</p>
-                        <p class="text-start mb-0"><span>county:</span> {{ address.county }}</p>
-                        <p class="text-start mb-0"><span>postcode:</span> {{ address.postcode }}</p>
-                        <p class="text-start mb-0"><span>country:</span> {{ address.country }}</p>
-                        <p class="text-start mb-0"><span>phone:</span> {{ address.phone_number }}</p>
+                        <table class="table">
+                            <colgroup>
+                                <col style="width: 100px;">
+                                <col>
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <th scope="row" class="text-nowrap profile-cells">
+                                        <span>Address 1</span></th>
+                                    <td class="profile-cells">
+                                        <p>{{ address.street_address1 }}</p></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-nowrap profile-cells">
+                                        <span>Address 2</span></th>
+                                    <td class="profile-cells">
+                                        <p>{{ address.street_address2 }}</p></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-nowrap profile-cells">
+                                        <span>City</span></th>
+                                    <td class="profile-cells">
+                                        <p>{{ address.town_or_city }}</p></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-nowrap profile-cells">
+                                        <span>County</span></th>
+                                    <td class="profile-cells">
+                                        <p>{{ address.county }}</p></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-nowrap profile-cells">
+                                        <span>Postcode</span></th>
+                                    <td class="profile-cells">
+                                        <p>{{ address.postcode }}</p></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-nowrap profile-cells">
+                                        <span>Country</span></th>
+                                    <td class="profile-cells">
+                                        <p>{{ address.country }}</p></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-nowrap profile-cells">
+                                        <span>Phone</span></th>
+                                    <td class="profile-cells">
+                                        <p>{{ address.phone_number }}</p></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             {% endfor %}

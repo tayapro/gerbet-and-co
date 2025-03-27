@@ -11,6 +11,24 @@
 {% endif %}
 
 <div class="card-body" id="account-details">
-    <p class="text-start"><span>name:</span> {{ user.first_name }} {{ user.last_name }}</p>
-    <p class="text-start"><span>email:</span> {{ user.email }}</p>
+    <table class="table">
+        <colgroup>
+            <col style="width: 50px;">
+            <col>
+        </colgroup>
+        <tbody>
+            <tr>
+                <th scope="row" class="text-nowrap profile-cells">
+                    <span>Name</span></th>
+                <td class="profile-cells">
+                    <p>{{ user.first_name }} {{ user.last_name }}</p></td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-nowrap profile-cells">
+                    <span>Email</span></th>
+                <td class="profile-cells">
+                    <p>{{ user.email }}</p></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
