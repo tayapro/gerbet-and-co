@@ -42,8 +42,8 @@
         <title>Gerbet and Co {% block extra_title %}{% endblock %}</title>
     </head>
     <body>
-        <div id="navbar-container">
-            <nav class="navbar navbar-expand-sm navbar-dark">
+        <div class="w-100 sticky-top">
+            <nav class="navbar navbar-expand-sm navbar-dark " id="navbar-container">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="/"><h2>Gerbet & Co.</h2></a>
                     <button id="custom-navbar-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
@@ -96,9 +96,9 @@
                                 <a href="{% url 'view_bag' %}" class="nav-link">
                                     <i class="bi bi-bag fs-4"></i>
                                     <span id="bag-quantity" 
-                                          class="position-absolute top-10 start-90 translate-middle badge rounded-pill bg-danger bg-gradient
-                                                 {% if bag.is_empty %}d-none{% endif %}"
-                                          hx-swap-oob="outerHTML">
+                                            class="position-absolute top-10 start-90 translate-middle badge rounded-pill bg-danger bg-gradient
+                                                    {% if bag.is_empty %}d-none{% endif %}"
+                                            hx-swap-oob="outerHTML">
                                         {{ bag_total_items }}
                                     </span>
                                 </a>
@@ -107,52 +107,60 @@
                     </div>
                 </div>
             </nav>
-            
-            {% comment %} Search sidebar {% endcomment %}
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="sideSearch"
-                data-bs-backdrop="true" data-bs-scroll="false"
-                aria-labelledby="sideSearchLabel">
-       
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="sideSearchLabel">Search</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-            
-                <div class="offcanvas-body d-flex flex-column gap-4">
-                    <form class="d-flex align-items-center gap-3 pb-3" method="GET" action="{% url 'product_search' %}">
-                        <i class="bi bi-search fs-4"></i>
-                        <input type="text"
-                                class="form-control bg-transparent border-0 border-bottom shadow-none"
-                                name="search_query"
-                                placeholder="Search..."
-                                aria-label="Search" />
-                        <button type="submit" class="btn btn-raspberry px-3">OK</button>
-                    </form>
-            
-                    <div>
-                        <p class="mb-2 text-center">Suggested</p>
-                        <ul class="list-unstyled d-flex flex-column gap-2 ps-2">
-                            <li><a href="#" class="text-decoration-none">Macarons</a></li>
-                            <li><a href="#" class="text-decoration-none">Teas</a></li>
-                            <li><a href="#" class="text-decoration-none">Gift Boxes</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
 
-            <div id="toast-container" class="toast"></div>
-        </div>
+            {% comment %} <div id="toast-container" class="toast position-fixed w-100"></div> {% endcomment %}
+            <div id="toast-container" class="toast border border-0 rounded-0 d-flex justify-content-center w-100 py-2"></div>
 
-        <div id="messages-container" class="position-fixed top-30 end-0 p-3">
             {% for message in messages %}
-            <div class="alert {{ message.tags }} alert-dismissible fade show shadow-md" role="alert">
-                <i class="bi bi-info-circle-fill me-2"></i> {{ message | safe }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div id="messages-container">
+                
+                <div class="alert {{ message.tags }} alert-dismissible fade show shadow-md border border-0 rounded-0" role="alert">
+                    <i class="bi bi-info-circle-fill me-2"></i> {{ message | safe }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
             </div>
             {% endfor %}
         </div>
+            
+        <!-- Search sidebar -->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="sideSearch"
+            data-bs-backdrop="true" data-bs-scroll="false"
+            aria-labelledby="sideSearchLabel">
+    
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="sideSearchLabel">Search</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+        
+            <div class="offcanvas-body d-flex flex-column gap-4">
+                <form class="d-flex align-items-center gap-3 pb-3" method="GET" action="{% url 'product_search' %}">
+                    <i class="bi bi-search fs-4"></i>
+                    <input type="text"
+                            class="form-control bg-transparent border-0 border-bottom shadow-none"
+                            name="search_query"
+                            placeholder="Search..."
+                            aria-label="Search" />
+                    <button type="submit" class="btn btn-raspberry px-3">OK</button>
+                </form>
+        
+                <div>
+                    <p class="mb-2 text-center">Suggested</p>
+                    <ul class="list-unstyled d-flex flex-column gap-2 ps-2">
+                        <li><a href="#" class="text-decoration-none">Macarons</a></li>
+                        <li><a href="#" class="text-decoration-none">Teas</a></li>
+                        <li><a href="#" class="text-decoration-none">Gift Boxes</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-        <div class="container-fluid d-flex justify-content-center align-items-center my-5 pt-5">
+        <div id="loading-spinner" class="spinner-overlay d-none">
+            <div class="spinner-border text-danger text-opacity-75" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <div class="container-fluid d-flex justify-content-center align-items-center my-5">
             {% block content %}
             {% endblock %}
         </div>

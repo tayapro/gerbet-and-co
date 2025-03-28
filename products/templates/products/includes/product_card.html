@@ -1,0 +1,39 @@
+{% load products_filters %}
+
+{% block content %}
+<div class="card">
+    <a href="{% url 'product_detail' product.id %}">
+        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.title }}">
+    </a>
+    <div class="card-body">
+        <a href="{% url 'product_detail' product.id %}" class="link-underline link-underline-opacity-0 text-black text-opacity-50">
+            <h4 class="card-title">{{ product.title }}</h4>
+        </a>
+        <p class="card-text">&#8364;{{ product.price }}</p>
+        {% if product.stock > 0 %}
+            <p class="card-text">In stock: {{ product.stock }}</p>
+        {% else %}
+            <p class="card-text">Out of stock</p>
+        {% endif %}
+        <div class="d-flex align-items-center justify-content-around">
+            {% if product.rating %}
+                <small class="text-muted"><i class="bi bi-star-fill"></i> {{ product.rating|rating_format }} / 5</small>
+            {% else %}
+                <small class="text-muted">No Rating</small>
+            {% endif %}
+            <form hx-post="{% url 'add_to_bag' product.id %}" 
+                hx-trigger="click" 
+                hx-target="#toast-container" 
+                hx-swap="outerHTML"
+                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                hx-select-oob="#bag-quantity">
+                {% csrf_token %}
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-bag-plus"></i> Add to Bag
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

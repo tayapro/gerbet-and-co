@@ -5,8 +5,58 @@ function drawTooltip() {
     })
 }
 
+function drawModalWindow() {
+    const messagesModal = document.getElementById('messagesModal')
+
+    if (messagesModal) {
+        const alerts = messagesModal.querySelectorAll('.alert')
+        if (alerts.length > 0) {
+            const modal = new bootstrap.Modal(messagesModal)
+
+            // Add icons to each type of alert
+            alerts.forEach((alert) => {
+                let iconHTML = ''
+                if (alert.classList.contains('success')) {
+                    iconHTML = `<i class="fa-solid fa-xl fa-circle-check text-success me-2"></i>`
+                } else if (alert.classList.contains('error')) {
+                    iconHTML = `<i class="fa-solid fa-xl fa-circle-exclamation text-danger me-2"></i>`
+                } else if (alert.classList.contains('warning')) {
+                    iconHTML = `<i class="fa-solid fa-xl fa-triangle-exclamation text-warning me-2"></i>`
+                } else if (alert.classList.contains('info')) {
+                    iconHTML = `<i class="fa-solid fa-xl fa-circle-info text-info me-2"></i>`
+                }
+                alert.innerHTML = `${iconHTML}${alert.innerHTML}`
+            })
+
+            // Manage inert attribute for accessibility
+            messagesModal.addEventListener('shown.bs.modal', () => {
+                messagesModal.removeAttribute('inert')
+                messagesModal.focus()
+            })
+
+            messagesModal.addEventListener('hidden.bs.modal', () => {
+                const closeButtonHeader = document.getElementById(
+                    'messageModalHeaderCloseButton'
+                )
+                const closeButtonFooter = document.getElementById(
+                    'messageModalFooterCloseButton'
+                )
+
+                closeButtonHeader.blur()
+                closeButtonFooter.blur()
+
+                messagesModal.setAttribute('inert', 'true')
+                messagesModal.classList.add('d-none')
+            })
+
+            modal.show()
+        }
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     drawTooltip()
+    drawModalWindow()
 
     document.querySelectorAll('.offcanvas').forEach((el) => {
         el.style.display = 'none'

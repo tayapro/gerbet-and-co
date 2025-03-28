@@ -32,7 +32,6 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    width: 100% !important;
     background-image: url('/media/gerbet_background.webp');
     background-repeat: no-repeat;
     background-size: cover;
@@ -140,9 +139,9 @@ h5 {
 
 #navbar-container {
     background-color: var(--purple-75);
-    position: sticky;
+    /* position: sticky;
     top: 0;
-    z-index: 1030;
+    z-index: 1030; */
 }
 
 .nav-link .badge {
@@ -164,17 +163,20 @@ h5 {
 }
 
 #messages-container {
-    z-index: 1050;
-}
-
-#toast-container {
-    opacity: 1 !important;
+    top: 60px;
+    z-index: 99999;
+    width: 100%;
     transition: opacity 0.5s ease-in-out !important;
 }
 
-#toast-container.hide {
+#toast-container {
+    transition: opacity 0.5s ease-in-out !important;
+}
+
+.toast:not(.show) {
+    display: flex !important;
     opacity: 0 !important;
-    pointer-events: none;
+    height: 40px;
 }
 
 /* Horizontal scrolling for Account tabs on mobile */
