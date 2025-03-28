@@ -71,4 +71,12 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 400)
         })
     })
+
+    document.addEventListener('htmx:afterRequest', function (evt) {
+        const clicked = evt.detail.elt
+        const label = clicked?.dataset?.sortLabel
+        if (label) {
+            document.getElementById('sortLabel').textContent = label
+        }
+    })
 })

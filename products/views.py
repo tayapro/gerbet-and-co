@@ -19,21 +19,47 @@ def product_detail(request, product_id):
 
 def product_search(request):
     query = request.GET.get("search_query", "")
-    print(f"QUERY: {query}")
-    results = []
+    order_by = request.GET.get("order_by", "popularity")
+    print(f"ORDER_BY: {order_by}")
 
-    if query:
-        results = Product.objects.filter(
-            Q(title__icontains=query) |
-            Q(description__icontains=query) |
-            Q(categories__name__icontains=query)
-        ).distinct()
+    products = Product.objects.filter(
+        Q(title__icontains=query) |
+        Q(description__icontains=query)
+    )
+    print(f"PRODUCTS: {products}")
 
-    print(f"SEARCH QUERY RESULT: {results}")
+    if order_by == "price_asc":
+        products = products.order_by("price")
+    elif order_by == "price_desc":
+        products = products.order_by("-price")
+    elif order_by == "popularity":
+        products = products.order_by("-rating")
 
     context = {
+        "products": products,
         "query": query,
-        "results": results,
-        "results_count": len(results)
+        "order_by": order_by,
+        "results_count": products.count()
     }
-    return render(request, "products/search_results.html", context)
+
+    if request.htmx:
+        return render(request, "products/includes/product_list_sort.html",
+                      context)
+
+    return render(request, "products/product_search.html", context)
+
+
+def product_list_sort(request):
+    order_by = request.GET.get("order_by", "popularity")
+    products = Product.objects.all()
+
+    if order_by == "price_asc":
+        products = products.order_by("price")
+    elif order_by == "price_desc":
+        products = products.order_by("-price")
+    elif order_by == "popularity":
+        products = products.order_by("-rating")
+
+    return render(request, "products/product_cards.html", {
+        "products": products
+    })

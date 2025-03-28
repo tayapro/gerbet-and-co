@@ -4,10 +4,47 @@
 <div class="row">
     <h2 class="text-center mb-4">Product list:</h2>
 
-    {% for product in products %}
-    <div class="col-md-4 mb-4">
-        {% include "products/includes/product_card.html" %}
+    <div class="dropdown mb-4">
+        <button class="btn btn-outline-secondary dropdown-toggle" 
+            type="button" 
+            id="sortDropdown" 
+            data-bs-toggle="dropdown" 
+            aria-expanded="false">
+            <span id="sortLabel">Sort By</span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+          <li>
+            <button class="dropdown-item" 
+                hx-get="{% url 'product_list_sort' %}?order_by=price_asc"
+                hx-target="#product-list"
+                hx-swap="innerHTML"
+                data-sort-label="Price ascending">
+                Price ascending
+          </button>
+          </li>
+          <li>
+            <button class="dropdown-item" 
+               hx-get="{% url 'product_list_sort' %}?order_by=price_desc"
+               hx-target="#product-list"
+               hx-swap="innerHTML"
+               data-sort-label="Price descending">
+              Price descending
+          </button>
+          </li>
+          <li>
+            <button class="dropdown-item" 
+               hx-get="{% url 'product_list_sort' %}?order_by=popularity"
+               hx-target="#product-list"
+               hx-swap="innerHTML"
+               data-sort-label="Recommendation">
+              Recommendation
+          </button>
+          </li>
+        </ul>
     </div>
-    {% endfor %}
+
+    <div id="product-list">
+        {% include "products/product_cards.html" %}
+    </div>
 </div>
 {% endblock %}
