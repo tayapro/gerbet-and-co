@@ -17,7 +17,7 @@
                                     class="d-inline">
                                 {% csrf_token %}
                                 <button type="submit" 
-                                        class="btn btn-outline-raspberry-light me-2 {% if address.is_default %}disabled{% endif %}"
+                                        class="btn my-btn-outline-light me-2 {% if address.is_default %}disabled{% endif %}"
                                         title="Set as default"
                                         data-bs-toggle="tooltip" data-bs-placement="bottom"
                                         aria-label="Set as default">
@@ -26,10 +26,16 @@
                             </form>
                         {% endif %}
                         <div>
-                            <a href="{% url 'address_update' address.id %}" class="btn btn-outline-raspberry-light">
+                            <a href="{% url 'address_update' address.id %}" class="btn my-btn-outline-light"
+                                title="Edit"
+                                data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                aria-label="Edit">
                                 <i class="bi bi-pencil-square fs-4 m-0 p-0"></i>
                             </a>
-                            <a href="{% url 'address_delete' address.id %}" class="btn btn-outline-raspberry-light">
+                            <a href="{% url 'address_delete' address.id %}" class="btn my-btn-outline-light"
+                                title="Delete"
+                                        data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                        aria-label="Delete">
                                 <i class="bi bi-trash3 fs-4 m-0 p-0"></i>
                             </a>
                         </div>

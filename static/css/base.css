@@ -7,10 +7,12 @@
     --font-regular: 400;
     --font-bold: 600;
     --white-color: rgb(251, 251, 251);
+    --purple-90: rgba(41, 27, 50, 0.9);
     --purple-75: rgba(41, 27, 50, 0.75);
     --purple-10: rgba(41, 27, 50, 0.4);
     --my-bs-text-light-60: rgba(255, 255, 255, 0.6);
     --my-bs-text-light-80: rgba(255, 255, 255, 0.8);
+    --my-bs-text-light-90: rgba(255, 255, 255, 0.9);
     --bs-success-bg-subtle: #d1e7dd;
     --raspberry: rgb(217, 35, 96);
     --raspberry-hover: rgb(185, 30, 82);
@@ -26,12 +28,98 @@
     font-family: var(--font-family);
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100% !important;
+    background-image: url('/media/gerbet_background.webp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    backdrop-filter: blur(3px);
+}
+
 h1,
 h2,
 h3,
 h4,
 h5 {
     font-family: var(--header-font-family);
+}
+
+.light-text-90 {
+    color: var(--my-bs-text-light-90);
+}
+
+.purple-text-90 {
+    color: var(--purple-90);
+}
+
+.offcanvas {
+    visibility: hidden;
+    transform: translateX(100%);
+    transition: transform 0.4s ease-in-out, visibility 0.4s ease-in-out;
+}
+.offcanvas.show {
+    visibility: visible;
+    transform: none;
+}
+
+.offcanvas {
+    color: var(--purple-75);
+    background-color: var(--my-bs-text-light-80);
+    backdrop-filter: blur(12px);
+    border-left: 1px solid var(--purple-10);
+    box-shadow: -8px 0 20px rgba(0, 0, 0, 0.3);
+    height: 100vh;
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.offcanvas h5 {
+    color: var(--purple-75) !important;
+}
+
+.offcanvas-header {
+    border-bottom: 1px solid var(--purple-10);
+}
+
+.offcanvas-body {
+    padding: 1.5rem;
+}
+
+.offcanvas input.form-control {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid var(--my-bs-text-light-60);
+    color: var(--purple-75);
+    border-radius: 0;
+}
+
+.offcanvas input.form-control:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: var(--raspberry);
+}
+
+.offcanvas .btn {
+    background-color: var(--my-bs-text-light-80);
+    color: var(--purple-75);
+    border: none;
+    border-radius: 0.375rem;
+    transition: background-color 0.5s ease;
+}
+
+.offcanvas .btn:hover {
+    background-color: var(--purple-75);
+    color: var(--my-bs-text-light-80);
+    border: none;
+}
+
+.offcanvas p {
+    letter-spacing: 1px;
 }
 
 .tooltip-inner {
@@ -50,20 +138,11 @@ h5 {
     letter-spacing: 1px;
 }
 
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-image: url('/media/gerbet_background.webp');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    backdrop-filter: blur(3px);
-}
-
 #navbar-container {
     background-color: var(--purple-75);
+    position: sticky;
+    top: 0;
+    z-index: 1030;
 }
 
 .nav-link .badge {
@@ -331,18 +410,28 @@ body {
     cursor: not-allowed;
 }
 
+.my-btn-outline-light {
+    color: var(--my-bs-text-light-80);
+    background-color: transparent;
+    transition: transform 0.3s ease-in-out;
+}
+
+.my-btn-outline-light:hover,
+.my-btn-outline-light:focus {
+    color: var(--my-bs-text-light-90);
+    transform: scale(1.1);
+}
+
 .btn-outline-raspberry-light {
     color: var(--my-bs-text-light-80);
-    /* border: 1px solid var(--my-bs-text-light-80); */
     background-color: transparent;
     transition: all 0.2s ease-in-out;
 }
 
 .btn-outline-raspberry-light:hover,
 .btn-outline-raspberry-light:focus {
-    color: #fff;
+    color: var(--my-bs-text-light-80);
     background-color: rgb(217, 35, 96);
-    /* border-color: rgb(217, 35, 96); */
 }
 
 .profile-cells {

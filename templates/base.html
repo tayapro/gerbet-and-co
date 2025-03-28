@@ -17,9 +17,7 @@
                 href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
                 rel="stylesheet"
                 integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
-                crossorigin="anonymous"
-                media="print"
-                onload="this.media='all'"/>
+                crossorigin="anonymous"/>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
             <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
             <link rel="stylesheet" href="{% static 'css/base.css' %}">
@@ -44,8 +42,8 @@
         <title>Gerbet and Co {% block extra_title %}{% endblock %}</title>
     </head>
     <body>
-        <div class="position-fixed top-0 start-0 z-3 w-100">
-            <nav class="navbar navbar-expand-sm navbar-dark" id="navbar-container">
+        <div id="navbar-container">
+            <nav class="navbar navbar-expand-sm navbar-dark">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="/"><h2>Gerbet & Co.</h2></a>
                     <button id="custom-navbar-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
@@ -68,10 +66,20 @@
                             </li>
                         </ul>
                         <ul class="navbar-nav ms-sm-auto align-items-sm-center">
+                            <li class="nav-item align-middle">
+                                <button class="btn my-btn-outline-light" 
+                                        type="button"
+                                        data-bs-toggle="offcanvas"
+                                        data-bs-target="#sideSearch"
+                                        aria-controls="sideSearch"
+                                        title="Search">
+                                    <i class="bi bi-search fs-5 m-0 p-0"></i>
+                                </button>
+                            </li>
                             {% if user.is_authenticated %}
                                 <li class="nav-item align-middle">
-                                    <a class="nav-link" href="{% url 'account' %}?next={{ next }}">
-                                        <i class="bi bi-person-circle fs-4"></i>
+                                    <a class="btn my-btn-outline-light" href="{% url 'account' %}?next={{ next }}">
+                                        <i class="bi bi-person-fill fs-4 m-0 p-0"></i>
                                     </a>
                                 </li>
                                 <li class="nav-item align-middle">
@@ -98,7 +106,39 @@
                         </ul>
                     </div>
                 </div>
-            </nav>        
+            </nav>
+            
+            {% comment %} Search sidebar {% endcomment %}
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="sideSearch"
+                data-bs-backdrop="true" data-bs-scroll="false"
+                aria-labelledby="sideSearchLabel">
+       
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="sideSearchLabel">Search</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+            
+                <div class="offcanvas-body d-flex flex-column gap-4">
+                    <form class="d-flex align-items-center gap-3 pb-3" method="GET" action="{% url 'product_search' %}">
+                        <i class="bi bi-search fs-4"></i>
+                        <input type="text"
+                                class="form-control bg-transparent border-0 border-bottom shadow-none"
+                                name="search_query"
+                                placeholder="Search..."
+                                aria-label="Search" />
+                        <button type="submit" class="btn btn-raspberry px-3">OK</button>
+                    </form>
+            
+                    <div>
+                        <p class="mb-2 text-center">Suggested</p>
+                        <ul class="list-unstyled d-flex flex-column gap-2 ps-2">
+                            <li><a href="#" class="text-decoration-none">Macarons</a></li>
+                            <li><a href="#" class="text-decoration-none">Teas</a></li>
+                            <li><a href="#" class="text-decoration-none">Gift Boxes</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
             <div id="toast-container" class="toast"></div>
         </div>
