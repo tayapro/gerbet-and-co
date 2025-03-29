@@ -3,9 +3,10 @@ Sorted product list
 Used in HTMX responses to update the product grid only
 {% endcomment %}
 
-<div id="product-list" class="row g-4">
+<div id="product-list">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-5 pb-5">
     {% for product in products %}
-      <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="col">
         {% include "products/includes/product_card.html" %}
       </div>
     {% empty %}
@@ -14,4 +15,5 @@ Used in HTMX responses to update the product grid only
       </div>
     {% endfor %}
   </div>
+</div>
   

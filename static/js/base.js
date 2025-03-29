@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
     drawTooltip()
     drawModalWindow()
 
+    // Offcanvas
     document.querySelectorAll('.offcanvas').forEach((el) => {
         el.style.display = 'none'
 
@@ -72,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
     })
 
+    // Sorting
     document.addEventListener('htmx:afterRequest', function (evt) {
         const clicked = evt.detail.elt
         const label = clicked?.dataset?.sortLabel
