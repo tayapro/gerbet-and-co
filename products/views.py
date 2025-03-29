@@ -1,12 +1,15 @@
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
-from decimal import Decimal
 
 from .models import Category, Product
 
 
 def product_list(request):
-    products = Product.objects.all()
+    # Optimize the query with prefetch_related for many-to-many (categories)
+    products = (
+        Product.objects.only("title", "price", "image", "rating")
+        .prefetch_related("categories")
+    )
     selected_filters = []
 
     # Category filter
@@ -28,6 +31,7 @@ def product_list(request):
                 label = f"Category: {category.name}"
                 url = f"?{new_query.urlencode()}"
                 selected_filters.append((label, url))
+                print(f"SELECTED FILTERS(category): {selected_filters}")
             except Category.DoesNotExist:
                 continue
 
@@ -35,18 +39,30 @@ def product_list(request):
     min_rating = request.GET.get("min_rating")
     if min_rating:
         products = products.filter(rating__gte=min_rating)
-        selected_filters.append((f"{min_rating}+ stars", "min_rating",
-                                 min_rating))
+        new_query = request.GET.copy()
+        new_query.pop("min_rating", None)
+        label = f"{min_rating}+ stars"
+        url = f"?{new_query.urlencode()}"
+        selected_filters.append((label, url))
 
     # Price range
     min_price = request.GET.get("min_price")
-    max_price = request.GET.get("max_price")
     if min_price:
         products = products.filter(price__gte=min_price)
-        selected_filters.append((f"Min €{min_price}", "min_price", min_price))
+        new_query = request.GET.copy()
+        new_query.pop("min_price", None)
+        label = f"Min €{min_price}"
+        url = f"?{new_query.urlencode()}"
+        selected_filters.append((label, url))
+
+    max_price = request.GET.get("max_price")
     if max_price:
         products = products.filter(price__lte=max_price)
-        selected_filters.append((f"Max €{max_price}", "max_price", max_price))
+        new_query = request.GET.copy()
+        new_query.pop("max_price", None)
+        label = f"Max €{max_price}"
+        url = f"?{new_query.urlencode()}"
+        selected_filters.append((label, url))
 
     context = {
         "products": products,
@@ -61,52 +77,6 @@ def product_list(request):
                       context)
 
     return render(request, "products/product_list.html", context)
-
-
-def product_list_old(request):
-    products = Product.objects.all()
-
-    # Filters
-    min_price = request.GET.get('min_price')
-    max_price = request.GET.get('max_price')
-
-    if min_price:
-        try:
-            products = products.filter(price__gte=Decimal(min_price))
-        except Exception:
-            pass
-
-    if max_price:
-        try:
-            products = products.filter(price__lte=Decimal(max_price))
-        except Exception:
-            pass
-
-    categories = request.GET.getlist("category")
-    print(f"CATEGORIES: {categories}")
-
-    if categories:
-        products = products.filter(categories__slug__in=categories)
-
-    min_rating = request.GET.get("min_rating")
-    print(f"MIN RATING: {min_rating}")
-
-    if min_rating:
-        products = products.filter(rating__gte=min_rating)
-
-    context = {
-        "products": products,
-        "min_price": min_price,
-        "max_price": max_price,
-        "categories": Category.objects.all(),
-        "ratings": [5, 4, 3, 2, 1],
-    }
-
-    if request.headers.get("Hx-Request") == "true":
-        return render(request, "products/includes/product_list_sort.html",
-                      context)
-
-    return render(request, 'products/product_list.html', context)
 
 
 def product_detail(request, product_id):
