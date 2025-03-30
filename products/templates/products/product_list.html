@@ -2,56 +2,80 @@
 
 {% block content %}
 <div class="row">
-    <h2 class="text-center mb-4">Product list:</h2>
+    <h2 class="text-center mb-4">Product list</h2>
 
     <!-- Sorting section -->
-    <div class="dropdown mb-4">
-        <button class="btn btn-outline-secondary dropdown-toggle" 
-            type="button" 
-            id="sortDropdown" 
-            data-bs-toggle="dropdown" 
-            aria-expanded="false">
-            <span id="sortLabel">Sort By</span>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="sortDropdown">
-            <li>
-                <button class="dropdown-item" 
-                    hx-get="{% url 'product_list_sort' %}?order_by=price_asc"
-                    hx-target="#product-list"
-                    hx-swap="innerHTML"
-                    data-sort-label="Price ascending">
-                    Price ascending
-                </button>
-            </li>
-            <li>
-                <button class="dropdown-item" 
-                    hx-get="{% url 'product_list_sort' %}?order_by=price_desc"
-                    hx-target="#product-list"
-                    hx-swap="innerHTML"
-                    data-sort-label="Price descending">
-                    Price descending
-                </button>
-            </li>
-            <li>
-                <button class="dropdown-item" 
-                    hx-get="{% url 'product_list_sort' %}?order_by=popularity"
-                    hx-target="#product-list"
-                    hx-swap="innerHTML"
-                    data-sort-label="Recommendation">
-                    Recommendation
-                </button>
-            </li>
-        </ul>
-    </div>
+    {% comment %} <form id="sort-form" class="sort-form d-flex gap-4 justify-content-center" method="GET" 
+        hx-get="{% url 'product_list' %}" hx-push-url="true">
+        <div class="dropdown mb-4" id="sort-control">
+            <button class="btn btn-outline-secondary dropdown-toggle"
+                type="button"
+                id="sortDropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+            <span id="sortLabel">
+                {% for key, label in sort_options %}
+                    {% if current_sort == key %}
+                        {{ label }}
+                    {% endif %}
+                {% endfor %}
+                {% if not current_sort %}Sort By{% endif %}
+            </span>
+            </button>
+        
+            <p>Current Sort: {{ current_sort }}</p>
+            <ul>
+                {% for key, label in sort_options %}
+                    <li>{{ key }}: {{ label }}</li>
+                {% endfor %}
+            </ul>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="sortDropdown">
+                {% for key, label in sort_options %}
+                    <li>
+                        <button class="dropdown-item"
+                                role="menuitemradio"
+                                aria-checked="{% if current_sort == key %}true{% else %}false{% endif %}"
+                                data-sort-label="{{ label }}"
+                                hx-get="{% url 'product_list' %}?{% if filter_querystring %}{{ filter_querystring }}&{% endif %}order_by={{ key }}"
+                                hx-target="#product-list"
+                                hx-swap="innerHTML"
+                                hx-on:afterSwap="updateSortLabel(event)">
+                            {{ label }}
+                        </button>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </form> {% endcomment %}
 
     <!-- Filtering section -->
-    <h5 class="text-light">Filter By</h5>
-    <form id="filter-form" class="filter-form" method="get" hx-get="{% url 'product_list' %}" hx-target="#product-list" hx-push-url="true">
+    <h5 class="text-light text-center">Filter By</h5>
+    <form id="filter-form" class="filter-form d-flex gap-4 justify-content-center" method="GET" 
+          hx-get="{% url 'product_list' %}" hx-target="#product-list" hx-push-url="true">
+        {% comment %} <input type="hidden" name="order_by" value="{{ current_sort }}"> {% endcomment %}
+
+        {% comment %} SOrt {% endcomment %}
+        <div class="mb-3">
+            <p class="text-light mb-1">Sort</p>
+            <input type="radio" name="order_by" value="price_asc">
+            <label class="form-check-label text-light">
+                Price ascending
+            </label>
+            <input type="radio" name="order_by" value="price_desc">
+            <label class="form-check-label text-light">
+                Price descending
+            </label>
+            <input type="radio" name="order_by" value="popularity">
+            <label class="form-check-label text-light">
+                Recommendation
+            </label>
+        </div>
+
         <!-- Categories -->
         <div class="mb-3">
             <p class="text-light mb-1">Category</p>
             {% for category in categories %}
-                <div class="form-check">
+                <div class="form-check ps-0">
                     <input type="checkbox" name="category" value="{{ category.slug }}"
                            {% if category.slug in selected_categories %}checked{% endif %}>
                     <label class="form-check-label text-light" for="cat-{{ category.id }}">
@@ -65,7 +89,7 @@
         <div class="mb-3">
             <p class="text-light mb-1">Rating</p>
             {% for rating in ratings %}
-                <div class="form-check">
+                <div class="form-check ps-0">
                     <input type="radio" name="min_rating" value="{{ rating }}"
                            {% if rating|stringformat:"s" == request.GET.min_rating %}checked{% endif %}>
                     <label class="form-check-label text-light">
@@ -84,29 +108,29 @@
             <input type="number" name="max_price" class="form-control" min="0" step="0.01" value="{{ max_price }}">
         </div>
     </form>
-    
-    {% if selected_filters %}
-    <!-- Show filter badges with clear/remove buttons -->
-        <div class="mb-4">
-            <p class="mb-2 text-light fw-semibold">Active Filters:</p>
-            <div class="d-flex flex-wrap gap-2 align-items-center">
-                {% for label, url in selected_filters %}
-                    <span class="badge rounded-pill bg-light text-dark px-3 py-2">
-                        {{ label }}
-                        <a href="{{ url }}" class="text-danger text-decoration-none ms-2" title="Remove">
-                            &times;
-                        </a>
-                    </span>
-                {% endfor %}
-            </div>
-            <a href="{% url 'product_list' %}" class="btn btn-sm btn-outline-light ms-2">
-                Clear All Filters
-            </a>
-        </div>
-    {% endif %}
 
     <div id="product-list">
-        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-5 pb-5">
+        {% if selected_filters %}
+        <!-- Show filter badges with clear/remove buttons -->
+            <div class="mb-4">
+                <p class="mb-2 text-light fw-semibold">Active Filters:</p>
+                <div class="d-flex flex-wrap gap-2 align-items-center">
+                    {% for label, url in selected_filters %}
+                        <span class="badge rounded-pill bg-light text-dark px-3 py-2">
+                            {{ label }}
+                            <a href="{{ url }}" class="text-danger text-decoration-none ms-2" title="Remove">
+                                &times;
+                            </a>
+                        </span>
+                    {% endfor %}
+                </div>
+                <a href="{% url 'product_list' %}" class="btn btn-sm btn-outline-light ms-2">
+                    Clear All Filters
+                </a>
+            </div>
+        {% endif %}
+
+        <div class="row row-cols-1 row-cols-md-3 row-cols-xl-4 g-4 mb-5 pb-5">
             {% include "products/product_cards.html" %}
         </div>
     </div>
@@ -115,10 +139,49 @@
 
 {% block postloadjs %}
 <script>
+    console.log("Script loaded!");
+
+
     function updatePriceLabel(input) {
         const labelId = input.id + 'Label'
         document.getElementById(labelId).textContent = input.value
     }
+
+    function updateSortLabel(event) {
+        // Find the updated product list container
+        const updatedList = document.getElementById("sort-control");
+    
+        // Search for the active button with aria-checked="true"
+        const activeButton = updatedList.querySelector('[aria-checked="true"]');
+    
+        if (activeButton) {
+            const label = activeButton.getAttribute("data-sort-label");
+            const key = new URL(activeButton.getAttribute("hx-get"), window.location.origin).searchParams.get("order_by");
+    
+            const sortLabel = document.getElementById("sortLabel");
+            const orderByInput = document.querySelector('input[name="order_by"]');
+    
+            // Update the sort label
+            if (sortLabel && label) {
+                sortLabel.textContent = label;
+            }
+    
+            // Update the hidden input with the current sort key
+            if (orderByInput && key) {
+                orderByInput.value = key;
+            }
+    
+            console.log("key", key);
+            console.log("label", label);
+        } else {
+            console.log("No active button found.");
+        }
+    }    
+
+    document.getElementById("product-list").addEventListener("htmx:afterSwap", function(evt) {
+        console.log("HTMX afterSwap for product list triggered!");
+        updateSortLabel(evt);
+    });
 
     document.addEventListener("DOMContentLoaded", function () {
         const form = document.getElementById("filter-form")

@@ -1,5 +1,9 @@
 {% for product in products %}
-<div class="col">
-    {% include "products/includes/product_card.html" %}
-</div>
+    <div class="col d-flex justify-content-center">
+        {% include "products/includes/product_card.html" %}
+      </div>
+    {% empty %}
+      <div class="col-12 text-center">
+        <p>No products found.</p>
+      </div>
 {% endfor %}

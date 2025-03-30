@@ -444,3 +444,13 @@ h5 {
     border: none;
     background-color: transparent !important;
 }
+
+#product-card {
+    width: 200px;
+    height: 300px;
+}
+
+#product-card-image {
+    width: 198px;
+    height: 98px;
+}
