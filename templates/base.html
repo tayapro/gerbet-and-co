@@ -43,72 +43,69 @@
     </head>
     <body>
         <div class="w-100 sticky-top">
-            <nav class="navbar navbar-expand-sm navbar-dark " id="navbar-container">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="/"><h2>Gerbet & Co.</h2></a>
-                    <button id="custom-navbar-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
-                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="bi bi-list"></i>
-                    </button>
-                    <div class="collapse navbar-collapse text-end mx-3" id="navbarNav">
-                        <ul class="navbar-nav me-sm-auto align-items-sm-center">
+            <nav class="navbar navbar-expand-sm navbar-dark container-fluid " id="navbar-container">
+                <a class="navbar-brand" href="/"><h2>Gerbet & Co.</h2></a>
+                <button id="custom-navbar-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div class="collapse navbar-collapse text-end mx-3" id="navbarNav">
+                    <ul class="navbar-nav me-sm-auto align-items-sm-center">
+                        <li class="nav-item align-middle">
+                            <a class="nav-link" href="{% url 'product_list' %}?next={{ next }}">
+                                <p>Shop</p></a>
+                        </li>
+                        <li class="nav-item align-middle">
+                            <a class="nav-link" href="{% url 'about' %}?next={{ next }}">
+                                <p>About</p></a>
+                        </li>
+                        <li class="nav-item align-middle">
+                            <a class="nav-link" href="{% url 'help' %}?next={{ next }}">
+                                <p>Help</p></a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-sm-auto align-items-sm-center">
+                        <li class="nav-item align-middle">
+                            <button class="btn my-btn-outline-light" 
+                                    type="button"
+                                    data-bs-toggle="offcanvas"
+                                    data-bs-target="#sideSearch"
+                                    aria-controls="sideSearch"
+                                    title="Search">
+                                <i class="bi bi-search fs-5 m-0 p-0"></i>
+                            </button>
+                        </li>
+                        {% if user.is_authenticated %}
                             <li class="nav-item align-middle">
-                                <a class="nav-link" href="{% url 'product_list' %}?next={{ next }}">
-                                    <p>Shop</p></a>
-                            </li>
-                            <li class="nav-item align-middle">
-                                <a class="nav-link" href="{% url 'about' %}?next={{ next }}">
-                                    <p>About</p></a>
-                            </li>
-                            <li class="nav-item align-middle">
-                                <a class="nav-link" href="{% url 'help' %}?next={{ next }}">
-                                    <p>Help</p></a>
-                            </li>
-                        </ul>
-                        <ul class="navbar-nav ms-sm-auto align-items-sm-center">
-                            <li class="nav-item align-middle">
-                                <button class="btn my-btn-outline-light" 
-                                        type="button"
-                                        data-bs-toggle="offcanvas"
-                                        data-bs-target="#sideSearch"
-                                        aria-controls="sideSearch"
-                                        title="Search">
-                                    <i class="bi bi-search fs-5 m-0 p-0"></i>
-                                </button>
-                            </li>
-                            {% if user.is_authenticated %}
-                                <li class="nav-item align-middle">
-                                    <a class="btn my-btn-outline-light" href="{% url 'account' %}?next={{ next }}">
-                                        <i class="bi bi-person-fill fs-4 m-0 p-0"></i>
-                                    </a>
-                                </li>
-                                <li class="nav-item align-middle">
-                                    <a class="nav-link" href="{% url 'logout' %}?next={{ next }}">
-                                        <p>Logout</p></a>
-                                </li>
-                            {% else %}
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'login' %}?next={{ next }}">
-                                        <p>Get started</p></a>
-                                </li>
-                            {% endif %}
-                            <li class="nav-item position-relative">
-                                <a href="{% url 'view_bag' %}" class="nav-link">
-                                    <i class="bi bi-bag fs-4"></i>
-                                    <span id="bag-quantity" 
-                                            class="position-absolute top-10 start-90 translate-middle badge rounded-pill bg-danger bg-gradient
-                                                    {% if bag.is_empty %}d-none{% endif %}"
-                                            hx-swap-oob="outerHTML">
-                                        {{ bag_total_items }}
-                                    </span>
+                                <a class="btn my-btn-outline-light" href="{% url 'account' %}?next={{ next }}">
+                                    <i class="bi bi-person-fill fs-4 m-0 p-0"></i>
                                 </a>
                             </li>
-                        </ul>
-                    </div>
+                            <li class="nav-item align-middle">
+                                <a class="nav-link" href="{% url 'logout' %}?next={{ next }}">
+                                    <p>Logout</p></a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'login' %}?next={{ next }}">
+                                    <p>Get started</p></a>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item position-relative">
+                            <a href="{% url 'view_bag' %}" class="nav-link">
+                                <i class="bi bi-bag fs-4"></i>
+                                <span id="bag-quantity" 
+                                        class="position-absolute top-10 start-90 translate-middle badge rounded-pill bg-danger bg-gradient
+                                                {% if bag.is_empty %}d-none{% endif %}"
+                                        hx-swap-oob="outerHTML">
+                                    {{ bag_total_items }}
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </nav>
 
-            {% comment %} <div id="toast-container" class="toast position-fixed w-100"></div> {% endcomment %}
             <div id="toast-container" class="toast border border-0 rounded-0 d-flex justify-content-center w-100 py-2"></div>
 
             {% for message in messages %}

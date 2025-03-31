@@ -75,4 +75,3 @@ class Product(models.Model):
             raise ValidationError("Failed to delete image from Cloudinary. " +
                                   "Please check your connection or try again" +
                                   " later.")
-

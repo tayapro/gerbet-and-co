@@ -139,9 +139,8 @@ h5 {
 
 #navbar-container {
     background-color: var(--purple-75);
-    /* position: sticky;
-    top: 0;
-    z-index: 1030; */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(8px); /* for Safari */
 }
 
 .nav-link .badge {
