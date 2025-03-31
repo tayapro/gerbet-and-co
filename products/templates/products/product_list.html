@@ -48,13 +48,12 @@
         </div>
     </form> {% endcomment %}
 
-    <!-- Filtering section -->
+    <!-- Filter & Sort section -->
     <h5 class="text-light text-center">Filter By</h5>
     <form id="filter-form" class="filter-form d-flex gap-4 justify-content-center" method="GET" 
           hx-get="{% url 'product_list' %}" hx-target="#product-list" hx-push-url="true">
-        {% comment %} <input type="hidden" name="order_by" value="{{ current_sort }}"> {% endcomment %}
 
-        {% comment %} SOrt {% endcomment %}
+        <!-- Sort -->
         <div class="mb-3">
             <p class="text-light mb-1">Sort</p>
             <input type="radio" name="order_by" value="price_asc">
@@ -71,7 +70,7 @@
             </label>
         </div>
 
-        <!-- Categories -->
+        <!-- Filter by Categories -->
         <div class="mb-3">
             <p class="text-light mb-1">Category</p>
             {% for category in categories %}
@@ -85,7 +84,7 @@
             {% endfor %}
         </div>
     
-        <!-- Ratings -->
+        <!-- Filter by Ratings -->
         <div class="mb-3">
             <p class="text-light mb-1">Rating</p>
             {% for rating in ratings %}
@@ -99,7 +98,7 @@
             {% endfor %}
         </div>
     
-        <!-- Price -->
+        <!-- Filter by Price -->
         <div class="mb-3">
             <label for="min_price" class="form-label text-light">Min Price</label>
             <input type="number" name="min_price" class="form-control" min="0" step="0.01" value="{{ min_price }}">

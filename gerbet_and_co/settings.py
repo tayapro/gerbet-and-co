@@ -14,6 +14,9 @@ import dj_database_url
 from django.contrib.messages import constants as messages
 from pathlib import Path
 from dotenv import load_dotenv
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # loading variables from .env file
 load_dotenv()
@@ -240,6 +243,18 @@ SESSION_SAVE_EVERY_REQUEST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
 PASSWORD_RESET_TIMEOUT = 3600  # 1 hour in seconds
+
+
+# Cloudinary settings
+CLOUDINARY_UPLOAD_FOLDER = "Gerbet_and_co/"
+
+cloudinary.config(
+    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.environ.get("CLOUDINARY_API_KEY"),
+    api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
+    secure=True
+)
+
 
 LOGGING = {
     "version": 1,

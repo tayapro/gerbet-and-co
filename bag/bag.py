@@ -73,8 +73,8 @@ class Bag:
                 yield item
 
             except (KeyError, ValueError) as e:
-                # logger.error(f"Removing invalid bag item {product_id}: "
-                #              f"{str(e)}")
+                logger.error(f"Removing invalid bag item {product_id}: "
+                             f"{str(e)}")
                 del self.bag[product_id]
 
         self.save()
