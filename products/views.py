@@ -85,7 +85,9 @@ def product_search(request):
         "products": products,
         "query": query,
         "order_by": order_by,
-        "results_count": products.count()
+        "results_count": products.count(),
+        "categories": Category.objects.all(),
+        "ratings": [5, 4, 3]
     }
 
     if request.htmx:

@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
         switch (fieldType) {
             case 'text':
             case 'textarea':
-                isValid = field.value.trim().length > 4
+                isValid = field.value.trim().length > 2
                 break
 
             case 'email':

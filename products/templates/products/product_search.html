@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <div class="row">
@@ -6,44 +7,14 @@
   <h2 class="purple-text-90 text-center">{{ query }}</h2>
   <p class="purple-text-90 text-center mb-4">{{results_count}} results</p>
 
-  <div class="dropdown mb-4">
-    <button class="btn btn-outline-secondary dropdown-toggle" 
-      type="button" 
-      id="sortDropdown" 
-      data-bs-toggle="dropdown" 
-      aria-expanded="false">
-      <span id="sortLabel">Sort By</span>
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="sortDropdown">
-      <li>
-        <button class="dropdown-item" 
-          hx-get="{% url 'product_search' %}?search_query={{ query }}&order_by=price_asc"
-          hx-target="#product-list"
-          hx-swap="innerHTML"
-          data-sort-label="Price ascending">
-          Price ascending
-      </button>
-      </li>
-      <li>
-        <button class="dropdown-item" 
-          hx-get="{% url 'product_search' %}?search_query={{ query }}&order_by=price_desc"
-          hx-target="#product-list"
-          hx-swap="innerHTML"
-          data-sort-label="Price descending">
-          Price descending
-      </button>
-      </li>
-      <li>
-        <button class="dropdown-item" 
-          hx-get="{% url 'product_search' %}?search_query={{ query }}&order_by=popularity"
-          hx-target="#product-list"
-          hx-swap="innerHTML"
-          data-sort-label="Recommendation">
-          Recommendation
-      </button>
-      </li>
-    </ul>
-  </div>
+  <button class="btn text-end" type="button" data-bs-toggle="offcanvas"
+          data-bs-target="#sideSortFilter" aria-controls="sideSortFilter">
+      <img src="{% static 'icons/filters_purple.svg' %}" alt="filters icon " 
+          class="m-4 opacity-75" id="filters-icon" title="Sort and Filter"
+          data-bs-toggle="tooltip" data-bs-placement="bottom"
+          aria-label="Sort and Filter">
+  </button>
+  {% include "includes/sort_filter.html"%}
 
   {% if products %}
       <div id="product-list">

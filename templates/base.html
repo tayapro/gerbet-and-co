@@ -120,20 +120,21 @@
         </div>
             
         <!-- Search sidebar -->
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="sideSearch"
+        <div class="offcanvas offcanvas-end px-2" tabindex="-1" id="sideSearch"
             data-bs-backdrop="true" data-bs-scroll="false"
             aria-labelledby="sideSearchLabel">
     
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="sideSearchLabel">Search</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                <h3 class="offcanvas-title ms-2" id="sideSearchLabel">Search</h3>
+                <button type="button" class="btn btn-close me-2" id="search-btn-close"
+                        data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
         
             <div class="offcanvas-body d-flex flex-column gap-4">
                 <form class="d-flex align-items-center gap-3 pb-3" method="GET" action="{% url 'product_search' %}">
-                    <i class="bi bi-search fs-4"></i>
-                    <input type="text"
-                            class="form-control bg-transparent border-0 border-bottom shadow-none"
+                    <i class="bi bi-search fs-5"></i>
+                    <input type="text" id="search-input"
+                            class="form-control bg-transparent shadow-none ms-0 ps-0"
                             name="search_query"
                             placeholder="Search..."
                             aria-label="Search" />
@@ -164,6 +165,15 @@
 
         {% block postloadjs %}
         <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const searchCloseBtn = document.getElementById("search-btn-close");
+                const input = document.getElementById("search-input");
+            
+                searchCloseBtn.addEventListener("click", function () {
+                  input.value = "";
+                  input.focus();
+                });
+              });
         </script>
         {% endblock %}        
     </body>
