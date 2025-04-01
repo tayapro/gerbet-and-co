@@ -1,112 +1,100 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <div class="row">
-    <h2 class="text-center mb-4">Product list</h2>
+    <h2 class="text-center mb-4 purple-text-75">Product list</h2>
+    <button class="btn text-end"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#sideSortFilter"
+            aria-controls="sideSortFilter">
+        <img src="{% static 'icons/filters_purple.svg' %}" alt="filters icon " 
+             class="m-4 opacity-75" id="filters-icon" title="Sort and Filter"
+             data-bs-toggle="tooltip" data-bs-placement="bottom"
+                             aria-label="Sort and Filter">
+    </button>
 
-    <!-- Sorting section -->
-    {% comment %} <form id="sort-form" class="sort-form d-flex gap-4 justify-content-center" method="GET" 
-        hx-get="{% url 'product_list' %}" hx-push-url="true">
-        <div class="dropdown mb-4" id="sort-control">
-            <button class="btn btn-outline-secondary dropdown-toggle"
-                type="button"
-                id="sortDropdown"
-                data-bs-toggle="dropdown"
-                aria-expanded="false">
-            <span id="sortLabel">
-                {% for key, label in sort_options %}
-                    {% if current_sort == key %}
-                        {{ label }}
-                    {% endif %}
-                {% endfor %}
-                {% if not current_sort %}Sort By{% endif %}
-            </span>
-            </button>
-        
-            <p>Current Sort: {{ current_sort }}</p>
-            <ul>
-                {% for key, label in sort_options %}
-                    <li>{{ key }}: {{ label }}</li>
-                {% endfor %}
-            </ul>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="sortDropdown">
-                {% for key, label in sort_options %}
-                    <li>
-                        <button class="dropdown-item"
-                                role="menuitemradio"
-                                aria-checked="{% if current_sort == key %}true{% else %}false{% endif %}"
-                                data-sort-label="{{ label }}"
-                                hx-get="{% url 'product_list' %}?{% if filter_querystring %}{{ filter_querystring }}&{% endif %}order_by={{ key }}"
-                                hx-target="#product-list"
-                                hx-swap="innerHTML"
-                                hx-on:afterSwap="updateSortLabel(event)">
-                            {{ label }}
-                        </button>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </form> {% endcomment %}
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="sideSortFilter"
+        data-bs-backdrop="true" data-bs-scroll="false"
+        aria-labelledby="sideSortFilterLabel">
 
-    <!-- Filter & Sort section -->
-    <h5 class="text-light text-center">Filter By</h5>
-    <form id="filter-form" class="filter-form d-flex gap-4 justify-content-center" method="GET" 
-          hx-get="{% url 'product_list' %}" hx-target="#product-list" hx-push-url="true">
-
-        <!-- Sort -->
-        <div class="mb-3">
-            <p class="text-light mb-1">Sort</p>
-            <input type="radio" name="order_by" value="price_asc">
-            <label class="form-check-label text-light">
-                Price ascending
-            </label>
-            <input type="radio" name="order_by" value="price_desc">
-            <label class="form-check-label text-light">
-                Price descending
-            </label>
-            <input type="radio" name="order_by" value="popularity">
-            <label class="form-check-label text-light">
-                Recommendation
-            </label>
-        </div>
-
-        <!-- Filter by Categories -->
-        <div class="mb-3">
-            <p class="text-light mb-1">Category</p>
-            {% for category in categories %}
-                <div class="form-check ps-0">
-                    <input type="checkbox" name="category" value="{{ category.slug }}"
-                           {% if category.slug in selected_categories %}checked{% endif %}>
-                    <label class="form-check-label text-light" for="cat-{{ category.id }}">
-                        {{ category.name }}
-                    </label>
-                </div>
-            {% endfor %}
+        <div class="offcanvas-header">
+            <h3 class="offcanvas-title" id="sideSortFilterLabel">Sort & Filter</h3>
+            <button type="button" class="btn-close purple-text-90" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
     
-        <!-- Filter by Ratings -->
-        <div class="mb-3">
-            <p class="text-light mb-1">Rating</p>
-            {% for rating in ratings %}
-                <div class="form-check ps-0">
-                    <input type="radio" name="min_rating" value="{{ rating }}"
-                           {% if rating|stringformat:"s" == request.GET.min_rating %}checked{% endif %}>
-                    <label class="form-check-label text-light">
-                        {{ rating }}+ stars
-                    </label>
+        <div class="offcanvas-body d-flex flex-column gap-4">
+            <form id="filter-form" class="filter-form" method="GET" 
+                hx-get="{% url 'product_list' %}" hx-target="#product-list" hx-push-url="true">
+
+                <!-- Sort section -->
+                <p class="text-start fs-5 playfair-display-font-family">Sort By</p>
+                <div class="mb-5 d-flex flex-column">
+                    <div class="form-check ps-0 mb-1">
+                        <input type="checkbox" name="order_by" value="price_asc" class="me-2">
+                        <label class="form-check-label">
+                            Price ascending
+                        </label>
+                    </div>
+                    <div class="form-check ps-0 mb-1">
+                        <input type="checkbox" name="order_by" value="price_desc" class="me-2">
+                        <label class="form-check-label">
+                            Price descending
+                        </label>
+                    </div>
+                    <div class="form-check ps-0 mb-1">
+                        <input type="checkbox" name="order_by" value="popularity" class="me-2">
+                        <label class="form-check-label">
+                            Recommendation
+                        </label>
+                    </div>
                 </div>
-            {% endfor %}
-        </div>
-    
-        <!-- Filter by Price -->
-        <div class="mb-3">
-            <label for="min_price" class="form-label text-light">Min Price</label>
-            <input type="number" name="min_price" class="form-control" min="0" step="0.01" value="{{ min_price }}">
+
+                <!-- Filter section -->
+                <p class="text-start fs-5 playfair-display-font-family">Filter By</p>
+                <!-- Filter by Categories -->
+                <div class="mb-3">
+                    <p class="mb-1">Category:</p>
+                    {% for category in categories %}
+                        <div class="form-check ps-0 mb-1">
+                            <input type="checkbox" name="category" value="{{ category.slug }}"
+                                {% if category.slug in selected_categories %}checked{% endif %}
+                                class="me-2">
+                            <label class="form-check-label" for="cat-{{ category.id }}">
+                                {{ category.name }}
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
             
-            <label for="max_price" class="form-label text-light">Max Price</label>
-            <input type="number" name="max_price" class="form-control" min="0" step="0.01" value="{{ max_price }}">
+                <!-- Filter by Ratings -->
+                <div class="mb-3">
+                    <p class="mb-1">Rating:</p>
+                    {% for rating in ratings %}
+                        <div class="form-check ps-0 mb-1">
+                            <input type="radio" name="min_rating" value="{{ rating }}"
+                                {% if rating|stringformat:"s" == request.GET.min_rating %}checked{% endif %}
+                                class="me-2">
+                            <label class="form-check-label">
+                                {{ rating }}+ stars
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+            
+                <!-- Filter by Price -->
+                <div class="mb-3">
+                    <p class="mb-1">Price:</p>
+                    <label for="min_price" class="form-label">Min Price</label>
+                    <input type="number" name="min_price" class="form-control" min="0" step="0.01" value="{{ min_price }}">
+                    
+                    <label for="max_price" class="form-label">Max Price</label>
+                    <input type="number" name="max_price" class="form-control" min="0" step="0.01" value="{{ max_price }}">
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 
     <div id="product-list">
         {% if selected_filters %}

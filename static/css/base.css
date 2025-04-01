@@ -32,7 +32,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-image: url('/media/gerbet_background.webp');
+    /* background-image: url('/media/gerbet_background.webp'); */
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -48,18 +48,31 @@ h5 {
     font-family: var(--header-font-family);
 }
 
+.playfair-display-font-family {
+    font-family: var(--header-font-family);
+}
+
 .light-text-90 {
     color: var(--my-bs-text-light-90);
 }
 
 .purple-text-90 {
-    color: var(--purple-90);
+    color: var(--purple-90) !important;
+}
+
+.purple-text-75 {
+    color: var(--purple-75) !important;
+}
+
+#filters-icon {
+    width: 2rem;
+    height: 2rem;
 }
 
 .offcanvas {
     visibility: hidden;
     transform: translateX(100%);
-    transition: transform 0.4s ease-in-out, visibility 0.4s ease-in-out;
+    transition: transform 0.4s ease-in-out, visibility 0.4s ease-in-out !important;
 }
 .offcanvas.show {
     visibility: visible;
