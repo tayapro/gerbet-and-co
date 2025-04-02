@@ -4,9 +4,14 @@ from django.shortcuts import render, get_object_or_404
 from .models import Category, Product
 
 
-def product_list(request):
-    print("HELLO!", request.headers.get("Hx-Request"))
+sort_options = [
+    ("price_asc", "Price ascending"),
+    ("price_desc", "Price descending"),
+    ("popularity", "Recommendation"),
+]
 
+
+def product_list(request):
     # Optimize the query with prefetch_related for many-to-many (categories)
     products = (
         Product.objects.only("title", "price", "image", "rating")
@@ -14,27 +19,15 @@ def product_list(request):
     )
 
     order_by = request.GET.get("order_by", "popularity")
-    print(f"ORDER_BY: {order_by}")
 
     # Apply filters
-    products, selected_filters = product_filter(request, products, order_by)
-    print(f"PRODUCTS AFTER FILTERS: {products}")
-    print(f"SELECTED FILTERS: {selected_filters}")
+    products, selected_filters = product_filter(request, products)
 
     # Apply sorting
-    products, order_by, sort_options = product_sort(request, products,
-                                                    order_by)
-    print(f"PRODUCTS AFTER SORTING: {products}")
-    print(f"ORDER BY: {order_by}")
+    products = product_sort(products, order_by)
 
     # Remove duplicates
     products = products.distinct()
-
-    # Create filter_querystring without 'order_by'
-    querydict = request.GET.copy()
-    querydict.pop("order_by", None)
-    filter_querystring = querydict.urlencode()
-    print(f"FILTER_QUERYSTRING: {filter_querystring}")
 
     context = {
         "products": products,
@@ -43,7 +36,6 @@ def product_list(request):
         "ratings": [5, 4, 3],
         "selected_filters": selected_filters,
         "current_sort": order_by,
-        "filter_querystring": filter_querystring,
         "selected_categories": request.GET.getlist("category"),
         "min_price": request.GET.get("min_price", ""),
         "max_price": request.GET.get("max_price", ""),
@@ -65,21 +57,24 @@ def product_detail(request, product_id):
 
 def product_search(request):
     query = request.GET.get("search_query", "")
-    order_by = request.GET.get("order_by", "popularity")
-    print(f"ORDER_BY: {order_by}")
-
     products = Product.objects.filter(
         Q(title__icontains=query) |
         Q(description__icontains=query)
     )
-    print(f"PRODUCTS: {products}")
 
-    if order_by == "price_asc":
-        products = products.order_by("price")
-    elif order_by == "price_desc":
-        products = products.order_by("-price")
-    elif order_by == "popularity":
-        products = products.order_by("-rating")
+    order_by = request.GET.get("order_by", "popularity")
+
+    # Apply filters
+    products, selected_filters = product_filter(request, products)
+
+    # Apply sorting
+    products = product_sort(products, order_by)
+
+    # Remove duplicates
+    products = products.distinct()
+
+    # http://127.0.0.1:8000/products/search/?search_query=tea
+    # http://127.0.0.1:8000/products/?order_by=price_asc&min_price=&max_price=
 
     context = {
         "products": products,
@@ -87,10 +82,15 @@ def product_search(request):
         "order_by": order_by,
         "results_count": products.count(),
         "categories": Category.objects.all(),
-        "ratings": [5, 4, 3]
+        "ratings": [5, 4, 3],
+
+        "selected_filters": selected_filters,
+        "selected_categories": request.GET.getlist("category"),
+        "min_price": request.GET.get("min_price", ""),
+        "max_price": request.GET.get("max_price", ""),
     }
 
-    if request.htmx:
+    if request.headers.get("Hx-Request") == "true":
         return render(request, "products/includes/product_list_sort.html",
                       context)
 
@@ -98,12 +98,11 @@ def product_search(request):
 
 
 # Helper views
-def product_filter(request, products, order_by):
+def product_filter(request, products):
     selected_filters = []
 
     # Filter by category
     category_slugs = request.GET.getlist("category")
-    print(f"category_slugs: {category_slugs}")
     if category_slugs:
         products = products.filter(categories__slug__in=category_slugs)
         for slug in category_slugs:
@@ -116,9 +115,7 @@ def product_filter(request, products, order_by):
                     new_query.setlist("category", category_values)
                 else:
                     new_query.pop("category", None)
-                # if order_by:
-                #     new_query["order_by"] = order_by
-                label = f"Category: {category.name}"
+                label = f"{category.name}"
                 url = f"?{new_query.urlencode()}"
                 selected_filters.append((label, url))
             except Category.DoesNotExist:
@@ -130,43 +127,33 @@ def product_filter(request, products, order_by):
         products = products.filter(rating__gte=min_rating)
         new_query = request.GET.copy()
         new_query.pop("min_rating", None)
-        # if order_by:
-        #     new_query["order_by"] = order_by
         selected_filters.append((f"{min_rating}+ stars",
                                  f"?{new_query.urlencode()}"))
 
     # Filter by price
-    min_price = request.GET.get("min_price")
+    min_price = request.GET.get("min_price", "").strip()
     if min_price:
-        products = products.filter(price__gte=min_price)
-        new_query = request.GET.copy()
-        new_query.pop("min_price", None)
-        # if order_by:
-        #     new_query["order_by"] = order_by
-        selected_filters.append((f"Min €{min_price}",
-                                 f"?{new_query.urlencode()}"))
+        try:
+            products = products.filter(price__gte=min_price)
+            new_query = request.GET.copy()
+            new_query.pop("min_price", None)
+            selected_filters.append((f"Min €{min_price}",
+                                    f"?{new_query.urlencode()}"))
+        except ValueError:
+            pass
 
     max_price = request.GET.get("max_price")
     if max_price:
         products = products.filter(price__lte=max_price)
         new_query = request.GET.copy()
         new_query.pop("max_price", None)
-        # if order_by:
-        #     new_query["order_by"] = order_by
         selected_filters.append((f"Max €{max_price}",
                                  f"?{new_query.urlencode()}"))
 
     return products, selected_filters
 
 
-def product_sort(request, products, order_by):
-    sort_options = [
-        ("price_asc", "Price ascending"),
-        ("price_desc", "Price descending"),
-        ("popularity", "Recommendation"),
-    ]
-
-    order_by = request.GET.get("order_by", "popularity")
+def product_sort(products, order_by):
     if order_by == "price_asc":
         products = products.order_by("price")
     elif order_by == "price_desc":
@@ -174,4 +161,4 @@ def product_sort(request, products, order_by):
     elif order_by == "popularity":
         products = products.order_by("-rating")
 
-    return products, order_by, sort_options
+    return products

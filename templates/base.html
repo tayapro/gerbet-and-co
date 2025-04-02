@@ -131,7 +131,8 @@
             </div>
         
             <div class="offcanvas-body d-flex flex-column gap-4">
-                <form class="d-flex align-items-center gap-3 pb-3" method="GET" action="{% url 'product_search' %}">
+                <form class="d-flex align-items-center gap-3 pb-3" id="search-form"
+                      method="GET" action="{% url 'product_search' %}">
                     <i class="bi bi-search fs-5"></i>
                     <input type="text" id="search-input"
                             class="form-control bg-transparent shadow-none ms-0 ps-0"
@@ -158,7 +159,7 @@
             </div>
         </div>
 
-        <div class="container-fluid d-flex justify-content-center align-items-center my-5">
+        <div class="container-fluid d-flex justify-content-center align-items-center mt-2 mb-5">
             {% block content %}
             {% endblock %}
         </div>

@@ -3,11 +3,11 @@
 
 {% block content %}
 <div class="row">
-    <h2 class="text-center mb-4 purple-text-75">Product list</h2>
+    <h2 class="text-center mb-1 purple-text-75">Product list</h2>
     <button class="btn text-end" type="button" data-bs-toggle="offcanvas"
             data-bs-target="#sideSortFilter" aria-controls="sideSortFilter">
         <img src="{% static 'icons/filters_purple.svg' %}" alt="filters icon " 
-            class="m-4 opacity-75" id="filters-icon" title="Sort and Filter"
+            class="m-2 mb-4 opacity-75" id="filters-icon" title="Sort and Filter"
             data-bs-toggle="tooltip" data-bs-placement="bottom"
             aria-label="Sort and Filter">
     </button>
@@ -16,24 +16,29 @@
     <div id="product-list">
         {% if selected_filters %}
         <!-- Show filter badges with clear/remove buttons -->
-            <div class="mb-4">
-                <p class="mb-2 text-light fw-semibold">Active Filters:</p>
+            <div class="d-flex justify-content-end mb-4">
                 <div class="d-flex flex-wrap gap-2 align-items-center">
                     {% for label, url in selected_filters %}
-                        <span class="badge rounded-pill bg-light text-dark px-3 py-2">
+                        <span class="badge rounded-pill bg-light purple-text-75 px-3 py-2">
                             {{ label }}
-                            <a href="{{ url }}" class="text-danger text-decoration-none ms-2" title="Remove">
-                                &times;
+                            <a href="{{ url }}" class="text-danger text-decoration-none ms-2" 
+                               title="Remove"
+                               data-bs-toggle="tooltip" data-bs-placement="bottom"
+                               aria-label="Remove">
+                            &times;
                             </a>
                         </span>
                     {% endfor %}
                 </div>
-                <a href="{% url 'product_list' %}" class="btn btn-sm btn-outline-light ms-2">
+                {% comment %} {% if request.path == product_search %}
+                    <a href="{% url 'product_search' %}" class="btn btn-sm btn-outline-light ms-2">
+                {% else %} {% endcomment %}
+                <a href="{% url 'product_list' %}" class="btn btn-sm purple-text-75 ms-2">
+                {% comment %} {% endif %} {% endcomment %}
                     Clear All Filters
                 </a>
             </div>
         {% endif %}
-
         <div class="row row-cols-1 row-cols-md-3 row-cols-xl-4 g-4 mb-5 pb-5">
             {% include "products/product_cards.html" %}
         </div>

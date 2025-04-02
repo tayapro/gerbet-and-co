@@ -10,18 +10,18 @@
   <button class="btn text-end" type="button" data-bs-toggle="offcanvas"
           data-bs-target="#sideSortFilter" aria-controls="sideSortFilter">
       <img src="{% static 'icons/filters_purple.svg' %}" alt="filters icon " 
-          class="m-4 opacity-75" id="filters-icon" title="Sort and Filter"
+          class="m-2 mb-4 opacity-75" id="filters-icon" title="Sort and Filter"
           data-bs-toggle="tooltip" data-bs-placement="bottom"
           aria-label="Sort and Filter">
   </button>
   {% include "includes/sort_filter.html"%}
 
   {% if products %}
-      <div id="product-list">
-        <div class="row row-cols-1 row-cols-md-3 row-cols-xl-4 g-4 mb-5 pb-5">
-          {% include "products/product_cards.html" %}
-        </div>
+    <div id="product-list">
+      <div class="row row-cols-1 row-cols-md-3 row-cols-xl-4 g-4 mb-5 pb-5">
+        {% include "products/product_cards.html" %}
       </div>
+    </div>
   {% else %}
       <p class="text-light mt-4">No products found.</p>
   {% endif %}
