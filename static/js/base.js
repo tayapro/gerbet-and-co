@@ -1,3 +1,21 @@
+function showSpinner() {
+    const spinner = document.getElementById('loading-spinner')
+
+    // Show spinner on page unload
+    window.addEventListener('beforeunload', function () {
+        if (spinner) {
+            spinner.classList.remove('d-none')
+        }
+    })
+
+    // Hide spinner once the page has fully loaded
+    window.addEventListener('load', function () {
+        if (spinner) {
+            spinner.classList.add('d-none')
+        }
+    })
+}
+
 // Tooltips
 function drawTooltip() {
     document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((el) => {
@@ -55,6 +73,7 @@ function drawModalWindow() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    showSpinner()
     drawTooltip()
     drawModalWindow()
 

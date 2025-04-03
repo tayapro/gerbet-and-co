@@ -25,6 +25,8 @@ from .utils import send_welcome_email
 
 
 def register(request):
+    next = request.GET.get("next", "/")
+
     if request.method == "POST":
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -50,12 +52,15 @@ def register(request):
     else:
         form = UserRegistrationForm()
 
-    return render(request, "accounts/register.html", {"form": form})
+    return render(request, "accounts/register.html",
+                  {"form": form, "next": next})
 
 
 def login(request):
     if request.user.is_authenticated:
         return redirect("product_list")
+
+    next = request.GET.get("next", "/")
 
     if request.method == "POST":
         form = AuthenticationForm(request, request.POST)
@@ -74,11 +79,11 @@ def login(request):
     else:
         form = AuthenticationForm()
 
-    return render(request, "accounts/login.html", {"form": form})
+    return render(request, "accounts/login.html", {"form": form, "next": next})
 
 
 def logout(request):
-    next = request.POST.get("next", reverse("home"))
+    next = request.GET.get("next", "/")
 
     if not request.user.is_authenticated:
         return redirect(next)
