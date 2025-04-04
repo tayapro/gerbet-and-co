@@ -1,8 +1,11 @@
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 
-from .models import Category, Product
-
+from .forms import RatingForm
+from .models import Category, Product, Rating
+from checkout.models import OrderItem
 
 sort_options = [
     ("price_asc", "Price ascending"),
@@ -12,11 +15,12 @@ sort_options = [
 
 
 def product_list(request):
+    products = Product.objects.all()
     # Optimize the query with prefetch_related for many-to-many (categories)
-    products = (
-        Product.objects.only("title", "price", "image", "rating")
-        .prefetch_related("categories")
-    )
+    # products = (
+    #     Product.objects.only("title", "price", "image", "rating")
+    #     .prefetch_related("categories")
+    # )
 
     order_by = request.GET.get("order_by", "popularity")
 
@@ -50,9 +54,10 @@ def product_list(request):
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
+    rating_form = RatingForm()
 
-    return render(request, 'products/product_detail.html',
-                  {'product': product})
+    return render(request, "products/product_detail.html",
+                  {"product": product, "rating_form": rating_form})
 
 
 def product_search(request):
@@ -73,9 +78,6 @@ def product_search(request):
     # Remove duplicates
     products = products.distinct()
 
-    # http://127.0.0.1:8000/products/search/?search_query=tea
-    # http://127.0.0.1:8000/products/?order_by=price_asc&min_price=&max_price=
-
     context = {
         "products": products,
         "query": query,
@@ -95,6 +97,43 @@ def product_search(request):
                       context)
 
     return render(request, "products/product_search.html", context)
+
+
+@login_required
+def product_rating(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    # Only allow rating if user purchased the product
+    has_purchased = OrderItem.objects.filter(
+        order__user=request.user,
+        product=product
+    ).exists()
+
+    if not has_purchased:
+        messages.error(request, "You can only rate products you've purchased.")
+        return redirect("product_detail", product_id=product.id)
+
+    if request.method == "POST":
+        form = RatingForm(request.POST, product=product)
+
+        if form.is_valid():
+            Rating.objects.filter(user=request.user, product=product).delete()
+
+            rating = form.save(commit=False)
+            rating.user = request.user
+            rating.product = product
+            rating.save()
+
+            average = product.get_average_rating()
+            if average is not None:
+                product.rating = average
+                product.save(update_fields=["rating"])
+
+            messages.success(request, "Your rating has been submitted.")
+        else:
+            messages.error(request, "Invalid rating. Please try again.")
+
+    return redirect("product_detail", product_id=product.id)
 
 
 # Helper views

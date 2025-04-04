@@ -8,11 +8,57 @@
     </div>
     <div class="col-md-6">
         <h2>{{ product.title }}</h2>
+        <h2>BLAAA</h2>
         {% if product.rating %}
             <small class="text-muted"><i class="bi bi-star-fill"></i> {{ product.rating|rating_format }} / 5</small>
         {% else %}
             <small class="text-muted">No Rating</small>
+        {% endif %}     
+          
+        {% if user.is_authenticated %}
+            {% with form=RatingForm.product.id %}
+            <button type="button" class="btn btn-sm btn-outline-primary mt-2" id="show-rating-stars">
+                Rate
+            </button>
+
+            <form method="POST" action="{% url 'product_rating' product.id %}" id="rating-form" 
+                  class="rating-form mt-3 d-none">
+                {% csrf_token %}
+                {% if form.errors %}
+                    <div class="alert alert-danger" id="form-errors">
+                        <h4>Form Errors:</h4>
+                        <ul>
+                        {% for field in form %}
+                            {% if field.errors %}
+                                <li>{{ field.label }}: {{ field.errors|striptags }}</li>
+                            {% endif %}
+                        {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <div class="d-flex flex-row">
+                    <div class="d-flex justify-content-center gap-2 mb-2">
+                        {% for i in "12345" %}
+                            <button type="button" class="star-btn btn p-0" data-value="{{ i }}" aria-label="Rating value">
+                                <i class="bi bi-star text-warning text-opacity-75" data-value="{{ i }}"></i>
+                            </button>
+                        {% endfor %}
+                    </div>
+                    <input type="hidden" name="rating" id="rating-value">
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-sm btn-success">Save</button>
+                        <button type="button" class="btn btn-sm btn-secondary" id="cancel-rating">Cancel</button>
+                    </div>
+                </div>
+            </form>
+            {% endwith %}
+        {% else %}
+            <p class="small text-muted mt-2">Login to rate this product</p>
         {% endif %}
+
+
         <p>{{ product.description }}</p>
         <p><strong>Price:</strong> &#8364;{{ product.price }}</p>
         <form hx-post="{% url 'add_to_bag' product.id %}" 
@@ -29,4 +75,56 @@
         </form>
     </div>
 </div>
+{% endblock %}
+
+{% block postloadjs %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const showButton = document.getElementById("show-rating-stars");
+        const cancelBtn = document.getElementById("cancel-rating");
+        const form = document.getElementById("rating-form");
+        const stars = document.querySelectorAll(".star-btn");
+        const ratingInput = document.getElementById("rating-value");
+  
+        // Show the star rating form
+        showButton?.addEventListener("click", () => {
+            form.classList.remove("d-none");
+            showButton.classList.add("d-none");
+        });
+
+        cancelBtn?.addEventListener("click", () => {
+            form.classList.add("d-none");
+            showButton.classList.remove("d-none");
+
+            // Optional: reset stars
+            ratingInput.value = "";
+            stars.forEach((s) => {
+                const icon = s.querySelector("i");
+                icon.classList.remove("fa-solid");
+                icon.classList.add("fa-regular");
+            });
+        });
+  
+        // Handle star clicks
+        stars.forEach((star) => {
+            star.addEventListener("click", function () {
+            const rating = this.getAttribute("data-value");
+            ratingInput.value = rating;
+    
+            stars.forEach((s) => {
+                const val = s.getAttribute("data-value");
+                const icon = s.querySelector("i");
+    
+                if (val <= rating) {
+                icon.classList.add("bi-star-fill");
+                icon.classList.remove("bi-star");
+                } else {
+                icon.classList.add("bi-star");
+                icon.classList.remove("bi-star-fill");
+                }
+            });
+            });
+        });
+    });
+  </script>  
 {% endblock %}

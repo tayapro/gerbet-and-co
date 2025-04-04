@@ -4,7 +4,9 @@ from cloudinary.uploader import destroy
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
+from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Avg
 from django.utils.text import slugify
 
 
@@ -75,3 +77,40 @@ class Product(models.Model):
             raise ValidationError("Failed to delete image from Cloudinary. " +
                                   "Please check your connection or try again" +
                                   " later.")
+
+    def get_average_rating(self):
+        avg = self.ratings.aggregate(Avg("rating"))["rating__avg"]
+        if avg is not None:
+            return round(avg, 1)
+        return None
+
+
+RATING_CHOICES = [(i, f"{i} Star{'s' if i > 1 else ''}") for i in range(1, 6)]
+
+
+class Rating(models.Model):
+    """
+    Represents a user's rating for a product.
+    """
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             related_name="product_ratings")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,
+                                related_name="ratings")
+    rating = models.PositiveSmallIntegerField(choices=RATING_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return (
+            f"Rating: {self.rating} stars by {self.user} "
+            f"for {self.product.title}"
+        )
+
+    class Meta:
+        ordering = ["-created_at"]
+        indexes = [
+            models.Index(fields=["user"]),
+            models.Index(fields=["product"]),
+        ]
+        verbose_name = "Rating"
