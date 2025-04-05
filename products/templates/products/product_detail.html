@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load products_filters %}
 
 {% block content %}
@@ -10,7 +10,10 @@
         <h2>{{ product.title }}</h2>
         <h2>BLAAA</h2>
         {% if product.rating %}
-            <small class="text-muted"><i class="bi bi-star-fill"></i> {{ product.rating|rating_format }} / 5</small>
+            <div class="d-flex align-items-center gap-1 text-opacity-75">
+                {% include "products/includes/rating_stars.html" %}
+                <small class="text-secondary">{{ product.ratings.count }} reviews</small>
+            </div>             
         {% else %}
             <small class="text-muted">No Rating</small>
         {% endif %}     
@@ -70,7 +73,8 @@
             {% csrf_token %}
             <input type="hidden" name="quantity" value="1">
             <button type="submit" class="btn btn-success">
-                <i class="bi bi-bag-plus"></i> Add to Bag
+                <i class="bi bi-bag-plus"></i>
+                Add to Bag
             </button>
         </form>
     </div>

@@ -54,10 +54,17 @@ def product_list(request):
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    rating_form = RatingForm()
 
-    return render(request, "products/product_detail.html",
-                  {"product": product, "rating_form": rating_form})
+    rating_form = RatingForm()
+    star_fills = get_star_fill_levels(product.rating or 0)
+
+    context = {
+        "product": product,
+        "rating_form": rating_form,
+        "star_fills": star_fills
+    }
+
+    return render(request, "products/product_detail.html", context)
 
 
 def product_search(request):
@@ -137,6 +144,22 @@ def product_rating(request, product_id):
 
 
 # Helper views
+def get_star_fill_levels(rating):
+    """
+    Returns a list of 5 fill values (0.0 to 1.0) per star based on rating.
+    Example: 4.3 → [1, 1, 1, 1, 0.3]
+    """
+    fill_levels = []
+    for i in range(1, 6):
+        if rating >= i:
+            fill_levels.append(1)
+        elif rating > i - 1:
+            fill_levels.append(round(rating - (i - 1), 2))
+        else:
+            fill_levels.append(0)
+    return fill_levels
+
+
 def product_filter(request, products):
     selected_filters = []
 

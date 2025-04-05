@@ -1,0 +1,21 @@
+{% load products_filters %}
+
+{% block content %}
+<small class="text-muted">
+    {{ product.rating|rating_format }}
+</small>
+<div class="d-flex">
+    {% for fill in star_fills %}
+        {% if fill == 1 %}
+            <i class="bi bi-star-fill text-warning"></i>
+        {% elif fill > 0 %}
+            <div class="position-relative d-inline-block star-wrapper">
+                <i class="bi bi-star bi-star-custom text-warning"></i>
+                <i class="bi bi-star-fill text-warning star-partial" style="--star-fill: {{ fill }}"></i>
+            </div>
+        {% else %}
+            <i class="bi bi-star text-warning"></i>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}

@@ -508,3 +508,55 @@ h5 {
     width: 198px;
     height: 98px;
 }
+
+/* Wrapper for stars */
+.star-wrapper {
+    position: relative;
+    width: 1em; /* Adjust size to match your stars */
+    height: 1em;
+}
+
+/* Base star layer */
+.bi-star-custom {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    font-size: 1em; /* Same size as wrapper */
+}
+
+/* Partial fill star layer */
+.star-partial {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2; /* Above the outline star */
+    font-size: 1em; /* Match the size */
+    width: calc(var(--star-fill, 1) * 100%); /* Dynamic fill percentage */
+    overflow: hidden; /* Hide excess */
+    white-space: nowrap;
+}
+
+/* .star-wrapper {
+    position: relative;
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.star-wrapper .fa-star {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 1.5em;
+}
+
+.star-partial {
+    background: linear-gradient(
+        to right,
+        currentColor calc(var(--star-fill, 0) * 100%),
+        transparent 0%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    pointer-events: none;
+} */

@@ -10,14 +10,12 @@
             <h4 class="card-title">{{ product.title }}</h4>
         </a>
         <p class="card-text">&#8364;{{ product.price }}</p>
-        {% if product.stock > 0 %}
-            <p class="card-text">In stock: {{ product.stock }}</p>
-        {% else %}
-            <p class="card-text">Out of stock</p>
-        {% endif %}
-        <div class="d-flex align-items-center justify-content-around">
+        <div class="d-flex flex-column align-items-center justify-content-around">
             {% if product.rating %}
-                <small class="text-muted"><i class="bi bi-star-fill"></i> {{ product.rating|rating_format }}</small>
+                <div class="d-flex align-items-center gap-1 text-opacity-75">
+                    {% include "products/includes/rating_stars.html" %}
+                    <small class="text-secondary">{{ product.ratings.count }} reviews</small>
+                </div>
             {% else %}
                 <small class="text-muted">No Rating</small>
             {% endif %}
