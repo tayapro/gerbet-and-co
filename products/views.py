@@ -33,6 +33,11 @@ def product_list(request):
     # Remove duplicates
     products = products.distinct()
 
+    products = Product.objects.prefetch_related("ratings").all()
+
+    for product in products:
+        product.star_fills = get_star_fill_levels(product.rating or 0)
+
     context = {
         "products": products,
         "sort_options": sort_options,
@@ -52,7 +57,7 @@ def product_list(request):
     return render(request, "products/product_list.html", context)
 
 
-def product_detail(request, product_id):
+def product_view(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
     rating_form = RatingForm()
@@ -64,7 +69,7 @@ def product_detail(request, product_id):
         "star_fills": star_fills
     }
 
-    return render(request, "products/product_detail.html", context)
+    return render(request, "products/product_view.html", context)
 
 
 def product_search(request):
@@ -118,7 +123,7 @@ def product_rating(request, product_id):
 
     if not has_purchased:
         messages.error(request, "You can only rate products you've purchased.")
-        return redirect("product_detail", product_id=product.id)
+        return redirect("product_view", product_id=product.id)
 
     if request.method == "POST":
         form = RatingForm(request.POST, product=product)
@@ -140,7 +145,7 @@ def product_rating(request, product_id):
         else:
             messages.error(request, "Invalid rating. Please try again.")
 
-    return redirect("product_detail", product_id=product.id)
+    return redirect("product_view", product_id=product.id)
 
 
 # Helper views

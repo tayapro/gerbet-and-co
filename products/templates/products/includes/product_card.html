@@ -2,23 +2,22 @@
 
 {% block content %}
 <div class="card" id="product-card">
-    <a href="{% url 'product_detail' product.id %}">
+    <a href="{% url 'product_view' product.id %}">
         <img src="{{ product.image.url }}" class="card-img-top" id="product-card-image" alt="{{ product.title }}">
     </a>
-    <div class="card-body">
-        <a href="{% url 'product_detail' product.id %}" class="link-underline link-underline-opacity-0 text-black text-opacity-50">
-            <h4 class="card-title">{{ product.title }}</h4>
-        </a>
-        <p class="card-text">&#8364;{{ product.price }}</p>
-        <div class="d-flex flex-column align-items-center justify-content-around">
+    <div class="card-body d-flex flex-column justify-content-end gap-3">
+        <div>
+            <a href="{% url 'product_view' product.id %}" 
+               class="link-underline link-underline-opacity-0 text-black text-opacity-50">
+                <h4 class="card-title">{{ product.title }}</h4>
+            </a>
+            <p class="card-text">&#8364;{{ product.price }}</p>
+        </div>
+        <div class="d-flex flex-column align-items-center justify-content-around gap-3">
             {% if product.rating %}
-                <div class="d-flex align-items-center gap-1 text-opacity-75">
-                    {% include "products/includes/rating_stars.html" %}
-                    <small class="text-secondary">{{ product.ratings.count }} reviews</small>
-                </div>
-            {% else %}
-                <small class="text-muted">No Rating</small>
+                {% include "products/includes/rating_stars.html" with star_fills=product.star_fills %}
             {% endif %}
+
             <form hx-post="{% url 'add_to_bag' product.id %}" 
                 hx-trigger="click" 
                 hx-target="#toast-container" 
