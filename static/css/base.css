@@ -28,6 +28,7 @@
     margin: 0;
     box-sizing: border-box;
     font-family: var(--font-family);
+    scroll-behavior: smooth;
 }
 
 body {
@@ -537,26 +538,17 @@ h5 {
     white-space: nowrap;
 }
 
-/* .star-wrapper {
-    position: relative;
-    width: 1.5em;
-    height: 1.5em;
+/* FAQ page */
+.list-group-item.active {
+    background-color: var(--purple-75);
+    color: var(--my-bs-text-light-90);
+    font-weight: 500;
+    border: none;
+    border-left: 4px solid var(--purple-75);
 }
 
-.star-wrapper .fa-star {
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 1.5em;
+.list-group-item:hover {
+    background-color: var(--purple-50);
+    color: var(--my-bs-text-light-90);
+    border: none;
 }
-
-.star-partial {
-    background: linear-gradient(
-        to right,
-        currentColor calc(var(--star-fill, 0) * 100%),
-        transparent 0%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    pointer-events: none;
-} */

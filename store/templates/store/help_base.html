@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container my-5">
+    <h2 class="text-center mb-4 purple-text-75">Frequently Asked Questions</h2>
+
+    <div class="row">
+        <div class="col-lg-3 mb-4">
+            <div id="faq-sidebar" hx-swap-oob="true">
+              {% include "store/includes/sidebar.html" with selected_section=selected_section %}
+            </div>
+        </div>
+        
+        <div class="col-lg-9">
+            <div id="help-content">
+                {% include "store/includes/faq_list.html" %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block postloadjs %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const sidebar = document.getElementById("faq-sidebar");
+  
+      // 1. Highlight based on current URL
+      const currentPath = window.location.pathname;
+      const sectionMatch = currentPath.match(/\/help\/section\/([\w-]+)/);
+  
+      if (sectionMatch) {
+        const currentSection = sectionMatch[1];
+  
+        sidebar.querySelectorAll("a.list-group-item").forEach(link => {
+          if (link.getAttribute("href").includes(currentSection)) {
+            link.classList.add("active");
+          } else {
+            link.classList.remove("active");
+          }
+        });
+      }
+  
+      // 2. Also update active class on click (HTMX navigation)
+      sidebar.addEventListener("click", function (e) {
+        const link = e.target.closest("a.list-group-item");
+  
+        if (link) {
+          sidebar.querySelectorAll("a.list-group-item").forEach(el => {
+            el.classList.remove("active");
+          });
+  
+          link.classList.add("active");
+        }
+      });
+    });
+  </script>  
+{% endblock %}
