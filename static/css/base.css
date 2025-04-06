@@ -538,7 +538,28 @@ h5 {
     white-space: nowrap;
 }
 
-/* FAQ page */
+/* FAQ/help page */
+#image-container {
+    max-height: 200px;
+    overflow: hidden;
+    margin-top: -50px;
+}
+
+.help-banner {
+    height: 300px;
+    margin-top: var(--navbar-height, 72px);
+    position: relative;
+    z-index: 0;
+}
+
+.object-fit-cover {
+    object-fit: cover;
+}
+
+#faq-sidebar h5 {
+    font-size: 1rem;
+}
+
 .list-group-item.active {
     background-color: var(--purple-75);
     color: var(--my-bs-text-light-90);
@@ -551,4 +572,35 @@ h5 {
     background-color: var(--purple-50);
     color: var(--my-bs-text-light-90);
     border: none;
+}
+
+.accordion-button {
+    color: var(--purple-75) !important;
+    background-color: var(--my-bs-text-light-90) !important;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: var(--purple-75) !important;
+    color: var(--my-bs-text-light-90) !important;
+    z-index: 1;
+}
+
+/* Remove the default arrow */
+.accordion-button::after {
+    display: none;
+}
+
+.transition-icon {
+    transition: transform 0.3s ease;
+}
+
+.accordion-button[aria-expanded='true'] .transition-icon {
+    transform: rotate(180deg);
+}
+
+.accordion-item {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1px solid #e5e5e5; /* subtle divider */
 }

@@ -10,13 +10,9 @@ def about(request):
     return render(request, "store/about.html")
 
 
-def help(request):
-    return render(request, "store/help.html")
-
-
 def help_page(request):
     faqs = Faq.objects.filter(section="taste-and-treats")
-    return render(request, "store/help_base.html", {"faqs": faqs})
+    return render(request, "store/help_page.html", {"faqs": faqs})
 
 
 def help_section(request, section):
@@ -29,4 +25,4 @@ def help_section(request, section):
     if request.headers.get("Hx-Request") == "true":
         return render(request, "store/includes/faq_list.html", context)
     else:
-        return render(request, "store/help_base.html", context)
+        return render(request, "store/help_page.html", context)
