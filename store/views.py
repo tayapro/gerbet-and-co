@@ -32,6 +32,8 @@ def help_section(request, section):
 
 
 def contact_us_page(request):
+    next = request.GET.get("next", "/")
+
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -42,8 +44,9 @@ def contact_us_page(request):
             )
             messages.success(request, "Thanks for reaching out! "
                              "We'll get back to you soon.")
-            return redirect("contact_us")
+            return redirect("home")
     else:
         form = ContactForm()
 
-    return render(request, "store/contact_us_page.html", {"form": form})
+    return render(request, "store/contact_us_page.html",
+                  {"form": form, "next": next})

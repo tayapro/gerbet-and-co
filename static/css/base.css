@@ -223,7 +223,7 @@ h5 {
 
 #messages-container {
     top: 60px;
-    z-index: 99999;
+    z-index: 9999;
     width: 100%;
     transition: opacity 0.5s ease-in-out !important;
 }

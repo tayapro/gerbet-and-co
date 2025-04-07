@@ -6,7 +6,7 @@
     <a href="{{ next }}" class="btn-close purple-text-90 position-absolute top-0 end-0 m-4 z-3" aria-label="Close"></a>
     <h2 class="text-center mb-4 purple-text-75">Contact Us</h2>
 
-    <form method="POST" novalidate>
+    <form method="POST">
     {% csrf_token %}
     {{ form|crispy }}
 

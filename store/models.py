@@ -8,7 +8,6 @@ class Faq(models.Model):
         ("orders", "Orders"),
         ("payment", "Payment"),
         ("delivery", "Delivery"),
-        ("contact", "Still Curious? Contact Us"),
     ]
 
     section = models.CharField(max_length=50, choices=SECTION_CHOICES)

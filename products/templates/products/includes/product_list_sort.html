@@ -18,11 +18,7 @@ Used in HTMX responses to update the product grid only
                 </span>
             {% endfor %}
         </div>
-        {% comment %} {% if request.path == product_search %}
-            <a href="{% url 'product_search' %}" class="btn btn-sm btn-outline-light ms-2">
-        {% else %} {% endcomment %}
         <a href="{% url 'product_list' %}" class="btn btn-sm purple-text-75 ms-2">
-        {% comment %} {% endif %} {% endcomment %}
             Clear All Filters
         </a>
     </div>
