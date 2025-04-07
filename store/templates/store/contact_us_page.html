@@ -7,12 +7,66 @@
         <a href="{{ next }}" class="btn-close purple-text-90 position-absolute top-0 end-0 m-4 z-3" aria-label="Close"></a>
         <h2 class="text-center mb-4 purple-text-75">Contact Us</h2>
 
-        <form method="POST">
-        {% csrf_token %}
-        {{ form|crispy }}
+        <form method="POST" id="contact-form">
+            <!-- Error placeholders -->
+            <div class="my-2">
+                <div id="id_name_error" class="text-danger small mb-1" aria-live="polite"></div>
+                <div id="id_email_error" class="text-danger small mb-1" aria-live="polite"></div>
+                <div id="id_message_error" class="text-danger small mb-1" aria-live="polite"></div>
+            </div>
 
-        <button type="submit" class="btn btn-emerald w-100">Submit</button>
+            {% csrf_token %}
+            {{ form|crispy }}
+
+            <button type="submit" class="btn btn-emerald w-100">Submit</button>
         </form>
     </div>
 </div>
+{% endblock %}
+
+{% block postloadjs %}
+<script>
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+        console.log("BLAAAA")
+        let isValid = true;
+
+        // Clear previous error messages
+        document.getElementById('id_name_error').innerHTML = "";
+        document.getElementById('id_email_error').innerHTML = "";
+        document.getElementById('id_message_error').innerHTML = "";
+
+        // Validate Name
+        const nameField = document.getElementById('id_name');
+        if (nameField.value.trim() === "") {
+            document.getElementById('id_name_error').innerHTML = "Please enter your name.";
+            isValid = false;
+        } else if (nameField.value.length > 100) {
+            document.getElementById('id_name_error').innerHTML = "Name cannot exceed 100 characters.";
+            isValid = false;
+        }
+
+        // Validate Email
+        const emailField = document.getElementById('id_email');
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email format
+        if (emailField.value.trim() === "") {
+            document.getElementById('id_email_error').innerHTML = "Please enter your email address.";
+            isValid = false;
+        } else if (!emailPattern.test(emailField.value.trim())) {
+            document.getElementById('id_email_error').innerHTML = "Please enter a valid email address.";
+            isValid = false;
+        }
+
+        // Validate Message
+        const messageField = document.getElementById('id_message');
+        if (messageField.value.trim() === "") {
+            document.getElementById('id_message_error').innerHTML = "Please enter your message.";
+            isValid = false;
+        }
+
+        // Prevent submission if validation fails
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+</script>
 {% endblock %}

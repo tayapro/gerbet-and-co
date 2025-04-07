@@ -609,3 +609,11 @@ h5 {
 #contact-wrapper label {
     color: var(--purple-75);
 }
+
+.is-valid {
+    border-color: #198754;
+}
+
+.is-invalid {
+    border-color: #dc3545;
+}
