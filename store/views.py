@@ -10,8 +10,8 @@ def home(request):
     return render(request, "store/home.html")
 
 
-def about(request):
-    return render(request, "store/about.html")
+def about_page(request):
+    return render(request, "store/about_page.html")
 
 
 def help_page(request):

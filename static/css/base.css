@@ -597,7 +597,7 @@ h5 {
 /* Contact Us page */
 #contact-wrapper {
     min-height: 100vh;
-    margin-top: -110px;
+    margin-top: -105px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -616,4 +616,20 @@ h5 {
 
 .is-invalid {
     border-color: #dc3545;
+}
+
+/* About page */
+#gerbet-story-hero-section,
+#gerbet-story-mission-section {
+    background-color: #e8b0a9;
+}
+
+#gerbet-story-hero-section {
+    margin-top: -41px;
+}
+
+.gerbet-story-intro-section,
+.gerbet-story-team-text,
+#gerbet-story-mission-section-text {
+    text-align: justify !important;
 }
