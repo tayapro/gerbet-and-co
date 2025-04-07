@@ -542,18 +542,7 @@ h5 {
 #image-container {
     max-height: 200px;
     overflow: hidden;
-    margin-top: -50px;
-}
-
-.help-banner {
-    height: 300px;
-    margin-top: var(--navbar-height, 72px);
-    position: relative;
-    z-index: 0;
-}
-
-.object-fit-cover {
-    object-fit: cover;
+    margin-top: -41px;
 }
 
 #faq-sidebar h5 {
@@ -606,64 +595,17 @@ h5 {
 }
 
 /* Contact Us page */
-.contact-wrapper {
+#contact-wrapper {
     min-height: 100vh;
+    margin-top: -110px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url('https://res.cloudinary.com/your-cloud-name/image/upload/v1234567890/your-folder/bg-contact.jpg')
-        no-repeat center center/cover;
-    padding: 2rem;
+    background: url('https://res.cloudinary.com/stipaxa/image/upload/v1743976803/Gerbet_and_co/macarons_set.webp')
+        no-repeat center center / cover;
+    background-attachment: fixed;
 }
 
-.contact-form-container {
-    background-color: #fff;
-    border-radius: 1rem;
-    padding: 2rem 2.5rem;
-    max-width: 500px;
-    width: 100%;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-.form-title {
-    text-align: center;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
-    color: #333;
-}
-
-.form-group {
-    margin-bottom: 1.2rem;
-}
-
-.form-group label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 0.3rem;
-}
-
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #ddd;
-    border-radius: 0.3rem;
-    font-size: 1rem;
-}
-
-.btn-submit {
-    background-color: #f57c00;
-    color: #fff;
-    border: none;
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
-    width: 100%;
-    border-radius: 0.3rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.btn-submit:hover {
-    background-color: #e76c00;
+#contact-wrapper label {
+    color: var(--purple-75);
 }

@@ -2,15 +2,17 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="card mt-5 p-4 shadow-sm" style="max-width: 450px; width: 100%;">
-    <a href="{{ next }}" class="btn-close purple-text-90 position-absolute top-0 end-0 m-4 z-3" aria-label="Close"></a>
-    <h2 class="text-center mb-4 purple-text-75">Contact Us</h2>
+<div id="contact-wrapper" class="w-100 p-3 pt-5">
+    <div class="card mt-5 mb-3 mx-2 p-4 pt-5 shadow-sm" style="max-width: 450px; width: 100%;">
+        <a href="{{ next }}" class="btn-close purple-text-90 position-absolute top-0 end-0 m-4 z-3" aria-label="Close"></a>
+        <h2 class="text-center mb-4 purple-text-75">Contact Us</h2>
 
-    <form method="POST">
-    {% csrf_token %}
-    {{ form|crispy }}
+        <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+        <button type="submit" class="btn btn-emerald w-100">Submit</button>
+        </form>
+    </div>
 </div>
 {% endblock %}

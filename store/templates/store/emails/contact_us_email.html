@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>We received your message</title>
+</head>
+<body style="font-family: Arial, sans-serif; color: #333;">
+    <p>Hi {{ name }},</p>
+
+    <p>Thank you for contacting Gerbet & Co.! 
+    We've received your message and our team will get back to you shortly.</p>
+
+    <p>Here’s a copy of your message:</p>
+    <blockquote style="border-left: 4px solid #ccc; margin: 1em 0; padding-left: 1em; color: #555;">
+        {{ message|linebreaks }}
+    </blockquote>
+
+    <p>If your request is urgent or you need to update your message, feel free to reply to this email.</p>
+
+    <p>Best regards,<br>
+    The Gerbet & Co. Team</p>
+</body>
+</html>

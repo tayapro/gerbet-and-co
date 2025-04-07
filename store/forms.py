@@ -14,7 +14,7 @@ class ContactForm(forms.ModelForm):
         required=True,
         error_messages={"required": "Please enter your email address."})
     message = forms.CharField(
-        widget=forms.Textarea,
+        widget=forms.Textarea(attrs={"rows": 5}),
         label="Message",
         required=True,
         error_messages={"required": "Please enter your message."})

@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 
 from .forms import ContactForm
 from .models import ContactMessage, Faq
+from .utils import send_contact_us_email
 
 
 def home(request):
@@ -37,13 +38,27 @@ def contact_us_page(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
+
+            name = form.cleaned_data["name"]
+            email = form.cleaned_data["email"]
+            message = form.cleaned_data["message"]
+
             ContactMessage.objects.create(
-                name=form.cleaned_data['name'],
-                email=form.cleaned_data['email'],
-                message=form.cleaned_data['message']
+                name=name,
+                email=email,
+                message=message
             )
-            messages.success(request, "Thanks for reaching out! "
-                             "We'll get back to you soon.")
+
+            try:
+                context = {"name": name, "email": email, "message": message}
+                send_contact_us_email(request, context)
+                messages.success(request, "Thanks for reaching out! "
+                                 "We'll get back to you soon.")
+            except Exception:
+                messages.warning(request,
+                                 "Contact us form submitted, but confirmation "
+                                 "email failed to send.")
+
             return redirect("home")
     else:
         form = ContactForm()
