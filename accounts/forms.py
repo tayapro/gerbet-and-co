@@ -37,6 +37,21 @@ class UserRegistrationForm(UserCreationForm):
                 "class": "custom-placeholder"
             })
 
+        def clean(self):
+            cleaned_data = super().clean()
+            first_name = cleaned_data.get("first_name")
+            last_name = cleaned_data.get("last_name")
+            email = cleaned_data.get("email")
+
+            if not first_name:
+                self.add_error("first_name", "First name cannot be empty")
+            if not last_name:
+                self.add_error("last_name", "Last name cannot be empty")
+            if not email:
+                self.add_error("email", "Email cannot be empty")
+
+            return cleaned_data
+
     def save(self, commit=True):
         user = super().save(commit=False)
         user.email = self.cleaned_data["email"]
@@ -56,10 +71,6 @@ class UserProfileForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # self._set_placeholders({
-        #     "first_name": "Update first name",
-        #     "last_name": "Update last name",
-        # })
         self.fields["email"].disabled = True
 
     def clean(self):

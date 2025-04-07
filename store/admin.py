@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Faq
+
+from .models import ContactMessage, Faq
 
 
 @admin.register(Faq)
@@ -15,3 +16,10 @@ class FaqAdmin(admin.ModelAdmin):
         return obj.answer
 
     short_answer.short_description = "Answer Preview"
+
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ("name", "email", "submitted_at")
+    search_fields = ("name", "email", "message")
+    readonly_fields = ("name", "email", "message", "submitted_at")

@@ -1,5 +1,8 @@
-from django.shortcuts import render
-from .models import Faq
+from django.contrib import messages
+from django.shortcuts import redirect, render
+
+from .forms import ContactForm
+from .models import ContactMessage, Faq
 
 
 def home(request):
@@ -26,3 +29,21 @@ def help_section(request, section):
         return render(request, "store/includes/faq_list.html", context)
     else:
         return render(request, "store/help_page.html", context)
+
+
+def contact_us_page(request):
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            ContactMessage.objects.create(
+                name=form.cleaned_data['name'],
+                email=form.cleaned_data['email'],
+                message=form.cleaned_data['message']
+            )
+            messages.success(request, "Thanks for reaching out! "
+                             "We'll get back to you soon.")
+            return redirect("contact_us")
+    else:
+        form = ContactForm()
+
+    return render(request, "store/contact_us_page.html", {"form": form})
