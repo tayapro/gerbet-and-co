@@ -547,9 +547,9 @@ h5 {
 
 /* FAQ/help page */
 #image-container {
-    max-height: 200px;
+    max-height: 310px;
     overflow: hidden;
-    margin-top: -41px;
+    margin-top: -110px;
 }
 
 #faq-sidebar h5 {
@@ -557,15 +557,14 @@ h5 {
 }
 
 .list-group-item.active {
-    background-color: var(--purple-75);
+    background-color: var(--rose-silk-hover-100);
     color: var(--my-bs-text-light-90);
     font-weight: 500;
     border: none;
-    border-left: 4px solid var(--purple-75);
 }
 
 .list-group-item:hover {
-    background-color: var(--purple-50);
+    background-color: var(--rose-silk-100);
     color: var(--my-bs-text-light-90);
     border: none;
 }
@@ -573,10 +572,15 @@ h5 {
 .accordion-button {
     color: var(--purple-75) !important;
     background-color: var(--my-bs-text-light-90) !important;
+    /* transition: transform 0.4s ease-in-out, visibility 0.4s ease-in-out !important; */
+}
+
+.accordion-button:focus {
+    border-color: var(--rose-silk-hover-100) !important;
 }
 
 .accordion-button:not(.collapsed) {
-    background-color: var(--purple-75) !important;
+    background-color: var(--rose-silk-hover-100) !important;
     color: var(--my-bs-text-light-90) !important;
     z-index: 1;
 }

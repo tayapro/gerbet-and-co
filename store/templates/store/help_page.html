@@ -33,7 +33,7 @@
       // 1. Highlight based on current URL
       const currentPath = window.location.pathname;
       const sectionMatch = currentPath.match(/\/help\/section\/([\w-]+)/);
-      const links = sidebar.querySelectorAll("a.list-group-item");
+      const links = sidebar.querySelectorAll("a.list-group-item:not(.contact-link)");
   
       if (sectionMatch) {
         const currentSection = sectionMatch[1];
