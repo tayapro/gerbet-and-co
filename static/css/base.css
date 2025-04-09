@@ -407,6 +407,12 @@ h5 {
     color: var(--purple-65);
 }
 
+/* Address list page */
+#default-address-icon-wrapper {
+    display: inline-block;
+    width: fit-content;
+}
+
 /* Raspberry Nav Tabs */
 .nav-tabs {
     border-bottom: none;
@@ -586,7 +592,8 @@ h5 {
     background-color: rgb(217, 35, 96);
 }
 
-.profile-cells {
+.profile-cells,
+.address-cells {
     text-align: start;
     color: var(--my-bs-text-light-80);
     margin: 0 !important;

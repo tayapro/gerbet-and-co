@@ -10,7 +10,6 @@
 <section class="container my-5 pb-5">
     <h2 class="text-center mb-5 purple-text-75">Resident Profile</h2>
 
-
     <div class="d-flex flex-column justify-content-center align-items-center gap-4">
         <div class="card-container">
             <div class="change-profile-card card h-100 text-center p-4 shadow-sm border border-opacity-50">
@@ -49,34 +48,3 @@
     </div>
 </section>
 {% endblock %}
-
-
-
-<div id="account-details" class="p-4 p-md-5">
-
-  <h4 class="text-center mb-4 purple-text-75">Edit Profile</h4>
-
-  <form hx-post="{% url 'profile_edit' %}"
-        hx-target="#account-details"
-        hx-swap="outerHTML"
-        hx-trigger="submit">
-
-    {% csrf_token %}
-    {{ form|crispy }}
-
-    <div class="d-flex justify-content-center mt-4 gap-4 flex-wrap">
-      <button type="submit" class="btn profile-change-btn d-inline-flex align-items-center gap-2">
-        <i class="bi bi-check-circle fs-5"></i>
-        <span>Update</span>
-      </button>
-
-      <button type="button" class="btn btn-outline-secondary d-inline-flex align-items-center gap-2"
-              hx-get="{% url 'profile_view' %}" 
-              hx-target="#account-details"
-              hx-swap="outerHTML">
-        <i class="bi bi-x-circle fs-5"></i>
-        <span>Cancel</span>
-      </button>
-    </div>
-  </form>
-</div>

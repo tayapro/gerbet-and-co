@@ -98,46 +98,9 @@ def logout(request):
 
 @login_required
 def account_view(request):
-    # next = request.GET.get("next", "/")
-
     user = request.user
-    orders = Order.objects.filter(user=user).order_by('-created_at')
-    addresses = (
-        UserContactInfo.objects
-        .filter(user=user)
-        .order_by('-is_default', '-updated_at')
-    )
 
-    tabs = [
-        {
-            'id': Tabs.RESIDENT_PROFILE,
-            'label': 'Resident Profile',
-            'template': 'accounts/includes/resident_profile.html',
-            'is_default': True,
-        },
-        {
-            'id': Tabs.ADDRESS_BOOK,
-            'label': 'Address Book',
-            'template': 'accounts/includes/address_book.html',
-            'is_default': False,
-        },
-        {
-            'id': Tabs.DELIVERY_AT_DOOR,
-            'label': 'Deliveries at the Door',
-            'template': 'accounts/includes/deliveries_at_the_door.html',
-            'is_default': False,
-        },
-    ]
-
-    context = {
-        "user": user,
-        "orders": orders,
-        "addresses": addresses,
-        # "next": next,
-        "tabs": tabs,
-        "default_tab": Tabs.DEFAULT_TAB
-    }
-    return render(request, "accounts/account.html", context)
+    return render(request, "accounts/account.html", {"user": user})
 
 
 @login_required
@@ -165,6 +128,26 @@ def profile_edit(request):
     return render(request,
                   "accounts/profile_edit.html",
                   {"form": form})
+
+
+@login_required
+def address_list(request):
+    """
+    Display a list of saved addresses for the user.
+    """
+    user = request.user
+    addresses = (
+        UserContactInfo.objects
+        .filter(user=user)
+        .order_by('-is_default', '-updated_at')
+    )
+
+    context = {
+        "user": user,
+        "addresses": addresses
+    }
+
+    return render(request, "accounts/address_list.html", context)
 
 
 @login_required

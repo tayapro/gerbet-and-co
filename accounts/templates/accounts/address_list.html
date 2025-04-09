@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid p-0 mx-auto" id="image-container">
+    <img src="https://res.cloudinary.com/stipaxa/image/upload/v1744210543/Gerbet_and_co/account.webp"
+    class="img-fluid" alt="Account banner image">
+</div>
+
+<section class="container my-5 pb-5">
+    <h2 class="text-center mb-5 purple-text-75">My Account</h2>
+
+
+    <div class="d-flex flex-column justify-content-center align-items-center gap-4">
+        <div class="card-container">
+            <div class="address-list-card card h-100 text-center p-4 shadow-sm border border-opacity-50">
+                <div class="mb-3">
+                    <i class="bi bi-geo-alt fs-1 rose-silk-hover-100"></i>
+                </div>
+                <h5 class="mb-4 rose-silk-hover-100">Address Book</h5>
+                <p class="purple-text-65">
+                    View and edit your favorite spots — from home to holiday hideaways — 
+                    so your treats always find their way to you.
+                </p>
+
+                {% if addresses %}
+                    {% for address in addresses %}
+                        <div class="card shadow-sm mt-5 mb-2">
+                            <div class="mb-3 p-4">
+                                <div class="text-end">
+                                    {% if address.is_default%}
+                                        <p class="mb-0 text-end" id="default-address-icon-wrapper" title="Default address" 
+                                           data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                           aria-label="Default address">
+                                            <i class="bi bi-geo-alt-fill text-warning fs-2 m-0 p-0"></i>
+                                        </p>
+                                    {% else %}
+                                        <form method="post" action="{% url 'set_default_address' address.id %}" 
+                                                class="d-inline">
+                                            {% csrf_token %}
+                                            <button type="submit" 
+                                                    class="btn m-0 p-0 
+                                                            {% if address.is_default %}
+                                                                disabled
+                                                            {% endif %}"
+                                                    title="Set as default"
+                                                    data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                    aria-label="Set as default">
+                                                <i class="bi bi-geo-alt text-warning fs-2 m-0 p-0"></i>
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                                <div class="ps-3">
+                                    <table class="table">
+                                        <colgroup>
+                                            <col style="width: 100px;">
+                                            <col>
+                                        </colgroup>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row" class="text-nowrap address-cells purple-text-75">
+                                                    <span>Address 1</span></th>
+                                                <td class="address-cells">
+                                                    <p class="mb-2 purple-text-65">{{ address.street_address1 }}</p></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" class="text-nowrap address-cells purple-text-75">
+                                                    <span>Address 2</span></th>
+                                                <td class="address-cells">
+                                                    <p class="mb-2 purple-text-65">{{ address.street_address2 }}</p></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" class="text-nowrap address-cells purple-text-75">
+                                                    <span>City</span></th>
+                                                <td class="address-cells">
+                                                    <p class="mb-2 purple-text-65">{{ address.town_or_city }}</p></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" class="text-nowrap address-cells purple-text-75">
+                                                    <span>County</span></th>
+                                                <td class="address-cells">
+                                                    <p class="mb-2 purple-text-65">{{ address.county }}</p></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" class="text-nowrap address-cells purple-text-75">
+                                                    <span>Postcode</span></th>
+                                                <td class="address-cells">
+                                                    <p class="mb-2 purple-text-65">{{ address.postcode }}</p></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" class="text-nowrap address-cells purple-text-75">
+                                                    <span>Country</span></th>
+                                                <td class="address-cells">
+                                                    <p class="mb-2 purple-text-65">{{ address.country }}</p></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" class="text-nowrap address-cells purple-text-75">
+                                                    <span>Phone</span></th>
+                                                <td class="address-cells">
+                                                    <p class="mb-2 purple-text-65">{{ address.phone_number }}</p></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="d-flex justify-content-center mt-4 gap-4 flex-wrap">
+                                    <a href="{% url 'address_update' address.id %}" class="btn back-to-account-btn d-inline-flex align-items-center gap-2 px-3"
+                                        aria-label="Edit">
+                                        <i class="bi bi-pencil-square fs-4"></i>
+                                        <span>Edit</span>
+                                    </a>
+                                    <a href="{% url 'address_delete' address.id %}" class="btn profile-change-btn d-inline-flex align-items-center gap-2 px-3"
+                                        aria-label="Delete">
+                                        <i class="bi bi-trash3 fs-4 m-0 p-0"></i>
+                                        Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-center">You have no saved addresses.</p>
+                {% endif %}
+
+                <div class="m-4">
+                    <a href="{% url 'address_create' %}" class="btn btn-primary btn-emerald">
+                        Add New Address
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div>
+            <a href="{% url 'account' %}" class="btn back-to-account-btn d-inline-flex align-items-center gap-2 mt-3">
+                <i class="bi bi-person-circle fs-4"></i>
+                <span>Back to My Account</span>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
