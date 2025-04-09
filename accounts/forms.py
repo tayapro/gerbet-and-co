@@ -4,6 +4,7 @@ from django.contrib.auth.forms import (
     UserCreationForm
 )
 from django.contrib.auth.models import User
+from django.core.validators import MinLengthValidator
 from django_countries.widgets import CountrySelectWidget
 
 from .models import UserContactInfo
@@ -65,6 +66,18 @@ class UserRegistrationForm(UserCreationForm):
 
 
 class UserProfileForm(forms.ModelForm):
+    first_name = forms.CharField(
+        required=True,
+        validators=[MinLengthValidator(2)],
+        widget=forms.TextInput(),
+    )
+    last_name = forms.CharField(
+        required=True,
+        validators=[MinLengthValidator(2)],
+        widget=forms.TextInput(),
+    )
+    email = forms.EmailField(required=True)
+
     class Meta:
         model = User
         fields = ["first_name", "last_name", "email"]

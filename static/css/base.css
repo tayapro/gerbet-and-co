@@ -388,6 +388,17 @@ h5 {
     transform: scale(1.05);
 }
 
+/* Edit Profile page */
+#profile-edit-form label {
+    text-align: left;
+    display: block;
+    color: var(--purple-90);
+}
+
+#profile-edit-form input.form-control {
+    color: var(--purple-65);
+}
+
 /* Raspberry Nav Tabs */
 .nav-tabs {
     border-bottom: none;

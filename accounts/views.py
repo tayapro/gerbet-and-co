@@ -157,13 +157,13 @@ def profile_edit(request):
                 "toast_message": "Your profile has been successfully changed.",
             }
             return render(request,
-                          "accounts/htmx/profile_view.html",
+                          "accounts/profile_view.html",
                           context)
     else:
         form = UserProfileForm(instance=request.user)
 
     return render(request,
-                  "accounts/htmx/profile_update.html",
+                  "accounts/profile_edit.html",
                   {"form": form})
 
 
