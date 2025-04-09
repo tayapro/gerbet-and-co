@@ -21,6 +21,8 @@
     --raspberry-border: rgba(217, 35, 96, 0.4);
     --text-light: rgba(255, 255, 255, 0.85);
     --placeholder-100: rgb(174, 175, 177);
+    --rose-silk-100: rgb(231, 153, 143);
+    --rose-silk-hover-100: rgb(230, 127, 113);
 }
 
 * {
@@ -325,26 +327,31 @@ h5 {
 }
 
 .nav-tabs .nav-link {
-    color: var(--text-light);
-    background-color: transparent;
+    color: white;
+    background-color: var(--rose-silk-100);
+    border-color: var(--rose-silk--hover-100);
     border: 2px solid transparent;
-    border-radius: 2rem;
+    /* border-radius: 2rem; */
     padding: 0.5rem 1.2rem;
     font-weight: 500;
     transition: all 0.3s ease;
 }
 
 .nav-tabs .nav-link:hover {
-    background-color: var(--raspberry-light);
-    border-color: var(--raspberry-border);
+    background-color: var(--rose-silk-100);
+    border-color: var(--rose-silk--hover-100);
     color: white;
 }
 
 .nav-tabs .nav-link.active {
-    background-color: var(--raspberry);
-    border-color: var(--raspberry-border);
+    background-color: var(--rose-silk-hover-100);
+    border-color: var(--rose-silk-100);
     color: white;
     font-weight: 600;
+}
+
+.nav-link.active {
+    border: 2px solid transparent;
 }
 
 #nav-tabContent > div > .card,
@@ -621,15 +628,24 @@ h5 {
 /* About page */
 #gerbet-story-hero-section,
 #gerbet-story-mission-section {
-    background-color: #e8b0a9;
+    background-color: var(--rose-silk-100);
 }
 
 #gerbet-story-hero-section {
-    margin-top: -41px;
+    margin-top: -110px;
 }
 
 .gerbet-story-intro-section,
 .gerbet-story-team-text,
 #gerbet-story-mission-section-text {
     text-align: justify !important;
+}
+
+.gerbet-story-team-text {
+    color: var(--purple-75) !important;
+}
+
+#about-founder-img {
+    width: 230px;
+    height: 230px;
 }
