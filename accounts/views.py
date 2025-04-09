@@ -98,7 +98,7 @@ def logout(request):
 
 @login_required
 def account_view(request):
-    next = request.GET.get("next", "/")
+    # next = request.GET.get("next", "/")
 
     user = request.user
     orders = Order.objects.filter(user=user).order_by('-created_at')
@@ -133,7 +133,7 @@ def account_view(request):
         "user": user,
         "orders": orders,
         "addresses": addresses,
-        "next": next,
+        # "next": next,
         "tabs": tabs,
         "default_tab": Tabs.DEFAULT_TAB
     }
@@ -142,12 +142,12 @@ def account_view(request):
 
 @login_required
 def profile_view(request):
-    return render(request, "accounts/htmx/profile_view.html",
+    return render(request, "accounts/profile_view.html",
                   {"user": request.user})
 
 
 @login_required
-def profile_update(request):
+def profile_edit(request):
     if request.method == "POST":
         form = UserProfileForm(request.POST, instance=request.user)
         if form.is_valid():

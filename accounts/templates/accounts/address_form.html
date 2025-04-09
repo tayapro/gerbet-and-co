@@ -5,16 +5,18 @@
 {% block content %}
 <div class="container">
     <h2 class="purple-text-75">{% if address %}Edit{% else %}Add{% endif %} Address</h2>
-    <div class="card my-5 shadow-sm" style="max-width: 600px; margin: auto;">
-        <div class="card-body">
-            <form method="post">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary">{% if address %}Update{% else %}Create{% endif %} Address</button>
-                    <a href="{% url 'account' %}?tab={{tab}}" class="btn btn-secondary">Cancel</a>
-                </div>
-            </form>
+    <div class="card-container">
+        <div class="card my-5 shadow-sm">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">{% if address %}Update{% else %}Create{% endif %} Address</button>
+                        <a href="{% url 'account' %}?tab={{tab}}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

@@ -12,8 +12,8 @@ urlpatterns = [
 
     path("account/profile/view", views.profile_view,
          name="profile_view"),
-    path("account/profile/update/", views.profile_update,
-         name="profile_update"),
+    path("account/profile/edit/", views.profile_edit,
+         name="profile_edit"),
     path("account/address/create/", views.address_create,
          name="address_create"),
     # path("account/address/view/", views.address_view,

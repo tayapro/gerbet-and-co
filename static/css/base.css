@@ -9,6 +9,7 @@
     --white-color: rgb(251, 251, 251);
     --purple-90: rgba(41, 27, 50, 0.9);
     --purple-75: rgba(41, 27, 50, 0.75);
+    --purple-65: rgba(41, 27, 50, 0.65);
     --purple-50: rgba(41, 27, 50, 0.5);
     --purple-10: rgba(41, 27, 50, 0.4);
     --my-bs-text-light-60: rgba(255, 255, 255, 0.6);
@@ -69,6 +70,22 @@ h5 {
     color: var(--purple-75) !important;
 }
 
+.purple-text-65 {
+    color: var(--purple-65) !important;
+}
+
+.purple-text-50 {
+    color: var(--purple-50) !important;
+}
+
+.rose-silk-hover-100 {
+    color: var(--rose-silk-hover-100);
+}
+
+.rose-silk-100 {
+    color: var(--rose-silk-100);
+}
+
 .spinner-overlay {
     position: fixed;
     top: 0;
@@ -80,6 +97,11 @@ h5 {
     align-items: center;
     justify-content: center;
     z-index: 1050; /* Higher than Bootstrap modals */
+}
+
+.card-container {
+    max-width: 600px;
+    width: 100%;
 }
 
 #filters-icon {
@@ -319,6 +341,53 @@ h5 {
 }
 
 /* Account page */
+.account-card {
+    border-radius: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.account-card:hover {
+    transform: translateY(-5px);
+    background-color: rgb(249, 249, 249);
+    box-shadow: 1px 0px 19px 0px rgba(135, 135, 135, 0.5) !important;
+    -webkit-box-shadow: 7px 6px 17px 0px rgba(135, 135, 135, 0.75) !important;
+    -moz-box-shadow: 7px 6px 17px 0px rgba(135, 135, 135, 0.75) !important;
+}
+
+.account-card h5,
+.account-card p {
+    letter-spacing: 0.04rem;
+}
+
+/* Profile page */
+.back-to-account-btn {
+    color: white;
+    background-color: var(--rose-silk-hover-100);
+    border-color: var(--rose-silk--hover-100);
+    transition: all 0.2s ease-in-out;
+}
+
+.back-to-account-btn:hover {
+    color: white;
+    background-color: var(--rose-silk-100);
+    border-color: var(--rose-silk--hover-100);
+    transform: scale(1.05);
+}
+
+.profile-change-btn {
+    background-color: white;
+    color: var(--rose-silk-hover-100);
+    border-color: var(--rose-silk--hover-100);
+    transition: all 0.2s ease-in-out;
+}
+
+.profile-change-btn:hover {
+    background-color: white;
+    color: var(--rose-silk-100);
+    border-color: var(--rose-silk--hover-100);
+    transform: scale(1.05);
+}
+
 /* Raspberry Nav Tabs */
 .nav-tabs {
     border-bottom: none;
@@ -572,7 +641,6 @@ h5 {
 .accordion-button {
     color: var(--purple-75) !important;
     background-color: var(--my-bs-text-light-90) !important;
-    /* transition: transform 0.4s ease-in-out, visibility 0.4s ease-in-out !important; */
 }
 
 .accordion-button:focus {
@@ -603,6 +671,24 @@ h5 {
     border-left: none;
     border-right: none;
     border-bottom: 1px solid #e5e5e5; /* subtle divider */
+}
+
+.accordion-item:first-of-type {
+    border-top: 1px solid #e5e5e5; /* accordion top line */
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.accordion-item:last-of-type {
+    border-bottom: 1px solid #e5e5e5;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.accordion-button:not(.collapsed):first-of-type,
+.accordion-button:focus:first-of-type {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
 }
 
 /* Contact Us page */
@@ -652,4 +738,9 @@ h5 {
 #about-founder-img {
     width: 230px;
     height: 230px;
+}
+
+#about-founder-img-container {
+    width: 260px;
+    height: 260px;
 }

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid p-0 mx-auto" id="image-container">
+    <img src="https://res.cloudinary.com/stipaxa/image/upload/v1744210543/Gerbet_and_co/account.webp"
+    class="img-fluid" alt="Account banner image">
+</div>
+
+<section class="container my-5 pb-5">
+    <h2 class="text-center mb-5 purple-text-75">My Account</h2>
+
+
+    <div class="d-flex flex-column justify-content-center align-items-center gap-4">
+        <div class="card-container">
+            <div class="profile-card card h-100 text-center p-4 shadow-sm border border-opacity-50">
+                <div class="mb-3">
+                    <i class="bi bi-shield-lock fs-1 rose-silk-hover-100"></i>
+                </div>
+                <h5 class="mb-4 rose-silk-hover-100">Resident Profile</h5>
+                <p class="purple-text-65">
+                    This is your cozy corner — where you can check and update your name, 
+                    email, and change password.
+                </p>
+
+                <div class="my-3 ps-3">
+                    <table class="table">
+                        <colgroup>
+                            <col style="width: 60px;">
+                            <col>
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th scope="row" class="text-nowrap profile-cells purple-text-75">
+                                    <span>Name</span></th>
+                                <td class="profile-cells">
+                                    <p class="mb-2 purple-text-65">{{ user.first_name }} {{ user.last_name }}</p></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="text-nowrap profile-cells purple-text-75">
+                                    <span>Email</span></th>
+                                <td class="profile-cells purple-text-65">
+                                    <p>{{ user.email }}</p></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center gap-4">
+                    <a href="{% url 'profile_edit' %}" class="btn profile-change-btn d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-pencil-square fs-4"></i>
+                        <span>Change Details</span>
+                    </a>
+                    <a href="{% url 'account' %}" class="btn profile-change-btn d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-file-earmark-lock2 fs-4"></i>
+                        <span>Change Password</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div>
+            <a href="{% url 'account' %}" class="btn back-to-account-btn d-inline-flex align-items-center gap-2">
+                <i class="bi bi-person-circle fs-4"></i>
+                <span>Back to My Account</span>
+            </a>
+        </div>
+    </div>      
+</section>
+{% endblock %}
