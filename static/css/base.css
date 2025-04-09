@@ -388,14 +388,22 @@ h5 {
     transform: scale(1.05);
 }
 
-/* Edit Profile page */
-#profile-edit-form label {
+/* Edit Profile and Password Update pages */
+#profile-edit-form label,
+#password-update-form label {
     text-align: left;
     display: block;
     color: var(--purple-90);
 }
 
-#profile-edit-form input.form-control {
+#profile-edit-form input.form-control,
+#password-update-form input.form-control {
+    color: var(--purple-65);
+}
+
+#password-update-form #id_new_password1_helptext,
+#password-update-form #id_new_password2_helptext {
+    text-align: start;
     color: var(--purple-65);
 }
 

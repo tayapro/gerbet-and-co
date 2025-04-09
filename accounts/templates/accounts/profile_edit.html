@@ -22,20 +22,20 @@
                     A little update? Your name and email can be refreshed here in moments.
                 </p>
 
-                <form method="POST" id="profile-edit-form" class="mt-5 mb-3">
+                <form method="POST" id="profile-edit-form" class="mt-5 mb-3 px-5">
                     {% csrf_token %}
                     {{ form|crispy }}
 
                     <div class="d-flex justify-content-center mt-4 gap-4 flex-wrap">
-                    <button type="submit" class="btn back-to-account-btn d-inline-flex align-items-center gap-2 px-3">
-                        <i class="bi bi-check-circle fs-4"></i>
-                        <span>Update</span>
-                    </button>
+                        <button type="submit" class="btn back-to-account-btn d-inline-flex align-items-center gap-2 px-3">
+                            <i class="bi bi-check-circle fs-4"></i>
+                            <span>Update</span>
+                        </button>
 
-                    <a href="{% url 'profile_view' %}" class="btn profile-change-btn d-inline-flex align-items-center gap-2 px-3">
-                        <i class="bi bi-x-circle fs-4"></i>
-                        <span>Cancel</span>
-                    </a>
+                        <a href="{% url 'profile_view' %}" class="btn profile-change-btn d-inline-flex align-items-center gap-2 px-3">
+                            <i class="bi bi-x-circle fs-4"></i>
+                            <span>Cancel</span>
+                        </a>
                     </div>
                 </form>
             </div>

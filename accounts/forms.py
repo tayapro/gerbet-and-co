@@ -149,3 +149,8 @@ class CustomPasswordChangeForm(PasswordChangeForm):
                 "The new password cannot be the same as the old password.")
 
         return cleaned_data
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['new_password1'].label = "New password*"
+        self.fields['new_password2'].label = "New password confirmation*"
