@@ -8,7 +8,7 @@ import re
 from .models import Order, ShippingInfo
 
 
-def validate_phone_number(value):
+def validate_phone(value):
     """Validate phone number format: Allows + and 7-15 digits."""
     phone_regex = re.compile(r"^\+?\d{7,15}$")
     if not phone_regex.match(value):
@@ -34,7 +34,7 @@ class ShippingInfoForm(forms.ModelForm):
     )
     phone_number = forms.CharField(
         required=True,
-        validators=[validate_phone_number],
+        validators=[validate_phone],
         widget=forms.TextInput(),
     )
     street_address1 = forms.CharField(

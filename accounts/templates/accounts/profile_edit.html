@@ -21,7 +21,7 @@
                     A little update? Your name and email can be refreshed here in moments.
                 </p>
 
-                <form method="POST" id="profile-edit-form" class="mt-5 mb-3 px-5">
+                <form method="POST" id="profile-edit-form" class="mt-5 mb-3 px-md-5">
                     {% csrf_token %}
                     {{ form|crispy }}
 

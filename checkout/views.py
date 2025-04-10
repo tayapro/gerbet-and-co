@@ -160,6 +160,7 @@ def handle_checkout_post(request, bag, order_id, currency):
 
     form = ShippingInfoForm(request.POST, user=request.user)
 
+    # Check following logic
     if not form.is_valid():
         logger.error("handle_checkout_post: form is invalid")
         return handle_invalid_form(request, form, currency)

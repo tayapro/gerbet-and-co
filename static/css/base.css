@@ -388,16 +388,18 @@ h5 {
     transform: scale(1.05);
 }
 
-/* Edit Profile and Password Update pages */
+/* Edit Profile, Address Create/Update and Password Update pages */
 #profile-edit-form label,
-#password-update-form label {
+#password-update-form label,
+#address-form label {
     text-align: left;
     display: block;
     color: var(--purple-90);
 }
 
 #profile-edit-form input.form-control,
-#password-update-form input.form-control {
+#password-update-form input.form-control,
+#address-form input.form-control {
     color: var(--purple-65);
 }
 
@@ -405,6 +407,17 @@ h5 {
 #password-update-form #id_new_password2_helptext {
     text-align: start;
     color: var(--purple-65);
+}
+
+#id_set_as_default_helptext {
+    text-align: start;
+    color: var(--purple-65);
+    margin-top: 0px;
+}
+
+#address-form .invalid-feedback,
+#div_id_country {
+    text-align: start;
 }
 
 /* Address list page */

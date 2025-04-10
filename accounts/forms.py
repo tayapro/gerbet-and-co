@@ -4,16 +4,30 @@ from django.contrib.auth.forms import (
     UserCreationForm
 )
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
+from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
+import re
 
 from .models import UserContactInfo
 
 
+def validate_phone(value):
+    """Validate phone number format: Allows + and 7-15 digits."""
+    phone_regex = re.compile(r"^\+?\d{7,15}$")
+    if not phone_regex.match(value):
+        raise ValidationError("Enter a valid phone number (7-15 digits, "
+                              "optional '+').")
+
+
 class UserRegistrationForm(UserCreationForm):
+    username = forms.CharField(min_length=2, required=True)
     email = forms.EmailField(required=True)
-    first_name = forms.CharField(max_length=30, required=False)
-    last_name = forms.CharField(max_length=30, required=False)
+    first_name = forms.CharField(min_length=2, required=True)
+    last_name = forms.CharField(min_length=2, required=True)
+    # password1 = forms.CharField(required=True)
+    # password2 = forms.CharField(required=True)
 
     class Meta:
         model = User
@@ -26,8 +40,8 @@ class UserRegistrationForm(UserCreationForm):
         placeholders = {
             "username": "Enter your username",
             "email": "Enter your email",
-            "first_name": "First name (optional)",
-            "last_name": "Last name (optional)",
+            "first_name": "First name",
+            "last_name": "Last name",
             "password1": "Enter your password",
             "password2": "Enter your password again",
         }
@@ -103,6 +117,41 @@ class UserProfileForm(forms.ModelForm):
 
 
 class AddressForm(forms.ModelForm):
+    street_address1 = forms.CharField(
+        required=True,
+        validators=[MinLengthValidator(2)],
+        widget=forms.TextInput(),
+    )
+    street_address2 = forms.CharField(
+        required=True,
+        validators=[MinLengthValidator(2)],
+        widget=forms.TextInput(),
+    )
+    town_or_city = forms.CharField(
+        required=True,
+        validators=[MinLengthValidator(2)],
+        widget=forms.TextInput(),
+    )
+    county = forms.CharField(
+        required=False,
+        widget=forms.TextInput(),
+    )
+    postcode = forms.CharField(
+        required=True,
+        validators=[MinLengthValidator(2)],
+        widget=forms.TextInput(),
+    )
+    country = CountryField(blank_label="Select country").formfield(
+        widget=CountrySelectWidget(attrs={
+            "class": "form-control",
+            "data-placeholder": "Select your country"
+        }),
+    )
+    phone_number = forms.CharField(
+        required=True,
+        validators=[validate_phone],
+        widget=forms.TextInput(),
+    )
     set_as_default = forms.BooleanField(
         required=False,
         label="Set as default shipping address",
@@ -116,12 +165,6 @@ class AddressForm(forms.ModelForm):
             "town_or_city", "county", "postcode",
             "country", "phone_number", "set_as_default"
         ]
-
-        widgets = {
-            "country": CountrySelectWidget(attrs={
-                "class": "form-control",
-            })
-        }
 
 
 class CustomPasswordResetForm(PasswordResetForm):
@@ -152,5 +195,5 @@ class CustomPasswordChangeForm(PasswordChangeForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['new_password1'].label = "New password*"
-        self.fields['new_password2'].label = "New password confirmation*"
+        self.fields["new_password1"].label = "New password*"
+        self.fields["new_password2"].label = "New password confirmation*"

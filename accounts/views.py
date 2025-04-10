@@ -155,24 +155,27 @@ def address_create(request):
     if request.method == "POST":
         form = AddressForm(request.POST)
         if form.is_valid():
-            address = form.save(commit=False)
-            address.user = request.user
-            if form.cleaned_data['set_as_default']:
-                UserContactInfo.objects.filter(
-                    user=request.user, is_default=True
-                ).update(is_default=False)
-                address.is_default = True
-            address.save()
-            messages.success(request, "New address added successfully.")
-            return redirect(f"{reverse('account')}?tab={Tabs.ADDRESS_BOOK}")
+            try:
+                address = form.save(commit=False)
+                address.user = request.user
+                if form.cleaned_data["set_as_default"]:
+                    UserContactInfo.objects.filter(
+                        user=request.user, is_default=True
+                    ).update(is_default=False)
+                    address.is_default = True
+                address.save()
+                messages.success(request, "New address added successfully.")
+                return redirect("address_list")
+            except Exception:
+                return render(request, "accounts/address_form.html",
+                              {"form": form})
+        else:
+            return render(request, "accounts/address_form.html",
+                          {"form": form})
     else:
         form = AddressForm()
 
-    context = {
-        "form": form,
-        "tab": Tabs.ADDRESS_BOOK,
-    }
-    return render(request, "accounts/address_form.html", context)
+    return render(request, "accounts/address_form.html", {"form": form})
 
 
 @login_required
@@ -190,7 +193,7 @@ def address_update(request, id):
     if request.method == "POST":
         form = AddressForm(request.POST, instance=address)
         if form.is_valid():
-            if form.cleaned_data['set_as_default']:
+            if form.cleaned_data["set_as_default"]:
                 UserContactInfo.objects.filter(
                     user=request.user, is_default=True
                 ).exclude(id=address.id).update(is_default=False)
@@ -199,7 +202,7 @@ def address_update(request, id):
                 address.is_default = False
             form.save()
             messages.success(request, "Address updated successfully.")
-            return redirect(f"{reverse('account')}?tab={Tabs.ADDRESS_BOOK}")
+            return redirect("address_list")
     else:
         form = AddressForm(instance=address, initial={
             "set_as_default": address.is_default
@@ -208,7 +211,6 @@ def address_update(request, id):
     context = {
         "form": form,
         "address": address,
-        "tab": Tabs.ADDRESS_BOOK,
     }
     return render(request, "accounts/address_form.html", context)
 
