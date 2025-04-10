@@ -38,12 +38,13 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    /* background-image: url('/media/gerbet_background.webp'); */
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     backdrop-filter: blur(3px);
+    position: relative;
+    z-index: 1;
 }
 
 h1,
@@ -97,6 +98,7 @@ h5 {
     align-items: center;
     justify-content: center;
     z-index: 1050; /* Higher than Bootstrap modals */
+    transition: opacity 0.3s ease;
 }
 
 .card-container {
@@ -783,3 +785,13 @@ h5 {
     width: 260px;
     height: 260px;
 }
+
+/* .modal-backdrop.show {
+    opacity: 0.5 !important;
+    z-index: 1050 !important;
+}
+
+.modal.show {
+    display: block !important;
+    z-index: 1055 !important;
+} */

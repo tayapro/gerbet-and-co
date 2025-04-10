@@ -42,6 +42,12 @@
         <title>Gerbet and Co {% block extra_title %}{% endblock %}</title>
     </head>
     <body>
+        <div id="loading-spinner" class="spinner-overlay" aria-hidden="true">
+            <div class="spinner-border text-danger text-opacity-75" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
         <div class="w-100 sticky-top">
             <nav class="navbar navbar-expand-sm navbar-dark container-fluid" id="navbar-container">
                 <a class="navbar-brand ms-3" href="/"><h2>Gerbet & Co.</h2></a>
@@ -153,12 +159,6 @@
             </div>
         </div>
 
-        <div id="loading-spinner" class="spinner-overlay d-none">
-            <div class="spinner-border text-danger text-opacity-75" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-
         <div class="container-fluid d-flex flex-column justify-content-center 
                     align-items-center px-0">
             {% block content %}
@@ -175,7 +175,7 @@
                   input.value = "";
                   input.focus();
                 });
-              });
+            });
         </script>
         {% endblock %}        
     </body>

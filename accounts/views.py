@@ -12,6 +12,7 @@ from django.db import transaction
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.urls import reverse, reverse_lazy
+import logging
 
 from checkout.models import Order
 from .constants import Tabs
@@ -22,6 +23,8 @@ from .forms import (
     AddressForm)
 from .models import UserContactInfo
 from .utils import send_welcome_email
+
+logger = logging.getLogger(__name__)
 
 
 def register(request):
@@ -178,12 +181,12 @@ def address_create(request):
     return render(request, "accounts/address_form.html", {"form": form})
 
 
-@login_required
-def address_view(request):
-    addresses = UserContactInfo.objects.filter(user=request.user)
+# @login_required
+# def address_view(request):
+#     addresses = UserContactInfo.objects.filter(user=request.user)
 
-    return render(request, "accounts/address_view.html",
-                  {"addresses": addresses})
+#     return render(request, "accounts/address_view.html",
+#                   {"addresses": addresses})
 
 
 @login_required
@@ -216,19 +219,19 @@ def address_update(request, id):
 
 
 @login_required
+@require_POST
 def address_delete(request, id):
     address = get_object_or_404(UserContactInfo, id=id, user=request.user)
 
-    if request.method == "POST":
+    try:
         address.delete()
         messages.success(request, "Address deleted successfully.")
-        return redirect(f"{reverse('account')}?tab={Tabs.ADDRESS_BOOK}")
-
-    context = {
-        "address": address,
-        "tab": Tabs.ADDRESS_BOOK,
-    }
-    return render(request, "accounts/address_delete.html", context)
+    except Exception as e:
+        messages.warning(request,
+                         "Oops, something went wrong, "
+                         "please try again.")
+        logger.error(f"Error deleting address: {e}")
+    return redirect(reverse('address_list'))
 
 
 @login_required
@@ -247,7 +250,7 @@ def set_default_address(request, id):
 
     # Send success message and redirect
     messages.success(request, "Default shipping address updated")
-    return redirect(f"{reverse('account')}?tab={Tabs.ADDRESS_BOOK}")
+    return redirect(reverse('address_list'))
 
 
 class CustomPasswordChangeView(PasswordChangeView):

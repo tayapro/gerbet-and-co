@@ -3,6 +3,7 @@ function showSpinner() {
 
     // Show spinner on page unload
     window.addEventListener('beforeunload', function () {
+        console.log('Spinner starts')
         if (spinner) {
             spinner.classList.remove('d-none')
         }
@@ -12,6 +13,7 @@ function showSpinner() {
     window.addEventListener('load', function () {
         if (spinner) {
             spinner.classList.add('d-none')
+            console.log('Spinner finishs')
         }
     })
 }

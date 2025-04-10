@@ -104,13 +104,20 @@
                                 </div>
 
                                 <div class="d-flex justify-content-center mt-4 gap-4 flex-wrap">
-                                    <a href="{% url 'address_update' address.id %}" class="btn back-to-account-btn d-inline-flex align-items-center gap-2 px-3"
+                                    <a href="{% url 'address_update' address.id %}"
+                                       class="btn back-to-account-btn d-inline-flex align-items-center gap-2 px-3"
                                         aria-label="Edit">
                                         <i class="bi bi-pencil-square fs-4"></i>
                                         <span>Edit</span>
                                     </a>
-                                    <a href="{% url 'address_delete' address.id %}" class="btn profile-change-btn d-inline-flex align-items-center gap-2 px-3"
-                                        aria-label="Delete">
+                                    <a href="#" 
+                                        class="btn profile-change-btn d-inline-flex align-items-center gap-2 px-3"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#confirmRemoveModal"
+                                        data-id="{{ address.id }}"
+                                        data-street="{{ address.street_address1 }}"
+                                        data-city="{{ address.town_or_city }}"
+                                        data-action-url="{% url 'address_delete' address.id %}">
                                         <i class="bi bi-trash3 fs-4 m-0 p-0"></i>
                                         Delete
                                     </a>
@@ -137,4 +144,57 @@
         </div>
     </div>
 </section>
+
+<!-- Modal for Confirming Deletion -->
+<div class="modal fade" id="confirmRemoveModal" tabindex="-1" aria-labelledby="confirmRemoveModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmRemoveModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this address? This action cannot be undone.
+                <span id="modal-address-id">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" id="modal-delete-form">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger d-inline-flex align-items-center gap-2 px-3">
+                        <i class="bi bi-trash3 fs-4"></i>
+                        Delete
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block postloadjs %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Grab the modal and delete button within it
+        const modal = document.getElementById("confirmRemoveModal");
+        const addressEl = document.getElementById("modal-address-id");
+        const form = document.getElementById("modal-delete-form");
+    
+        // Add an event listener to handle dynamically setting the delete URL
+        modal.addEventListener("show.bs.modal", function (event) {
+            const trigger = event.relatedTarget;
+            if (!trigger) return;
+      
+            const street = trigger.getAttribute("data-street");
+            const city = trigger.getAttribute("data-city");
+      
+            // Update modal content
+            addressEl.textContent = `${street}, ${city}`;
+      
+            // Update form action
+            const actionUrl = trigger.getAttribute('data-action-url');
+            form.setAttribute('action', actionUrl);
+        });
+    });
+</script>
 {% endblock %}
