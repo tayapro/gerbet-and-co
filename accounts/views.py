@@ -15,7 +15,6 @@ from django.urls import reverse, reverse_lazy
 import logging
 
 from checkout.models import Order
-from .constants import Tabs
 from .forms import (
     UserRegistrationForm,
     CustomPasswordChangeForm,

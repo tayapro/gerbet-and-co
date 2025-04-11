@@ -1,13 +1,12 @@
 :root {
-    /* --font-family: 'Montserrat', sans-serif; */
     --header-font-family: 'Playfair Display SC', sans-serif;
-    /* --font-family: 'Work Sans', sans-serif; */
-    --font-family: 'Lato', sans-serif;
+    /* --font-family: 'Quicksand', sans-serif; */
+    --font-family: 'Nunito Sans', sans-serif;
     --font-thin: 300;
     --font-regular: 400;
     --font-bold: 600;
     --white-color: rgb(251, 251, 251);
-    --purple-90: rgba(41, 27, 50, 0.9);
+    --purple-90: rgb(41, 27, 50), 0.9;
     --purple-75: rgba(41, 27, 50, 0.75);
     --purple-65: rgba(41, 27, 50, 0.65);
     --purple-50: rgba(41, 27, 50, 0.5);
@@ -22,8 +21,9 @@
     --raspberry-border: rgba(217, 35, 96, 0.4);
     --text-light: rgba(255, 255, 255, 0.85);
     --placeholder-100: rgb(174, 175, 177);
-    --rose-silk-100: rgb(231, 153, 143);
+    --rose-silk-100: #e7998f;
     --rose-silk-hover-100: rgb(230, 127, 113);
+    --zomp-100: rgb(102, 161, 130);
 }
 
 * {
@@ -38,12 +38,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    backdrop-filter: blur(3px);
-    position: relative;
+    position: static;
     z-index: 1;
 }
 
@@ -87,18 +82,43 @@ h5 {
     color: var(--rose-silk-100);
 }
 
-.spinner-overlay {
+.bg-zomp-100 {
+    background-color: var(--zomp-100);
+}
+
+.text-white-color {
+    color: var(--white-color);
+}
+
+.modal {
+    /* Ensure proper modal positioning */
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(255, 255, 255, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1050; /* Higher than Bootstrap modals */
-    transition: opacity 0.3s ease;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 1060 !important;
+}
+
+.modal-backdrop {
+    position: fixed !important;
+    z-index: 1040 !important;
+}
+
+.modal-content {
+    transition: all 0.3s ease-in-out !important;
+}
+
+.modal-dialog {
+    /* Center modal properly */
+    margin: 1.75rem auto;
+    transform: none !important;
+    display: block;
+}
+
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 500px;
+        margin: 1.75rem auto;
+    }
 }
 
 .card-container {
@@ -194,10 +214,6 @@ h5 {
     border: none;
 }
 
-.offcanvas p {
-    letter-spacing: 1px;
-}
-
 #search-btn-close {
     background-color: rgba(255, 255, 255, 0);
 }
@@ -219,7 +235,7 @@ h5 {
 
 .nav-item p {
     margin-bottom: 0px;
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
 }
 
 #navbar-container {
@@ -356,8 +372,7 @@ h5 {
     -moz-box-shadow: 7px 6px 17px 0px rgba(135, 135, 135, 0.75) !important;
 }
 
-.account-card h5,
-.account-card p {
+.account-card h5 {
     letter-spacing: 0.04rem;
 }
 
@@ -390,6 +405,16 @@ h5 {
     transform: scale(1.05);
 }
 
+#new-address-btn {
+    transition: all 0.2s ease-in-out;
+}
+
+#new-address-btn:hover {
+    background-color: var(--zomp-100);
+    color: var(--white-color);
+    transform: scale(1.05);
+}
+
 /* Edit Profile, Address Create/Update and Password Update pages */
 #profile-edit-form label,
 #password-update-form label,
@@ -397,6 +422,7 @@ h5 {
     text-align: left;
     display: block;
     color: var(--purple-90);
+    font-size: 0.95em;
 }
 
 #profile-edit-form input.form-control,
@@ -785,13 +811,3 @@ h5 {
     width: 260px;
     height: 260px;
 }
-
-/* .modal-backdrop.show {
-    opacity: 0.5 !important;
-    z-index: 1050 !important;
-}
-
-.modal.show {
-    display: block !important;
-    z-index: 1055 !important;
-} */

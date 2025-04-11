@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block content %}
 
 <div class="container-fluid p-0 mx-auto" id="image-container">
@@ -113,10 +115,14 @@
                                     <a href="#" 
                                         class="btn profile-change-btn d-inline-flex align-items-center gap-2 px-3"
                                         data-bs-toggle="modal" 
-                                        data-bs-target="#confirmRemoveModal"
+                                        data-bs-target="#confirmAddressRemoveModal"
                                         data-id="{{ address.id }}"
-                                        data-street="{{ address.street_address1 }}"
+                                        data-street-address1="{{ address.street_address1 }}"
+                                        data-street-address2="{{ address.street_address2 }}"
                                         data-city="{{ address.town_or_city }}"
+                                        data-county = "{{ address.county }}"
+                                        data-postcode = "{{ address.postcode }}"
+                                        data-country = "{{ address.country }}"
                                         data-action-url="{% url 'address_delete' address.id %}">
                                         <i class="bi bi-trash3 fs-4 m-0 p-0"></i>
                                         Delete
@@ -130,8 +136,10 @@
                 {% endif %}
 
                 <div class="m-4">
-                    <a href="{% url 'address_create' %}" class="btn btn-primary btn-emerald">
-                        Add New Address
+                    <a href="{% url 'address_create' %}" class="btn bg-zomp-100 text-white-color px-3 d-inline-flex align-items-center gap-2" 
+                       id="new-address-btn">
+                        <i class="bi bi-plus-circle fs-4"></i>
+                        <span>Add New Address</span>
                     </a>
                 </div>
             </div>
@@ -146,23 +154,30 @@
 </section>
 
 <!-- Modal for Confirming Deletion -->
-<div class="modal fade" id="confirmRemoveModal" tabindex="-1" aria-labelledby="confirmRemoveModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+<div class="modal fade" id="confirmAddressRemoveModal" tabindex="-1" aria-labelledby="confirmAddressRemoveModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered px-3">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmRemoveModalLabel">Confirm Deletion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <i class="bi bi-geo-alt-fill text-warning fs-4 m-2"></i>
+                <h5 class="modal-title purple-text-75" id="confirmAddressRemoveModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close me-2" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete this address? This action cannot be undone.
+                <p class="text-center purple-text-65 m-4">
+                    Are you sure you want to delete this address?
+                </p>
                 <span id="modal-address-id">
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <div class="modal-footer d-flex justify-content-center p-3 gap-4 flex-wrap">
+                <button type="button" class="btn profile-change-btn d-inline-flex align-items-center gap-2 px-3" 
+                        data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle fs-5"></i>
+                        <span>Cancel</span>    
+                </button>
                 <form method="POST" id="modal-delete-form">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-danger d-inline-flex align-items-center gap-2 px-3">
-                        <i class="bi bi-trash3 fs-4"></i>
+                    <button type="submit" class="btn back-to-account-btn d-inline-flex align-items-center gap-2 px-3">
+                        <i class="bi bi-trash3 fs-5"></i>
                         Delete
                     </button>
                 </form>
@@ -176,7 +191,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // Grab the modal and delete button within it
-        const modal = document.getElementById("confirmRemoveModal");
+        const modal = document.getElementById("confirmAddressRemoveModal");
         const addressEl = document.getElementById("modal-address-id");
         const form = document.getElementById("modal-delete-form");
     
@@ -185,11 +200,38 @@
             const trigger = event.relatedTarget;
             if (!trigger) return;
       
-            const street = trigger.getAttribute("data-street");
+            const streetAddress1 = trigger.getAttribute("data-street-address1");
+            const streetAddress2 = trigger.getAttribute("data-street-address2");
             const city = trigger.getAttribute("data-city");
+            const county = trigger.getAttribute("data-county")
+            const postcode = trigger.getAttribute("data-postcode")
+            const countryCode = trigger.getAttribute("data-country")
       
+            // Convert country code to country name
+            let countryName = countryCode;
+            if (countryCode && countryCode.length === 2) {
+                try {
+                    const displayNames = new Intl.DisplayNames(['en'], { type: 'region' });
+                    countryName = displayNames.of(countryCode.toUpperCase());
+                } catch (error) {
+                    console.warn("Could not convert country code:", countryCode);
+                }
+            }
+
             // Update modal content
-            addressEl.textContent = `${street}, ${city}`;
+            const addressParts = [
+                streetAddress1,
+                streetAddress2,
+                city,
+                county,
+                postcode,
+                countryName,
+            ].filter(part => part && part !== "None");
+
+            // Update modal content
+            addressEl.innerHTML = `
+            <p class="text-center purple-text-75 fs-5">${addressParts.join(", ")}</p>
+            `;
       
             // Update form action
             const actionUrl = trigger.getAttribute('data-action-url');

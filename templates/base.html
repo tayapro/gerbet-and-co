@@ -19,7 +19,8 @@
                 integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
                 crossorigin="anonymous"/>
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-            <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Playfair+Display+SC:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
             <link rel="stylesheet" href="{% static 'css/base.css' %}">
         {% endblock %}
         
@@ -42,12 +43,6 @@
         <title>Gerbet and Co {% block extra_title %}{% endblock %}</title>
     </head>
     <body>
-        <div id="loading-spinner" class="spinner-overlay" aria-hidden="true">
-            <div class="spinner-border text-danger text-opacity-75" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-
         <div class="w-100 sticky-top">
             <nav class="navbar navbar-expand-sm navbar-dark container-fluid" id="navbar-container">
                 <a class="navbar-brand ms-3" href="/"><h2>Gerbet & Co.</h2></a>
