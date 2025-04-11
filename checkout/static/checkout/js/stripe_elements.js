@@ -322,7 +322,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 : ''
 
         const email = guestEmail || authEmail || ''
-        console.log('Email: ', email)
 
         return email
     }
@@ -337,7 +336,6 @@ document.addEventListener('DOMContentLoaded', function () {
             phoneElement && phoneElement.value ? phoneElement.value.trim() : ''
 
         const phone = phoneInput || previewPhone || ''
-        console.log('Phone: ', phone)
 
         return phone
     }

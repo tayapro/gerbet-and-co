@@ -1,7 +1,7 @@
-import uuid
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.timezone import now
 from django_countries.fields import CountryField
 
 from products.models import Product
@@ -68,8 +68,7 @@ class Order(models.Model):
         ('refunded', 'Refunded'),
     ]
 
-    order_id = models.UUIDField(default=uuid.uuid4,
-                                editable=False, unique=True)
+    order_id = models.CharField(max_length=32, unique=True, editable=False)
     status = models.CharField(max_length=20,
                               choices=STATUS_CHOICES, default='pending')
     user = models.ForeignKey(User, on_delete=models.SET_NULL,
@@ -90,6 +89,18 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
+        if not self.order_id:
+            today = now().strftime("%Y%m%d")
+            prefix = f"GCO-ORD-{today}"
+            count = (
+                Order.objects
+                .filter(order_id__startswith=prefix)
+                .count() + 1
+            )
+            # GCO-ORD-YYYYMMDD-#####, where ##### is a zero-padded
+            # sequence number for the day
+            self.order_id = f"{prefix}-{str(count).zfill(5)}"
+
         self.grand_total_cents = int(self.grand_total * 100)
         super().save(*args, **kwargs)
 
