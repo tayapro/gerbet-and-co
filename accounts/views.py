@@ -252,6 +252,30 @@ def set_default_address(request, id):
     return redirect(reverse('address_list'))
 
 
+@login_required
+def order_list(request):
+    """
+    Display a list of orders for the user.
+    """
+    user = request.user
+    orders = (
+        Order.objects
+        .filter(user=user)
+        .order_by('-created_at')
+    )
+
+    context = {
+        "user": user,
+        "orders": orders
+    }
+
+    return render(request, "accounts/order_list.html", context)
+
+@login_required
+def order_view(request):
+    return render(request, "home.html")
+
+
 class CustomPasswordChangeView(PasswordChangeView):
     template_name = "accounts/password_update.html"
     form_class = CustomPasswordChangeForm

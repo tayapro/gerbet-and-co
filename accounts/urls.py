@@ -23,6 +23,8 @@ urlpatterns = [
          name="address_delete"),
     path("address/set-default/<int:id>/", views.set_default_address,
          name="set_default_address"),
+    path("account/order/list", views.order_list, name="order_list"),
+    path("account/order/view/<int:id>/", views.order_view, name="order_view"),
     path("account/password/update", views.CustomPasswordChangeView.as_view(),
          name='password_update'),
 

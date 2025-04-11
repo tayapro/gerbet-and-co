@@ -454,6 +454,17 @@ h5 {
     width: fit-content;
 }
 
+/* Order list page */
+.order-list-card > .list-group {
+    border-top: none !important;
+}
+
+@media (max-width: 576px) {
+    .order-list-card > .list-group .card-header {
+        font-size: 0.89rem;
+    }
+}
+
 /* Raspberry Nav Tabs */
 .nav-tabs {
     border-bottom: none;
