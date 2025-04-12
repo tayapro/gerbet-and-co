@@ -271,9 +271,11 @@ def order_list(request):
 
     return render(request, "accounts/order_list.html", context)
 
+
 @login_required
-def order_view(request):
-    return render(request, "home.html")
+def order_view(request, id):
+    order = get_object_or_404(Order, id=id, user=request.user)
+    return render(request, "accounts/order_view.html", {"order": order})
 
 
 class CustomPasswordChangeView(PasswordChangeView):

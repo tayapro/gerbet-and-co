@@ -19,14 +19,14 @@
                     <i class="bi bi-geo-alt fs-1 rose-silk-hover-100"></i>
                 </div>
                 <h5 class="mb-4 rose-silk-hover-100">Deliveries at the Door</h5>
-                <p class="purple-text-65">
-                    See what you've ordered, what's arrived, and what made your day sweeter.
+                <p class="purple-text-65 mb-5">
+                    See what you've ordered, what's arrived, <br>and what made your day sweeter.
                 </p>
 
                 {% if orders %}
                     <ul class="list-group list-group-flush">
                         {% for order in orders %}
-                            <li class="list-group-item bg-transparent border-0 px-0">
+                            <li class="list-group-item border-0 px-0">
                                 <div class="card border border-opacity-50 shadow-sm">
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <span class="purple-text-75 fw-bold fs-6 fs-sm-5 fs-md-5">Order ID:</span>
@@ -34,16 +34,16 @@
                                     </div>
                                     <div class="card-body ms-3 mt-3">
                                         <div class="row mb-2 justify-content-start">
-                                            <div class="col-2 fw-semibold purple-text-65 text-start">Status</div>
-                                            <div class="col-4 fw-bold purple-text-75 text-start">{{ order.status|title }}</div>
+                                            <div class="col-4 fw-semibold purple-text-65 text-start">Status</div>
+                                            <div class="col-8 fw-bold purple-text-75 text-start">{{ order.status|title }}</div>
                                         </div>
                                         <div class="row mb-2 justify-content-start">
-                                            <div class="col-2 fw-semibold purple-text-65 text-start">Date</div>
-                                            <div class="col-4 fw-bold purple-text-75 text-start">{{ order.created_at|date:"F d, Y" }}</div>
+                                            <div class="col-4 fw-semibold purple-text-65 text-start">Date</div>
+                                            <div class="col-8 fw-bold purple-text-75 text-start">{{ order.created_at|date:"F d, Y" }}</div>
                                         </div>
                                         <div class="row mb-3 justify-content-start">
-                                            <div class="col-2 fw-semibold purple-text-65 text-start">Total</div>
-                                            <div class="col-4 fw-bold purple-text-75 text-start">&#8364; {{ order.grand_total }}</div>
+                                            <div class="col-4 fw-semibold purple-text-65 text-start">Total</div>
+                                            <div class="col-8 fw-bold purple-text-75 text-start">&#8364; {{ order.grand_total }}</div>
                                         </div>
                                         <div class="text-end">
                                             <a href="{% url 'order_view' order.id %}" class="btn profile-change-btn d-inline-flex align-items-center gap-2 px-3 mb-3 me-3">

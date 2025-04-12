@@ -460,7 +460,8 @@ h5 {
 }
 
 @media (max-width: 576px) {
-    .order-list-card > .list-group .card-header {
+    .order-list-card .card-header,
+    .order-view-card .card-header {
         font-size: 0.89rem;
     }
 }

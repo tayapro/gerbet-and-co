@@ -188,6 +188,7 @@
 {% endblock %}
 
 {% block postloadjs %}
+<script src="{% static "accounts/js/accounts_helpers.js" %}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // Grab the modal and delete button within it
@@ -208,15 +209,7 @@
             const countryCode = trigger.getAttribute("data-country")
       
             // Convert country code to country name
-            let countryName = countryCode;
-            if (countryCode && countryCode.length === 2) {
-                try {
-                    const displayNames = new Intl.DisplayNames(['en'], { type: 'region' });
-                    countryName = displayNames.of(countryCode.toUpperCase());
-                } catch (error) {
-                    console.warn("Could not convert country code:", countryCode);
-                }
-            }
+            const countryName = displayCountryName(countryCode);
 
             // Update modal content
             const addressParts = [
