@@ -93,7 +93,7 @@ def logout(request):
     if request.method == "POST":
         auth_logout(request)
         messages.success(request, "You have been logged out.")
-        return redirect(next)
+        return redirect("home")
 
     return render(request, "accounts/logout.html", {"next": next})
 

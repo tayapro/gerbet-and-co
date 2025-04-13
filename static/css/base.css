@@ -5,7 +5,8 @@
     --font-thin: 300;
     --font-regular: 400;
     --font-bold: 600;
-    --white-color: rgb(251, 251, 251);
+    --white-color-100: rgb(251, 251, 251);
+    --white-color-85: rgba(251, 251, 251, 0.85);
     --purple-90: rgb(41, 27, 50), 0.9;
     --purple-75: rgba(41, 27, 50, 0.75);
     --purple-65: rgba(41, 27, 50, 0.65);
@@ -87,7 +88,7 @@ h5 {
 }
 
 .text-white-color {
-    color: var(--white-color);
+    color: var(--white-color-100);
 }
 
 .modal {
@@ -411,7 +412,7 @@ h5 {
 
 #new-address-btn:hover {
     background-color: var(--zomp-100);
-    color: var(--white-color);
+    color: var(--white-color-100);
     transform: scale(1.05);
 }
 
@@ -502,8 +503,7 @@ h5 {
 }
 
 #nav-tabContent > div > .card,
-#nav-tabContent > div > .card .card,
-#bag-items-container {
+#nav-tabContent > div > .card .card {
     position: relative;
     padding: 0px 20px;
     border-radius: 20px;
@@ -704,14 +704,14 @@ h5 {
     font-size: 1rem;
 }
 
-.list-group-item.active {
+#help-section-link.active {
     background-color: var(--rose-silk-hover-100);
     color: var(--my-bs-text-light-90);
     font-weight: 500;
     border: none;
 }
 
-.list-group-item:hover {
+#help-section-link:hover {
     background-color: var(--rose-silk-100);
     color: var(--my-bs-text-light-90);
     border: none;
@@ -822,4 +822,31 @@ h5 {
 #about-founder-img-container {
     width: 260px;
     height: 260px;
+}
+
+/* Bag page */
+.bag-page {
+    background: url('https://res.cloudinary.com/stipaxa/image/upload/v1744566104/Gerbet_and_co/row-bag.webp')
+        no-repeat center center fixed;
+    background-size: cover;
+}
+
+.bag-checkout-section {
+    background-color: var(--white-color-85) !important;
+}
+
+#to-checkout-btn,
+#keep-shopping-btn {
+    transition: all 0.2s ease-in-out;
+}
+
+#to-checkout-btn:hover,
+#keep-shopping-btn:hover {
+    background-color: var(--zomp-100);
+    color: var(--white-color-100);
+    transform: scale(1.05);
+}
+
+#bag-item-title {
+    font-size: 1.1rem !important;
 }

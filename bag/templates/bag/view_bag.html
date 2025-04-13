@@ -1,8 +1,95 @@
 {% extends 'base.html' %}
+{% block body_class %}bag-page{% endblock %}
 
 {% block content %}
-<div>
-    <h2 class="text-center mb-4 purple-text-75">Shopping Bag</h2>
+
+<section class="container my-5 p-5 card bag-checkout-section">
+    <div class="text-center">
+        <i class="bi bi-bag-heart-fill fs-1 rose-silk-hover-100"></i>
+        <h2 class="text-center purple-text-75 m-3">Shopping Bag</h2>
+        {% if bag.get_total_quantity %}
+            <p class="text-center purple-text-65 mb-5">
+                A little basket of joy — see what treats are waiting to travel home with you.
+            </p>
+        {% endif %}
+    </div>
+
+    {% if bag.get_total_quantity %}
+        <div class="row">
+            {% include "bag/includes/bag_items.html" %}
+
+            <div class="card mt-4 p-4 shadow-sm border border-opacity-50">
+                <h5 class="purple-text-75 mb-4">Order summary</h5>
+
+                <div class="container px-4" id="order-summary-grid">
+                    <div class="row mb-2 justify-content-end">
+                        <div class="col-6 col-md-3 purple-text-65 fw-semibold text-end">Subtotal</div>
+                        <div class="col-6 col-md-2 purple-text-75 text-end">
+                            &#8364;{{ bag.get_total_price|floatformat:2 }}
+                        </div>
+                    </div>
+                    <div class="row mb-2 justify-content-end">
+                        <div class="col-6 col-md-3 purple-text-65 fw-semibold text-end">Delivery</div>
+                        <div class="col-6 col-md-2 purple-text-75 text-end">
+                            {% if bag.get_delivery_cost == 0 %}
+                                Free
+                            {% else %}
+                                &#8364;{{ bag.get_delivery_cost }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row mb-2 justify-content-end">
+                        <div class="col-6 col-md-3 purple-text-65 fw-semibold text-end">Grand Total</div>
+                        <div class="col-6 col-md-2 purple-text-75 fw-bold text-end">
+                            &#8364;{{ bag.get_grand_total }}
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="text-end m-3">
+                    <a href="{% url 'checkout' %}" class="btn bg-zomp-100 text-white-color px-3 d-inline-flex align-items-center gap-2"
+                       id="to-checkout-btn">
+                        <i class="bi bi-cart3 fs-4"></i>
+                        Proceed to Checkout
+                    </a>
+                </div>
+            </div>    
+        </div>
+    {% else %}
+        <div class="text-center mt-4">
+            <p class="m-3 text-muted">Your bag is empty. A perfect moment to pick something delightful.</p>
+            <a href="{% url 'product_list' %}" class="btn bg-zomp-100 text-white-color rounded-2 d-inline-flex align-items-center gap-2 mt-3 px-3"
+               id="keep-shopping-btn">
+                <i class="bi bi-chevron-double-left fs-5"></i>
+                <span class="text-uppercase">Keep Shopping</span>
+            </a>
+        </div>
+    {% endif %}
+
+</section>
+
+<!-- Modal for Confirming Deletion -->
+<div class="modal fade" id="confirmRemoveModal" tabindex="-1" aria-labelledby="confirmRemoveLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmRemoveLabel">One less sweet on your list</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Would you like to take this item out of your bag?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a id="confirmDeleteBtn" href="#" class="btn btn-danger">Remove</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% comment %} <div>
     {% if bag.get_total_quantity %}
         <div class="row">
             {% include "bag/includes/bag_items.html" %}
@@ -18,28 +105,7 @@
             </a>
         </div>
     {% endif %}
-</div>
-
-<!-- Modal for Confirming Deletion -->
-<div class="modal fade" id="confirmRemoveModal" tabindex="-1" aria-labelledby="confirmRemoveLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmRemoveLabel"> </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to remove this item from your bag?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a id="confirmDeleteBtn" href="#" class="btn btn-danger">Remove</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-{% endblock %}
+</div> {% endcomment %}
 
 {% block postloadjs %}
 <script>

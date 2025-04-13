@@ -1,10 +1,12 @@
 from django.contrib import admin
+
 from .models import Product, Category
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("title", "price", "stock", "show_categories", "created_at")
+    list_display = ("title", "price", "show_categories", "created_at")
+    fields = ("title", "price", "image")
     search_fields = ("title", "categories")
     filter_horizontal = ('categories',)
     ordering = ("title",)

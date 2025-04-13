@@ -30,7 +30,7 @@
     document.addEventListener("DOMContentLoaded", function () {
       const sidebar = document.getElementById("faq-sidebar");
   
-      // 1. Highlight based on current URL
+      // Highlight based on current URL
       const currentPath = window.location.pathname;
       const sectionMatch = currentPath.match(/\/help\/section\/([\w-]+)/);
       const links = sidebar.querySelectorAll("a.list-group-item:not(.contact-link)");
@@ -53,7 +53,7 @@
         }
       }
   
-      // 2. Also update active class on click (HTMX navigation)
+      // Update active class on click (HTMX navigation)
       sidebar.addEventListener("click", function (e) {
         const link = e.target.closest("a.list-group-item");
   

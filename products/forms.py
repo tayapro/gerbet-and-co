@@ -1,6 +1,7 @@
 from django import forms
-from .models import Rating, RATING_CHOICES
+
 from checkout.models import OrderItem
+from .models import Rating, RATING_CHOICES
 
 
 class RatingForm(forms.ModelForm):
