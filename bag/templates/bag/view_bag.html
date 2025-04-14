@@ -21,29 +21,8 @@
             <div class="card mt-4 p-4 shadow-sm border border-opacity-50">
                 <h5 class="purple-text-75 mb-4">Order summary</h5>
 
-                <div class="container px-4" id="order-summary-grid">
-                    <div class="row mb-2 justify-content-end">
-                        <div class="col-6 col-md-3 purple-text-65 fw-semibold text-end">Subtotal</div>
-                        <div class="col-6 col-md-2 purple-text-75 text-end">
-                            &#8364;{{ bag.get_total_price|floatformat:2 }}
-                        </div>
-                    </div>
-                    <div class="row mb-2 justify-content-end">
-                        <div class="col-6 col-md-3 purple-text-65 fw-semibold text-end">Delivery</div>
-                        <div class="col-6 col-md-2 purple-text-75 text-end">
-                            {% if bag.get_delivery_cost == 0 %}
-                                Free
-                            {% else %}
-                                &#8364;{{ bag.get_delivery_cost }}
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="row mb-2 justify-content-end">
-                        <div class="col-6 col-md-3 purple-text-65 fw-semibold text-end">Grand Total</div>
-                        <div class="col-6 col-md-2 purple-text-75 fw-bold text-end">
-                            &#8364;{{ bag.get_grand_total }}
-                        </div>
-                    </div>
+                <div class="container px-4" id="order-summary">
+                    {% include "bag/includes/bag_summary.html" %}
                 </div>
             
                 <div class="text-end m-3">
@@ -87,25 +66,6 @@
     </div>
 </div>
 {% endblock %}
-
-
-{% comment %} <div>
-    {% if bag.get_total_quantity %}
-        <div class="row">
-            {% include "bag/includes/bag_items.html" %}
-        </div>
-    {% else %}
-        <div class="text-center mt-4">
-            <p class="m-3 text-muted">Your bag is empty. Keep shopping to find something you love!</p>
-            <a href="{% url 'product_list' %}" class="btn btn-outline-secondary rounded-3 btn-lg mt-3">
-                <span class="icon">
-                    <i class="bi bi-chevron-double-left text-muted"></i>
-                </span>
-                <span class="text-uppercase">Keep Shopping</span>
-            </a>
-        </div>
-    {% endif %}
-</div> {% endcomment %}
 
 {% block postloadjs %}
 <script>

@@ -1,85 +1,57 @@
 {% load bag_filters %}
 
 {% block content %}
-<div class="bag-items-card card text-center p-4 shadow-sm border border-opacity-50" id="bag-items-container">
+<div class="bag-items-card card text-center p-4 shadow-sm border border-opacity-50"
+     id="bag-items-container">
     {% if bag %}
     <ul class="list-group list-group-flush px-0">
         {% for item in bag %}
-        <li class="list-group-item border-0 border-bottom border-opacity-75 py-4">
-            <div class="d-flex gap-3">
-                <div class="flex-shrink-0">
-                    <img src="{{ item.image_url }}" alt="{{ item.title }}"
-                        class="rounded shadow-sm"
-                        style="width: 200px; height: 200px; object-fit: cover;">
-                </div>
-                <div class="flex-grow-1 text-start">
-                    <div class="container-fluid px-0">
-                        <div class="row">
-                            <div class="col-12 fw-bold purple-text-75 mb-1" id="bag-item-title">
-                                {{ item.title }}
+        <li class="list-group-item border-0 py-4">
+            <div class="container-fluid">
+                <div class="row align-items-center justify-content-center gy-3 h-100">
+                    <!-- Product image -->
+                    <div class="col-12 col-md-4 d-flex justify-content-center" id="bag-product-img">
+                        <img src="{{ item.image_url }}" alt="{{ item.title }}"
+                            class="rounded shadow-sm img-fluid"
+                            style="min-width: 200px; max-width: 300px; object-fit: cover;">
+                    </div>
+
+                    <!-- Product title -->
+                    <div class="col-12 mb-2 d-block d-md-none">
+                            <h5 class="purple-text-75">{{ item.title }}</h5>
+                    </div>
+                    <!-- Product details -->
+                    <div class="col-12 col-sm-7 col-md-5 text-start ps-md-3" id="bag-product-details">
+                        <div class="row d-none d-md-block">
+                            <div class="col-12 mb-2">
+                                <h5 class="purple-text-75 text-center">{{ item.title }}</h5>
                             </div>
                         </div>
-                        <div class="row mb-1">
-                            <div class="col-4 purple-text-65">Quantity:</div>
-                            <div class="col-4 purple-text-65">{{ item.quantity }}</div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="col-4 purple-text-65">Price:</div>
-                            <div class="col-4 purple-text-65">&#8364; {{ item.price|floatformat:2 }}</div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="col-4 purple-text-65">Subtotal:</div>
-                            <div class="col-4 purple-text-65">&#8364; {{ item.price|subtotal:item.quantity|floatformat:2 }}</div>
+                        <div class="row purple-text-65 justify-content-end ms-2">
+                            <p class="mb-1"><span class="fw-semibold">Quantity: </span>{{ item.quantity }}</p>
+                            <p class="mb-1"><span class="fw-semibold">Price: </span>&#8364; {{ item.price|floatformat:2 }}</p>
+                            <p class="mb-1"><span class="fw-semibold">Subtotal: </span>&#8364; {{ item.price|subtotal:item.quantity|floatformat:2 }}</p>
                         </div>
                     </div>
-                </div>
-                <div class="d-flex flex-column align-items-center justify-content-center gap-3">
-                    <div>{% include "bag/htmx/update_quantity_form.html" %}</div>
-                    <div>
-                        <a href="{% url 'remove_from_bag' item.product_id %}"
-                            class="btn profile-change-btn btn-sm d-inline-flex align-items-center gap-2"
-                            data-bs-toggle="modal"
-                            data-bs-target="#confirmRemoveModal"
-                            data-href="{% url 'remove_from_bag' item.product_id %}">
-                        <i class="bi bi-trash3 fs-6"></i> <span>Remove</span>
-                        </a>
+            
+                    <!-- Action buttons -->
+                    <div class="col-12 col-sm-4 col-md-3 h-100" id="bag-product-action-btns">
+                        <div class="mb-3">{% include "bag/htmx/update_quantity_form.html" %}</div>
+                        <div>
+                            <a href="{% url 'remove_from_bag' item.product_id %}"
+                                class="btn profile-change-btn btn-sm d-inline-flex align-items-center gap-2"
+                                data-bs-toggle="modal"
+                                data-bs-target="#confirmRemoveModal"
+                                data-href="{% url 'remove_from_bag' item.product_id %}">
+                                <i class="bi bi-trash3 fs-6"></i> <span>Remove</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </li>
         {% endfor %}
     </ul>
-
-    {% comment %} <div class="text-end mt-4">
-        <table class="table">
-            <tbody>
-                <tr>
-                    <th scope="row" class="purple-text-65 text-start">Subtotal</th>
-                    <td class="purple-text-75 text-end">
-                        &#8364;{{ bag.get_total_price|floatformat:2 }}
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="purple-text-65 text-start">Delivery</th>
-                    <td class="purple-text-75 text-end">
-                        {% if bag.get_delivery_cost == 0 %} Free {% else %} &#8364;{{ bag.get_delivery_cost }} {% endif %}
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="purple-text-65 text-start">Grand Total</th>
-                    <td class="fw-bold purple-text-75 text-end">
-                        &#8364;{{ bag.get_grand_total }}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="text-end mt-3">
-        <a href="{% url 'checkout' %}" class="btn btn-emerald px-4">
-        Proceed to Checkout
-        </a>
-    </div> {% endcomment %}
     {% else %}
         <div class="text-center mt-4">
         <p class="m-3 purple-text-65">Your bag is empty. A perfect moment to pick something delightful.</p>

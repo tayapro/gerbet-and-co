@@ -71,10 +71,12 @@ def update_bag(request, product_id):
 
     updated_bag_quantity = bag.get_total_quantity()
 
+    context = {"bag": bag,
+               "bag_total_items": updated_bag_quantity,
+               "product_name": product.title}
+
     if request.headers.get("HX-Request"):
-        return render(request, "bag/htmx/update_bag.html",
-                      {"bag": bag, "bag_total_items": updated_bag_quantity,
-                       "product_name": product.title})
+        return render(request, "bag/htmx/update_bag.html", context)
 
     return redirect("view_bag")
 

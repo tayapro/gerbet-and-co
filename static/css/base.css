@@ -833,6 +833,7 @@ h5 {
 
 .bag-checkout-section {
     background-color: var(--white-color-85) !important;
+    max-width: 700px;
 }
 
 #to-checkout-btn,
@@ -848,5 +849,21 @@ h5 {
 }
 
 #bag-item-title {
-    font-size: 1.1rem !important;
+    font-size: 1.5rem !important;
+}
+
+@media (min-width: 480px, max-width: 576px) {
+    .custom-flex-sm-row {
+        flex-direction: row;
+    }
+
+    #bag-product-details {
+        flex: 0 0 60%;
+        max-width: 60%;
+    }
+
+    #bag-product-action-btns {
+        flex: 0 0 40%;
+        max-width: 40%;
+    }
 }
