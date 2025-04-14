@@ -1,57 +1,67 @@
 {% extends "base.html" %}
+{% block body_class %}checkout-success-page{% endblock %}
 
 {% block content %}
-<div class="text-center">
-    <h2 class="purple-text-75">Thank You for Your Order!</h2>
-    <p class="lead purple-text-75">Your order has been successfully placed.</p>
-<div>
 
-<div class="card border-success mt-4 mx-auto" style="max-width: 500px;">
-    <div class="card-body">
-        <h5 class="card-title">Order Summary</h5>
-        <p><strong>Order ID:</strong> {{ order.order_id }}</p>
-        <p><strong>Total Paid:</strong> &#8364;{{ order.grand_total|floatformat:2 }}</p>
+<section class="container my-5 p-5 card checkout-success-section">
+    <div class="text-center">
+        <i class="bi bi-box2-heart-fill fs-1 rose-silk-hover-100"></i>
+        <h2 class="text-center purple-text-75 m-3">A Sweet Journey Begins</h2>
 
-        <div class="row justify-content-center px-0 mx-0">
-            <div class="list-group px-0 mx-0">
-                {% for item in order.lineitems.all %}
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <strong>{{ item.product.title }}</strong>
-                            <p class=" text-start mb-0">Quantity: {{ item.quantity }}</p>
+        <p class="text-center purple-text-65 mb-5">
+            Thank you for your order — your sweet delights are now on their way.
+        </p>
+    </div>
+
+    <div class="card mx-auto w-100" style="max-width: 550px;">
+        <div class="card-header text-end">
+            <span class="purple-text-65 font-size-sm-header">#{{ order.order_id }}</span>
+        </div>
+        <div class="card-body">
+            <h5 class="text-center purple-text-75 my-4">Order Summary</h5>
+    
+            <div class="row justify-content-center px-0 mx-0">
+                <div class="list-group px-0 mx-0">
+                    {% for item in order.lineitems.all %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="fw-semibold purple-text-75">{{ item.product.title }}</span> <br>
+                                <small class="text-start purple-text-65 mb-0">Quantity: {{ item.quantity }}</small>
+                            </div>
+                            <span class="purple-text-75">&#8364;{{ item.order_item_total|floatformat:2 }}</span>
                         </div>
-                        <span class="badge bg-secondary">&#8364;{{ item.order_item_total|floatformat:2 }}</span>
-                    </div>
-                {% empty %}
-                    <p>No items found in your order.</p>
-                {% endfor %}
+                    {% empty %}
+                        <p>No items found in your order.</p>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
-<div class="card border-secondary mt-4 mx-auto" style="max-width: 500px;">
-    <div class="card-header bg-secondary text-white">
-        <h5 class="mb-0">Payment Details</h5>
-    </div>
-    <div class="card-body">
-        <p><strong>Subtotal: </strong> &#8364;{{ order.order_total|floatformat:2 }}</p>
-        <p>
-            <strong>Delivery: </strong>
-            {% if order.delivery_cost == 0 %}
-                Free
-            {% else %}
-                &#8364;{{ order.delivery_cost }}
-            {% endif %}
-        </p>
-        <hr>
-        <p class="h5"><strong>Grand Total: </strong> &#8364;{{ order.grand_total|floatformat:2 }}</p>
-    </div>
-</div>
+        <div class="ms-4 mt-5">
+            <p class="mb-1 purple-text-65">
+                <span class="fw-semibold purple-text-75">Subtotal: </span>
+                &#8364;{{ order.order_total|floatformat:2 }}
+            </p>
+            <p class="mb-1 purple-text-65">
+                <span class="fw-semibold purple-text-75">Delivery: </span>
+                {% if order.delivery_cost == 0 %}
+                    Free
+                {% else %}
+                    &#8364;{{ order.delivery_cost }}
+                {% endif %}
+            </p>
+            <p class="mb-3 purple-text-65">
+                <span class="fw-semibold purple-text-75">Total Paid: </span>
+                &#8364;{{ order.grand_total|floatformat:2}}
+            </p>
+        </div>
 
-<div class="text-center">
-    <a href="{% url 'product_list' %}" class="btn btn-outline-primary m-4">
-        <i class="bi bi-shop"></i> Continue Shopping
-    </a>
-</div>
+        <div class="text-center my-5">
+            <a href="{% url 'product_list' %}" class="btn bg-zomp-100 text-white-color px-2 d-inline-flex align-items-center justify-content-center gap-2 w-75 w-sm-50"
+               id="continue-shopping-btn">
+                <i class="bi bi-shop fs-4"></i> Continue Shopping
+            </a>
+        </div>
+    </div>
+</section>
 {% endblock %}

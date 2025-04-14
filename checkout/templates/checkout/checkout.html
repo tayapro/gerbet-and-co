@@ -18,7 +18,8 @@
     </div>
 
     <div class="row">
-        <div class="col-12 col-xl-7 order-sm-1 order-lg-0">
+        <!-- Delivery Details Section -->
+        <div class="col-12 col-xl-7 order-sm-1 order-xl-0 mt-sm-4 mt-xl-0">
             <form method="POST" action="{% url 'checkout' %}" id="checkout-form" novalidate 
                   class="mx-auto w-100" style="max-width: 550px;">
                 {% csrf_token %}
@@ -172,7 +173,8 @@
             </form>
         </div>
 
-        <div class="col-12 col-xl-5 order-sm-0 order-lg-1 mb-3 mb-lg-0">
+        <!-- Order Details Section -->
+        <div class="col-12 col-xl-5 order-sm-0 order-xl-1 mb-3 mb-lg-0">
             <div class="card mx-auto w-100" style="max-width: 550px;">
                 <div class="card-header">
                     <h5 class="m-1 text-center purple-text-75">Order Summary</h5>
