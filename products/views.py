@@ -33,8 +33,6 @@ def product_list(request):
     # Remove duplicates
     products = products.distinct()
 
-    products = Product.objects.prefetch_related("ratings").all()
-
     for product in products:
         product.star_fills = get_star_fill_levels(product.rating or 0)
 
