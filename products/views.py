@@ -204,7 +204,7 @@ def product_filter(request, products):
             products = products.filter(price__gte=min_price)
             new_query = request.GET.copy()
             new_query.pop("min_price", None)
-            selected_filters.append((f"Min €{min_price}",
+            selected_filters.append((f"Min &#8364;{min_price}",
                                     f"?{new_query.urlencode()}"))
         except ValueError:
             pass
@@ -214,7 +214,7 @@ def product_filter(request, products):
         products = products.filter(price__lte=max_price)
         new_query = request.GET.copy()
         new_query.pop("max_price", None)
-        selected_filters.append((f"Max €{max_price}",
+        selected_filters.append((f"Max &#8364;{max_price}",
                                  f"?{new_query.urlencode()}"))
 
     return products, selected_filters

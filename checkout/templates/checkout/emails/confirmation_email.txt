@@ -1,7 +1,7 @@
 Thank you for your order (#{{ order.order_id }})
 
 Order Details:
-- Total: €{{ order.grand_total }}
+- Total: &#8364;{{ order.grand_total }}
 - Payment ID: {{ order.stripe_pid }}
 
 Shipping Address:

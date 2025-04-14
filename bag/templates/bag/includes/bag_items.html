@@ -29,8 +29,8 @@
                         </div>
                         <div class="row purple-text-65 justify-content-end ms-2">
                             <p class="mb-1"><span class="fw-semibold">Quantity: </span>{{ item.quantity }}</p>
-                            <p class="mb-1"><span class="fw-semibold">Price: </span>&#8364; {{ item.price|floatformat:2 }}</p>
-                            <p class="mb-1"><span class="fw-semibold">Subtotal: </span>&#8364; {{ item.price|subtotal:item.quantity|floatformat:2 }}</p>
+                            <p class="mb-1"><span class="fw-semibold">Price: </span>&#8364;{{ item.price|floatformat:2 }}</p>
+                            <p class="mb-1"><span class="fw-semibold">Subtotal: </span>&#8364;{{ item.price|subtotal:item.quantity|floatformat:2 }}</p>
                         </div>
                     </div>
             

@@ -1,6 +1,21 @@
+function displayCountryName(countryCode) {
+    let countryName = countryCode
+    if (countryCode && countryCode.length === 2) {
+        try {
+            const displayNames = new Intl.DisplayNames(['en'], {
+                type: 'region',
+            })
+            countryName = displayNames.of(countryCode.toUpperCase())
+        } catch (error) {
+            console.warn('Could not convert country code:', countryCode)
+        }
+    }
+    return countryName
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const confirmCheckbox = document.getElementById('confirm-order-checkbox')
-    const submitButton = document.getElementById('submit-button')
+    const submitButton = document.getElementById('payment-btn')
 
     confirmCheckbox.addEventListener('change', function () {
         submitButton.disabled = !this.checked

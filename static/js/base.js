@@ -1,22 +1,22 @@
-// function showSpinner() {
-//     const spinner = document.getElementById('loading-overlay')
+function showSpinner() {
+    const spinner = document.getElementById('loading-overlay')
 
-//     // Show spinner on page unload
-//     window.addEventListener('beforeunload', function () {
-//         console.log('Spinner starts')
-//         if (spinner) {
-//             spinner.classList.remove('d-none')
-//         }
-//     })
+    // Show spinner on page unload
+    window.addEventListener('beforeunload', function () {
+        console.log('Spinner starts')
+        if (spinner) {
+            spinner.classList.remove('d-none')
+        }
+    })
 
-//     // Hide spinner once the page has fully loaded
-//     window.addEventListener('load', function () {
-//         if (spinner) {
-//             spinner.classList.add('d-none')
-//             console.log('Spinner finishs')
-//         }
-//     })
-// }
+    // Hide spinner once the page has fully loaded
+    window.addEventListener('load', function () {
+        if (spinner) {
+            spinner.classList.add('d-none')
+            console.log('Spinner finishs')
+        }
+    })
+}
 
 // Tooltips
 function drawTooltip() {
@@ -75,7 +75,7 @@ function drawModalWindow() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    // showSpinner()
+    showSpinner()
     drawTooltip()
     drawModalWindow()
 

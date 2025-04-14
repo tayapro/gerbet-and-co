@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('checkout-form')
-    const submitButton = document.getElementById('submit-button')
+    const submitButton = document.getElementById('payment-btn')
     const cardErrors = document.getElementById('card-errors')
     const csrfToken = document.querySelector(
         '[name=csrfmiddlewaretoken]'

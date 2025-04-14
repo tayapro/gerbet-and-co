@@ -10,7 +10,7 @@
     <div class="card-body">
         <h5 class="card-title">Order Summary</h5>
         <p><strong>Order ID:</strong> {{ order.order_id }}</p>
-        <p><strong>Total Paid:</strong> €{{ order.grand_total|floatformat:2 }}</p>
+        <p><strong>Total Paid:</strong> &#8364;{{ order.grand_total|floatformat:2 }}</p>
 
         <div class="row justify-content-center px-0 mx-0">
             <div class="list-group px-0 mx-0">
@@ -20,7 +20,7 @@
                             <strong>{{ item.product.title }}</strong>
                             <p class=" text-start mb-0">Quantity: {{ item.quantity }}</p>
                         </div>
-                        <span class="badge bg-secondary">€{{ item.order_item_total|floatformat:2 }}</span>
+                        <span class="badge bg-secondary">&#8364;{{ item.order_item_total|floatformat:2 }}</span>
                     </div>
                 {% empty %}
                     <p>No items found in your order.</p>
@@ -35,17 +35,17 @@
         <h5 class="mb-0">Payment Details</h5>
     </div>
     <div class="card-body">
-        <p><strong>Subtotal: </strong> €{{ order.order_total|floatformat:2 }}</p>
+        <p><strong>Subtotal: </strong> &#8364;{{ order.order_total|floatformat:2 }}</p>
         <p>
             <strong>Delivery: </strong>
             {% if order.delivery_cost == 0 %}
                 Free
             {% else %}
-                €{{ order.delivery_cost }}
+                &#8364;{{ order.delivery_cost }}
             {% endif %}
         </p>
         <hr>
-        <p class="h5"><strong>Grand Total: </strong> €{{ order.grand_total|floatformat:2 }}</p>
+        <p class="h5"><strong>Grand Total: </strong> &#8364;{{ order.grand_total|floatformat:2 }}</p>
     </div>
 </div>
 

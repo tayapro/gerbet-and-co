@@ -1,164 +1,216 @@
 {% extends "base.html" %}
+{% block body_class %}checkout-page{% endblock %}
+
 {% load static %}
 {% load bag_filters %}
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container-fluid p-0 mx-auto" id="image-container">
-    <img src="https://res.cloudinary.com/stipaxa/image/upload/v1744537698/Gerbet_and_co/checkout.webp"
-    class="img-fluid" alt="Account banner image">
-</div>
-
-<div class="row">
-    <h2 class="text-center mb-4 purple-text-75">Checkout</h2>
-
-    <div class="col-md-7">
-        <form method="POST" action="{% url 'checkout' %}" id="checkout-form" novalidate class="mx-auto w-100" style="max-width: 550px;">
-            {% csrf_token %}
-            {% if form.errors %}
-                <div class="alert alert-danger" id="form-errors">
-                    <h4>Form Errors:</h4>
-                    <ul>
-                    {% for field in form %}
-                        {% if field.errors %}
-                            <li>{{ field.label }}: {{ field.errors|striptags }}</li>
-                        {% endif %}
-                    {% endfor %}
-                    </ul>
-                </div>
-            {% endif %}
-
-
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h4 class="m-1 text-center">Delivery Details</h4>
-                </div>
-        
-                <div class="card-body m-2">
-                    {% if user.is_authenticated and default_address %}
-                        <div class="form-check mb-3 ps-0">
-                            <input type="checkbox"
-                            name="{{ form.use_default.name }}"
-                            id="{{ form.use_default.id_for_label }}"
-                            data-id-for-label="{{ form.use_default.id_for_label }}"
-                            {% if form.use_default.value %}checked{% endif %}>
-                            <label class="form-check-label" for="{{ form.use_default.id_for_label }}">
-                                Use my default address
-                            </label>
-                        </div>
-                        <div id="default-address-preview" data-phone="{{ default_address.phone_number }}" 
-                            style="display: block">
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <p><strong>Phone number: </strong>{{ default_address.phone_number }}</p>
-                                    <strong>Street address 1: </strong>{{ default_address.street_address1 }}</p>
-                                    <strong>Street address 2: </strong>{{ default_address.street_address2 }}</p>
-                                    <strong>Town or city: </strong>{{ default_address.town_or_city }}</p>
-                                    <strong>County: </strong>{{ default_address.county }}</p>
-                                    <strong>Postcode: </strong>{{ default_address.postcode }}</p>
-                                    <strong>Country: </strong>{{ default_address.country }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-
-                    <div id="address-fields" 
-                         style="display: {% if form.use_default.value and default_address %}none{% else %}block{% endif %}">                        
-                         {% for field in form %}
-                            {% if field.name != "use_default" and field.name != "save_as_default" %}
-                                {{ field|as_crispy_field }}
-                            {% endif %}
-                        {% endfor %}
-
-                        {% if user.is_authenticated %}
-                            <input type="hidden" name="save_as_default" value="false">
-                            <div class="form-check mb-3 ps-0">
-                                <input type="checkbox" name="save_as_default"
-                                id="{{ form.save_as_default.id_for_label }}"
-                                data-id-for-label="{{ form.save_as_default.id_for_label }}"
-                                value="true">
-                                <label for="{{ form.save_as_default.id_for_label }}">Save this as my default address</label>
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        
-            <!-- Payment Section -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h4 class="m-1 text-center">Payment Details</h4>
-                </div>
-                <div class="card-body m-4">
-                    {% if user.is_authenticated %}
-                        <input type="hidden" name="full_name" id="full_name" value="{{ full_name }}">
-                        <input type="hidden" name="email" id="email" value="{{ user.email }}">
-                    {% endif %}
-        
-                    <!-- Stripe Payment Element -->
-                    <div id="payment-element" class="mt-3"></div>
-                    <div id="card-errors" class="text-danger mt-2"></div>
-                </div>
-            </div>
-        
-            <!-- Other hidden fields -->
-            <input type="hidden" name="order_id" id="order_id" value="{{ order_id }}">
-            <input type="hidden" name="amount" id="amount" value="{{ amount }}">
-            <input type="hidden" name="currency" id="currency" value="{{ currency }}">
-        
-            <!-- Confirmation checkbox -->
-            <div class="form-check mt-4">
-                <input type="checkbox" class="form-check-input" id="confirm-order-checkbox">
-                <label class="form-check-label" for="confirm-order-checkbox">
-                    I confirm my order details.
-                </label>
-            </div>
-        
-            <button type="submit" class="btn btn-primary w-100 mt-3 mb-5" id="submit-button" disabled>
-                Confirm Payment
-            </button>
-        </form>
+<section class="container my-5 p-5 card checkout-section">
+    <div class="text-center">
+        <i class="bi bi-cart3 fs-1 rose-silk-hover-100"></i>
+        <h2 class="text-center purple-text-75 m-3">Checkout</h2>
+        {% if bag.get_total_quantity %}
+            <p class="text-center purple-text-65 mb-5">
+                A final touch of sweetness — review your details and let the magic begin.
+            </p>
+        {% endif %}
     </div>
 
-    <div class="col-md-5">
-        <div class="card mx-auto w-100" style="max-width: 550px;">
-            <div class="card-header">
-                <h4 class="m-1 text-center">Order Summary</h5>
-            </div>
-            <div class="card-body">
-                <ul class="list-group mb-3">
-                    {% for item in bag %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <strong>{{ item.title }}</strong> <br>
-                                <small>€{{ item.price|floatformat:2 }} x {{ item.quantity }}</small>
+    <div class="row">
+        <div class="col-12 col-xl-7 order-sm-1 order-lg-0">
+            <form method="POST" action="{% url 'checkout' %}" id="checkout-form" novalidate 
+                  class="mx-auto w-100" style="max-width: 550px;">
+                {% csrf_token %}
+                {% if form.errors %}
+                    <div class="alert alert-danger" id="form-errors">
+                        <h4>Form Errors:</h4>
+                        <ul>
+                        {% for field in form %}
+                            {% if field.errors %}
+                                <li>{{ field.label }}: {{ field.errors|striptags }}</li>
+                            {% endif %}
+                        {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="m-1 text-center purple-text-75">Delivery Details</h5>
+                    </div>
+            
+                    <div class="card-body m-2">
+                        {% if user.is_authenticated and default_address %}
+                            <div class="form-check mb-3 ps-0">
+                                <input type="checkbox"
+                                name="{{ form.use_default.name }}"
+                                id="{{ form.use_default.id_for_label }}"
+                                data-id-for-label="{{ form.use_default.id_for_label }}"
+                                {% if form.use_default.value %}checked{% endif %}>
+                                <label class="form-check-label purple-text-75" for="{{ form.use_default.id_for_label }}">
+                                    Use my default address
+                                </label>
                             </div>
-                            <span>€{{ item.price|subtotal:item.quantity|floatformat:2 }}</span>
-                        </li>
-                    {% endfor %}
-                </ul>
+                            <div id="default-address-preview" data-phone="{{ default_address.phone_number }}" 
+                                style="display: block">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <table class="table mb-0">
+                                            <colgroup>
+                                                <col style="width: 150px;">
+                                                <col>
+                                            </colgroup>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row" class="text-nowrap address-cells purple-text-75">
+                                                        <span>Street Address 1</span></th>
+                                                    <td class="address-cells">
+                                                        <p class="mb-2 purple-text-65">{{ default_address.street_address1 }}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row" class="text-nowrap address-cells purple-text-75">
+                                                        <span>Street Address 2</span></th>
+                                                    <td class="address-cells">
+                                                        <p class="mb-2 purple-text-65">{{ default_address.street_address2 }}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row" class="text-nowrap address-cells purple-text-75">
+                                                        <span>City</span></th>
+                                                    <td class="address-cells">
+                                                        <p class="mb-2 purple-text-65">{{ default_address.town_or_city }}</p></td>
+                                                </tr>
+                                                <tr id="county-row">
+                                                    <th scope="row" class="text-nowrap address-cells purple-text-75">
+                                                        <span>County</span></th>
+                                                    <td class="address-cells">
+                                                        <p class="mb-2 purple-text-65">{{ default_address.county }}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row" class="text-nowrap address-cells purple-text-75">
+                                                        <span>Postcode</span></th>
+                                                    <td class="address-cells">
+                                                        <p class="mb-2 purple-text-65">{{ default_address.postcode }}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row" class="text-nowrap address-cells purple-text-75">
+                                                        <span>Country</span></th>
+                                                    <td class="address-cells">
+                                                        <p class="mb-2 purple-text-65" id="checkout-country-id">{{ default_address.country }}</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row" class="text-nowrap address-cells purple-text-75">
+                                                        <span>Phone</span></th>
+                                                    <td class="address-cells">
+                                                        <p class="mb-2 purple-text-65">{{ default_address.phone_number }}</p></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
 
-                <p class="ms-1"><strong>Subtotal: </strong> €{{bag_total|floatformat:2 }}</p>
-                <p class="ms-1">
-                    <strong>Delivery: </strong>
-                    {% if delivery_cost == 0 %}
-                        Free
-                    {% else %}
-                        €{{ delivery_cost }}
-                    {% endif %}
-                </p>
-                <hr>
-                <div class="d-flex justify-content-around align-items-center">
-                    <p class="h5 mb-0"><strong>Total: </strong> €{{grand_total|floatformat:2 }}</p>
+                        <div id="address-fields" 
+                            style="display: {% if form.use_default.value and default_address %}none{% else %}block{% endif %}">                        
+                            {% for field in form %}
+                                {% if field.name != "use_default" and field.name != "save_as_default" %}
+                                    {{ field|as_crispy_field }}
+                                {% endif %}
+                            {% endfor %}
 
-                    <a href="{% url 'view_bag' %}" type="button" class="btn btn-outline-secondary">
-                        <span class="font-weight-bold">Adjust Bag</span>
-                    </a>
+                            {% if user.is_authenticated %}
+                                <input type="hidden" name="save_as_default" value="false">
+                                <div class="form-check mb-3 ps-0">
+                                    <input type="checkbox" name="save_as_default"
+                                    id="{{ form.save_as_default.id_for_label }}"
+                                    data-id-for-label="{{ form.save_as_default.id_for_label }}"
+                                    value="true">
+                                    <label for="{{ form.save_as_default.id_for_label }}">Save this as my default address</label>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Payment Section -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="m-1 purple-text-75 text-center">Payment Details</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if user.is_authenticated %}
+                            <input type="hidden" name="full_name" id="full_name" value="{{ full_name }}">
+                            <input type="hidden" name="email" id="email" value="{{ user.email }}">
+                        {% endif %}
+            
+                        <!-- Stripe Payment Element -->
+                        <div id="payment-element" class="mt-3"></div>
+                        <div id="card-errors" class="text-danger mt-2"></div>
+                    </div>
+                </div>
+            
+                <!-- Other hidden fields -->
+                <input type="hidden" name="order_id" id="order_id" value="{{ order_id }}">
+                <input type="hidden" name="amount" id="amount" value="{{ amount }}">
+                <input type="hidden" name="currency" id="currency" value="{{ currency }}">
+            
+                <!-- Confirmation checkbox -->
+                <div class="form-check mt-5">
+                    <input type="checkbox" class="form-check-input" id="confirm-order-checkbox">
+                    <label class="form-check-label purple-text-65" for="confirm-order-checkbox">
+                        I confirm my order details.
+                    </label>
+                </div>
+            
+                <button type="submit" class="btn bg-zomp-100 text-white-color px-2 d-inline-flex align-items-center justify-content-center gap-2 w-50 my-2" 
+                        id="payment-btn" disabled>
+                    <i class="bi bi-credit-card-2-back fs-4"></i>
+                    <span>Confirm Payment</span>
+                </button>
+            </form>
+        </div>
+
+        <div class="col-12 col-xl-5 order-sm-0 order-lg-1 mb-3 mb-lg-0">
+            <div class="card mx-auto w-100" style="max-width: 550px;">
+                <div class="card-header">
+                    <h5 class="m-1 text-center purple-text-75">Order Summary</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group mb-3">
+                        {% for item in bag %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="purple-text-75 fw-bold">{{ item.title }}</span> <br>
+                                    <small class="purple-text-65">&#8364;{{ item.price|floatformat:2 }} x {{ item.quantity }}</small>
+                                </div>
+                                <span class="purple-text-75">&#8364;{{ item.price|subtotal:item.quantity|floatformat:2 }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <p class="ms-1 mb-1 purple-text-65"><span class="fw-bold purple-text-75">Subtotal: </span> &#8364;{{bag_total|floatformat:2 }}</p>
+                    <p class="ms-1 mb-1 purple-text-65"><span class="fw-bold purple-text-75">Delivery: </span>
+                        {% if delivery_cost == 0 %}
+                            Free
+                        {% else %}
+                            &#8364;{{ delivery_cost }}
+                        {% endif %}
+                    </p>
+                    <hr>
+                    <div class="d-flex justify-content-around align-items-center">
+                        <p class="fs-5 mb-0 purple-text-65"><span class="fw-semibold purple-text-75">Total: </span> &#8364;{{grand_total|floatformat:2 }}</p>
+
+                        <a href="{% url 'view_bag' %}" type="button" class="btn bg-zomp-100 text-white-color px-2 d-inline-flex align-items-center justify-content-center gap-2 w-50 my-2"
+                           id="adjust-bag">
+                            <span class="font-weight-bold">Adjust Bag</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
 
 {% block postloadjs %}
@@ -167,4 +219,22 @@
     {{ client_secret|json_script:"id_client_secret" }}
     <script src="{% static "checkout/js/checkout_helpers.js" %}"></script>
     <script src="{% static "checkout/js/stripe_elements.js" %}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const countryEl = document.getElementById("checkout-country-id");
+            
+            if (countryEl) {
+                const countryCode = countryEl.textContent.trim();
+                const countryName = displayCountryName(countryCode);
+                countryEl.textContent = countryName;
+            }
+
+            const countyCell = document.querySelector("#county-row td p");
+
+            if (countyCell && countyCell.textContent.trim() === "") {
+                const row = document.getElementById("county-row");
+                if (row) row.style.display = "none";
+            }
+        });
+    </script>
 {% endblock %}
