@@ -5,7 +5,7 @@
 
 {% block content %}
 <section class="container my-5 pb-5">
-    <div class="text-center">
+    <div class="text-center mb-4">
         <svg xmlns="http://www.w3.org/2000/svg" width="37" height="51" viewBox="0 0 24 24" fill="none" 
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
             class="lucide lucide-lollipop-icon lucide-lollipop fs-1 purple-text-75">
@@ -13,7 +13,7 @@
             <path d="M11 11a2 2 0 0 0 4 0 4 4 0 0 0-8 0 6 6 0 0 0 12 0"/>
         </svg>
         <h2 class="text-center purple-text-75">Sweet Discovery</h2>
-        <p class="text-center purple-text-65 mx-2 mb-5">
+        <p class="text-center purple-text-65 mx-2">
             A little luxury in every bite — crafted with care to brighten your day.
         </p>
     </div>
@@ -35,7 +35,12 @@
 
                     <!-- Product details -->
                     <div class="col-12 col-md-6 text-start ps-md-3 d-flex flex-column gap-4" id="product-view-details">
-                        <div class="row d-flex justify-content-around">
+                        <div class="row d-flex 
+                                    {% if user.is_authenticated and can_rate %} 
+                                        justify-content-around 
+                                    {% else %} 
+                                        justify-content-start 
+                                    {% endif %}">
                             {% if product.rating %}
                                 {% include "products/includes/rating_stars.html" %}
                             {% endif %}
@@ -78,7 +83,7 @@
                                     {% csrf_token %}
                                     <input type="hidden" name="quantity" value="1">
                                     <button type="submit" class="btn bg-zomp-100 text-white-color px-2 d-inline-flex align-items-center justify-content-center gap-2 px-4 my-2"
-                                            id="add-to-bag-btn">
+                                            id="pv-add-to-bag-btn">
                                         <i class="bi bi-bag-plus fs-5"></i>
                                         <span class="ms-2">Add to Bag</span>
                                     </button>

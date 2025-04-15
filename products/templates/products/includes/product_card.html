@@ -1,23 +1,29 @@
 {% load products_filters %}
 
 {% block content %}
-<div class="card" id="product-card">
-    <a href="{% url 'product_view' product.id %}">
-        <img src="{{ product.image.url }}" class="card-img-top" id="product-card-image" alt="{{ product.title }}">
-    </a>
-    <div class="card-body d-flex flex-column justify-content-end gap-3">
+<div class="card shadow-sm border border-opacity-50" id="product-card">
+    <div class="p-3">
+        <a href="{% url 'product_view' product.id %}">
+            <img src="{{ product.image.url }}" 
+                class="card-img-top" id="product-card-image" 
+                alt="{{ product.title }}">
+        </a>
+    </div>
+
+    <div class="card-body d-flex flex-column justify-content-between">
         <div>
             <a href="{% url 'product_view' product.id %}" 
                class="link-underline link-underline-opacity-0 text-black text-opacity-50">
                 <h4 class="card-title">{{ product.title }}</h4>
             </a>
+
             <p class="card-text">&#8364;{{ product.price }}</p>
-        </div>
-        <div class="d-flex flex-column align-items-center justify-content-around gap-3">
+
             {% if product.rating %}
                 {% include "products/includes/rating_stars.html" with star_fills=product.star_fills %}
             {% endif %}
-
+        </div>
+        <div class="d-flex flex-column align-items-center justify-content-around gap-3">
             <form hx-post="{% url 'add_to_bag' product.id %}" 
                 hx-trigger="click" 
                 hx-target="#toast-container" 
@@ -26,8 +32,8 @@
                 hx-select-oob="#bag-quantity">
                 {% csrf_token %}
                 <input type="hidden" name="quantity" value="1">
-                <button type="submit" class="btn btn-success">
-                    <i class="bi bi-bag-plus"></i> Add to Bag
+                <button type="submit" class="btn px-3 rose-silk-hover-100 d-inline-flex align-items-center gap-2" id="pl-add-to-bag-btn">
+                    <i class="bi bi-bag-plus fs-5"></i> Add to Bag
                 </button>
             </form>
         </div>

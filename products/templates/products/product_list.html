@@ -1,17 +1,52 @@
 {% extends "base.html" %}
+{% block body_class %}product-list-page{% endblock %}
+
 {% load static %}
 
 {% block content %}
-<div class="row">
-    <h2 class="text-center mb-1 purple-text-75">Product list</h2>
-    <button class="btn text-end" type="button" data-bs-toggle="offcanvas"
-            data-bs-target="#sideSortFilter" aria-controls="sideSortFilter">
-        <img src="{% static 'icons/filters_purple.svg' %}" alt="filters icon " 
-            class="m-2 mb-4 opacity-75" id="filters-icon" title="Sort and Filter"
-            data-bs-toggle="tooltip" data-bs-placement="bottom"
-            aria-label="Sort and Filter">
-    </button>
-    {% include "includes/sort_filter.html"%}
+<section class="container my-5 pb-5">
+    <div class="text-center mb-4 mx-2">
+        <i class="bi bi-flower3 fs-1 purple-text-75"></i>
+        <h2 class="purple-text-75">Whispers of Flavor</h2>
+        <p class="purple-text-65">
+            Each macaron, a memory.<br> Each tea, a pause. <br>
+            Discover your next favorite from our soft-spoken, flavor-rich collection.
+        </p>
+    </div>
+
+    <div class="text-end mb-4">
+        <button class="btn text-center" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#sideSortFilter" aria-controls="sideSortFilter">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="lucide lucide-sliders-horizontal purple-text-75">
+                <line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/>
+                <line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/>
+                <line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/>
+                <line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/>
+                <line x1="16" x2="16" y1="18" y2="22"/>
+            </svg>
+        </button>
+    </div>
+
+    {% include "includes/sort_filter.html" %}
+
+    {% if selected_filters %}
+        <div class="d-flex justify-content-end mb-4">
+            <div class="d-flex flex-wrap gap-2 align-items-center">
+                {% for label, url in selected_filters %}
+                    <span class="badge rounded-pill bg-light purple-text-75 px-3 py-2">
+                        {{ label }}
+                        <a href="{{ url }}" class="text-danger text-decoration-none ms-2" 
+                           title="Remove" aria-label="Remove">&times;</a>
+                    </span>
+                {% endfor %}
+            </div>
+            <a href="{% url 'product_list' %}" class="btn btn-sm purple-text-75 ms-2">
+                Clear All Filters
+            </a>
+        </div>
+    {% endif %}
 
     <div id="product-list">
         {% if selected_filters %}
@@ -22,9 +57,9 @@
                         <span class="badge rounded-pill bg-light purple-text-75 px-3 py-2">
                             {{ label }}
                             <a href="{{ url }}" class="text-danger text-decoration-none ms-2" 
-                               title="Remove"
-                               data-bs-toggle="tooltip" data-bs-placement="bottom"
-                               aria-label="Remove">
+                                title="Remove"
+                                data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                aria-label="Remove">
                             &times;
                             </a>
                         </span>
@@ -35,11 +70,11 @@
                 </a>
             </div>
         {% endif %}
-        <div class="row row-cols-1 row-cols-md-3 row-cols-xl-4 g-4 mb-5 pb-5">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-5 pb-5">
             {% include "products/product_cards.html" %}
         </div>
     </div>
-</div>
+</section>
 {% endblock %}
 
 {% block postloadjs %}
