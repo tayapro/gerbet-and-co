@@ -1,47 +1,89 @@
 {% extends "base.html" %}
+{% block body_class %}product-view-page{% endblock %}
+
 {% load products_filters %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-6 d-flex justify-content-center">
-        <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.title }}">
+<section class="container my-5 pb-5">
+    <div class="text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="37" height="51" viewBox="0 0 24 24" fill="none" 
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+            class="lucide lucide-lollipop-icon lucide-lollipop fs-1 purple-text-75">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+            <path d="M11 11a2 2 0 0 0 4 0 4 4 0 0 0-8 0 6 6 0 0 0 12 0"/>
+        </svg>
+        <h2 class="text-center purple-text-75">Sweet Discovery</h2>
+        <p class="text-center purple-text-65 mb-5">
+            A little luxury in every bite — crafted with care to brighten your day.
+        </p>
     </div>
-    <div class="col-md-6">
-        <h2 class="purple-text-75">{{ product.title }}</h2>
-        {% if product.rating %}
-            {% include "products/includes/rating_stars.html" %}
-        {% endif %}     
-          
-        {% if user.is_authenticated %}
-            {% with form=RatingForm.product.id %}
-                <button type="button" class="btn btn-sm btn-outline-primary mt-2" id="show-rating-stars">
-                    Rate
-                </button>
 
-                {% include "products/includes/rating_form.html" %}
-            {% endwith %}
-        {% else %}
-            <p class="small text-muted mt-2">Login to rate this product</p>
-        {% endif %}
+    <div class="d-flex justify-content-center">
+        <div class="product-view-card card text-center p-4 shadow-sm border border-opacity-50">
+            <div class="container-fluid px-0">
+                <div class="row align-items-center justify-content-center gy-3 h-100">
+                    <!-- Product title -->
+                    <div class="col-12 mb-2">
+                        <h5 class="purple-text-75 text-center">{{ product.title }}</h5>
+                    </div>
+                    <!-- Product image -->
+                    <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-center" id="product-view-img">
+                        <img src="{{ product.image.url }}" alt="{{ product.title }}"
+                            class="rounded shadow-sm img-fluid"
+                            style="min-width: 200px; max-width: 500px; object-fit: cover;">
+                    </div>
 
+                    <!-- Product details -->
+                    <div class="col-12 col-sm-12 col-md-6 text-start ps-md-3 d-flex flex-column gap-4" id="product-view-details">
+                        <div class="d-flex justify-content-between">
+                            {% if product.rating %}
+                                {% include "products/includes/rating_stars.html" %}
+                            {% endif %}
 
-        <p>{{ product.description }}</p>
-        <p><strong>Price:</strong> &#8364;{{ product.price }}</p>
-        <form hx-post="{% url 'add_to_bag' product.id %}" 
-            hx-trigger="click" 
-            hx-target="#toast-container" 
-            hx-swap="outerHTML"
-            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-            hx-select-oob="#bag-quantity">
-            {% csrf_token %}
-            <input type="hidden" name="quantity" value="1">
-            <button type="submit" class="btn btn-success">
-                <i class="bi bi-bag-plus"></i>
-                Add to Bag
-            </button>
-        </form>
+                            {% if user.is_authenticated %}
+                                {% with form=RatingForm.product.id %}
+                                    <button type="button" class="btn btn-success btn-sm" id="show-rating-stars">
+                                        <i class="bi bi-star-half"></i> Rate
+                                    </button>
+                                    {% include "products/includes/rating_form.html" %}
+                                {% endwith %}
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            <p class="purple-text-65 my-3">{{ product.description }}</p>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="fw-semibold purple-text-65 mb-0">Price:</p>
+                                <p class="fs-5 fw-bold purple-text-75 mb-0">&#8364;{{ product.price }}</p>
+                            </div>
+            
+                            <!-- Add to Bag -->
+                            <div>
+                                <form hx-post="{% url 'add_to_bag' product.id %}"
+                                    hx-trigger="click"
+                                    hx-target="#toast-container"
+                                    hx-swap="outerHTML"
+                                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                    hx-select-oob="#bag-quantity">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="btn bg-zomp-100 text-white-color px-2 d-inline-flex align-items-center justify-content-center gap-2 px-4 my-2"
+                                            id="add-to-bag-btn">
+                                        <i class="bi bi-bag-plus fs-5"></i>
+                                        <span class="ms-2">Add to Bag</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 {% endblock %}
 
 {% block postloadjs %}
