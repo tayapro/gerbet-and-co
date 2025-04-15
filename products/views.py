@@ -58,13 +58,17 @@ def product_list(request):
 def product_view(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
+    if request.user.is_authenticated:
+        can_rate = product.purchased_by(request.user)
+
     rating_form = RatingForm()
     star_fills = get_star_fill_levels(product.rating or 0)
 
     context = {
         "product": product,
         "rating_form": rating_form,
-        "star_fills": star_fills
+        "star_fills": star_fills,
+        "can_rate": can_rate
     }
 
     return render(request, "products/product_view.html", context)

@@ -13,7 +13,7 @@
             <path d="M11 11a2 2 0 0 0 4 0 4 4 0 0 0-8 0 6 6 0 0 0 12 0"/>
         </svg>
         <h2 class="text-center purple-text-75">Sweet Discovery</h2>
-        <p class="text-center purple-text-65 mb-5">
+        <p class="text-center purple-text-65 mx-2 mb-5">
             A little luxury in every bite — crafted with care to brighten your day.
         </p>
     </div>
@@ -27,26 +27,33 @@
                         <h5 class="purple-text-75 text-center">{{ product.title }}</h5>
                     </div>
                     <!-- Product image -->
-                    <div class="col-12 col-sm-12 col-md-6 d-flex justify-content-center" id="product-view-img">
+                    <div class="col-12 col-md-6 d-flex justify-content-center" id="product-view-img">
                         <img src="{{ product.image.url }}" alt="{{ product.title }}"
                             class="rounded shadow-sm img-fluid"
                             style="min-width: 200px; max-width: 500px; object-fit: cover;">
                     </div>
 
                     <!-- Product details -->
-                    <div class="col-12 col-sm-12 col-md-6 text-start ps-md-3 d-flex flex-column gap-4" id="product-view-details">
-                        <div class="d-flex justify-content-between">
+                    <div class="col-12 col-md-6 text-start ps-md-3 d-flex flex-column gap-4" id="product-view-details">
+                        <div class="row d-flex justify-content-around">
                             {% if product.rating %}
                                 {% include "products/includes/rating_stars.html" %}
                             {% endif %}
 
-                            {% if user.is_authenticated %}
+                            {% if user.is_authenticated and can_rate %}
+                                <div class="col-12 col-sm-5 d-flex align-items-start justify-content-sm-end">
                                 {% with form=RatingForm.product.id %}
-                                    <button type="button" class="btn btn-success btn-sm" id="show-rating-stars">
-                                        <i class="bi bi-star-half"></i> Rate
+                                    <button type="button"
+                                            title="Add Your Rating" 
+                                            aria-label="Add Your Rating"
+                                            class="btn border-0 bg-transparent p-0 m-0 purple-text-65"
+                                            data-bs-toggle="modal" data-bs-target="#ratingModal"
+                                            data-product-id="{{ product.id }}"
+                                            id="show-rating-stars">
+                                            <small>Rate This Delight</small>
                                     </button>
-                                    {% include "products/includes/rating_form.html" %}
                                 {% endwith %}
+                                </div>
                             {% endif %}
                         </div>
 
@@ -84,33 +91,76 @@
         </div>
     </div>
 </section>
+
+
+<!-- Rating Modal -->
+<div class="modal fade" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-sm">
+            <div class="modal-header">
+                <h5 class="modal-title purple-text-75" id="ratingModalLabel">Rate Your Treat</h5>
+                <button type="button" class="btn-close cancel-rating-btns" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                {% include "products/includes/rating_form.html" %}
+            </div>
+        </div>
+    </div>
+  </div>
+  
 {% endblock %}
 
 {% block postloadjs %}
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const showButton = document.getElementById("show-rating-stars");
-        const cancelBtn = document.getElementById("cancel-rating");
-        const form = document.getElementById("rating-form");
-        const stars = document.querySelectorAll(".star-btn");
-        const ratingInput = document.getElementById("rating-value");
-  
-        // Show the star rating form
-        showButton?.addEventListener("click", () => {
-            form.classList.remove("d-none");
-            showButton.classList.add("d-none");
+        const modal = document.getElementById("ratingModal");
+        const ratingForm = document.getElementById("rating-form");
+    
+        modal.addEventListener("show.bs.modal", function (event) {
+            const trigger = event.relatedTarget;
+            if (!trigger) return;
+
+            const productId = trigger.getAttribute("data-product-id");
+    
+            // Update the form action dynamically
+            const newAction = `/products/rating/${productId}/`;
+            ratingForm.setAttribute("action", newAction);
         });
 
-        cancelBtn?.addEventListener("click", () => {
-            form.classList.add("d-none");
-            showButton.classList.remove("d-none");
+        const stars = document.querySelectorAll(".star-btn");
+        const ratingSaveBtn = document.getElementById("save-rating-btn");
+        const ratingInput = document.getElementById("rating-value");
+        const saveButton = document.getElementById('save-rating-btn');
 
-            // Optional: reset stars
-            ratingInput.value = "";
-            stars.forEach((s) => {
-                const icon = s.querySelector("i");
-                icon.classList.remove("fa-solid");
-                icon.classList.add("fa-regular");
+        // Disable the submit button initially
+        saveButton.disabled = true;
+
+        // Add event listeners to all star buttons
+        stars.forEach(star => {
+            star.addEventListener("click", function () {
+                // Update the hidden input's value
+                ratingInput.value = this.getAttribute("data-value");
+
+                // Log to confirm value change
+                console.log("Selected rating value:", ratingInput.value);
+
+                // Enable the submit button
+                saveButton.disabled = !ratingInput.value;
+            });
+        });
+  
+        const cancelBtns = document.querySelectorAll('.cancel-rating-btns');
+        cancelBtns.forEach(cancelBtn => {
+            cancelBtn.addEventListener("click", () => {
+                // Reset stars
+                ratingInput.value = "";
+                console.log("Rating value:", ratingInput.value);
+                stars.forEach((s) => {
+                    const icon = s.querySelector("i");
+                    icon.classList.remove("bi-star-fill");
+                    icon.classList.add("bi-star");
+                });
             });
         });
   
@@ -125,11 +175,12 @@
                 const icon = s.querySelector("i");
     
                 if (val <= rating) {
-                icon.classList.add("bi-star-fill");
-                icon.classList.remove("bi-star");
-                } else {
-                icon.classList.add("bi-star");
-                icon.classList.remove("bi-star-fill");
+                    icon.classList.add("bi-star-fill");
+                    icon.classList.remove("bi-star");
+                } 
+                else {
+                    icon.classList.add("bi-star");
+                    icon.classList.remove("bi-star-fill");
                 }
             });
             });

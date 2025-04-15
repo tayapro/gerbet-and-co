@@ -84,6 +84,13 @@ class Product(models.Model):
             return round(avg, 1)
         return None
 
+    def purchased_by(self, user):
+        from checkout.models import OrderItem
+        return OrderItem.objects.filter(
+            order__user=user,
+            product=self
+        ).exists()
+
 
 RATING_CHOICES = [(i, f"{i} Star{'s' if i > 1 else ''}") for i in range(1, 6)]
 
