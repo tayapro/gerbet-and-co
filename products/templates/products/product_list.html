@@ -9,7 +9,7 @@
         <i class="bi bi-flower3 fs-1 purple-text-75"></i>
         <h2 class="purple-text-75">Whispers of Flavor</h2>
         <p class="purple-text-65">
-            Each macaron, a memory.<br> Each tea, a pause. <br>
+            Each macaron, a memory. Each tea, a pause. <br>
             Discover your next favorite from our soft-spoken, flavor-rich collection.
         </p>
     </div>
@@ -30,23 +30,6 @@
     </div>
 
     {% include "includes/sort_filter.html" %}
-
-    {% if selected_filters %}
-        <div class="d-flex justify-content-end mb-4">
-            <div class="d-flex flex-wrap gap-2 align-items-center">
-                {% for label, url in selected_filters %}
-                    <span class="badge rounded-pill bg-light purple-text-75 px-3 py-2">
-                        {{ label }}
-                        <a href="{{ url }}" class="text-danger text-decoration-none ms-2" 
-                           title="Remove" aria-label="Remove">&times;</a>
-                    </span>
-                {% endfor %}
-            </div>
-            <a href="{% url 'product_list' %}" class="btn btn-sm purple-text-75 ms-2">
-                Clear All Filters
-            </a>
-        </div>
-    {% endif %}
 
     <div id="product-list">
         {% if selected_filters %}
@@ -70,7 +53,7 @@
                 </a>
             </div>
         {% endif %}
-        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-5 pb-5">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mb-5 pb-5">
             {% include "products/product_cards.html" %}
         </div>
     </div>

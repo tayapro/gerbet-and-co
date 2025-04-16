@@ -16,12 +16,6 @@ sort_options = [
 
 def product_list(request):
     products = Product.objects.all()
-    # Optimize the query with prefetch_related for many-to-many (categories)
-    # products = (
-    #     Product.objects.only("title", "price", "image", "rating")
-    #     .prefetch_related("categories")
-    # )
-
     order_by = request.GET.get("order_by", "popularity")
 
     # Apply filters

@@ -26,6 +26,13 @@ class Category(models.Model):
         return self.name
 
 
+FEATURED_BADGES = [
+    ("spring", "Spring Special"),
+    ("bestseller", "Bestseller"),
+    ("new", "New Arrival"),
+]
+
+
 class Product(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
@@ -38,6 +45,13 @@ class Product(models.Model):
                             resource_type="auto", blank=True)
     rating = models.DecimalField(max_digits=3, decimal_places=1, null=True,
                                  blank=True)
+    featured_badge = models.CharField(
+                    max_length=20,
+                    choices=FEATURED_BADGES,
+                    blank=True,
+                    null=True,
+                    help_text="Optional badge for featured products"
+                )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

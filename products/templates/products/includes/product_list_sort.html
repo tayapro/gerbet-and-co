@@ -2,9 +2,8 @@
 Sorted product list
 Used in HTMX responses to update the product grid only
 {% endcomment %}
-{% comment %} {% url 'product_search' as product_search_url %} {% endcomment %}
 
-{% comment %} {% block content %} {% endcomment %}
+{% block content %}
 {% if selected_filters %}
 <!-- Show filter badges with clear/remove buttons -->
     <div class="d-flex justify-content-end mb-4">
@@ -24,8 +23,8 @@ Used in HTMX responses to update the product grid only
     </div>
 {% endif %}
 
-<div class="row row-cols-1 row-cols-md-3 row-cols-xl-4 g-4 mb-5 pb-5">
+<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mb-5 pb-5">
     {% include "products/product_cards.html" %}
 </div>
-{% comment %} {% endblock %} {% endcomment %}
+{% endblock %}
   

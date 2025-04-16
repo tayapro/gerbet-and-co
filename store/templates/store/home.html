@@ -1,9 +1,107 @@
 {% extends "base.html" %}
+{% block body_class %}home-page{% endblock %}
 
 {% block content %}
 
-<div>
-    <h2 class="text-center mb-4 purple-text-75">HOME page</h2>
-</div>
+<!-- Hero Section -->
+<section class="hero-section d-flex align-items-center justify-content-center text-center bg-light">
+    <div class="container hero-overlay py-5 px-4 mx-2">
+        <h1 class="display-4 purple-text-75 mb-4">Where Every Crumble Tells a Story</h1>
+        <p class="lead purple-text-65 mb-4">
+            Crafted with passion, shared with love — Gerbet & Co.
+        </p>
+        {% comment %} <a href="{% url 'product_list' %}" class="btn bg-zomp-100 text-white-color px-4 py-2 d-inline-flex align-items-center gap-2"
+           id="home-browse-collection-btn">
+            <i class="bi bi-flower3 fs-4"></i>
+            <span>Browse Our Collection</span>
+        </a> {% endcomment %}
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{% url 'product_list' %}?category=macarons"
+               class="btn bg-zomp-100 text-white-color px-4 py-2 d-inline-flex align-items-center gap-2"
+               id="home-macarons-link-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="34" viewBox="0 0 24 24" fill="none" 
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+                    class="lucide lucide-lollipop-icon lucide-lollipop">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                    <path d="M11 11a2 2 0 0 0 4 0 4 4 0 0 0-8 0 6 6 0 0 0 12 0"/>
+                </svg>
+                <span>Macarons Collection</span>
+            </a>
+            <a href="{% url 'product_list' %}?category=tea"
+               class="btn bg-zomp-100 text-white-color px-4 py-2 d-inline-flex align-items-center gap-2"
+               id="home-tea-link-btn">
+                <i class="bi bi-cup-hot-fill fs-4"></i>
+                <span>Tea Collection</span>
+            </a>
+        </div>
+    </div>
+</section>
 
+<!-- Featured Products Section -->
+<section class="featured-products-section container my-5 pb-5">
+    <div class="text-center mb-5">
+        <h2 class="purple-text-75 mt-4">Fresh Picks for a Sweet Season</h2>
+        <p class="purple-text-65">
+        Curated delights to celebrate the moment — light, lovely, and limited.
+        </p>
+    </div>
+  
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
+        {% for product in featured_products %}
+        <div class="col d-flex justify-content-center">
+            <div class="featured-card position-relative text-white rounded overflow-hidden shadow-sm"
+                 style="background-image: url('{{ product.image.url }}');">
+                <!-- Badge -->
+                {% if product.featured_badge %}
+                    <div class="featured-badge position-absolute top-0 end-0 m-2 px-3 py-1 rounded-pill bg-zomp-100 text-white small shadow-sm">
+                        {{ product.featured_badge }}
+                    </div>
+                {% endif %}
+            
+                <!-- Card Content Overlay -->
+                <div class="card-content position-absolute bottom-0 end-0 
+                            purple-bg-75 w-100 text-end pe-3 py-2">
+                    <div>
+                        <a href="{% url 'product_view' product.id %}" class="stretched-link text-decoration-none text-white">
+                            <h5 class="mb-0">{{ product.title }}</h5>
+                        </a>
+                    </div>
+            
+                    {% if product.rating %}
+                        <div>
+                            {% include "products/includes/rating_stars.html" %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+        </div>
+        {% endfor %}
+    </div>
+  
+    <div class="text-center mt-5">
+        <a href="{% url 'product_list' %}" class="btn bg-zomp-100 text-white-color px-4 py-2 d-inline-flex align-items-center gap-2"
+           id="home-browse-collection-btn">
+            <i class="bi bi-flower3 fs-4"></i>
+            <span>Explore All Macaroons & Teas</span>
+        </a>
+    </div>
+</section>
+
+<!-- About Gerbet Section -->
+<section class="about-gerbet-section position-relative mb-5">
+    <div class="card-content position-absolute bottom-0 end-0 
+                w-100 p-3 text-end d-flex flex-column align-items-end white-bg-85">
+        <div class="purple-text-75 pe-3" id="about-gerbet-section-text">
+            <h2 class="mb-2">About Gerbet & Co.</h2>
+            <p class="mb-2">
+                Born from a love for delicate flavors and timeless moments, Gerbet & Co. blends French tradition with a touch of Irish charm. 
+            </p>
+            <p class="mb-2">
+                From our first macaron shell to each hand-packed tea box, every treat is a tribute to craftsmanship and care.
+            </p>
+        </div>
+    </div>
+  </section>
+  
 {% endblock %}

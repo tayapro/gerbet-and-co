@@ -3,11 +3,15 @@ from django.shortcuts import redirect, render
 
 from .forms import ContactForm
 from .models import ContactMessage, Faq
+from products.models import Product
 from .utils import send_contact_us_email
 
 
 def home(request):
-    return render(request, "store/home.html")
+    featured_products = Product.objects.filter(featured_badge__isnull=False)
+
+    return render(request, "store/home.html", {
+        "featured_products": featured_products})
 
 
 def about_page(request):
