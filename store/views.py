@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from .forms import ContactForm, SubscribeForm
 from .models import ContactMessage, Faq, Subscriber
 from products.models import Product
-from .utils import send_contact_us_email
+from .utils import send_contact_us_email, send_subscription_email
 
 
 def home(request):
@@ -22,38 +22,15 @@ def subscribe(request):
         if form.is_valid():
             try:
                 email = form.cleaned_data["email"]
-                email.save()
+                form.save()
+
+                # context = {"email": email}
+
+                send_subscription_email(request, email)
+
                 messages.success(request, "Thanks for subscribing!")
             except Exception as e:
                 messages.error(e)
-        else:
-            return render(request, "store/home.html",
-                          {"form": form, "next": next,
-                           "scroll_to": "newsletter-section-id"})
-
-    form = SubscribeForm()
-    return render(request, "store/home.html", {"form": form, "next": next,
-                  "scroll_to": "newsletter-section-id"})
-
-
-def subscribe_old(request):
-    next = request.GET.get("next", "/")
-
-    if request.method == "POST":
-        form = SubscribeForm(request.POST)
-        if form.is_valid():
-            try:
-                email = form.cleaned_data["email"]
-                if Subscriber.objects.filter(email=email).exists():
-                    print("ALREADY EXISTS")
-                    messages.error(request, "You're already subscribed!")
-                else:
-                    form.save()
-                    print("SUCCESS")
-                    messages.success(request, "Thanks for subscribing!")
-            except Exception as e:
-                print(f"EXCEPT: {e}")
-                form.add_error(None, e)
         else:
             return render(request, "store/home.html",
                           {"form": form, "next": next,
@@ -97,21 +74,19 @@ def contact_us_page(request):
             email = form.cleaned_data["email"]
             message = form.cleaned_data["message"]
 
-            ContactMessage.objects.create(
-                name=name,
-                email=email,
-                message=message
-            )
-
             try:
+                ContactMessage.objects.create(
+                    name=name,
+                    email=email,
+                    message=message
+                )
+
                 context = {"name": name, "email": email, "message": message}
                 send_contact_us_email(request, context)
                 messages.success(request, "Thanks for reaching out! "
                                  "We'll get back to you soon.")
-            except Exception:
-                messages.warning(request,
-                                 "Contact us form submitted, but confirmation "
-                                 "email failed to send.")
+            except Exception as e:
+                messages.warning(request, f"Error: {e}")
 
             return redirect("home")
     else:

@@ -34,3 +34,32 @@ def send_contact_us_email(request, contact_us_context, **kwargs):
     email.attach_alternative(html_content, "text/html")
 
     email.send()
+
+
+def send_subscription_email(request, email, **kwargs):
+    """
+    Sends an email to the user after they successfully submit
+    subscription form.
+
+    Args:
+        request: The HTTP request object (passed automatically by the signal).
+        user: The user who has just signed up.
+        **kwargs: Additional keyword arguments that may be passed with
+        the signal.
+    """
+
+    subject = ("Thanks for Subscribing to Gerbet & Co. -"
+               " Your Sweet Journey Begins")
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [email]
+
+    # Render email content
+    text_content = render_to_string("store/emails/subscription_email.txt")
+    html_content = render_to_string("store/emails/subscription_email.html")
+
+    # Send the email
+    email = EmailMultiAlternatives(subject, text_content, email_from,
+                                   recipient_list)
+    email.attach_alternative(html_content, "text/html")
+
+    email.send()
