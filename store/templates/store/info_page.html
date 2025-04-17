@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+{% block body_class %}info-page{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<div class="card border border-opacity-50 shadow-sm info-cards my-5">
+    <section class="container my-5 px-5" id="delivery">
+        <div class="text-center mb-5">
+            <i class="bi bi-truck fs-1 rose-silk-hover-100"></i>
+            <h2 class="rose-silk-hover-100 mb-4">Delivery & Shipping</h2>
+            <p class="purple-text-65">
+                Wrapped with care, delivered with love — here's everything you need to know about receiving your sweet parcel.
+            </p>
+        </div>
+    
+        <div class="accordion accordion-flush" id="deliveryFaq">
+            <div class="accordion-item border-bottom">
+                <h2 class="accordion-header" id="faq-heading-1">
+                <button class="accordion-button collapsed bg-transparent purple-text-75" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq-collapse-1" aria-expanded="false"
+                        aria-controls="faq-collapse-1">
+                    Something's missing from my order — what should I do?
+                </button>
+                </h2>
+                <div id="faq-collapse-1" class="accordion-collapse collapse" aria-labelledby="faq-heading-1"
+                    data-bs-parent="#deliveryFaq">
+                    <div class="accordion-body purple-text-65">
+                        We're so sorry! Please contact us right away with your order number and details.
+                        We'll sort it out faster than you can say “pistachio swirl.”
+                    </div>
+                </div>
+            </div>
+        
+            <div class="accordion-item border-bottom">
+                <h2 class="accordion-header" id="faq-heading-2">
+                <button class="accordion-button collapsed bg-transparent purple-text-75" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq-collapse-2" aria-expanded="false"
+                        aria-controls="faq-collapse-2">
+                    What if my order arrives damaged?
+                </button>
+                </h2>
+                <div id="faq-collapse-2" class="accordion-collapse collapse" aria-labelledby="faq-heading-2"
+                    data-bs-parent="#deliveryFaq">
+                    <div class="accordion-body purple-text-65">
+                        Oh no! That's never what we want.
+                        Please send us a photo and your order number within 24 hours at info.gerbetco@gmail.com, 
+                        and we'll make things right.
+                    </div>
+                </div>
+            </div>
+        
+            <div class="accordion-item border-bottom">
+                <h2 class="accordion-header" id="faq-heading-3">
+                <button class="accordion-button collapsed bg-transparent purple-text-75" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq-collapse-3" aria-expanded="false"
+                        aria-controls="faq-collapse-3">
+                    How can I track my order?
+                </button>
+                </h2>
+                <div id="faq-collapse-3" class="accordion-collapse collapse" aria-labelledby="faq-heading-3"
+                    data-bs-parent="#deliveryFaq">
+                    <div class="accordion-body purple-text-65">
+                        Once your order ships, we'll email you a tracking link.
+                        You can also find it anytime in your account under My Orders.
+                    </div>
+                </div>
+            </div>
+        
+            <div class="accordion-item border-bottom">
+                <h2 class="accordion-header" id="faq-heading-4">
+                <button class="accordion-button collapsed bg-transparent purple-text-75" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq-collapse-4" aria-expanded="false"
+                        aria-controls="faq-collapse-4">
+                    How are your macarons shipped?
+                </button>
+                </h2>
+                <div id="faq-collapse-4" class="accordion-collapse collapse" aria-labelledby="faq-heading-4"
+                    data-bs-parent="#deliveryFaq">
+                    <div class="accordion-body purple-text-65">
+                        With care and a sprinkle of love!
+                        Our macarons are carefully packed in protective boxes to keep them safe, 
+                        fresh, and fabulous — even on long journeys.
+                    </div>
+                </div>
+            </div>
+        
+            <div class="accordion-item border-bottom">
+                <h2 class="accordion-header" id="faq-heading-5">
+                <button class="accordion-button collapsed bg-transparent purple-text-75" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq-collapse-5" aria-expanded="false"
+                        aria-controls="faq-collapse-5">
+                    Where do you deliver?
+                </button>
+                </h2>
+                <div id="faq-collapse-5" class="accordion-collapse collapse" aria-labelledby="faq-heading-5"
+                    data-bs-parent="#deliveryFaq">
+                    <div class="accordion-body purple-text-65">
+                        We currently deliver across Ireland and mainland Europe.
+                        If you're just outside that area, drop us a message — we'll do our best to reach you.
+                    </div>
+                </div>
+            </div>
+        
+            <div class="accordion-item border-bottom">
+                <h2 class="accordion-header" id="faq-heading-6">
+                <button class="accordion-button collapsed bg-transparent purple-text-75" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq-collapse-6" aria-expanded="false"
+                        aria-controls="faq-collapse-6">
+                    How much does delivery cost?
+                </button>
+                </h2>
+                <div id="faq-collapse-6" class="accordion-collapse collapse" aria-labelledby="faq-heading-6"
+                    data-bs-parent="#deliveryFaq">
+                    <div class="accordion-body purple-text-65">
+                        Standard delivery is calculated at checkout based on your location and order size.
+                        Orders over €50 ship for free — just our way of saying merci!
+                    </div>
+                </div>
+            </div>
+        
+            <div class="accordion-item border-bottom">
+                <h2 class="accordion-header" id="faq-heading-7">
+                <button class="accordion-button collapsed bg-transparent purple-text-75" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq-collapse-7" aria-expanded="false"
+                        aria-controls="faq-collapse-7">
+                    How fast is delivery?
+                </button>
+                </h2>
+                <div id="faq-collapse-7" class="accordion-collapse collapse" aria-labelledby="faq-heading-7"
+                    data-bs-parent="#deliveryFaq">
+                    <div class="accordion-body purple-text-65">
+                        Delivery usually takes 3-5 business days depending on your location.
+                        You'll receive a tracking link as soon as your parcel is on the move.
+                    </div>
+                </div>
+            </div>
+        
+            <div class="accordion-item border-bottom">
+                <h2 class="accordion-header" id="faq-heading-8">
+                <button class="accordion-button collapsed bg-transparent purple-text-75" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq-collapse-8" aria-expanded="false"
+                        aria-controls="faq-collapse-8">
+                    Can I pick up my order in person?
+                </button>
+                </h2>
+                <div id="faq-collapse-8" class="accordion-collapse collapse" aria-labelledby="faq-heading-8"
+                    data-bs-parent="#deliveryFaq">
+                    <div class="accordion-body purple-text-65">
+                        We're currently online-only, so pickup isn't available just yet — but who knows what the future holds?
+                        Until then, we'll deliver right to your door.
+                    </div>
+                </div>
+            </div>
+        
+            <div class="accordion-item border-bottom">
+                <h2 class="accordion-header" id="faq-heading-9">
+                <button class="accordion-button collapsed bg-transparent purple-text-75" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq-collapse-9" aria-expanded="false"
+                        aria-controls="faq-collapse-9">
+                    What delivery info should I provide?
+                </button>
+                </h2>
+                <div id="faq-collapse-9" class="accordion-collapse collapse" aria-labelledby="faq-heading-9"
+                    data-bs-parent="#deliveryFaq">
+                    <div class="accordion-body purple-text-65">
+                        For smooth delivery, please double-check your full name, address, Eircode/postcode, 
+                        and a phone number just in case the courier needs to reach you.
+                        A little detail goes a long way!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="card border border-opacity-50 shadow-sm info-cards my-5">
+    <section class="container my-5 px-5" id="refunds">
+        <div class="text-center">
+            <i class="bi bi-box-seam fs-1 rose-silk-hover-100"></i>
+            <h2 class="rose-silk-hover-100 mb-4">Returns & Happiness Policy</h2>
+            <p class="purple-text-65">
+                We take pride in the quality of every bite. While returns aren't possible, 
+                we're always here to make things right if anything goes wrong.
+            </p>
+        </div>
+        <div class="container purple-text-75 mt-5">
+            <ul class="list-unstyled fs-6">
+                <li class="mb-3">
+                    <strong>No returns?</strong> As our treats are perishable, we don't accept returns — 
+                    but your satisfaction matters most.
+                </li>
+                <li class="mb-3">
+                    <strong>Not quite right?</strong> If something isn't as expected, reach out within 24 hours. 
+                    We're here to make it sweet again.
+                </li>
+                <li class="mb-3">
+                    <strong>Contact us:</strong> Send us an email at 
+                    <a href="mailto:info.gerbetco@gmail.com">info.gerbetco@gmail.com</a> 
+                    with your order number and details.
+                </li>
+                <li class="mb-3">
+                    <strong>Photo helps:</strong> If there's a problem, a quick photo helps us sort it faster.
+                </li>
+                <li>
+                    <strong>Our promise:</strong> We'll do our best to turn any issue into a happy ending.
+                </li>
+            </ul>
+        </div>
+    </section>
+</div>
+
+<div class="card border border-opacity-50 shadow-sm info-cards my-5">
+    <section class="container my-5 px-5" id="terms">
+        <div class="text-center">
+            <i class="bi bi-file-earmark-text fs-1 rose-silk-hover-100"></i>
+            <h2 class="rose-silk-hover-100 mb-4 text-center">Terms & Conditions</h2>
+            <p class="text-center purple-text-65">
+                Welcome to Gerbet & Co. — where sweet dreams are made! 
+                This site is part of a study project created to showcase web development skills.
+            </p>
+        </div>
+
+        <div class="container purple-text-75 mt-5">
+            <ul>
+                <li>All content, images, and products are fictional and for demonstration purposes only.</li>
+                <li>No real purchases, deliveries, or personal data collection take place.</li>
+                <li>By browsing this site, you agree to enjoy beautiful macarons — visually, of course!</li>
+                <li>If you spot any bugs or have feedback, feel free to reach out. We love learning.</li>
+            </ul>
+
+            <h5 class="text-center my-5">
+                <i class="bi bi-balloon-heart"></i>
+                Merci for stopping by! 
+                <i class="bi bi-balloon-heart"></i>
+            </h5>
+        </div>
+    </section>
+</div>
+{% endblock %}

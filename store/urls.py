@@ -11,4 +11,5 @@ urlpatterns = [
          name="help_section"),
     path("contact-us/", views.contact_us_page, name="contact_us"),
     path("subscribe/", views.subscribe, name="subscribe"),
+    path("info/", views.info_page, name="info")
 ]

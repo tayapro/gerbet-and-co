@@ -41,6 +41,10 @@ def subscribe(request):
                   "scroll_to": "newsletter-section-id"})
 
 
+def info_page(request):
+    return render(request, "store/info_page.html")
+
+
 def about_page(request):
     return render(request, "store/about_page.html")
 
