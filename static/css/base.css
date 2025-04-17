@@ -1026,3 +1026,17 @@ h5 {
 #about-gerbet-section-text {
     max-width: 700px;
 }
+
+.newsletter-section input::placeholder {
+    /* color: #ccc; */
+}
+
+.newsletter-section input,
+.newsletter-section .btn {
+    border-radius: 0;
+    min-height: 48px;
+}
+
+.newsletter-section .form-control:focus {
+    box-shadow: none;
+}
