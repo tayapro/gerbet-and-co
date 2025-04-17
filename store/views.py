@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.shortcuts import redirect, render
 
 from .forms import ContactForm, SubscribeForm
-from .models import ContactMessage, Faq, Subscriber
+from .models import ContactMessage, Faq
 from products.models import Product
 from .utils import send_contact_us_email, send_subscription_email
 
@@ -24,11 +24,11 @@ def subscribe(request):
                 email = form.cleaned_data["email"]
                 form.save()
 
-                # context = {"email": email}
-
                 send_subscription_email(request, email)
 
                 messages.success(request, "Thanks for subscribing!")
+                return render(request, "store/home.html",
+                              {"form": form, "next": next})
             except Exception as e:
                 messages.error(e)
         else:

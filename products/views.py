@@ -52,6 +52,7 @@ def product_list(request):
 def product_view(request, product_id):
     product = get_object_or_404(Product, id=product_id)
 
+    can_rate = False
     if request.user.is_authenticated:
         can_rate = product.purchased_by(request.user)
 
