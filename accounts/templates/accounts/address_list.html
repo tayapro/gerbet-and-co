@@ -36,7 +36,7 @@
                                             <i class="bi bi-house-door-fill text-warning fs-2 m-0 p-0"></i>
                                         </p>
                                     {% else %}
-                                        <form method="post" action="{% url 'set_default_address' address.id %}" 
+                                        <form method="POST" action="{% url 'set_default_address' address.id %}" 
                                                 class="d-inline">
                                             {% csrf_token %}
                                             <button type="submit" 

@@ -1040,3 +1040,7 @@ h5 {
 .newsletter-section .form-control:focus {
     box-shadow: none;
 }
+
+.newsletter-input-placeholder::placeholder {
+    color: var(--placeholder-100);
+}

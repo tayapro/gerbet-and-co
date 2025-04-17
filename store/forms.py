@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import ContactMessage
+from .models import ContactMessage, Subscriber
 
 
 class ContactForm(forms.ModelForm):
@@ -59,3 +59,9 @@ class ContactForm(forms.ModelForm):
             contactMessage.save()
 
         return contactMessage
+
+
+class SubscribeForm(forms.ModelForm):
+    class Meta:
+        model = Subscriber
+        fields = ["email"]

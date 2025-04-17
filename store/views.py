@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.shortcuts import redirect, render
 
-from .forms import ContactForm
-from .models import ContactMessage, Faq
+from .forms import ContactForm, SubscribeForm
+from .models import ContactMessage, Faq, Subscriber
 from products.models import Product
 from .utils import send_contact_us_email
 
@@ -12,6 +12,56 @@ def home(request):
 
     return render(request, "store/home.html", {
         "featured_products": featured_products})
+
+
+def subscribe(request):
+    next = request.GET.get("next", "/")
+
+    if request.method == "POST":
+        form = SubscribeForm(request.POST)
+        if form.is_valid():
+            try:
+                email = form.cleaned_data["email"]
+                email.save()
+                messages.success(request, "Thanks for subscribing!")
+            except Exception as e:
+                messages.error(e)
+        else:
+            return render(request, "store/home.html",
+                          {"form": form, "next": next,
+                           "scroll_to": "newsletter-section-id"})
+
+    form = SubscribeForm()
+    return render(request, "store/home.html", {"form": form, "next": next,
+                  "scroll_to": "newsletter-section-id"})
+
+
+def subscribe_old(request):
+    next = request.GET.get("next", "/")
+
+    if request.method == "POST":
+        form = SubscribeForm(request.POST)
+        if form.is_valid():
+            try:
+                email = form.cleaned_data["email"]
+                if Subscriber.objects.filter(email=email).exists():
+                    print("ALREADY EXISTS")
+                    messages.error(request, "You're already subscribed!")
+                else:
+                    form.save()
+                    print("SUCCESS")
+                    messages.success(request, "Thanks for subscribing!")
+            except Exception as e:
+                print(f"EXCEPT: {e}")
+                form.add_error(None, e)
+        else:
+            return render(request, "store/home.html",
+                          {"form": form, "next": next,
+                           "scroll_to": "newsletter-section-id"})
+
+    form = SubscribeForm()
+    return render(request, "store/home.html", {"form": form, "next": next,
+                  "scroll_to": "newsletter-section-id"})
 
 
 def about_page(request):
