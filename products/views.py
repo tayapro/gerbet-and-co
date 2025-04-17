@@ -20,6 +20,7 @@ def product_list(request):
 
     # Apply filters
     products, selected_filters = product_filter(request, products)
+    print(f"SELECTED_FILTERS: {selected_filters}")
 
     # Apply sorting
     products = product_sort(products, order_by)
@@ -41,10 +42,6 @@ def product_list(request):
         "min_price": request.GET.get("min_price", ""),
         "max_price": request.GET.get("max_price", ""),
     }
-
-    if request.headers.get("Hx-Request") == "true":
-        return render(request, "products/includes/product_list_sort.html",
-                      context)
 
     return render(request, "products/product_list.html", context)
 
@@ -71,6 +68,9 @@ def product_view(request, product_id):
 
 def product_search(request):
     query = request.GET.get("search_query", "")
+    if not query:
+        messages.error(request, "Please enter a search term.")
+
     products = Product.objects.filter(
         Q(title__icontains=query) |
         Q(description__icontains=query)
@@ -100,10 +100,6 @@ def product_search(request):
         "min_price": request.GET.get("min_price", ""),
         "max_price": request.GET.get("max_price", ""),
     }
-
-    if request.headers.get("Hx-Request") == "true":
-        return render(request, "products/includes/product_list_sort.html",
-                      context)
 
     return render(request, "products/product_search.html", context)
 
@@ -201,8 +197,10 @@ def product_filter(request, products):
             products = products.filter(price__gte=min_price)
             new_query = request.GET.copy()
             new_query.pop("min_price", None)
-            selected_filters.append((f"Min &#8364;{min_price}",
-                                    f"?{new_query.urlencode()}"))
+            selected_filters.append((
+                f"Min €{float(min_price):.2f}",
+                f"?{new_query.urlencode()}"
+            ))
         except ValueError:
             pass
 
@@ -211,8 +209,10 @@ def product_filter(request, products):
         products = products.filter(price__lte=max_price)
         new_query = request.GET.copy()
         new_query.pop("max_price", None)
-        selected_filters.append((f"Max &#8364;{max_price}",
-                                 f"?{new_query.urlencode()}"))
+        selected_filters.append((
+            f"Max €{float(max_price):.2f}",
+            f"?{new_query.urlencode()}"
+        ))
 
     return products, selected_filters
 

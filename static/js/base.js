@@ -1,23 +1,3 @@
-function showSpinner() {
-    const spinner = document.getElementById('loading-overlay')
-
-    // Show spinner on page unload
-    window.addEventListener('beforeunload', function () {
-        console.log('Spinner starts')
-        if (spinner) {
-            spinner.classList.remove('d-none')
-        }
-    })
-
-    // Hide spinner once the page has fully loaded
-    window.addEventListener('load', function () {
-        if (spinner) {
-            spinner.classList.add('d-none')
-            console.log('Spinner finishs')
-        }
-    })
-}
-
 // Tooltips
 function drawTooltip() {
     document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((el) => {
@@ -25,6 +5,7 @@ function drawTooltip() {
     })
 }
 
+// Modal window
 function drawModalWindow() {
     const messagesModal = document.getElementById('messagesModal')
 
@@ -75,9 +56,26 @@ function drawModalWindow() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    showSpinner()
     drawTooltip()
     drawModalWindow()
+    // preventEmptySearchSubmit()
+
+    // Prevent Empty Search Submition
+    document
+        .getElementById('search-form')
+        .addEventListener('submit', function (e) {
+            const searchInput = document
+                .getElementById('search-input')
+                .value.trim()
+            const errorMessage = document.getElementById('error-message')
+
+            if (!searchInput) {
+                e.preventDefault()
+                errorMessage.classList.remove('d-none')
+            } else {
+                errorMessage.classList.add('d-none')
+            }
+        })
 
     // Offcanvas
     document.querySelectorAll('.offcanvas').forEach((el) => {

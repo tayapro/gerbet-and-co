@@ -8,7 +8,7 @@
 {% block content %}
 <section class="container my-5 p-5 card checkout-section">
     <div class="text-center">
-        <i class="bi bi-cart3 fs-1 rose-silk-hover-100"></i>
+        <i class="bi bi-cart3 fs-1 rose-silk-100"></i>
         <h2 class="text-center purple-text-75 m-3">Checkout</h2>
         {% if bag.get_total_quantity %}
             <p class="text-center purple-text-65 mb-5">
@@ -222,7 +222,29 @@
     <script src="{% static "checkout/js/checkout_helpers.js" %}"></script>
     <script src="{% static "checkout/js/stripe_elements.js" %}"></script>
     <script>
+        function showSpinner() {
+            const spinner = document.getElementById('loading-overlay')
+        
+            // Show spinner on page unload
+            window.addEventListener('beforeunload', function () {
+                console.log('Spinner starts')
+                if (spinner) {
+                    spinner.classList.remove('d-none')
+                }
+            })
+        
+            // Hide spinner once the page has fully loaded
+            window.addEventListener('load', function () {
+                if (spinner) {
+                    spinner.classList.add('d-none')
+                    console.log('Spinner finishs')
+                }
+            })
+        }
+
         document.addEventListener("DOMContentLoaded", function () {
+            showSpinner()
+
             const countryEl = document.getElementById("checkout-country-id");
             
             if (countryEl) {

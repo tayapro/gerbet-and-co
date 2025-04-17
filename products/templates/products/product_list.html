@@ -32,27 +32,8 @@
     {% include "includes/sort_filter.html" %}
 
     <div id="product-list">
-        {% if selected_filters %}
-        <!-- Show filter badges with clear/remove buttons -->
-            <div class="d-flex justify-content-end mb-4">
-                <div class="d-flex flex-wrap gap-2 align-items-center">
-                    {% for label, url in selected_filters %}
-                        <span class="badge rounded-pill bg-light purple-text-75 px-3 py-2">
-                            {{ label }}
-                            <a href="{{ url }}" class="text-danger text-decoration-none ms-2" 
-                                title="Remove"
-                                data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                aria-label="Remove">
-                            &times;
-                            </a>
-                        </span>
-                    {% endfor %}
-                </div>
-                <a href="{% url 'product_list' %}" class="btn btn-sm purple-text-75 ms-2">
-                    Clear All Filters
-                </a>
-            </div>
-        {% endif %}
+        {% include "products/includes/product_filters.html" %}
+        
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5 pb-5">
             {% include "products/product_cards.html" %}
         </div>

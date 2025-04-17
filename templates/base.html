@@ -46,7 +46,7 @@
         <div class="w-100 sticky-top">
             <nav class="navbar navbar-expand-sm navbar-dark container-fluid" id="navbar-container">
                 <a class="navbar-brand ms-3" href="/"><h2>Gerbet & Co.</h2></a>
-                <button id="custom-navbar-toggler" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                <button id="custom-navbar-toggler" class="navbar-toggler text-white-color" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="bi bi-list"></i>
                 </button>
@@ -119,38 +119,51 @@
             </div>
             {% endfor %}
         </div>
-            
-        <!-- Search sidebar -->
-        <div class="offcanvas offcanvas-end px-2" tabindex="-1" id="sideSearch"
+
+        <div class="offcanvas offcanvas-end px-3" tabindex="-1" id="sideSearch"
             data-bs-backdrop="true" data-bs-scroll="false"
             aria-labelledby="sideSearchLabel">
-    
-            <div class="offcanvas-header">
-                <h3 class="offcanvas-title ms-2" id="sideSearchLabel">Search</h3>
+            
+            <div class="offcanvas-header border-bottom pb-3">
+                <h3 class="offcanvas-title ms-2 purple-text-75" id="sideSearchLabel">
+                    Find Your Flavor
+                </h3>
                 <button type="button" class="btn btn-close me-2" id="search-btn-close"
                         data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-        
+
             <div class="offcanvas-body d-flex flex-column gap-4">
-                <form class="d-flex align-items-center gap-3 pb-3" id="search-form"
-                      method="GET" action="{% url 'product_search' %}">
-                    <i class="bi bi-search fs-5"></i>
-                    <input type="text" id="search-input"
-                            class="form-control bg-transparent shadow-none ms-0 ps-0"
-                            name="search_query"
-                            placeholder="Search..."
-                            aria-label="Search" />
-                    <button type="submit" class="btn btn-raspberry px-3">OK</button>
+                <form method="GET" action="{% url 'product_search' %}" class="gerbet-search-form"
+                      id="search-form">
+                    <div class="input-wrapper d-flex align-items-center justify-content-between w-100">
+                        <input type="text" name="search_query"
+                               id="search-input"
+                               placeholder="Macaron, tea, or a treat..." aria-label="Search" required />
+                        <button type="submit" class="search-btn" aria-label="Search">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                    <span id="error-message" class="text-danger d-none">Please enter a valid search term.</span>
                 </form>
-        
+
                 <div>
-                    <p class="mb-2 text-center">Suggested</p>
-                    <ul class="list-unstyled d-flex flex-column gap-2 ps-2">
-                        <li><a href="#" class="text-decoration-none">Macarons</a></li>
-                        <li><a href="#" class="text-decoration-none">Teas</a></li>
-                        <li><a href="#" class="text-decoration-none">Gift Boxes</a></li>
+                    <h5 class="text-center purple-text-65 mb-2">Suggestions</h5>
+                    <ul class="list-unstyled d-flex justify-content-center gap-2">
+                        <div class="m-2 px-3 py-1 rounded-pill bg-zomp-100 shadow-sm">
+                            <a href="{% url 'product_list' %}?category=macarons" class="text-decoration-none text-white hover-underline">Macarons</a>
+                        </div>
+                        <div class="m-2 px-3 py-1 rounded-pill bg-zomp-100 shadow-sm">
+                            <a href="{% url 'product_list' %}?category=tea" class="text-decoration-none text-white hover-underline">Tea</a>
+                        </div>
                     </ul>
                 </div>
+            </div>
+        </div>
+
+
+        <div id="loading-overlay" class="spinner-overlay d-none">
+            <div class="spinner-border text-danger text-opacity-75" role="status">
+                <span class="visually-hidden">Loading...</span>
             </div>
         </div>
 
