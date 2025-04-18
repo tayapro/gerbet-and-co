@@ -10,7 +10,7 @@ from .utils import send_contact_us_email, send_subscription_email
 def home(request):
     featured_products = Product.objects.filter(featured_badge__isnull=False)
 
-    return render(request, "store/home.html", {
+    return render(request, "store/home_page.html", {
         "featured_products": featured_products})
 
 
@@ -27,17 +27,17 @@ def subscribe(request):
                 send_subscription_email(request, email)
 
                 messages.success(request, "Thanks for subscribing!")
-                return render(request, "store/home.html",
+                return render(request, "store/home-page.html",
                               {"form": form, "next": next})
             except Exception as e:
                 messages.error(e)
         else:
-            return render(request, "store/home.html",
+            return render(request, "store/home_page.html",
                           {"form": form, "next": next,
                            "scroll_to": "newsletter-section-id"})
 
     form = SubscribeForm()
-    return render(request, "store/home.html", {"form": form, "next": next,
+    return render(request, "store/home_page.html", {"form": form, "next": next,
                   "scroll_to": "newsletter-section-id"})
 
 

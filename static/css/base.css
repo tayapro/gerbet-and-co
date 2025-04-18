@@ -256,10 +256,6 @@ h5 {
     display: none !important;
 }
 
-.nav-item p {
-    margin-bottom: 0px;
-}
-
 #navbar-container {
     background-color: var(--purple-75);
     backdrop-filter: blur(10px) !important;

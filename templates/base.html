@@ -44,56 +44,78 @@
     </head>
     <body class="{% block body_class %}{% endblock %}">
         <div class="w-100 sticky-top">
-            <nav class="navbar navbar-expand-sm navbar-dark container-fluid" id="navbar-container">
-                <a class="navbar-brand ms-3" href="/"><h2>Gerbet & Co.</h2></a>
-                <button id="custom-navbar-toggler" class="navbar-toggler text-white-color" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+            <nav class="navbar navbar-expand-sm navbar-dark container-fluid absolute" id="navbar-container">
+                <div class="d-flex flex-row">
+                    <a class="navbar-brand ms-3" href="/"><h2 class="mb-0">Gerbet & Co.</h2></a>
+                    <ul class="navbar-nav flex-sm-row">
+                        <li class="nav-item pt-2">
+                            <a class="nav-link" href="{% url 'product_list' %}">
+                                <p class="mb-0">Shop</p>
+                            </a>
+                        </li>
+
+                        {% if user.is_authenticated %}
+                            <li class="nav-item pt-2 d-none d-sm-flex">
+                                <a class="nav-link" href="{% url 'account' %}?next={{ request.path }}">
+                                    <p class="mb-0">
+                                        Account
+                                    </p>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item pt-2 d-none d-sm-flex">
+                                <a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">
+                                    <p class="mb-0">Get started</p></a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+                <button id="custom-navbar-toggler" class="navbar-toggler text-white-color" type="button" 
+                        data-bs-toggle="collapse" data-bs-target="#navbarNav" 
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="bi bi-list"></i>
                 </button>
                 <div class="collapse navbar-collapse text-end mx-3" id="navbarNav">
-                    <ul class="navbar-nav me-sm-auto align-items-sm-center">
-                        <li class="nav-item align-middle">
-                            <a class="nav-link" href="{% url 'product_list' %}">
-                                <p>Shop</p></a>
-                        </li>
-                        <li class="nav-item align-middle">
-                            <a class="nav-link" href="{% url 'about' %}">
-                                <p>About</p></a>
-                        </li>
-                        <li class="nav-item align-middle">
-                            <a class="nav-link" href="{% url 'help' %}">
-                                <p>Help</p></a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav ms-sm-auto align-items-sm-center">
-                        <li class="nav-item align-middle">
-                            <button class="btn my-btn-outline-light" 
+                    <ul class="navbar-nav ms-sm-auto align-items-sm-end">
+                        <li class="nav-item">
+                            <a class="nav-link" 
                                     type="button"
                                     data-bs-toggle="offcanvas"
                                     data-bs-target="#sideSearch"
                                     aria-controls="sideSearch"
                                     title="Search">
-                                <i class="bi bi-search fs-5 m-0 p-0"></i>
-                            </button>
+                                <p class="mb-0">
+                                    <i class="bi bi-search fs-5 m-0 p-0"></i>
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'about' %}">
+                                <p class="mb-0">About</p></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'help' %}">
+                                <p class="mb-0">Help</p></a>
                         </li>
                         {% if user.is_authenticated %}
-                            <li class="nav-item align-middle">
-                                <a class="btn my-btn-outline-light" href="{% url 'account' %}?next={{ request.path }}">
-                                    <i class="bi bi-person-fill fs-4 m-0 p-0"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item align-middle">
-                                <a class="nav-link" href="{% url 'logout' %}?next={{ request.path }}">
-                                    <p>Logout</p></a>
-                            </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">
-                                    <p>Get started</p></a>
-                            </li>
+                        <li class="nav-item d-sm-none">
+                            <a class="nav-link" href="{% url 'account' %}?next={{ request.path }}">
+                                <p class="mb-0">
+                                    Account
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item d-sm-none">
+                            <a class="nav-link" href="{% url 'logout' %}?next={{ request.path }}">
+                                <p class="mb-0">
+                                    Logout
+                                </p>
+                            </a>
+                        </li>
                         {% endif %}
-                        <li class="nav-item position-relative">
-                            <a href="{% url 'view_bag' %}" class="nav-link">
+                        <li class="nav-item">
+                            <a href="{% url 'view_bag' %}" class="nav-link pe-1 pb-1">
                                 <i class="bi bi-bag fs-4"></i>
                                 <span id="bag-quantity" 
                                         class="position-absolute top-10 start-90 translate-middle badge rounded-pill bg-danger bg-gradient
@@ -168,7 +190,7 @@
         </div>
 
         <div class="container-fluid d-flex flex-column justify-content-center 
-                    align-items-center px-0">
+                    align-items-center px-0 mt-5">
             {% block content %}
             {% endblock %}
         </div>
