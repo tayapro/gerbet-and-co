@@ -1,22 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <title>We received your message</title>
+    <meta charset="UTF-8">
+    <title>Thank You for Reaching Out – Gerbet & Co.</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            color: #4A2C2A;
+            background-color: #FFF9F7;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: #fff;
+            border: 1px solid #f0e6e3;
+            border-radius: 10px;
+            padding: 2rem;
+        }
+        .header {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .text {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .footer {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        a {
+            color: #8E5D52;
+            text-decoration: none;
+        }
+        blockquote {
+            border-left: 4px solid #D3B5A5;
+            margin: 1em 0;
+            padding-left: 1em;
+            color: #6B4B44;
+            font-style: italic;
+            background-color: #FDF5F3;
+            border-radius: 5px;
+        }
+    </style>
 </head>
-<body style="font-family: Arial, sans-serif; color: #333;">
-    <p>Hi {{ name }},</p>
-
-    <p>Thank you for contacting Gerbet & Co.! 
-    We've received your message and our team will get back to you shortly.</p>
-
-    <p>Here’s a copy of your message:</p>
-    <blockquote style="border-left: 4px solid #ccc; margin: 1em 0; padding-left: 1em; color: #555;">
-        {{ message|linebreaks }}
-    </blockquote>
-
-    <p>If your request is urgent or you need to update your message, feel free to reply to this email.</p>
-
-    <p>Best regards,<br>
-    The Gerbet & Co. Team</p>
+<body>
+    <div class="container">
+        <div class="header">Thank You for Contacting Gerbet & Co.</div>
+        <div class="text">
+            <p>Hello, {{ name }},</p>
+            <p>Thank you for your message — we’ve received it and one of our team members will get back to you shortly.</p>
+            <p>Here’s a copy of what you sent us:</p>
+            <blockquote>
+                {{ message|linebreaks }}
+            </blockquote>
+            <p>If your request is time-sensitive or you'd like to add something, feel free to reply to this email.</p>
+            <p>Warm regards,<br>
+            The Gerbet & Co. Team</p>
+            <p><a href="https://gerbet-and-co-84c4ca4e68bb.herokuapp.com/">Visit Our Shop</a></p>
+        </div>
+        <div class="footer">
+            You received this email because you contacted Gerbet & Co. via our website.
+        </div>
+    </div>
 </body>
 </html>

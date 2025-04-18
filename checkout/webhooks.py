@@ -97,7 +97,7 @@ def handle_payment_event(payment_intent, event_type):
             f"Error: {str(e)}",
             exc_info=True
         )
-        raise
+        return HttpResponse(status=400)
 
 
 @csrf_exempt

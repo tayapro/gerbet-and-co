@@ -1,35 +1,119 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Order Confirmation</title>
+    <title>Gerbet & Co | Order Confirmation</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #FFF9F7;
+            color: #4A2C2A;
+            margin: 0;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid #f0e6e3;
+        }
+        .header {
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .section-title {
+            font-weight: bold;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            background-color: #F4F0EF;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+        .order-info, .address-info {
+            margin-bottom: 1.5rem;
+        }
+        .order-meta {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .product {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+        .product img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            margin-right: 1rem;
+            border-radius: 5px;
+        }
+        .product-details {
+            flex-grow: 1;
+        }
+        .price-info {
+            text-align: right;
+        }
+        .totals {
+            border-top: 1px solid #e0d6d3;
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+        .footer {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 2rem;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Order Confirmation</h1>
-        </div>
-        <p>Thank you for your order (#{{ order.order_id }})</p>
+<div class="container">
+    <div class="header">Thank You for Your Order</div>
 
-        <div class="order-details">
-            <h2>Order Details:</h2>
-            <ul>
-                <li>Total: &#8364;{{ order.grand_total }}</li>
-                <li>Payment ID: {{ order.stripe_pid }}</li>
-            </ul>
-        </div>
+    <p>Dear {{ first_name }} {{ last_name}},</p>
+    <p>Your order has been placed successfully.<br> We'll notify you as soon as it ships!</p>
 
-        <div class="shipping-address">
-            <h2>Shipping Address:</h2>
-            <p>
-                {{ order.shipping_info.full_name }}<br>
-                {{ order.shipping_info.street_address1 }}<br>
-                {{ order.shipping_info.town_or_city }}<br>
-                {{ order.shipping_info.country }}
-            </p>
+    <div class="order-info">
+        <div class="order-meta">
+            <p><strong>Order #:</strong> {{ order_id }}</p><br>
+            <p><strong>Order Total:</strong> €{{ grand_total }}</p>
         </div>
-
-        <p>Thank you for shopping with us!</p>
+        <p><strong>Ship To:</strong><br>
+            {{ first_name }} {{ last_name }}<br>
+            {{ phone_number }}<br>
+            {{ address_line1 }}{% if address_line2 %}, {{ address_line2 }}{% endif %}<br>
+            {{ town_or_city }}, {{ postcode }}<br>
+            {{ country }}
+        </p>
     </div>
+
+    <div class="section-title">Your Order</div>
+
+    {% for item in items %}
+        <div class="product">
+            <img src="{{ item.image_url }}" alt="{{ item.title }}">
+            <p>{{ item.title }}</p><br>
+            <p>€{{ item.price }}</p><br>
+            <p>Qty: {{ item.quantity }}</p><br>
+            <p>Total: €{{ item.total }}</p>
+        </div>
+    {% endfor %}
+
+    <div class="totals">
+        <p><strong>Subtotal:</strong> €{{ subtotal }}</p>
+        <p><strong>Shipping:</strong> €{{ delivery_cost }}</p>
+        <p><strong>Order Total:</strong> €{{ grand_total }}</p>
+    </div>
+
+    <p>Thank you for shopping with <strong>Gerbet & Co.</strong><br>
+    We hope your treats bring joy and delight.</p>
+
+    <div class="footer">
+        You received this email because you made a purchase from Gerbet & Co.
+    </div>
+</div>
 </body>
 </html>

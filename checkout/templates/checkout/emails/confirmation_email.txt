@@ -1,13 +1,33 @@
-Thank you for your order (#{{ order.order_id }})
+Thank You for Your Order
 
-Order Details:
-- Total: &#8364;{{ order.grand_total }}
-- Payment ID: {{ order.stripe_pid }}
+Dear {{ first_name }} {{ last_name }},
+
+Your order has been placed successfully. We'll notify you as soon as it ships!
+
+Order Summary:
+Order #: {{ order_id }}
+Order Total: €{{ grand_total }}
 
 Shipping Address:
-{{ order.shipping_info.full_name }}
-{{ order.shipping_info.street_address1 }}
-{{ order.shipping_info.town_or_city }}
-{{ order.shipping_info.country }}
+{{ first_name }} {{ last_name }}
+{{ phone_number }}
+{{ address_line1 }}{% if address_line2 %}, {{ address_line2 }}{% endif %}
+{{ town_or_city }}, {{ postcode }}
+{{ country }}
 
-Thank you for shopping with us!
+Your Items:
+{% for item in items %}
+- {{ item.title }}
+  Price: €{{ item.price }}
+  Qty: {{ item.quantity }}
+  Total: €{{ item.total }}
+{% endfor %}
+
+Subtotal: €{{ subtotal }}
+Shipping: €{{ delivery_cost }}
+Order Total: €{{ grand_total }}
+
+Thank you for shopping with Gerbet & Co.
+We hope your treats bring joy and delight.
+
+You received this email because you made a purchase from Gerbet & Co.
