@@ -14,29 +14,19 @@
         <form id="filter-form" class="filter-form" method="GET">
             <!-- Sort section -->
             <p class="text-start fs-5 playfair-display-font-family">Sort By</p>
-            <div class="form-check ps-0 mb-1">
-                <input type="radio" name="order_by" value="popularity" class="me-2">
-                <label class="form-check-label">
-                    Popularity
-                </label>
-            </div>
-            <div class="mb-5 d-flex flex-column">
+            {% for sort_value, sort_label in sort_options %}
                 <div class="form-check ps-0 mb-1">
-                    <input type="radio" name="order_by" value="price_asc" class="me-2">
+                    <input type="radio" name="order_by" value="{{ sort_value }}"
+                        {% if sort_value == current_sort %}checked{% endif %}
+                        class="me-2">
                     <label class="form-check-label">
-                        Price (Low to High)
+                        {{ sort_label }}
                     </label>
                 </div>
-                <div class="form-check ps-0 mb-1">
-                    <input type="radio" name="order_by" value="price_desc" class="me-2">
-                    <label class="form-check-label">
-                        Price (High to Low)
-                    </label>
-                </div>
-            </div>
+            {% endfor %}
 
             <!-- Filter section -->
-            <p class="text-start fs-5 playfair-display-font-family">Filter By</p>
+            <p class="text-start fs-5 playfair-display-font-family mt-5">Filter By</p>
             
             <!-- Filter by Category -->
             <div class="mb-4">
@@ -91,10 +81,13 @@
                                 min="0" step="0.01">
                     </div>
                 </div>
-                <span id="price-error-message" class="text-danger d-none mt-2">
+                <small id="price-error-message" class="text-danger d-none mt-2">
                     Please check your price range and try again.
-                </span>
+                </small>
             </div>
+
+            <input type="text" id="search-input-hidden"
+                   name="search_query" aria-label="Search" value="" hidden />
 
             <div class="d-flex flex-column my-4">
                 <button type="submit" class="btn" id="filter-submit-btn" data-bs-dismiss="offcanvas" aria-label="Apply">Apply</button>
@@ -159,22 +152,13 @@
         // Initial state
         validatePriceRange();
 
-        /*
-        document.getElementById("filter-form").addEventListener("submit", function(event) {
-            const inputs = this.querySelectorAll("input");
-            inputs.forEach(input => {
-                if (!input.value.trim()) {
-                    input.removeAttribute("name");
-                }
-            });
-        });
-    
         const filterForm = document.getElementById("filter-form")
         filterForm.addEventListener('submit', function (event) {
             const hiddenSearch = document.getElementById("search-input-hidden")
             const params = new URLSearchParams(window.location.search);
             hiddenSearch.value = params.get("search_query") || "";
-        })*/
+        })
+
     });  
 </script>
 {% endblock %}

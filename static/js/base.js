@@ -58,7 +58,6 @@ function drawModalWindow() {
 document.addEventListener('DOMContentLoaded', function () {
     drawTooltip()
     drawModalWindow()
-    // preventEmptySearchSubmit()
 
     // Prevent Empty Search Submition
     document
@@ -90,14 +89,5 @@ document.addEventListener('DOMContentLoaded', function () {
                 el.style.display = 'none'
             }, 400)
         })
-    })
-
-    // Sorting
-    document.addEventListener('htmx:afterRequest', function (evt) {
-        const clicked = evt.detail.elt
-        const label = clicked?.dataset?.sortLabel
-        if (label) {
-            document.getElementById('sortLabel').textContent = label
-        }
     })
 })

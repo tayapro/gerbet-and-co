@@ -1075,7 +1075,7 @@ h5 {
 }
 
 .input-wrapper {
-    border-bottom: 2px solid var(--purple-75);
+    border-bottom: 1px solid var(--purple-75);
     padding-bottom: 0.25rem;
 }
 

@@ -8,28 +8,33 @@ from .models import Category, Product, Rating
 from checkout.models import OrderItem
 
 sort_options = [
-    ("price_asc", "Price ascending"),
-    ("price_desc", "Price descending"),
-    ("popularity", "Recommendation"),
+    ("price_asc", "Price (Low to High)"),
+    ("price_desc", "Price (High to Low)"),
+    ("popularity", "Popularity"),
 ]
 
 
 def product_list(request):
     products = Product.objects.all()
-    order_by = request.GET.get("order_by", "popularity")
+    order_by = request.GET.get("order_by", "")
 
     # Apply filters
     products, selected_filters = product_filter(request, products)
     print(f"SELECTED_FILTERS: {selected_filters}")
 
     # Apply sorting
-    products = product_sort(products, order_by)
+    products, selected_sort = product_sort(request, products, order_by)
 
     # Remove duplicates
     products = products.distinct()
 
+    # Add star fills
     for product in products:
         product.star_fills = get_star_fill_levels(product.rating or 0)
+
+    # Combine filters and sort selection
+    if selected_sort:
+        selected_filters.append(selected_sort)
 
     context = {
         "products": products,
@@ -76,26 +81,35 @@ def product_search(request):
         Q(description__icontains=query)
     )
 
-    order_by = request.GET.get("order_by", "popularity")
+    order_by = request.GET.get("order_by", "")
 
     # Apply filters
     products, selected_filters = product_filter(request, products)
 
     # Apply sorting
-    products = product_sort(products, order_by)
+    products, selected_sort = product_sort(request, products, order_by)
 
     # Remove duplicates
     products = products.distinct()
 
+    # Add star fills
+    for product in products:
+        product.star_fills = get_star_fill_levels(product.rating or 0)
+
+    # Combine filters and sort selection
+    if selected_sort:
+        selected_filters.append(selected_sort)
+
     context = {
         "products": products,
+        "sort_options": sort_options,
         "query": query,
         "order_by": order_by,
         "results_count": products.count(),
         "categories": Category.objects.all(),
         "ratings": [5, 4, 3],
-
         "selected_filters": selected_filters,
+        "current_sort": order_by,
         "selected_categories": request.GET.getlist("category"),
         "min_price": request.GET.get("min_price", ""),
         "max_price": request.GET.get("max_price", ""),
@@ -217,7 +231,7 @@ def product_filter(request, products):
     return products, selected_filters
 
 
-def product_sort(products, order_by):
+def product_sort_old(products, order_by):
     if order_by == "price_asc":
         products = products.order_by("price")
     elif order_by == "price_desc":
@@ -226,3 +240,27 @@ def product_sort(products, order_by):
         products = products.order_by("-rating")
 
     return products
+
+
+def product_sort(request, products, order_by):
+    selected_sort = None
+
+    # Apply sorting
+    if order_by == "price_asc":
+        products = products.order_by("price")
+    elif order_by == "price_desc":
+        products = products.order_by("-price")
+    elif order_by == "popularity":
+        products = products.order_by("-rating")
+
+    # Map value to label using sort_options
+    sort_dict = dict(sort_options)
+    label = sort_dict.get(order_by)
+
+    if label:
+        new_query = request.GET.copy()
+        new_query.pop("order_by", None)
+        url = f"?{new_query.urlencode()}"
+        selected_sort = (label, url)
+
+    return products, selected_sort
