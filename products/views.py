@@ -20,7 +20,6 @@ def product_list(request):
 
     # Apply filters
     products, selected_filters = product_filter(request, products)
-    print(f"SELECTED_FILTERS: {selected_filters}")
 
     # Apply sorting
     products, selected_sort = product_sort(request, products, order_by)

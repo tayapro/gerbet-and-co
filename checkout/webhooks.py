@@ -63,7 +63,7 @@ def handle_payment_event(payment_intent, event_type):
         if event_type == "payment_intent.succeeded":
             logger.debug(f"Email check - User exists: {bool(order.user)}, "
                          f"Guest email: {order.guest_email}")
-            order.status = "complete"
+            order.status = "paid"
 
             logger.info(f"WEBHOOK EMAIL: {order.email}")
 

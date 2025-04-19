@@ -48,8 +48,8 @@ def sync_profile_address(sender, instance, created, **kwargs):
         ).exclude(id=new_address.id).update(is_default=False)
     else:
         if not all(required_fields):
-            print("Signal ignored: Missing required fields.")
+            logger.info("Signal ignored: Missing required fields.")
         if not instance.is_default:
-            print("Signal ignored: Address is not marked as default.")
+            logger.info("Signal ignored: Address is not marked as default.")
         if not instance.user:
-            print("Signal ignored: No associated user.")
+            logger.info("Signal ignored: No associated user.")

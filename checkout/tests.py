@@ -21,7 +21,8 @@ class HandlePaymentEventRetryTests(TestCase):
         try:
             handle_payment_event(payment_intent, 'payment_intent.succeeded')
         except OperationalError:
-            self.fail("handle_payment_event raised OperationalError even after retries")
+            self.fail("handle_payment_event raised OperationalError"
+                      " even after retries")
 
         self.assertEqual(mock_get_order.call_count, 2)
 
@@ -55,14 +56,17 @@ class HandlePaymentEventRetryTests(TestCase):
         mock_order.stripe_pid = 'pi_12345'
         mock_order.status = 'pending'
         # First two calls raise OperationalError, third call returns mock_order
-        mock_get_order.side_effect = [OperationalError, OperationalError, mock_order]
+        mock_get_order.side_effect = [OperationalError,
+                                      OperationalError, mock_order]
 
         payment_intent = MagicMock(id='pi_12345')
 
         try:
-            handle_payment_event(payment_intent, 'payment_intent.payment_failed')
+            handle_payment_event(payment_intent,
+                                 'payment_intent.payment_failed')
         except OperationalError:
-            self.fail("handle_payment_event raised OperationalError even after retries")
+            self.fail("handle_payment_event raised OperationalError"
+                      " even after retries")
 
         # Assert get was called three times (two failures and one success)
         self.assertEqual(mock_get_order.call_count, 3)

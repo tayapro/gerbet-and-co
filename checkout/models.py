@@ -61,11 +61,6 @@ class Order(models.Model):
         ('pending', 'Pending'),
         ('paid', 'Paid'),
         ('failed', 'Failed'),
-        ('shipped', 'Shipped'),
-        ('delivered', 'Delivered'),
-        ('cancelled', 'Cancelled'),
-        ('returned', 'Returned'),
-        ('refunded', 'Refunded'),
     ]
 
     order_id = models.CharField(max_length=32, unique=True, editable=False)

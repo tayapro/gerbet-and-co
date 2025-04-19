@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import ContactMessage, Faq
+from .models import ContactMessage, Faq, Subscriber
 
 
 @admin.register(Faq)
@@ -23,3 +23,8 @@ class ContactMessageAdmin(admin.ModelAdmin):
     list_display = ("name", "email", "submitted_at")
     search_fields = ("name", "email", "message")
     readonly_fields = ("name", "email", "message", "submitted_at")
+
+
+@admin.register(Subscriber)
+class SubscriberAdmin(admin.ModelAdmin):
+    list_display = ("email", "subscribed_at")
