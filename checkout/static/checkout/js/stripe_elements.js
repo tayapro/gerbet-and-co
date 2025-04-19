@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
         amount: parseInt(document.getElementById('amount').value),
         paymentMethodCreation: 'manual',
     })
+    console.log('ELEMENTS: ', elements)
 
     const paymentElement = elements.create('payment', {
         layout: {
@@ -29,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
             defaultCollapsed: false,
         },
     })
+    console.log('paymentElement: ', paymentElement)
     paymentElement.mount('#payment-element')
 
     // Real-time Validation Setup
