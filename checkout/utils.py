@@ -63,6 +63,8 @@ def prepare_confirmation_email_details(order):
             "total": item.order_item_total
         })
 
+    print(f"ORDER ITEMS: {items}")
+
     return {
         "order_id": order.order_id,
         "email": user.email if user else order.guest_email,
