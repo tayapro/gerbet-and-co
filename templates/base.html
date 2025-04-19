@@ -10,8 +10,15 @@
         {% endblock %} 
         
         {% block extra_meta %}
-        <link rel="manifest" href="{% static 'manifest.json' %}">
-        {% endblock %} 
+            <link rel="manifest" href="{% static 'manifest.json' %}">
+        {% endblock %}
+
+        {% block extrahead %}
+            <!-- Favicon -->
+            <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
+            <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+            <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+        {% endblock %}
         
         {% block corecss %}
             <link

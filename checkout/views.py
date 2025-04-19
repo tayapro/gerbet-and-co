@@ -191,11 +191,6 @@ def cache_checkout_data(request):
     """
     Caches the checkout data in the session before confirming payment.
     """
-    logger.info("cache_checkout_data")
-    for key, value in request.session.items():
-        logger.info(f"Key: {key}, Value: {value}")
-        print(f"Key: {key}, Value: {value}")
-
     try:
         order_id = request.POST.get("order_id")
         if not order_id:
@@ -261,8 +256,8 @@ def handle_expired_payment_session(request, order):
     """
     try:
         stripe.PaymentIntent.cancel(order.stripe_pid)
-        # messages.error(request, "Your session has expired. "
-        #                "Please restart checkout.")
+        messages.error(request, "Your session has expired. "
+                       "Please restart checkout.")
         request.session["payment_intent_created_at"] = None
         request.session["order_id"] = None
         request.session["checkout_cache"] = None
@@ -512,7 +507,6 @@ def handle_invalid_form(request, form, currency):
     logger.error("Form validation failed with errors:")
     for field, errors in form.errors.items():
         logger.error(f"Field '{field}': {', '.join(errors)}")
-        print(f"Field '{field}': {', '.join(errors)}")
 
     messages.error(request, "Please check your form entries")
 
