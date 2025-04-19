@@ -69,7 +69,7 @@ h5 {
 }
 
 .white-bg-85 {
-    background-color: var(--white-color-75) !important;
+    background-color: var(--white-color-85) !important;
 }
 
 .purple-text-65 {
@@ -98,6 +98,10 @@ h5 {
 
 .text-white-color {
     color: var(--white-color-100);
+}
+
+.text-white-color-75 {
+    color: var(--white-color-75);
 }
 
 .spinner-overlay {

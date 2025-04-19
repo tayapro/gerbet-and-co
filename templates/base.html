@@ -55,12 +55,23 @@
                         </li>
 
                         {% if user.is_authenticated %}
-                            <li class="nav-item pt-2 d-none d-sm-flex">
-                                <a class="nav-link" href="{% url 'account' %}?next={{ request.path }}">
+                            <li class="nav-item pt-3 d-none d-sm-flex ms-2">
+                                <div class="dropdown text-white-color-75">
+                                    <button class="bg-transparent border-0 dropdown-toggle text-white-color-75" type="button" 
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                      Account
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                      <li><a class="dropdown-item" href="{% url 'account' %}?next={{ request.path }}">Account</a></li>
+                                      <li><a class="dropdown-item" href="{% url 'logout' %}?next={{ request.path }}">Logout</a></li>
+                                    </ul>
+                                  </div>
+
+                                {% comment %} <a class="nav-link" href="{% url 'account' %}?next={{ request.path }}">
                                     <p class="mb-0">
                                         Account
                                     </p>
-                                </a>
+                                </a> {% endcomment %}
                             </li>
                         {% else %}
                             <li class="nav-item pt-2 d-none d-sm-flex">
