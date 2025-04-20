@@ -7,3 +7,4 @@ __pycache__/
 staticfiles/
 .DS_Store
 stripe_debug.log
+tmp/

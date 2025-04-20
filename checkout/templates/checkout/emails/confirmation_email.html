@@ -5,7 +5,6 @@
     <title>Gerbet & Co | Order Confirmation</title>
     <style>
         body {
-            font-family: 'Georgia', serif;
             background-color: #FFF9F7;
             color: #4A2C2A;
             margin: 0;
@@ -35,24 +34,32 @@
         .order-info, .address-info {
             margin-bottom: 1.5rem;
         }
-        .order-meta {
+        {% comment %} .order-meta {
             display: flex;
+            flex-direction: column;
             justify-content: space-between;
             flex-wrap: wrap;
+        } {% endcomment %}
+        .order-meta p{
+            padding-bottom: 0.1rem;
+            padding-top: 0.1rem;
+            margin: 0;
         }
         .product {
             display: flex;
             margin-bottom: 1rem;
         }
         .product img {
-            width: 70px;
-            height: 70px;
+            width: 100px;
+            height: 100px;
             object-fit: cover;
             margin-right: 1rem;
             border-radius: 5px;
         }
-        .product-details {
-            flex-grow: 1;
+        .product p {
+            padding-bottom: 0.1rem;
+            padding-top: 0.1rem;
+            margin: 0;
         }
         .price-info {
             text-align: right;
@@ -60,11 +67,12 @@
         .totals {
             border-top: 1px solid #e0d6d3;
             padding-top: 1rem;
-            margin-top: 1rem;
+            margin-top: 2rem;
         }
         .totals p {
-            padding-bottom: 0px;
-            margin-bottom: 0px;
+            padding-bottom: 0;
+            margin-bottom: 0.1rem;
+            margin-top: 0.6rem;
         }
         .footer {
             font-size: 0.9rem;
@@ -99,10 +107,12 @@
     {% for item in items %}
         <div class="product">
             <img src="{{ item.image_url }}" alt="{{ item.title }}">
-            <p>{{ item.title }}</p>
-            <p>€{{ item.price }}</p>
-            <p>Qty: {{ item.quantity }}</p>
-            <p>Total: €{{ item.total }}</p>
+            <div class="products-details">
+                <p><strong>{{ item.title }}</strong></p>
+                <p>€{{ item.price }}</p>
+                <p>Qty: {{ item.quantity }}</p>
+                <p>Total: €{{ item.total }}</p>
+            </div>
         </div>
     {% endfor %}
 
