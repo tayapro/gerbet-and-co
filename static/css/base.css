@@ -255,19 +255,6 @@ h5 {
     z-index: 9999;
 }
 
-/*
-#navbarNav.collapse.show {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: var(--purple-75);
-    z-index: 1050;
-    padding: 1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
-}*/
-
 /* Tab buttons don’t shrink */
 .nav-tabs .nav-link {
     white-space: nowrap;
@@ -330,6 +317,7 @@ h5 {
 }
 
 #messages-container {
+    position: absolute;
     top: 60px;
     z-index: 9999;
     width: 100%;
@@ -338,16 +326,6 @@ h5 {
 
 #toast-container {
     transition: opacity 0.5s ease-in-out !important;
-}
-
-.toast:not(.show) {
-    display: flex !important;
-    opacity: 0 !important;
-    height: 40px;
-}
-
-@media (max-width: px) {
-    height: 64px;
 }
 
 /* Horizontal scrolling for Account tabs on mobile */
