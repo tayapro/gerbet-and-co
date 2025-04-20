@@ -76,18 +76,30 @@ def handle_payment_event(payment_intent, event_type):
 
             logger.info(f"Processing payment for order {order.id} to"
                         f" email {order.email}")
-            send_order_confirmation_email(order)
 
         elif event_type == "payment_intent.payment_failed":
             logger.warning(f"Payment failed for order {order.id}")
             order.status = "failed"
+
+        order.save()
+
+        # To reduce the risk of a race condition with the OrderItem table,
+        # a short delay has been introduced here. Stripe may call the webhook
+        # at the same time the user finalizes their order, so this ensures all
+        # order items are saved before processing continues. Hence, the use
+        # of sleep(5).
+
+        if event_type == "payment_intent.succeeded":
+            time.sleep(5)
+            send_order_confirmation_email(order)
+        elif event_type == "payment_intent.payment_failed":
+            time.sleep(5)
             if order.user or hasattr(order, 'guest_email'):
                 send_payment_failure_email(
                     order.user.email if order.user else order.guest_email,
                     order
                 )
 
-        order.save()
         return True
     except Exception as e:
         logger.error(

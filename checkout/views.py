@@ -421,12 +421,33 @@ def build_checkout_context(request, form, stripe_public_key, intent,
 def create_order_items(bag, order):
     """Create order items from bag contents"""
     for item_id, item in bag.bag.items():
+        try:
+            product = get_object_or_404(Product, id=item_id)
+        except Exception as e:
+            logger.error(f"Failed to retrieve product with ID {item_id}: {e}",
+                         exc_info=True)
+            raise
+
         product = get_object_or_404(Product, id=item_id)
+        quantity = item["quantity"]
+        price = Decimal(item["price"])
+        total = price * quantity
+
         OrderItem.objects.create(
             order=order,
             product=product,
-            quantity=item["quantity"],
-            order_item_total=Decimal(item["price"]) * item["quantity"]
+            quantity=quantity,
+            order_item_total=total
+        )
+        # OrderItem.objects.create(
+        #     order=order,
+        #     product=product,
+        #     quantity=item["quantity"],
+        #     order_item_total=Decimal(item["price"]) * item["quantity"]
+        # )
+        logger.info(
+            f"Order item created - Order ID: {order.order_id}, "
+            f"Product: {product.title}, Quantity: {quantity}, Total: {total}"
         )
 
 

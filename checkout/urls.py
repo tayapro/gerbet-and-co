@@ -9,5 +9,5 @@ urlpatterns = [
          name="cache_checkout_data"),
     path("checkout_success/<uuid:order_id>/", views.checkout_success,
          name="checkout_success"),
-    path("wh/", stripe_webhook, name="stripe_webhook"),
+    path("wh/", stripe_webhook, name="stripe_webhook")
 ]
