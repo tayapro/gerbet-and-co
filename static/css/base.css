@@ -1,10 +1,7 @@
 :root {
     --header-font-family: 'Playfair Display SC', sans-serif;
-    /* --font-family: 'Quicksand', sans-serif; */
     --font-family: 'Nunito Sans', sans-serif;
     --font-thin: 300;
-    --font-regular: 400;
-    --font-bold: 600;
     --white-color-100: rgb(251, 251, 251);
     --white-color-85: rgba(251, 251, 251, 0.85);
     --white-color-75: rgba(251, 251, 251, 0.75);
@@ -16,12 +13,7 @@
     --my-bs-text-light-60: rgba(255, 255, 255, 0.6);
     --my-bs-text-light-80: rgba(255, 255, 255, 0.8);
     --my-bs-text-light-90: rgba(255, 255, 255, 0.9);
-    --bs-success-bg-subtle: #d1e7dd;
     --raspberry: rgb(217, 35, 96);
-    --raspberry-hover: rgb(185, 30, 82);
-    --raspberry-light: rgba(217, 35, 96, 0.1);
-    --raspberry-border: rgba(217, 35, 96, 0.4);
-    --text-light: rgba(255, 255, 255, 0.85);
     --placeholder-100: rgb(174, 175, 177);
     --rose-silk-100: rgb(230, 127, 113);
     --rose-silk-dark-100: rgb(233, 95, 77);
@@ -74,10 +66,6 @@ h5 {
 
 .purple-text-65 {
     color: var(--purple-65) !important;
-}
-
-.purple-text-50 {
-    color: var(--purple-50) !important;
 }
 
 .rose-silk-dark-100 {
@@ -402,21 +390,21 @@ h5 {
 .back-to-account-btn {
     color: var(--white-color-100);
     background-color: var(--rose-silk-100);
-    border-color: var(--rose-silk--hover-100);
+    border-color: var(--rose-silk-100);
     transition: all 0.2s ease-in-out;
 }
 
 .back-to-account-btn:hover {
     color: var(--white-color-100);
     background-color: var(--rose-silk-dark-100);
-    border-color: var(--rose-silk--hover-100);
+    border-color: var(--rose-silk-100);
     transform: scale(1.05);
 }
 
 .profile-change-btn {
     background-color: var(--white-color-100);
     color: var(--rose-silk-100);
-    border-color: var(--rose-silk--hover-100);
+    border-color: var(--rose-silk-100);
     transition: all 0.2s ease-in-out;
 }
 
@@ -497,7 +485,7 @@ h5 {
 .nav-tabs .nav-link {
     color: var(--white-color-100);
     background-color: var(--rose-silk-100);
-    border-color: var(--rose-silk--hover-100);
+    border-color: var(--rose-silk--100);
     border: 2px solid transparent;
     /* border-radius: 2rem; */
     padding: 0.5rem 1.2rem;
@@ -507,7 +495,7 @@ h5 {
 
 .nav-tabs .nav-link:hover {
     background-color: var(--rose-silk-100);
-    border-color: var(--rose-silk--hover-100);
+    border-color: var(--rose-silk--100);
 }
 
 .nav-tabs .nav-link.active {
@@ -1053,6 +1041,14 @@ h5 {
 
 .newsletter-input-placeholder::placeholder {
     color: var(--placeholder-100);
+}
+
+.email-us-link {
+    color: var(--rose-silk-100);
+}
+
+.email-us-link:hover {
+    color: var(--rose-silk-dark-100);
 }
 
 /* Info page */

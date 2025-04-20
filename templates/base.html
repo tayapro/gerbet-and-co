@@ -56,7 +56,7 @@
                 <div class="d-flex flex-row">
                     <a class="navbar-brand ms-3" href="/"><h2 class="mb-0">Gerbet & Co.</h2></a>
                     <ul class="navbar-nav flex-sm-row">
-                        <li class="nav-item pt-2">
+                        <li class="nav-item nav-item pt-1 pt-sm-2">
                             <a class="nav-link" href="{% url 'product_list' %}">
                                 <p class="mb-0">Shop</p>
                             </a>
@@ -67,22 +67,16 @@
                                 <div class="dropdown text-white-color-75">
                                     <button class="bg-transparent border-0 dropdown-toggle text-white-color-75" type="button" 
                                             data-bs-toggle="dropdown" aria-expanded="false">
-                                      Account
+                                        Account
                                     </button>
                                     <ul class="dropdown-menu">
-                                      <li><a class="dropdown-item" href="{% url 'account' %}?next={{ request.path }}">Account</a></li>
-                                      <li><a class="dropdown-item" href="{% url 'logout' %}?next={{ request.path }}">Logout</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'account' %}?next={{ request.path }}">Account</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'logout' %}?next={{ request.path }}">Logout</a></li>
                                     </ul>
-                                  </div>
-
-                                {% comment %} <a class="nav-link" href="{% url 'account' %}?next={{ request.path }}">
-                                    <p class="mb-0">
-                                        Account
-                                    </p>
-                                </a> {% endcomment %}
+                                </div>
                             </li>
                         {% else %}
-                            <li class="nav-item pt-2 d-none d-sm-flex">
+                            <li class="nav-item pt-1 pt-sm-2 d-none d-sm-flex">
                                 <a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">
                                     <p class="mb-0">Get started</p></a>
                             </li>
@@ -132,6 +126,12 @@
                                 </p>
                             </a>
                         </li>
+                        {% else %}
+                            <li class="nav-item d-sm-none">
+                                <a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">
+                                    <p class="mb-0">Get started</p>
+                                </a>
+                            </li>
                         {% endif %}
                         <li class="nav-item">
                             <a href="{% url 'view_bag' %}" class="nav-link pe-1 pb-1">
@@ -148,7 +148,7 @@
                 </div>
             </nav>
 
-            <div id="toast-container" class="toast border border-0 rounded-0 d-flex justify-content-center w-100 py-2"></div>
+            {% comment %} <div id="toast-container" class="toast border border-0 rounded-0 d-flex justify-content-center w-100 py-2"></div> {% endcomment %}
 
             {% for message in messages %}
             <div id="messages-container">
