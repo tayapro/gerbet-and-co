@@ -6,6 +6,17 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+# Custom handler for Bad Request errors (400)
+handler400 = 'gerbet_and_co.views.custom_400'
+# Custom handler for Forbidden errors (403)
+handler403 = 'gerbet_and_co.views.custom_403'
+# Custom handler for Page Not Found errors (404)
+handler404 = 'gerbet_and_co.views.custom_404'
+# Custom handler for Server Error (500)
+handler500 = 'gerbet_and_co.views.custom_500'
+# CSRF-specific 403 error handler
+handler403_csrf = 'gerbet_and_co.views.custom_403_csrf'
+
 urlpatterns = [
     path("", include("store.urls")),
     path("accounts/", include("accounts.urls")),

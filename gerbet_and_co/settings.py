@@ -303,3 +303,6 @@ LOGGING = {
         'level': 'INFO',
     },
 }
+
+# Custom csrf 403 page
+CSRF_FAILURE_VIEW = "gerbet_and_co.views.custom_403_csrf"
