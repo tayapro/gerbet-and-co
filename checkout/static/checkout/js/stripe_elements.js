@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
         switch (fieldType) {
             case 'text':
             case 'textarea':
-                isValid = field.value.trim().length > 2
+                isValid = field.value.trim().length >= 2
                 break
 
             case 'email':
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 break
 
             default:
-                isValid = field.value.trim().length > 2
+                isValid = field.value.trim().length >= 2
         }
 
         // Apply validation feedback
