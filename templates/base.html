@@ -52,7 +52,7 @@
     </head>
     <body class="{% block body_class %}{% endblock %}">
         <div class="w-100 sticky-top">
-            <nav class="navbar navbar-expand-sm navbar-dark container-fluid absolute" id="navbar-container">
+            <nav class="navbar navbar-expand-sm navbar-dark container-fluid position-relative" id="navbar-container">
                 <div class="d-flex flex-row">
                     <a class="navbar-brand ms-3" href="/"><h2 class="mb-0">Gerbet & Co.</h2></a>
                     <ul class="navbar-nav flex-sm-row">
@@ -87,10 +87,10 @@
                 <button id="custom-navbar-toggler" class="navbar-toggler text-white-color" type="button" 
                         data-bs-toggle="collapse" data-bs-target="#navbarNav" 
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="bi bi-list"></i>
+                    <i class="bi bi-list fs-2"></i>
                 </button>
-                <div class="collapse navbar-collapse text-end mx-3" id="navbarNav">
-                    <ul class="navbar-nav ms-sm-auto align-items-sm-end">
+                <div class="navbar-collapse text-end p-3 p-sm-0 collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-sm-auto align-items-sm-end mt-5 mt-sm-0 me-sm-3">
                         <li class="nav-item">
                             <a class="nav-link" 
                                     type="button"

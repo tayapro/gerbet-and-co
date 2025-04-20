@@ -255,6 +255,62 @@ h5 {
     z-index: 9999;
 }
 
+/*
+#navbarNav.collapse.show {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--purple-75);
+    z-index: 1050;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}*/
+
+/* Tab buttons don’t shrink */
+.nav-tabs .nav-link {
+    white-space: nowrap;
+}
+
+.navbar-dark,
+.navbar[data-bs-theme='dark'] {
+    --bs-navbar-color: rgba(255, 255, 255, 0.75) !important;
+    --bs-navbar-hover-color: rgba(255, 255, 255, 0.95) !important;
+    --bs-navbar-disabled-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+@media (max-width: 576px) {
+    #navbarNav {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: var(--purple-90);
+        transition: all 0.3s ease-in-out;
+    }
+
+    #custom-navbar-toggler {
+        display: block !important;
+        z-index: 1051;
+        border: none;
+    }
+}
+
+@media (min-width: 576px) {
+    #custom-navbar-toggler {
+        font-size: unset !important;
+        color: unset !important;
+        border-style: unset !important;
+        display: none !important;
+        z-index: unset;
+    }
+}
+
+#custom-navbar-toggler:focus {
+    box-shadow: none !important;
+}
+
 .nav-link .badge {
     font-size: 0.6rem;
     padding: 0.35em 0.65em;
@@ -311,42 +367,11 @@ h5 {
     }
 }
 
-/* Tab buttons don’t shrink */
-.nav-tabs .nav-link {
-    white-space: nowrap;
-}
-
-.navbar-dark,
-.navbar[data-bs-theme='dark'] {
-    --bs-navbar-color: rgba(255, 255, 255, 0.75) !important;
-    --bs-navbar-hover-color: rgba(255, 255, 255, 0.95) !important;
-    --bs-navbar-disabled-color: rgba(255, 255, 255, 0.25) !important;
-}
-
-#custom-navbar-toggler {
-    font-size: 1.5rem !important;
-    color: var(--white-color-100) !important;
-    border-style: none !important;
-}
-
-#custom-navbar-toggler:focus {
-    box-shadow: none !important;
-}
-
 /* Custom placeholder styling */
 .custom-placeholder::placeholder {
     font-size: 0.8rem;
     color: var(--placeholder-100);
 }
-
-/* #search-input {
-    border-bottom: 1px solid var(--placeholder-100) !important;
-}
-
-#search-input::placeholder {
-    font-size: 1rem;
-    color: var(--placeholder-100);
-} */
 
 /* Checkout */
 .is-invalid {
