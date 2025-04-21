@@ -1,5 +1,9 @@
 {% extends "base.html" %}
+{% block body_class %}accounts-pages{% endblock %}
+
+{% load static %}
 {% load crispy_forms_tags %}
+
 
 {% block content %}
 <div class="card mt-5 p-4 shadow-sm" style="max-width: 450px; width: 100%;">
@@ -19,23 +23,29 @@
         </div>
     {% endif %}
 
-    <form method="POST" action="{% url 'login' %}?next={{ next }}">
+    <form method="POST" action="{% url 'login' %}?next={{ next }}" class="purple-text-75">
         {% csrf_token %}
         {{ form|crispy }}
 
-        <p>
+        <p class="purple-text-75">
             <label for="id_remember_me">Remember Me:</label>
             <input type="checkbox" name="remember_me" id="id_remember_me">
         </p>
 
-        <div class="d-grid gap-2 mt-3">
-            <button type="submit" class="btn btn-primary">Login</button>
-            <a href="{% url 'password_reset' %}" class="btn btn-link">Forgot Password?</a>
+        <div class="d-grid mt-3">
+            <button type="submit" class="btn bg-zomp-100 text-white-color accounts-btns">
+                Login
+            </button>
         </div>
+        <a href="{% url 'password_reset' %}" class="text-decoration-none accounts-links accounts-extra-link zomp-text-100">
+            Forgot Password?</a>
     </form>
 
-    <p class="text-center mt-3">
-        Do not have an account? <a href="{% url 'register' %}">Register</a>
+    <p class="text-center mt-3 purple-text-75">
+        Do not have an account?
+        <a href="{% url 'register' %}" class="text-decoration-none accounts-links zomp-text-100 ">
+            Register
+        </a>
     </p>
 </div>
 {% endblock %}
