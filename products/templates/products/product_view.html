@@ -28,7 +28,7 @@
                     </div>
                     <!-- Product image -->
                     <div class="col-12 col-md-6 d-flex justify-content-center" id="product-view-img">
-                        <img src="{{ product.image.url }}" alt="{{ product.title }}"
+                        <img src="{{ product.image }}" alt="{{ product.title }}"
                             class="rounded shadow-sm img-fluid"
                             style="min-width: 200px; max-width: 500px; object-fit: cover;">
                     </div>
@@ -62,8 +62,8 @@
                             {% endif %}
                         </div>
 
-                        <div>
-                            <p class="purple-text-65 my-3">{{ product.description }}</p>
+                        <div id="product-description">
+                            <p class="purple-text-65 my-3">{{ product.description|safe }}</p>
                         </div>
 
                         <div class="d-flex justify-content-between align-items-center">

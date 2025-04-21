@@ -1,4 +1,5 @@
 from django.contrib import admin
+from tinymce.widgets import TinyMCE
 
 from .forms import ProductAdminForm
 from .models import Product, Category
@@ -14,6 +15,12 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ("title", "description", "categories__name")
     filter_horizontal = ("categories",)
     ordering = ("title",)
+
+    formfield_overrides = {
+        Product.description: {
+            'widget': TinyMCE(attrs={'cols': 80, 'rows': 20})
+        },
+    }
 
     def show_categories(self, obj):
         return ", ".join([category.name for category in obj.categories.all()])

@@ -63,7 +63,7 @@ def prepare_confirmation_email_details(order):
     for item in order.lineitems.all():
         items.append({
             "title": item.product.title,
-            "image_url": item.product.image.url,
+            "image_url": item.product.image,
             "price": item.product.price,
             "quantity": item.quantity,
             "total": item.order_item_total

@@ -1,13 +1,12 @@
 from cloudinary.exceptions import Error as CloudinaryError
-from cloudinary.models import CloudinaryField
 from cloudinary.uploader import destroy
-from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Avg
 from django.utils.text import slugify
+from tinymce.models import HTMLField
 
 
 class Category(models.Model):
@@ -36,13 +35,11 @@ FEATURED_BADGES = [
 class Product(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
-    description = models.TextField()
+    description = HTMLField()
     price = models.DecimalField(max_digits=10, decimal_places=2,
                                 validators=[MinValueValidator(0)])
-    stock = models.PositiveIntegerField()
     categories = models.ManyToManyField("Category", related_name="products")
-    image = CloudinaryField("image", folder=settings.CLOUDINARY_UPLOAD_FOLDER,
-                            resource_type="auto", blank=True)
+    image = models.URLField("Image URL", max_length=500, blank=True)
     rating = models.DecimalField(max_digits=3, decimal_places=1, null=True,
                                  blank=True)
     featured_badge = models.CharField(

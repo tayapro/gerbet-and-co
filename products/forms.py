@@ -1,7 +1,10 @@
 from django import forms
+import logging
 
 from checkout.models import OrderItem
 from .models import Product, Rating, RATING_CHOICES
+
+logger = logging.getLogger(__name__)
 
 
 class RatingForm(forms.ModelForm):
@@ -74,8 +77,11 @@ class ProductAdminForm(forms.ModelForm):
 
     def save(self, commit=True):
         instance = super().save(commit=False)
-        if self.cleaned_data.get("image_url"):
-            instance.image = self.cleaned_data["image_url"]
+        new_image_url = self.cleaned_data.get("image_url")
+
+        if new_image_url:
+            instance.image = new_image_url
+
         if commit:
             instance.save()
         return instance

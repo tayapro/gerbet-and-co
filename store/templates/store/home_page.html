@@ -40,7 +40,7 @@
         {% for product in featured_products %}
         <div class="col d-flex justify-content-center">
             <div class="featured-card position-relative text-white rounded overflow-hidden shadow-sm"
-                 style="background-image: url('{{ product.image.url }}');">
+                 style="background-image: url('{{ product.image }}');">
                 <!-- Badge -->
                 {% if product.featured_badge %}
                     <div class="featured-badge position-absolute top-0 end-0 m-2 px-3 py-1 rounded-pill bg-zomp-100 text-white small shadow-sm">

@@ -4,7 +4,7 @@
 <div class="card shadow-sm border border-opacity-50" id="product-card">
     <div class="text-center p-3">
         <a href="{% url 'product_view' product.id %}">
-            <img src="{{ product.image.url }}" 
+            <img src="{{ product.image }}" 
                 class="card-img-top rounded" id="product-card-image" 
                 alt="{{ product.title }}">
         </a>
@@ -19,9 +19,7 @@
 
             <p class="card-text purple-text-75">&#8364;{{ product.price }}</p>
 
-            {% if product.rating %}
-                {% include "products/includes/rating_stars.html" with star_fills=product.star_fills %}
-            {% endif %}
+            {% include "products/includes/rating_stars.html" with star_fills=product.star_fills %}
         </div>
         <div class="d-flex flex-column align-items-center justify-content-around gap-3">
             <form hx-post="{% url 'add_to_bag' product.id %}" 
