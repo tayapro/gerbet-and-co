@@ -1,14 +1,18 @@
 from django.contrib import admin
 
+from .forms import ProductAdminForm
 from .models import Product, Category
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("title", "price", "show_categories", "created_at")
-    fields = ("title", "price", "image")
-    search_fields = ("title", "categories")
-    filter_horizontal = ('categories',)
+    form = ProductAdminForm
+    list_display = ("title", "description", "price", "show_categories",
+                    "created_at")
+    fields = ("title", "description", "price", "categories",
+              "current_image_url", "image_url")
+    search_fields = ("title", "description", "categories__name")
+    filter_horizontal = ("categories",)
     ordering = ("title",)
 
     def show_categories(self, obj):

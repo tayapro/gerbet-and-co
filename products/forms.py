@@ -1,7 +1,7 @@
 from django import forms
 
 from checkout.models import OrderItem
-from .models import Rating, RATING_CHOICES
+from .models import Product, Rating, RATING_CHOICES
 
 
 class RatingForm(forms.ModelForm):
@@ -47,3 +47,35 @@ class RatingForm(forms.ModelForm):
             raise forms.ValidationError("Please select a rating.")
 
         return cleaned_data
+
+
+class ProductAdminForm(forms.ModelForm):
+    image_url = forms.URLField(
+        label="New Image URL",
+        required=False,
+        help_text="Provide a direct URL for the image."
+    )
+    current_image_url = forms.CharField(
+        label="Current Image URL",
+        required=False,
+        widget=forms.TextInput(attrs={"readonly": "readonly"}),
+        help_text="This is the current image URL stored in the database."
+    )
+
+    class Meta:
+        model = Product
+        fields = ["title", "price", "categories", "current_image_url",
+                  "image_url"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.image:
+            self.fields["current_image_url"].initial = self.instance.image
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.cleaned_data.get("image_url"):
+            instance.image = self.cleaned_data["image_url"]
+        if commit:
+            instance.save()
+        return instance
