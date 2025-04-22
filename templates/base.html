@@ -107,9 +107,43 @@
                             <a class="nav-link" href="{% url 'about' %}">
                                 <p class="mb-0">About</p></a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'help' %}">
-                                <p class="mb-0">Help</p></a>
+                        <li class="nav-item mb-2 d-none d-sm-flex">
+                            <div class="dropdown text-white-color-75">
+                                <button class="bg-transparent border-0 dropdown-toggle text-white-color-75" type="button" 
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    Help
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-sm-end">
+                                    <li>
+                                        <a class="dropdown-item" 
+                                           href="{% url 'help' %}?next={{ request.path }}">
+                                           FAQs
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" 
+                                           href="{% url 'contact_us' %}?next={{ request.path }}">
+                                           Contact Us
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item d-sm-none">
+                            <a class="nav-link" 
+                               href="{% url 'help' %}?next={{ request.path }}">
+                                <p class="mb-0">
+                                    FAQs
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item d-sm-none">
+                            <a class="nav-link" 
+                               href="{% url 'contact_us' %}?next={{ request.path }}">
+                                <p class="mb-0">
+                                    Contact Us
+                                </p>
+                            </a>
                         </li>
                         {% if user.is_authenticated %}
                         <li class="nav-item d-sm-none">
@@ -134,7 +168,7 @@
                             </li>
                         {% endif %}
                         <li class="nav-item">
-                            <a href="{% url 'view_bag' %}" class="nav-link pe-1 pb-1">
+                            <a href="{% url 'view_bag' %}" class="nav-link ps-3 pe-2 pb-1">
                                 <i class="bi bi-bag fs-4"></i>
                                 <span id="bag-quantity" 
                                         class="position-absolute top-10 start-90 translate-middle badge rounded-pill bg-danger bg-gradient

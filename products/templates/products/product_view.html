@@ -36,14 +36,13 @@
                     <!-- Product details -->
                     <div class="col-12 col-md-6 text-start ps-md-3 d-flex flex-column gap-4" id="product-view-details">
                         <div class="row d-flex 
-                                    {% if user.is_authenticated and can_rate %} 
-                                        justify-content-around 
-                                    {% else %} 
-                                        justify-content-start 
-                                    {% endif %}">
-                            {% if product.rating %}
-                                {% include "products/includes/rating_stars.html" %}
-                            {% endif %}
+                            {% if user.is_authenticated and can_rate %} 
+                                justify-content-around 
+                            {% else %} 
+                                justify-content-start 
+                            {% endif %}">
+
+                            {% include "products/includes/rating_stars.html" %}
 
                             {% if user.is_authenticated and can_rate %}
                                 <div class="col-12 col-sm-5 d-flex align-items-start justify-content-sm-end">

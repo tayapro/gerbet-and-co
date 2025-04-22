@@ -2,13 +2,13 @@
 <div class="container px-4" id="order-summary" hx-swap-oob="true">
     <div class="row mb-2 justify-content-end">
         <div class="col-6 col-md-3 purple-text-65 fw-semibold text-end">Subtotal</div>
-        <div class="col-6 col-md-2 purple-text-75 text-end">
+        <div class="col-6 col-md-3 purple-text-75 text-end">
             &#8364;{{ bag.get_total_price|floatformat:2 }}
         </div>
     </div>
     <div class="row mb-2 justify-content-end">
         <div class="col-6 col-md-3 purple-text-65 fw-semibold text-end">Delivery</div>
-        <div class="col-6 col-md-2 purple-text-75 text-end">
+        <div class="col-6 col-md-3 purple-text-75 text-end">
             {% if bag.get_delivery_cost == 0 %}
                 Free
             {% else %}
@@ -18,7 +18,7 @@
     </div>
     <div class="row mb-2 justify-content-end">
         <div class="col-6 col-md-3 purple-text-65 fw-semibold text-end">Grand Total</div>
-        <div class="col-6 col-md-2 purple-text-75 fw-bold text-end">
+        <div class="col-6 col-md-3 purple-text-75 fw-bold text-end">
             &#8364;{{ bag.get_grand_total }}
         </div>
     </div>
