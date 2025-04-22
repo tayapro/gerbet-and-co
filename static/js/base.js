@@ -90,4 +90,26 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 400)
         })
     })
+
+    // Search sidebar
+    const searchCloseBtn = document.getElementById('search-btn-close')
+    const input = document.getElementById('search-input')
+
+    searchCloseBtn.addEventListener('click', function () {
+        input.value = ''
+        input.focus()
+    })
+})
+
+// Toast container
+document.addEventListener('htmx:afterSwap', function () {
+    const closeBtn = document.getElementById('close-toast-btn')
+    const toastContainer = document.getElementById('toast-container')
+
+    if (closeBtn && toastContainer) {
+        closeBtn.addEventListener('click', () => {
+            toastContainer.classList.remove('position-absolute')
+            toastContainer.classList.add('d-none')
+        })
+    }
 })
