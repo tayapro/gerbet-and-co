@@ -64,7 +64,8 @@ def product_view(request, product_id):
         "product": product,
         "rating_form": rating_form,
         "star_fills": star_fills,
-        "can_rate": can_rate
+        "can_rate": can_rate,
+        "next": next
     }
 
     return render(request, "products/product_view.html", context)

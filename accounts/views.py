@@ -180,14 +180,6 @@ def address_create(request):
     return render(request, "accounts/address_form.html", {"form": form})
 
 
-# @login_required
-# def address_view(request):
-#     addresses = UserContactInfo.objects.filter(user=request.user)
-
-#     return render(request, "accounts/address_view.html",
-#                   {"addresses": addresses})
-
-
 @login_required
 def address_update(request, id):
     address = get_object_or_404(UserContactInfo, id=id, user=request.user)
