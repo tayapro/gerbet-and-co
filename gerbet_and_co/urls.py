@@ -6,6 +6,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from . import views
+
 # Custom handler for Bad Request errors (400)
 handler400 = 'gerbet_and_co.views.custom_400'
 # Custom handler for Forbidden errors (403)
@@ -24,5 +26,7 @@ urlpatterns = [
     path("products/", include("products.urls")),
     path("bag/", include("bag.urls")),
     path("checkout/", include("checkout.urls")),
-    path('tinymce/', include('tinymce.urls')),
+    path("tinymce/", include("tinymce.urls")),
+    path("sitemap.xml", views.sitemap_view, name="sitemap"),
+    path("robots.txt", views.robots_view, name="robots"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

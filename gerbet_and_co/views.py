@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import (HttpResponseBadRequest,
+from django.http import (FileResponse, HttpResponseBadRequest,
                          HttpResponseForbidden, HttpResponseNotFound,
                          HttpResponseServerError)
 
@@ -60,3 +60,13 @@ def custom_500(request):
         request: The HTTP request object.
     """
     return HttpResponseServerError(render(request, "errors/500.html"))
+
+
+def sitemap_view(request):
+    return FileResponse(open("sitemap.xml", "rb"),
+                        content_type="application/xml")
+
+
+def robots_view(request):
+    return FileResponse(open("robots.txt", "rb"),
+                        content_type="text/plain")

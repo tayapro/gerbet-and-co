@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /accounts/
+Disallow: /bag/
+Disallow: /checkout/
+Sitemap: https://gerbet-and-co-84c4ca4e68bb.herokuapp.com/sitemap.xml
