@@ -66,7 +66,6 @@ class Order(models.Model):
     order_id = models.CharField(max_length=32, unique=True, editable=False)
     status = models.CharField(max_length=20,
                               choices=STATUS_CHOICES, default='pending')
-    is_finalized = models.BooleanField(default=False, null=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL,
                              null=True, blank=True)
     guest_first_name = models.CharField(max_length=50, blank=True)

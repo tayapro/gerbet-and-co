@@ -123,7 +123,7 @@ class AddressForm(forms.ModelForm):
         widget=forms.TextInput(),
     )
     street_address2 = forms.CharField(
-        required=True,
+        required=False,
         validators=[MinLengthValidator(2)],
         widget=forms.TextInput(),
     )
@@ -142,6 +142,7 @@ class AddressForm(forms.ModelForm):
         widget=forms.TextInput(),
     )
     country = CountryField(blank_label="Select country").formfield(
+        required=True,
         widget=CountrySelectWidget(attrs={
             "class": "form-control",
             "data-placeholder": "Select your country"
