@@ -1,0 +1,17 @@
+Gerbet & Co. | Payment Could Not Be Processed
+
+Dear {{ first_name }} {{ last_name }},
+
+We attempted to process your payment for Order #{{ order_id }}, but unfortunately it didn't go through.
+
+No need to worry — your order has not been confirmed, and you won't be charged.
+
+You can try placing your order again at any time. If the issue continues, please check your payment details or contact your bank.
+
+If you need help or have any questions, we're here to assist: {{ support_url }}
+
+Warm regards,  
+Gerbet & Co.
+
+---
+This message was sent by Gerbet & Co. in response to a payment issue on your order.

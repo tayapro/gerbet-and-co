@@ -38,18 +38,20 @@ def send_order_confirmation_email(order):
 
 
 def send_payment_failure_email(order):
-    print("send_payment_failure_email")
-    # subject = f"Gerbet & Co - Payment Failed - Order #{order.order_id}"
-    # body = render_to_string(
-    #     'checkout/emails/payment_failed_email.txt',
-    #     {'order': order}
-    # )
-    # send_mail(
-    #     subject,
-    #     body,
-    #     settings.DEFAULT_FROM_EMAIL,
-    #     [order.email]
-    # )
+    context = prepare_payment_failure_email_details(order)
+    recipient = [context["email"]]
+    subject = f"Gerbet & Co Payment Failed - Order #{order.order_id}"
+    email_from = settings.EMAIL_HOST_USER
+
+    text_content = render_to_string(
+        "checkout/emails/payment_failed_email.txt", context)
+    html_content = render_to_string(
+        "checkout/emails/payment_failed_email.html", context)
+
+    email = EmailMultiAlternatives(subject, text_content, email_from,
+                                   recipient)
+    email.attach_alternative(html_content, "text/html")
+    email.send()
 
 
 def prepare_confirmation_email_details(order):
@@ -86,4 +88,18 @@ def prepare_confirmation_email_details(order):
         "subtotal": order.grand_total,
         "grand_total": order.order_total,
         "items": items
+    }
+
+
+def prepare_payment_failure_email_details(order):
+    user = order.user if order.user else None
+
+    return {
+        "order_id": order.order_id,
+        "email": user.email if user else order.guest_email,
+        "first_name": user.first_name if user else order.guest_first_name,
+        "last_name": user.last_name if user else order.guest_last_name,
+        "support_url": (
+            "https://gerbet-and-co-84c4ca4e68bb.herokuapp.com/contact-us/"
+        )
     }

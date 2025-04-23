@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerbet & Co | Payment Issue</title>
+    <style>
+        body {
+            background-color: #FFF9F7;
+            color: #4A2C2A;
+            margin: 0;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid #f0e6e3;
+        }
+        .header {
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #B85656;
+        }
+        .footer {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">Payment Could Not Be Processed</div>
+
+    <p>Dear {{ first_name }} {{ last_name }},</p>
+
+    <p>We attempted to process your payment for Order #<strong>{{ order_id }}</strong>, 
+        but unfortunately it didn't go through.</p>
+
+    <p>No need to worry — your order has not been confirmed, and you won't be charged.</p>
+
+    <p>You can try placing your order again at any time. If the issue continues, 
+        please check your payment details or reach out to your bank for assistance.</p>
+
+    <p>If you need help or have any questions, we're here to assist — feel free to <a href="{{ support_url }}">contact us</a>.</p>
+
+    <p>Warm regards,<br>
+    <strong>Gerbet & Co.</strong></p>
+
+    <div class="footer">
+        This message was sent by Gerbet & Co. in response to a payment issue on your order.
+    </div>
+</div>
+</body>
+</html>
