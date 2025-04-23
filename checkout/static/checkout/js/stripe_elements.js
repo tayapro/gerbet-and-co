@@ -288,11 +288,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return {
             return_url: returnUrl,
             payment_method_data: {
-                billing_details: {
-                    name: getFullName(),
-                    email: getEmail(),
-                    phone: getPhone(),
-                },
+                billing_details: getBillingDetailsForStripe(),
             },
         }
     }
@@ -338,6 +334,58 @@ document.addEventListener('DOMContentLoaded', function () {
         const phone = phoneInput || previewPhone || ''
 
         return phone
+    }
+
+    function getBillingAddress() {
+        const preview = document.getElementById('default-address-preview')
+
+        const previewValues = {
+            street_address1: preview?.dataset.street_address1?.trim() || '',
+            street_address2: preview?.dataset.street_address2?.trim() || '',
+            town_or_city: preview?.dataset.town_or_city?.trim() || '',
+            county: preview?.dataset.county?.trim() || '',
+            postcode: preview?.dataset.postcode?.trim() || '',
+            country: preview?.dataset.country?.trim() || '',
+        }
+        const getInputValue = (id) => {
+            const el = document.getElementById(id)
+            return el?.value.trim() || ''
+        }
+
+        return {
+            street_address1:
+                getInputValue('id_street_address1') ||
+                previewValues.street_address1,
+            street_address2:
+                getInputValue('id_street_address2') ||
+                previewValues.street_address2,
+            town_or_city:
+                getInputValue('id_town_or_city') || previewValues.town_or_city,
+            county: getInputValue('id_county') || previewValues.county,
+            postcode: getInputValue('id_postcode') || previewValues.postcode,
+            country: getInputValue('id_country') || previewValues.country,
+        }
+    }
+
+    function getBillingDetailsForStripe() {
+        const name = getFullName()
+        const email = getEmail()
+        const phone = getPhone()
+        const billing = getBillingAddress()
+
+        return {
+            name: name,
+            email: email,
+            phone: phone,
+            address: {
+                line1: billing.street_address1 || null,
+                line2: billing.street_address2 || null,
+                city: billing.town_or_city || null,
+                state: billing.county || null,
+                postal_code: billing.postcode || null,
+                country: billing.country || null,
+            },
+        }
     }
 
     function handleError(error) {

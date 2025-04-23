@@ -54,7 +54,14 @@
                                     Use my default address
                                 </label>
                             </div>
-                            <div id="default-address-preview" data-phone="{{ default_address.phone_number }}" 
+                            <div id="default-address-preview"
+                                data-street_address1="{{ default_address.street_address1 }}"
+                                data-street_address2="{{ default_address.street_address2 }}"
+                                data-town_or_city="{{ default_address.town_or_city }}"
+                                data-county="{{ default_address.county }}"
+                                data-postcode="{{ default_address.postcode }}"
+                                data-country="{{ default_address.country }}"
+                                data-phone="{{ default_address.phone_number }}" 
                                 style="display: block">
                                 <div class="card mb-3">
                                     <div class="card-body">

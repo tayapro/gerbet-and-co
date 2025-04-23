@@ -88,17 +88,12 @@ def handle_payment_event(payment_intent, event_type):
         # at the same time the user finalizes their order, so this ensures all
         # order items are saved before processing continues. Hence, the use
         # of sleep(5).
-
         if event_type == "payment_intent.succeeded":
             time.sleep(5)
             send_order_confirmation_email(order)
         elif event_type == "payment_intent.payment_failed":
             time.sleep(5)
-            if order.user or hasattr(order, 'guest_email'):
-                send_payment_failure_email(
-                    order.user.email if order.user else order.guest_email,
-                    order
-                )
+            send_payment_failure_email(order)
 
         return True
     except Exception as e:
