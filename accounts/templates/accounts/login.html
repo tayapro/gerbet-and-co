@@ -27,7 +27,7 @@
         {% csrf_token %}
         {{ form|crispy }}
 
-        <p class="purple-text-75">
+        <p>
             <label for="id_remember_me">Remember Me:</label>
             <input type="checkbox" name="remember_me" id="id_remember_me">
         </p>
@@ -41,9 +41,9 @@
             Forgot Password?</a>
     </form>
 
-    <p class="text-center mt-3 purple-text-75">
+    <p class="text-center mt-3">
         Do not have an account?
-        <a href="{% url 'register' %}" class="text-decoration-none accounts-links zomp-text-100 ">
+        <a href="{% url 'register' %}" class="text-decoration-none accounts-links zomp-text-100">
             Register
         </a>
     </p>
