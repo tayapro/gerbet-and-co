@@ -39,32 +39,23 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
         {% for product in featured_products %}
         <div class="col d-flex justify-content-center">
-            <div class="featured-card position-relative text-white rounded overflow-hidden shadow-sm"
-                 style="background-image: url('{{ product.image }}');">
-                <!-- Badge -->
-                {% if product.featured_badge %}
-                    <div class="featured-badge position-absolute top-0 end-0 m-2 px-3 py-1 rounded-pill bg-zomp-100 text-white small shadow-sm">
-                        {{ product.featured_badge }}
-                    </div>
-                {% endif %}
-            
-                <!-- Card Content Overlay -->
-                <div class="card-content position-absolute bottom-0 end-0 
-                            purple-bg-75 w-100 text-end pe-3 py-2">
-                    <div>
-                        <a href="{% url 'product_view' product.id %}" class="stretched-link text-decoration-none text-white">
-                            <h5 class="mb-0">{{ product.title }}</h5>
-                        </a>
-                    </div>
-            
-                    {% if product.rating %}
-                        <div>
-                            {% include "products/includes/rating_stars.html" %}
+            <a href="{% url 'product_view' product.id %}">
+                <div class="featured-card position-relative text-white rounded overflow-hidden shadow-sm"
+                    style="background-image: url('{{ product.image }}');">
+                    <!-- Badge -->
+                    {% if product.featured_badge %}
+                        <div class="featured-badge position-absolute top-0 end-0 m-2 px-3 py-1 rounded-pill bg-zomp-100 text-white small shadow-sm">
+                            {{ product.featured_badge }}
                         </div>
                     {% endif %}
+                
+                    <!-- Card Content Overlay -->
+                    <div class="card-content position-absolute bottom-0 end-0 
+                                purple-bg-75 w-100 text-end pe-3 py-3">
+                        <h5 class="mb-0 text-white">{{ product.title }}</h5>
+                    </div>
                 </div>
-            </div>
-            
+            </a>
         </div>
         {% endfor %}
     </div>

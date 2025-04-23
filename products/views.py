@@ -15,13 +15,14 @@ sort_options = [
 
 
 def product_list(request):
-    products = Product.objects.all()
-    order_by = request.GET.get("order_by", "")
+    # Randomly shuffle the queryset
+    products = Product.objects.order_by('?')
 
     # Apply filters
     products, selected_filters = product_filter(request, products)
 
     # Apply sorting
+    order_by = request.GET.get("order_by", "")
     products, selected_sort = product_sort(request, products, order_by)
 
     # Remove duplicates
@@ -229,17 +230,6 @@ def product_filter(request, products):
         ))
 
     return products, selected_filters
-
-
-def product_sort_old(products, order_by):
-    if order_by == "price_asc":
-        products = products.order_by("price")
-    elif order_by == "price_desc":
-        products = products.order_by("-price")
-    elif order_by == "popularity":
-        products = products.order_by("-rating")
-
-    return products
 
 
 def product_sort(request, products, order_by):

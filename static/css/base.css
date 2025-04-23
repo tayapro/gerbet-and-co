@@ -1064,6 +1064,16 @@ h5 {
     background: no-repeat center center / cover;
     position: relative;
     color: #fff;
+    border-radius: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.featured-card:hover {
+    transform: translateY(-3px);
+    background-color: rgb(249, 249, 249);
+    box-shadow: 1px 0px 19px 0px rgba(135, 135, 135, 0.5) !important;
+    -webkit-box-shadow: 7px 6px 17px 0px rgba(135, 135, 135, 0.75) !important;
+    -moz-box-shadow: 7px 6px 17px 0px rgba(135, 135, 135, 0.75) !important;
 }
 
 .card-content h5 {

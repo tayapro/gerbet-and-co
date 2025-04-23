@@ -46,8 +46,6 @@ def update_bag(request, product_id):
 
         if quantity < 1:
             quantity = 1
-        elif quantity > 99:
-            quantity = 99
 
         if action == "increase":
             bag.add(product_id,
