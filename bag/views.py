@@ -44,26 +44,23 @@ def update_bag(request, product_id):
     try:
         quantity = int(quantity)
 
-        if quantity < 1:
-            quantity = 1
+        current_quantity = bag.get_quantity(product_id)
+        result_quantity = current_quantity
 
         if action == "increase":
-            bag.add(product_id,
-                    product_data={"title": product.title,
-                                  "price": product.price},
-                    quantity=1, action="increase")
+            result_quantity += 1
         elif action == "decrease":
-            if bag.bag[str(product_id)]["quantity"] > 1:
-                bag.add(product_id,
-                        product_data={"title": product.title,
-                                      "price": product.price},
-                        quantity=-1, action="decrease")
+            result_quantity -= 1
         else:
-            bag.add(product_id,
-                    product_data={"title": product.title,
-                                  "price": product.price},
-                    quantity=quantity, action="update")
+            result_quantity = quantity
 
+        if result_quantity < 1 or result_quantity > 99:
+            result_quantity = current_quantity
+
+        bag.add(product_id,
+                product_data={"title": product.title,
+                              "price": product.price},
+                quantity=result_quantity, action="update")
     except (ValueError, KeyError):
         pass
 

@@ -30,27 +30,36 @@ class Bag:
         product_id = str(product_id)
 
         if not product_data and product_id not in self.bag:
-            # logger.error("product_data must be provided for new items")
+            logger.error("product_data must be provided for new items")
             raise ValueError("product_data must be provided for new items")
 
         if product_id in self.bag:
             if action == "increase":
-                self.bag[product_id]['quantity'] += 1
+                self.bag[product_id]["quantity"] += 1
             elif action == "decrease":
-                self.bag[product_id]['quantity'] -= 1
+                self.bag[product_id]["quantity"] -= 1
             elif action == "update":
-                self.bag[product_id]['quantity'] = max(quantity, 1)
+                self.bag[product_id]["quantity"] = max(quantity, 1)
             else:
-                self.bag[product_id]['quantity'] += 1
+                self.bag[product_id]["quantity"] += 1
         else:
             self.bag[product_id] = {
-                'quantity': max(quantity, 1),
-                'price': str(product_data['price']),
-                'title': product_data['title'],
-                'image_url': product_data.get('image_url', '')
+                "quantity": max(quantity, 1),
+                "price": str(product_data["price"]),
+                "title": product_data["title"],
+                "image_url": product_data.get("image_url", "")
             }
 
         self.save()
+
+    def get_quantity(self, product_id):
+        try:
+            return self.bag[str(product_id)]["quantity"]
+        except Exception as e:
+            logger.error("Failed to get quantity for "
+                         f"product_id={product_id}: {e}")
+
+            return 0
 
     def remove(self, product_id):
         product_id = str(product_id)
@@ -62,13 +71,13 @@ class Bag:
     def __iter__(self):
         for product_id, item in self.bag.items():
             try:
-                item['price'] = item.get('price', 0.00)
+                item["price"] = item.get("price", 0.00)
 
                 # Add missing fields with defaults
-                item.setdefault('title', 'Unknown Product')
-                item.setdefault('image_url', '')
+                item.setdefault("title", "Unknown Product")
+                item.setdefault("image_url", "")
 
-                item['product_id'] = int(product_id)
+                item["product_id"] = int(product_id)
 
                 yield item
 
@@ -81,12 +90,12 @@ class Bag:
         return iter([])
 
     def get_total_quantity(self):
-        return sum(int(item['quantity']) for item in self.bag.values())
+        return sum(int(item["quantity"]) for item in self.bag.values())
 
     def adjust_quantity(self, product_id, quantity):
         product_id = str(product_id)
         if product_id in self.bag:
-            self.bag[product_id]['quantity'] = quantity
+            self.bag[product_id]["quantity"] = quantity
             self.save()
 
     def get_delivery_cost(self):
@@ -100,7 +109,7 @@ class Bag:
     def get_total_price(self):
         total = 0
         for item in self.bag.values():
-            total += Decimal(str(item['price'])) * Decimal(item['quantity'])
+            total += Decimal(str(item["price"])) * Decimal(item["quantity"])
         return total
 
     def get_grand_total(self):

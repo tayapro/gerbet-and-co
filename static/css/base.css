@@ -61,6 +61,10 @@ h5 {
     background-color: var(--purple-75) !important;
 }
 
+.purple-50 {
+    color: var(--purple-50) !important;
+}
+
 .white-bg-85 {
     background-color: var(--white-color-85) !important;
 }

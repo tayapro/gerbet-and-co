@@ -18,13 +18,13 @@ function drawModalWindow() {
             alerts.forEach((alert) => {
                 let iconHTML = ''
                 if (alert.classList.contains('success')) {
-                    iconHTML = `<i class="fa-solid fa-xl fa-circle-check text-success me-2"></i>`
+                    iconHTML = `<i class="bi bi-check-circle-fill fs-1 text-success me-2"></i>`
                 } else if (alert.classList.contains('error')) {
-                    iconHTML = `<i class="fa-solid fa-xl fa-circle-exclamation text-danger me-2"></i>`
+                    iconHTML = `<i class="bi bi-exclamation-circle-fill fs-1 text-danger me-2"></i>`
                 } else if (alert.classList.contains('warning')) {
-                    iconHTML = `<i class="fa-solid fa-xl fa-triangle-exclamation text-warning me-2"></i>`
+                    iconHTML = `<i class="bi bi-exclamation-circle-fill fs-1 text-warning me-2"></i>`
                 } else if (alert.classList.contains('info')) {
-                    iconHTML = `<i class="fa-solid fa-xl fa-circle-info text-info me-2"></i>`
+                    iconHTML = `<i class="bi bi-info-circle-fill fs-1 text-info me-2"></i>`
                 }
                 alert.innerHTML = `${iconHTML}${alert.innerHTML}`
             })
