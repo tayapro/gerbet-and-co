@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (cacheResponse.error) {
                 cardErrors.textContent = cacheResponse.error
                 submitButton.disabled = false
+                processResponseErrors(cacheResponse.details)
                 return
             }
 
@@ -240,13 +241,61 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function removeFromFormData(formData, keyToRemove) {
+        const newFormData = new FormData()
+        for (let [key, value] of formData.entries()) {
+            if (key !== keyToRemove) {
+                newFormData.append(key, value)
+            }
+        }
+        return newFormData
+    }
+
     async function cacheCheckoutData() {
-        const postData = new FormData()
-        postData.append('order_id', document.getElementById('order_id').value)
-        postData.append(
-            'save_info',
-            document.getElementById('id-save-info')?.checked
+        const form = document.getElementById('checkout-form')
+
+        const postData = removeFromFormData(
+            new FormData(form),
+            'save_as_default'
         )
+
+        const isSaveAsDefaultChecked =
+            document.getElementById('id_save_as_default')?.checked
+        postData.set('save_as_default', isSaveAsDefaultChecked || false)
+
+        const isDefaultAddressChecked =
+            document.getElementById('id_use_default')?.checked
+        postData.append('is_default', isDefaultAddressChecked || false)
+
+        if (isDefaultAddressChecked) {
+            // Select the div element by its ID
+            const div = document.getElementById('default-address-preview')
+
+            // Extract the data attributes using dataset
+            const data = {
+                streetAddress1: div.dataset.street_address1,
+                streetAddress2: div.dataset.street_address2,
+                townOrCity: div.dataset.town_or_city,
+                county: div.dataset.county,
+                postcode: div.dataset.postcode,
+                country: div.dataset.country,
+                phone: div.dataset.phone,
+            }
+
+            // Set the postData fields with the default address values
+            postData.set('street_address1', data.streetAddress1)
+            postData.set('street_address2', data.streetAddress2)
+            postData.set('town_or_city', data.townOrCity)
+            postData.set('county', data.county)
+            postData.set('postcode', data.postcode)
+            postData.set('country', data.country)
+            postData.set('phone_number', data.phone)
+        }
+
+        console.log('POSTDATA', postData)
+        for (const [key, value] of postData.entries()) {
+            console.log('>>>: ', key, value)
+        }
 
         try {
             const response = await fetch('/checkout/cache_checkout_data/', {
@@ -265,8 +314,14 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             if (response.status !== 200) {
+                let details = {}
+                try {
+                    details = JSON.parse(data.details)
+                } catch {}
+
                 return {
                     error: data.error || 'Failed to cache checkout data',
+                    details: details,
                     status: response.status,
                 }
             }
@@ -414,6 +469,19 @@ document.addEventListener('DOMContentLoaded', function () {
         if (firstInvalid) {
             firstInvalid.focus()
         }
+    }
+
+    function processResponseErrors(responseDetails) {
+        Object.entries(responseDetails).forEach(([fieldName, errorArray]) => {
+            if (errorArray.length > 0) {
+                // Check if there is at least one error
+                const firstError = errorArray[0] // Get the first error message
+                const field = document.getElementById(`id_${fieldName}`)
+                if (field) {
+                    showErrorMessage(field, firstError.message)
+                }
+            }
+        })
     }
 
     function showErrorMessage(field, message) {

@@ -43,13 +43,11 @@ def handle_payment_event(payment_intent, event_type):
             if not order.user or not order.user.email:
                 logger.error(f"User {order.user}/{order.user.email} "
                              "has no email")
-                messages.error("User account missing email")
                 raise ValueError("User account missing email")
         else:
             # Guest order
             if not order.guest_email:
                 logger.error(f"Guest order {order.id} missing email")
-                messages.error("User account missing email")
                 raise ValueError("Guest email required")
 
         logger.info(

@@ -1,10 +1,13 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.dispatch import Signal
 from django.utils.timezone import now
 from django_countries.fields import CountryField
 
 from products.models import Product
+
+shipping_info_updated = Signal()
 
 
 class CheckoutConfig(models.Model):
@@ -41,13 +44,21 @@ class ShippingInfo(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, save_address_as_default=False, **kwargs):
         if self.is_default and self.user:
             shipping_info = ShippingInfo.objects.filter(
                 user=self.user
                 ).exclude(pk=self.pk)
             shipping_info.update(is_default=False)
         super().save(*args, **kwargs)
+
+        # Trigger the custom signal
+        shipping_info_updated.send(
+            sender=self.__class__,
+            instance=self,
+            is_default=self.is_default,
+            save_address_as_default=save_address_as_default
+        )
 
     def __str__(self):
         if self.user:

@@ -114,8 +114,11 @@ def handle_checkout_get(request, stripe_public_key, bag_total, delivery_cost,
     return render(request, "checkout/checkout.html", context)
 
 
+@require_POST
+@csrf_exempt
 def handle_checkout_post(request, bag, order_id, currency):
     """Handle form submission"""
+
     use_default = request.POST.get("use_default") == "on"
     logger.info(
         f"Checkout POST - User: {request.user}, "
@@ -128,61 +131,7 @@ def handle_checkout_post(request, bag, order_id, currency):
         return order
 
     check_payment_session(request, order)
-
-    if request.user.is_authenticated and use_default:
-        logger.info("Processing default address for authenticated user")
-        default_address = UserContactInfo.objects.filter(
-            user=request.user, is_default=True
-        ).first()
-
-        if default_address:
-            logger.debug(
-                f"Using default address - ID: {default_address.id}, "
-                f"Email: {default_address.user.email}"
-            )
-            shipping_info = ShippingInfo.objects.create(
-                user=request.user,
-                phone_number=default_address.phone_number,
-                street_address1=default_address.street_address1,
-                street_address2=default_address.street_address2,
-                town_or_city=default_address.town_or_city,
-                county=default_address.county,
-                postcode=default_address.postcode,
-                country=default_address.country,
-                is_default=True
-            )
-
-            order.user = request.user
-            order.shipping_info = shipping_info
-            order.save(update_fields=["user", "shipping_info"])
-
-            return finalize_order(request, bag, order)
-
-    form = ShippingInfoForm(request.POST, user=request.user)
-
-    # Check following logic
-    if not form.is_valid():
-        logger.error("handle_checkout_post: form is invalid")
-        return handle_invalid_form(request, form, currency)
-
-    context = {"form": form, "order": order}
-
-    if form.is_valid():
-        try:
-            shipping_info = process_shipping_info(form, request.user)
-
-            # Update order with shipping info
-            update_order_details(order, request, shipping_info, form)
-
-            # Finalize order
-            return finalize_order(request, bag, order)
-
-        except (Order.DoesNotExist, stripe.error.StripeError, Exception) as e:
-            form.add_error(None, e)
-            return render(request, "checkout/checkout.html", context)
-    else:
-        form.add_error(None, "please make changes.")
-        return render(request, "checkout/checkout.html", context)
+    return finalize_order(request, bag, order)
 
 
 @require_POST
@@ -204,17 +153,65 @@ def cache_checkout_data(request):
         if isinstance(session_check, JsonResponse):
             return session_check
 
-        user_email = request.POST.get("user_email") or (
+        user_email = request.POST.get("guest_email") or (
             request.user.email if request.user.is_authenticated else None
         )
+        user_first_name = request.POST.get("guest_first_name") or (
+            request.user.first_name if request.user.is_authenticated else None
+        )
+        user_last_name = request.POST.get("guest_last_name") or (
+            request.user.last_name if request.user.is_authenticated else None
+        )
+        user_full_name = f"{user_first_name} {user_last_name}"
 
-        user_fullname = get_full_name(request)
+        print("pepska --- start")
+        shipping_info_form = ShippingInfoForm(request.POST, user=request.user)
+
+        if not shipping_info_form.is_valid():
+            print("shipping_info_form is not valid")
+            print(shipping_info_form.errors)
+            return JsonResponse({
+                "error": "Shipping info is bad",
+                "details": shipping_info_form.errors.as_json()
+                },
+                status=400)
+        pepiska_info = process_shipping_info(shipping_info_form, request.user,
+                                             order)
+        print("pepska --- end", pepiska_info)
+
+        print(f"USER: {user_email}, {user_first_name}, {user_last_name}",
+              f"{user_full_name}")
+
+        # Server-side validations
+        if len(user_email) == 0:
+            print("user_mail oops")
+            return JsonResponse({"error": "Missing user email"}, status=400)
+        if len(user_first_name) == 0:
+            print("user_first_name oops")
+            return JsonResponse({"error": "Missing user first name"},
+                                status=400)
+        if len(user_last_name) == 0:
+            print("user_last_name oops")
+            return JsonResponse({"error": "Missing user last name"},
+                                status=400)
 
         # Cache data in session
         request.session["checkout_cache"] = {
             "order_id": order_id,
             "user_email": user_email,
         }
+
+        order.shipping_info = pepiska_info
+        if request.user.is_authenticated:
+            order.user_id = request.user
+        else:
+            order.guest_email = user_email
+            order.guest_first_name = user_first_name
+            order.guest_last_name = user_last_name
+
+        print("shipping info", pepiska_info.street_address1,
+              pepiska_info.is_default)
+        order.save()
 
         payment_intent_id = request.POST.get("payment_intent_id")
         if payment_intent_id:
@@ -226,7 +223,7 @@ def cache_checkout_data(request):
                 stripe.PaymentIntent.modify(payment_intent_id, metadata={
                     "order_id": order.id,
                     "user_email": user_email,
-                    "user_fullname": user_fullname,
+                    "user_fullname": user_full_name,
                 })
             except stripe.error.StripeError as e:
                 logger.error(f"Stripe error: {str(e)}")
@@ -370,22 +367,38 @@ def get_initial_shipping_data(user):
     return initial
 
 
-def process_shipping_info(form, user):
+def process_shipping_info(form, user, order):
     """Process and save shipping information for both users and guests"""
-    shipping_info = form.save(commit=False)
+    # Get the existing shipping_info
+    shipping_info = order.shipping_info
+
+    # Use form data to update it
+    form_instance = form.save(commit=False)
+
+    # Copy field values from form_instance to the existing object
+    for field in [
+        "phone_number", "street_address1", "street_address2",
+        "town_or_city", "county", "country", "postcode"
+    ]:
+        setattr(shipping_info, field, getattr(form_instance, field))
+
+    save_address_as_default = False
+    is_address_default = False
 
     # For authenticated users
     if user and user.is_authenticated:
         shipping_info.user = user
         if form.cleaned_data.get("save_as_default"):
-            shipping_info.is_default = True
-
+            save_address_as_default = True
+        if form.cleaned_data.get("is_default"):
+            is_address_default = True
     # For guests (no user association)
     else:
         shipping_info.user = None
-        shipping_info.is_default = False
 
-    shipping_info.save()
+    shipping_info.is_default = is_address_default
+
+    shipping_info.save(save_address_as_default=save_address_as_default)
     return shipping_info
 
 

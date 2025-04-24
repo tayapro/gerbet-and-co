@@ -73,7 +73,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Add listener to validate each required field
     requiredFields.forEach(field => {
-        console.log("BLA")
         field.addEventListener("input", () => validateField(field));
         field.addEventListener("blur", () => validateField(field));
     });

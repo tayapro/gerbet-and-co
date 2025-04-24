@@ -1,6 +1,6 @@
-from django.db.models.signals import post_save
+# from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import ShippingInfo
+from .models import shipping_info_updated
 from accounts.models import UserContactInfo
 import logging
 
@@ -8,8 +8,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-@receiver(post_save, sender=ShippingInfo)
-def sync_profile_address(sender, instance, created, **kwargs):
+@receiver(shipping_info_updated)
+def sync_profile_address(sender, instance, save_address_as_default=False,
+                         **kwargs):
     """
     Sync shipping info with user's contact info when:
     - User is authenticated
@@ -27,7 +28,17 @@ def sync_profile_address(sender, instance, created, **kwargs):
         instance.country,
     ]
 
-    if all(required_fields) and not instance.is_default and instance.user:
+    print('all fields', all(required_fields))
+    print('not instance.is_default', not instance.is_default)
+    print('save_address_as_default', save_address_as_default)
+    print('instance.user', instance.user)
+
+    if (
+        all(required_fields)
+        and not instance.is_default
+        and save_address_as_default
+        and instance.user
+    ):
         # Create a new default address
         new_address = UserContactInfo.objects.create(
             user=instance.user,
