@@ -82,23 +82,27 @@ The shop follows a direct-to-consumer (DTC) model, selling exclusively through i
 
 ## Marketing Strategies
 
-1. Product-First Storytelling
-   Gerbet & Co. emphasizes high-quality ingredients, artisanal techniques, and a meaningful founder story — all of which are showcased in the About page. Visual and written content is crafted to create an emotional connection with customers, presenting each order as a joyful, gift-worthy experience.
+1.  Product-First Storytelling
+    Gerbet & Co. emphasizes high-quality ingredients, artisanal techniques, and a meaningful founder story — all of which are showcased in the About page. Visual and written content is crafted to create an emotional connection with customers, presenting each order as a joyful, gift-worthy experience.
 
-2. Visual Social Media Presence
-   The brand maintains a strong presence on Instagram and Pinterest, highlighting behind-the-scenes baking, seasonal launches, and packaging rituals. User-generated content (UGC) and customer testimonials are featured through styled photography and story reposts to build trust and engagement.
+2.  Visual Social Media Presence
+    A Facebook page layout was created for Gerbet & Co to represent the brand online and support future social media engagement strategies.
 
-3. Email Marketing with a Personal Touch
-   Subscribers receive curated emails including seasonal collection announcements, restock alerts, and macaron-tea pairing ideas. Limited batch drops and early access to new products help create urgency and community around the brand.
+        <img src="readme/gerbet_and_co_facebook_mockup.png" width="700" alt="gerbet_and_co_facebook_mockup">
 
-4. Niche Positioning
-   Marketing efforts are tailored to specific audiences such as gift buyers, tea enthusiasts, and event planners. Customizable options for weddings, birthdays, and corporate gifts allow Gerbet & Co. to stand out in premium gifting categories.
+3.  Email Marketing with a Personal Touch
+    Subscribers receive curated emails including seasonal collection announcements, restock alerts, and macaron-tea pairing ideas. Limited batch drops and early access to new products help create urgency and community around the brand.
 
-5. Local SEO & Community Involvement
-   To strengthen local visibility, keywords like “handmade macarons Ireland” and “luxury treats Dublin” are used throughout the site. The brand also explores partnerships with local businesses and participates in community events and pop-ups to build grassroots awareness.
+4.  Niche Positioning
+    Marketing efforts are tailored to specific audiences such as gift buyers, tea enthusiasts, and event planners. Customizable options for weddings, birthdays, and corporate gifts allow Gerbet & Co. to stand out in premium gifting categories.
 
-6. Focus on the Gifting Experience
-   Every product is packaged with care, using minimal yet elegant design. Optional handwritten notes and curated gift sets are offered, making the experience ideal for occasions like anniversaries, holidays, and thank-you gifts.
+5.  Local SEO & Community Involvement
+    To strengthen local visibility, keywords like "macarons Dublin" and "sweet gist ideas" are used throughout the site. The brand also explores partnerships with local businesses and participates in community events and pop-ups to build grassroots awareness.
+
+6.  Focus on the Gifting Experience
+    Every product is packaged with care, using minimal yet elegant design. Optional handwritten notes and curated gift sets are offered, making the experience ideal for occasions like anniversaries, holidays, and thank-you gifts.
+
+##
 
 [Back to top](#table-of-contents)
 
@@ -114,7 +118,7 @@ The list of user stories can be found in [Gerbet & Co GitHub project](https://gi
 
 ### Landing page
 
-<img src="readme/Landing_page_wireframe.png" width="400" alt="Landing_page_wireframe.png">
+<img src="readme/Landing_page_wireframe.png" width="400" alt="Landing_page_wireframe">
 
 ### Products page
 
@@ -198,6 +202,48 @@ Diagrams.net (Draw.io) was used to create the Entity Relationship Diagram (ERD) 
 It provided a clear and accessible way to map out model relationships and plan the database structure effectively.
 
 <img src="readme/gerbetco_flowchart.png" width="700" alt="gerbet flowchart">
+
+## Key Design Decisions
+
+### Imagery
+
+Gerbet & Co embraces a soft and elegant aesthetic, inspired by the charm of artisanal treats and soft elegance.
+Product and lifestyle imagery focuses on seasonal macarons, tea moments, and thoughtfully styled packaging
+to convey warmth, indulgence, and a handcrafted feel. Each visual was chosen to reflect the calm,
+refined nature of the brand.
+
+### Color Scheme
+
+The project applies a refined palette rooted in natural, dessert-inspired tones.
+Custom CSS variables define the primary accents:
+
+<table>
+    <tr>
+        <td><img src="readme/zomp.png" width="50" alt="Gerbet & Co color palette" /></td>
+        <td>a muted botanical green</td>
+    </tr>
+    <tr>
+        <td><img src="readme/rose.png" width="50" alt="Gerbet & Co color palette" /></td>
+        <td>a delicate blush coral</td>
+    </tr>
+    <tr>
+        <td><img src="readme/purple.png" width="50" alt="Gerbet & Co color palette" /></td>
+        <td>a deep plum with softened opacity</td>
+    </tr>
+</table>
+
+These colors are used thoughtfully across backgrounds, buttons, and accents to maintain a cohesive,
+gentle design throughout the site.
+
+### Typography
+
+Gerbet & Co uses a font pairing that evokes both elegance and readability:
+
+-   **Playfair Display SC** is used for headings, adding a sense of timelessness and quiet sophistication.
+-   **Nunito Sans** supports the main body text, ensuring clarity, balance, and a modern finish.
+
+This combination provides a calm, welcoming reading experience while aligning with the brand’s
+handcrafted and refined identity.
 
 [Back to top](#table-of-contents)
 
