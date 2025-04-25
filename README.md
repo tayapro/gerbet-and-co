@@ -104,6 +104,105 @@ The shop follows a direct-to-consumer (DTC) model, selling exclusively through i
 
 ---
 
+# UX Design
+
+## User Stories
+
+The list of user stories can be found in [Gerbet & Co GitHub project](https://github.com/users/tayapro/projects/5).
+
+## Wireframes
+
+### Landing page
+
+<img src="readme/Landing_page_wireframe.png" width="400" alt="Landing_page_wireframe.png">
+
+### Products page
+
+<img src="readme/Products_page_wireframe.png" width="400" alt="Products_page_wireframe">
+
+### Product view page
+
+<img src="readme/Product_page_wireframe.png" width="400" alt="Product_page_wireframe">
+
+### Account page
+
+<img src="readme/Account_page_wireframe.png" width="400" alt="Account_page_wireframe">
+
+### Account profile page
+
+<img src="readme/Account_profile_page_wireframe.png" width="400" alt="Account_profile_page_wireframe">
+
+### Accout profile edit page
+
+<img src="readme/Account_profile_edit_page_wireframe.png" width="400" alt="Account_profile_edit_page_wireframe">
+
+### Account profile password update page
+
+<img src="readme/Account_profile_password_update_page_wireframe.png" width="400" alt="Account_profile_password_update_page_wireframe">
+
+### Account address list page
+
+<img src="readme/Account_address_list_page_wireframe.png" width="400" alt="Account_address_list_page_wireframe">
+
+### Account create/update address pages
+
+<img src="readme/Account_address_create_update_page_wireframe.png width="400" alt="Account_address_create_update_page_wireframe">
+
+### Account delete page
+
+<img src="readme/Account_address_delete_page_wireframe.png" width="400" alt="Account_address_delete_page_wireframe">
+
+### Account order list page
+
+<img src="readme/Account_orders_list_page_wireframe.png" width="400" alt="Account_orders_list_page_wireframe">
+
+### Account order view page
+
+<img src="readme/Account_order_view_page_wireframe.png" width="400" alt="Account_order_view_page_wireframe">
+
+### Bag page
+
+<img src="readme/Bag_view_page_wireframe.png" width="400" alt="Bag_view_page_wireframe">
+
+### Checkout page
+
+<img src="readme/Checkout_page_wireframe.png" width="400" alt="Checkout_page_wireframe">
+
+### Checkout success page
+
+<img src="readme/Checkout_success_page_wireframe.png" width="400" alt="Checkout_success_page_wireframe">
+
+### Login page
+
+<img src="readme/Login_page_wireframe.png" width="400" alt="Login_page_wireframe">
+
+### Register page
+
+<img src="readme/Register_page_wireframe.png" width="400" alt="Register_page_wireframe">
+
+### Logout page
+
+<img src="readme/Logout_page_wireframe.png" width="400" alt="Logout_page_wireframe">
+
+### Forget password page
+
+<img src="readme/Forget_password_page_wireframe.png" width="400" alt="Forget_password_page_wireframe">
+
+### Error pages
+
+<img src="readme/Error_pages_wireframe.png" width="400" alt="Error_pages_wireframe">
+
+## Flowcharts
+
+Diagrams.net (Draw.io) was used to create the Entity Relationship Diagram (ERD) for the Gerbet & Co project.
+It provided a clear and accessible way to map out model relationships and plan the database structure effectively.
+
+<img src="readme/gerbetco_flowchart.png" width="700" alt="gerbet flowchart">
+
+[Back to top](#table-of-contents)
+
+---
+
 # Agile Methodology
 
 ## GitHub Projects
