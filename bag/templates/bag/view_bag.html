@@ -17,12 +17,10 @@
         <div class="row">
             {% include "bag/includes/bag_items.html" %}
 
-            <div class="card mt-4 p-4 shadow-sm border border-opacity-50">
-                <h5 class="purple-text-75 mb-4">Order summary</h5>
+            <div class="card mt-4 p-2 shadow-sm border border-opacity-50">
+                <h5 class="purple-text-75 my-4 text-center">Order summary</h5>
 
-                <div class="container px-4" id="order-summary">
-                    {% include "bag/includes/bag_summary.html" %}
-                </div>
+                {% include "bag/includes/bag_summary.html" %}
             
                 <div class="text-end m-3">
                     <a href="{% url 'checkout' %}" class="btn bg-zomp-100 text-white-color px-3 d-inline-flex align-items-center gap-2"

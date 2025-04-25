@@ -474,7 +474,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function processResponseErrors(responseDetails) {
         Object.entries(responseDetails).forEach(([fieldName, errorArray]) => {
             if (errorArray.length > 0) {
-                // Check if there is at least one error
                 const firstError = errorArray[0] // Get the first error message
                 const field = document.getElementById(`id_${fieldName}`)
                 if (field) {
