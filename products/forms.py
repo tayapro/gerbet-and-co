@@ -8,6 +8,13 @@ logger = logging.getLogger(__name__)
 
 
 class RatingForm(forms.ModelForm):
+    """
+    A form for submitting product ratings.
+
+    Validates that the user has purchased the product before allowing
+    rating submission. Also ensures that a rating value is selected.
+    """
+
     rating = forms.ChoiceField(
         choices=RATING_CHOICES,
         widget=forms.RadioSelect,
@@ -53,6 +60,13 @@ class RatingForm(forms.ModelForm):
 
 
 class ProductAdminForm(forms.ModelForm):
+    """
+    A custom form used in the Django admin for managing Product instances.
+
+    Allows admins to update product details, view the current image URL,
+    and optionally provide a new image URL.
+    """
+
     image_url = forms.URLField(
         label="New Image URL",
         required=False,

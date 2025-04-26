@@ -7,6 +7,7 @@ from .forms import RatingForm
 from .models import Category, Product, Rating
 from checkout.models import OrderItem
 
+# Sort options available for the product list and search pages
 sort_options = [
     ("price_asc", "Price (Low to High)"),
     ("price_desc", "Price (High to Low)"),
@@ -15,6 +16,14 @@ sort_options = [
 
 
 def product_list(request):
+    """
+    Display a list of products with optional filtering and sorting.
+
+    Supports category, rating, and price filters.
+    Sort options include price and popularity.
+    Adds dynamic star rating visualization to each product.
+    """
+
     # Randomly shuffle the queryset
     products = Product.objects.order_by('?')
 
@@ -52,6 +61,13 @@ def product_list(request):
 
 
 def product_view(request, product_id):
+    """
+    Display details for a specific product.
+
+    Shows title, description, price, average rating, and allows
+    authenticated users who purchased the product to leave a rating.
+    """
+
     product = get_object_or_404(Product, id=product_id)
 
     can_rate = False
@@ -73,6 +89,13 @@ def product_view(request, product_id):
 
 
 def product_search(request):
+    """
+    Display search results for products based on user query.
+
+    Supports the same filtering and sorting as the main product list.
+    Shows a message if no search query is entered.
+    """
+
     query = request.GET.get("search_query", "")
     if not query:
         messages.error(request, "Please enter a search term.")
@@ -121,6 +144,13 @@ def product_search(request):
 
 @login_required
 def product_rating(request, product_id):
+    """
+    Allow authenticated users to rate a product they have purchased.
+
+    Only users who previously bought the product can submit or update a rating.
+    Updates the product's average rating after a new rating is saved.
+    """
+
     product = get_object_or_404(Product, id=product_id)
 
     # Only allow rating if user purchased the product
@@ -159,9 +189,13 @@ def product_rating(request, product_id):
 # Helper views
 def get_star_fill_levels(rating):
     """
-    Returns a list of 5 fill values (0.0 to 1.0) per star based on rating.
+    Calculate star fill levels for rating visualization.
+
+    Returns a list of 5 values (between 0.0 and 1.0) representing
+    how much each star should be filled based on the rating.
     Example: 4.3 → [1, 1, 1, 1, 0.3]
     """
+
     fill_levels = []
     for i in range(1, 6):
         if rating >= i:
@@ -174,6 +208,18 @@ def get_star_fill_levels(rating):
 
 
 def product_filter(request, products):
+    """
+    Filter products based on query parameters.
+
+    Supports filtering by:
+    - Categories
+    - Minimum star rating
+    - Minimum and maximum price
+
+    Returns the filtered queryset and a list of selected filters
+    for displaying active filters in the UI.
+    """
+
     selected_filters = []
 
     # Filter by category
@@ -233,6 +279,18 @@ def product_filter(request, products):
 
 
 def product_sort(request, products, order_by):
+    """
+    Sort products based on the user's selected sorting option.
+
+    Supports sorting by:
+    - Price ascending
+    - Price descending
+    - Popularity (rating)
+
+    Returns the sorted queryset and the selected sort option
+    for UI display.
+    """
+
     selected_sort = None
 
     # Apply sorting

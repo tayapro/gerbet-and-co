@@ -15,6 +15,13 @@ logger = logging.getLogger(__name__)
 
 
 def get_order_with_retry(payment_intent_id):
+    """
+    Attempt to retrieve an order linked to a given Stripe PaymentIntent ID.
+
+    Retries up to 5 times with 1-second intervals to handle potential database
+    race conditions during order creation and webhook receipt.
+    """
+
     for attempt in range(1, 6):
         try:
             order = Order.objects.get(stripe_pid=payment_intent_id,)
@@ -34,6 +41,15 @@ def get_order_with_retry(payment_intent_id):
 
 
 def handle_payment_event(payment_intent, event_type):
+    """
+    Process payment-related events for an order based on the incoming
+    Stripe PaymentIntent object.
+
+    Updates order status, sends confirmation or failure emails, and handles
+    necessary database saves. Introduces a short delay to ensure all related
+    records are saved before sending emails.
+    """
+
     try:
         order = get_order_with_retry(payment_intent.id)
         logger.info(f"webhooks handle_payment_event: order - {order}")
@@ -107,6 +123,13 @@ def handle_payment_event(payment_intent, event_type):
 
 @csrf_exempt
 def stripe_webhook(request):
+    """
+    Main endpoint for receiving Stripe webhook events.
+
+    Verifies event authenticity, prevents duplicate processing, and dispatches
+    handling for payment success and payment failure events.
+    """
+
     logger.warning("Webhook endpoint accessed - raw headers: %s",
                    dict(request.headers))
     logger.warning("Request body length: %d", len(request.body))

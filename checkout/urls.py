@@ -2,6 +2,13 @@ from django.urls import path
 from . import views
 from .webhooks import stripe_webhook
 
+"""
+URL configuration for checkout-related views in the Gerbet & Co e-commerce
+platform.
+
+Includes routes for checkout processing, payment caching, order success
+handling, and Stripe webhook integration.
+"""
 
 urlpatterns = [
     path("", views.checkout, name="checkout"),

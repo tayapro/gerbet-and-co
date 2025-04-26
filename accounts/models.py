@@ -4,6 +4,13 @@ from django.db import models
 
 
 class UserContactInfo(models.Model):
+    """
+    Represents a user's contact and address information for order-related
+    communication.
+
+    Includes fields for phone number, address details, and country selection.
+    Allows users to store multiple addresses and mark one as the default.
+    """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_default = models.BooleanField(default=False)
     phone_number = models.CharField(max_length=20, null=True, blank=True)

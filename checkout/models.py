@@ -11,6 +11,11 @@ shipping_info_updated = Signal()
 
 
 class CheckoutConfig(models.Model):
+    """
+    Stores checkout settings such as free delivery threshold,
+    delivery cost, and Stripe currency.
+    """
+
     free_delivery_threshold = models.DecimalField(max_digits=10,
                                                   decimal_places=2,
                                                   default=50.00)
@@ -31,6 +36,13 @@ class CheckoutConfig(models.Model):
 
 
 class ShippingInfo(models.Model):
+    """
+    Stores delivery address details for users or guest customers.
+
+    Includes a custom save method to manage default addresses and
+    triggers a signal to sync with the user's profile if needed.
+    """
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
                              blank=True, related_name="shipping_addresses")
     is_default = models.BooleanField(default=False)
@@ -68,6 +80,13 @@ class ShippingInfo(models.Model):
 
 
 class Order(models.Model):
+    """
+    Represents a customer's order, linking to user/guest details,
+    delivery information, payment status, and totals.
+
+    Generates a unique order ID based on the date and sequence.
+    """
+
     STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('paid', 'Paid'),
@@ -135,6 +154,11 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
+    """
+    Represents individual products associated with an order,
+    including quantity and item total price.
+    """
+
     order = models.ForeignKey(Order, null=False, blank=False,
                               on_delete=models.CASCADE,
                               related_name='lineitems')
@@ -154,6 +178,11 @@ class OrderItem(models.Model):
 
 
 class WebhookEvent(models.Model):
+    """
+    Tracks Stripe webhook events to ensure that payment-related
+    events are processed only once.
+    """
+
     stripe_id = models.CharField(max_length=255, unique=True)
     type = models.CharField(max_length=255)
     data = models.JSONField()

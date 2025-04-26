@@ -20,6 +20,13 @@ logger = logging.getLogger(__name__)
 
 
 def checkout(request):
+    """
+    Entry point for the checkout process.
+
+    Handles displaying the checkout page for GET requests
+    and delegating form submission handling for POST requests.
+    """
+
     bag = Bag(request)
     if bag.is_empty():
         messages.error(request, "Your shopping bag is empty. "
@@ -58,7 +65,13 @@ def checkout(request):
 
 def handle_checkout_get(request, stripe_public_key, bag_total, delivery_cost,
                         grand_total, grand_total_cents, currency):
-    """Handle initial checkout page load"""
+    """
+    Handle checkout page rendering (GET).
+
+    Creates a PaymentIntent, initializes a new order, and
+    prepares the shipping form with any pre-filled data.
+    """
+
     # Create PaymentIntent
     intent = stripe.PaymentIntent.create(
         amount=grand_total_cents,
@@ -117,7 +130,12 @@ def handle_checkout_get(request, stripe_public_key, bag_total, delivery_cost,
 @require_POST
 @csrf_exempt
 def handle_checkout_post(request, bag, order_id, currency):
-    """Handle form submission"""
+    """
+    Handle form submission during checkout (POST).
+
+    Processes user input, updates the order with shipping details,
+    and redirects to finalize the payment.
+    """
 
     use_default = request.POST.get("use_default") == "on"
     logger.info(
@@ -138,8 +156,12 @@ def handle_checkout_post(request, bag, order_id, currency):
 @csrf_exempt
 def cache_checkout_data(request):
     """
-    Caches the checkout data in the session before confirming payment.
+    Caches user and order data in the session during checkout
+    before payment is confirmed.
+
+    Also updates the Stripe PaymentIntent metadata with user info.
     """
+
     try:
         order_id = request.POST.get("order_id")
         if not order_id:
@@ -175,12 +197,6 @@ def cache_checkout_data(request):
                 "details": shipping_info_form.errors.as_json()
                 },
                 status=400)
-        pepiska_info = process_shipping_info(shipping_info_form, request.user,
-                                             order)
-        print("pepska --- end", pepiska_info)
-
-        print(f"USER: {user_email}, {user_first_name}, {user_last_name}",
-              f"{user_full_name}")
 
         # Server-side validations
         if len(user_email) == 0:
@@ -201,7 +217,8 @@ def cache_checkout_data(request):
             "user_email": user_email,
         }
 
-        order.shipping_info = pepiska_info
+        order.shipping_info = process_shipping_info(shipping_info_form,
+                                                    request.user, order)
         if request.user.is_authenticated:
             order.user_id = request.user
         else:
@@ -209,8 +226,6 @@ def cache_checkout_data(request):
             order.guest_first_name = user_first_name
             order.guest_last_name = user_last_name
 
-        print("shipping info", pepiska_info.street_address1,
-              pepiska_info.is_default)
         order.save()
 
         payment_intent_id = request.POST.get("payment_intent_id")
@@ -243,6 +258,35 @@ def cache_checkout_data(request):
         logger.error(f"Cache checkout data error: {str(e)}", exc_info=True)
         return JsonResponse({"error": "Failed to cache checkout data",
                              "details": str(e)}, status=500)
+
+
+def checkout_success(request, order_id):
+    """
+    Display the checkout success page after payment confirmation.
+
+    Clears related session data and displays order details.
+    """
+
+    order = get_order_or_redirect(order_id, request)
+    if not isinstance(order, Order):
+        return order
+
+    # List of session keys to delete
+    session_keys_to_delete = ["bag",
+                              "order_id",
+                              "checkout_cache",
+                              "payment_intent_created_at"]
+
+    for key in session_keys_to_delete:
+        if key in request.session:
+            del request.session[key]
+
+    request.session.modified = True
+
+    context = {
+        "order": order,
+    }
+    return render(request, "checkout/checkout_success.html", context)
 
 
 # Helper functions
@@ -300,11 +344,12 @@ def check_payment_session(request, order):
 
 def get_order_or_redirect(order_id, request):
     """
-    Unified order retrieval that handles:
-    - AJAX requests (returns JSON)
-    - Regular requests (returns redirect)
-    - Session expiration checks
+    Retrieve an order by ID.
+
+    Handles AJAX and non-AJAX request types by returning either
+    a JSON response or a redirect if the order is not found.
     """
+
     try:
         order = Order.objects.get(id=order_id)
         logger.debug(
@@ -328,14 +373,21 @@ def get_order_or_redirect(order_id, request):
 
 
 def get_full_name(request):
-    """Get user's full name"""
+    """
+    Retrieve the user's full name for display or Stripe metadata.
+    """
+
     if request.user.is_authenticated:
         return f"{request.user.first_name} {request.user.last_name}"
     return "Guest"
 
 
 def get_initial_shipping_data(user):
-    """Get initial data for shipping form"""
+    """
+    Retrieve the user's default address information to prefill
+    the shipping form if available.
+    """
+
     initial = {}
 
     if user.is_authenticated:
@@ -368,7 +420,13 @@ def get_initial_shipping_data(user):
 
 
 def process_shipping_info(form, user, order):
-    """Process and save shipping information for both users and guests"""
+    """
+    Process and update the order's shipping information from
+    the submitted form.
+
+    Optionally saves the address as a default for authenticated users.
+    """
+
     # Get the existing shipping_info
     shipping_info = order.shipping_info
 
@@ -405,7 +463,10 @@ def process_shipping_info(form, user, order):
 def build_checkout_context(request, form, stripe_public_key, intent,
                            bag_total, delivery_cost, grand_total,
                            grand_total_cents, currency, order_id):
-    """Build checkout context"""
+    """
+    Build and return the context dictionary needed to render
+    the checkout template.
+    """
 
     default_address = (
         UserContactInfo.objects.filter(user=request.user,
@@ -432,7 +493,10 @@ def build_checkout_context(request, form, stripe_public_key, intent,
 
 
 def create_order_items(bag, order):
-    """Create order items from bag contents"""
+    """
+    Create OrderItem entries in the database from the shopping bag contents.
+    """
+
     for item_id, item in bag.bag.items():
         product = get_object_or_404(Product, id=item_id)
         quantity = item["quantity"]
@@ -448,7 +512,10 @@ def create_order_items(bag, order):
 
 
 def update_order_details(order, request, shipping_info, form):
-    """Update order with user details"""
+    """
+    Update the order with user or guest information based on the form data.
+    """
+
     order.shipping_info = shipping_info
 
     if request.user.is_authenticated:
@@ -470,7 +537,13 @@ def update_order_details(order, request, shipping_info, form):
 
 
 def finalize_order(request, bag, order):
-    """Finalize order processing"""
+    """
+    Finalize order processing after successful payment.
+
+    Clears the shopping bag, creates order items, and displays
+    the success page.
+    """
+
     try:
         logger.info(
             f"Finalizing order {order.id} - User: {order.user_id}, "
@@ -519,7 +592,12 @@ def finalize_order(request, bag, order):
 
 
 def handle_invalid_form(request, form, currency):
-    """Handle invalid form submission"""
+    """
+    Handle validation errors during checkout form submission.
+
+    Renders the checkout page again with form error messages.
+    """
+
     # Log detailed form errors
     logger.error("Form validation failed with errors:")
     for field, errors in form.errors.items():
@@ -561,26 +639,3 @@ def handle_invalid_form(request, form, currency):
         }
 
     return render(request, "checkout/checkout.html", context)
-
-
-def checkout_success(request, order_id):
-    order = get_order_or_redirect(order_id, request)
-    if not isinstance(order, Order):
-        return order
-
-    # List of session keys to delete
-    session_keys_to_delete = ["bag",
-                              "order_id",
-                              "checkout_cache",
-                              "payment_intent_created_at"]
-
-    for key in session_keys_to_delete:
-        if key in request.session:
-            del request.session[key]
-
-    request.session.modified = True
-
-    context = {
-        "order": order,
-    }
-    return render(request, "checkout/checkout_success.html", context)

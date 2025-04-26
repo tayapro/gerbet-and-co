@@ -27,6 +27,13 @@ logger = logging.getLogger(__name__)
 
 
 def register(request):
+    """
+    Handle user registration by validating and creating a new user account.
+
+    Sends a welcome email after successful registration. Redirects to login
+    page with a success message on completion.
+    """
+
     next = request.GET.get("next", "/")
 
     if request.method == "POST":
@@ -59,6 +66,13 @@ def register(request):
 
 
 def login(request):
+    """
+    Handle user login with authentication form validation.
+
+    Supports 'Remember Me' functionality by adjusting session expiry.
+    Redirects logged-in users directly to the product list page.
+    """
+
     if request.user.is_authenticated:
         return redirect("product_list")
 
@@ -85,6 +99,13 @@ def login(request):
 
 
 def logout(request):
+    """
+    Log the user out and redirect them to the home page with a success message.
+
+    Handles unauthenticated access gracefully by redirecting to 'next'
+    parameter.
+    """
+
     next = request.GET.get("next", "/")
 
     if not request.user.is_authenticated:
@@ -100,6 +121,10 @@ def logout(request):
 
 @login_required
 def account_view(request):
+    """
+    Display the user's account overview page.
+    """
+
     user = request.user
 
     return render(request, "accounts/account.html", {"user": user})
@@ -107,12 +132,22 @@ def account_view(request):
 
 @login_required
 def profile_view(request):
+    """
+    Display the user's personal profile details.
+    """
+
     return render(request, "accounts/profile_view.html",
                   {"user": request.user})
 
 
 @login_required
 def profile_edit(request):
+    """
+    Allow users to edit and update their profile information.
+
+    After a successful update, users are shown their updated profile.
+    """
+
     if request.method == "POST":
         form = UserProfileForm(request.POST, instance=request.user)
         if form.is_valid():
@@ -132,8 +167,12 @@ def profile_edit(request):
 @login_required
 def address_list(request):
     """
-    Display a list of saved addresses for the user.
+    Display all saved shipping addresses for the logged-in user.
+
+    Highlights the default address and sorts addresses by default status and
+    recency.
     """
+
     user = request.user
     addresses = (
         UserContactInfo.objects
@@ -151,6 +190,12 @@ def address_list(request):
 
 @login_required
 def address_create(request):
+    """
+    Allow users to create and save a new shipping address.
+
+    Optionally set the newly created address as the default address.
+    """
+
     if request.method == "POST":
         form = AddressForm(request.POST)
         if form.is_valid():
@@ -179,6 +224,12 @@ def address_create(request):
 
 @login_required
 def address_update(request, id):
+    """
+    Allow users to update an existing shipping address.
+
+    Supports changing the default address selection during the update.
+    """
+
     address = get_object_or_404(UserContactInfo, id=id, user=request.user)
 
     if request.method == "POST":
@@ -209,6 +260,12 @@ def address_update(request, id):
 @login_required
 @require_POST
 def address_delete(request, id):
+    """
+    Delete a specific shipping address from the user's saved addresses.
+
+    Displays a success or error message based on the outcome.
+    """
+
     address = get_object_or_404(UserContactInfo, id=id, user=request.user)
 
     try:
@@ -226,6 +283,12 @@ def address_delete(request, id):
 @require_POST
 @transaction.atomic
 def set_default_address(request, id):
+    """
+    Set a specific address as the user's default shipping address.
+
+    Resets the previous default address and saves the new selection atomically.
+    """
+
     # Retrieve and reset all addresses for the user
     UserContactInfo.objects.filter(
         user=request.user, is_default=True
@@ -244,8 +307,11 @@ def set_default_address(request, id):
 @login_required
 def order_list(request):
     """
-    Display a list of orders for the user.
+    Display a list of past orders placed by the user.
+
+    Orders are sorted by the most recent purchase first.
     """
+
     user = request.user
     orders = (
         Order.objects
@@ -263,11 +329,24 @@ def order_list(request):
 
 @login_required
 def order_view(request, id):
+    """
+    Display detailed information about a specific order.
+
+    Ensures that users can only view their own orders.
+    """
+
     order = get_object_or_404(Order, id=id, user=request.user)
     return render(request, "accounts/order_view.html", {"order": order})
 
 
 class CustomPasswordChangeView(PasswordChangeView):
+    """
+    Handle user password changes with custom templates and redirect behavior.
+
+    After successful password change, redirects user to the login page
+    with a success notification.
+    """
+
     template_name = "accounts/password_update.html"
     form_class = CustomPasswordChangeForm
 
@@ -278,6 +357,13 @@ class CustomPasswordChangeView(PasswordChangeView):
 
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    """
+    Handle password reset confirmations with a customized post-reset flow.
+
+    After resetting the password, redirects the user to the login page
+    with a success message.
+    """
+
     def form_valid(self, form):
         form.save()
 

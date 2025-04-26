@@ -9,6 +9,13 @@ logger = logging.getLogger(__name__)
 
 
 def get_checkout_settings():
+    """
+    Retrieve or create checkout settings from the CheckoutConfig model.
+
+    Returns the checkout settings used for delivery cost,
+    free delivery thresholds, and Stripe currency configuration.
+    """
+
     settings, created = CheckoutConfig.objects.get_or_create(
         defaults={
             'free_delivery_threshold': 50.00,
@@ -20,6 +27,13 @@ def get_checkout_settings():
 
 
 def send_order_confirmation_email(order):
+    """
+    Send a confirmation email to the user after a successful order.
+
+    Renders both text and HTML versions of the email and sends using
+    Django's EmailMultiAlternatives.
+    """
+
     context = prepare_confirmation_email_details(order)
     recipient = [context["email"]]
     subject = f"Gerbet & Co Order Confirmation - #{order.order_id}"
@@ -38,6 +52,13 @@ def send_order_confirmation_email(order):
 
 
 def send_payment_failure_email(order):
+    """
+    Send a payment failure email notification to the user if
+    the Stripe payment process fails.
+
+    Provides a link to customer support in the message.
+    """
+
     context = prepare_payment_failure_email_details(order)
     recipient = [context["email"]]
     subject = f"Gerbet & Co Payment Failed - Order #{order.order_id}"
@@ -55,6 +76,13 @@ def send_payment_failure_email(order):
 
 
 def prepare_confirmation_email_details(order):
+    """
+    Prepare the context dictionary for rendering order confirmation emails.
+
+    Gathers order details, user or guest information, shipping address,
+    and ordered products.
+    """
+
     user = order.user if order.user else None
 
     shipping = order.shipping_info
@@ -92,6 +120,12 @@ def prepare_confirmation_email_details(order):
 
 
 def prepare_payment_failure_email_details(order):
+    """
+    Prepare the context dictionary for rendering payment failure emails.
+
+    Gathers order ID, recipient information, and a support URL link.
+    """
+
     user = order.user if order.user else None
 
     return {

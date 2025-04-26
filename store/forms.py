@@ -4,6 +4,14 @@ from .models import ContactMessage, Subscriber
 
 
 class ContactForm(forms.ModelForm):
+    """
+    A form for users to submit inquiries via the Contact Us page.
+
+    This form maps to the ContactMessage model and includes custom
+    placeholders, validation, and user-friendly error messages for name,
+    email, and message fields.
+    """
+
     name = forms.CharField(
         max_length=100,
         label="Name",
@@ -62,6 +70,13 @@ class ContactForm(forms.ModelForm):
 
 
 class SubscribeForm(forms.ModelForm):
+    """
+    A simple form for subscribing users to the newsletter.
+
+    Maps to the Subscriber model and handles the submission of user
+    email addresses.
+    """
+
     class Meta:
         model = Subscriber
         fields = ["email"]

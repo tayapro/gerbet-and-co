@@ -8,6 +8,10 @@ from .utils import send_contact_us_email, send_subscription_email
 
 
 def home(request):
+    """
+    Render the homepage with a list of featured products.
+    """
+
     featured_products = Product.objects.filter(featured_badge__isnull=False)
 
     return render(request, "store/home_page.html", {
@@ -15,6 +19,13 @@ def home(request):
 
 
 def subscribe(request):
+    """
+    Handle newsletter subscription form submission.
+
+    If successful, saves the subscriber's email and sends a confirmation email.
+    Supports rendering success or error messages.
+    """
+
     next = request.GET.get("next", "/")
 
     if request.method == "POST":
@@ -42,19 +53,38 @@ def subscribe(request):
 
 
 def info_page(request):
+    """
+    Render the information page with store policies and general info.
+    """
+
     return render(request, "store/info_page.html")
 
 
 def about_page(request):
+    """
+    Render the About page describing Gerbet & Co's story and values.
+    """
+
     return render(request, "store/about_page.html")
 
 
 def help_page(request):
+    """
+    Render the Help page with FAQs related to the Taste & Treats section.
+    """
+
     faqs = Faq.objects.filter(section="taste-and-treats")
     return render(request, "store/help_page.html", {"faqs": faqs})
 
 
 def help_section(request, section):
+    """
+    Dynamically load FAQ entries for a selected section.
+
+    If the request is made via HTMX, returns only the FAQ list partial;
+    otherwise, renders the full Help page.
+    """
+
     faqs = Faq.objects.filter(section=section)
     context = {
         "faqs": faqs,
@@ -68,6 +98,13 @@ def help_section(request, section):
 
 
 def contact_us_page(request):
+    """
+    Handle the Contact Us form submission.
+
+    Saves the message to the database and sends a confirmation email to staff.
+    Displays success or error messages to the user.
+    """
+
     next = request.GET.get("next", "/")
 
     if request.method == "POST":

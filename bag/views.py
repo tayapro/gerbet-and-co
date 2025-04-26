@@ -6,6 +6,13 @@ from products.models import Product
 
 
 def add_to_bag(request, product_id):
+    """
+    Add a product to the bag or increase its quantity by one.
+
+    Supports both standard and HTMX requests. Displays a toast
+    notification on successful addition if HTMX is used.
+    """
+
     bag = Bag(request)
     product = get_object_or_404(Product, id=product_id)
 
@@ -30,12 +37,26 @@ def add_to_bag(request, product_id):
 
 
 def remove_from_bag(request, product_id):
+    """
+    Remove a product from the bag.
+
+    Redirects the user back to the bag view after removal.
+    """
+
     bag = Bag(request)
     bag.remove(product_id)
     return redirect("view_bag")
 
 
 def update_bag(request, product_id):
+    """
+    Update the quantity of a product in the bag.
+
+    Supports 'increase', 'decrease', or direct quantity updates.
+    Handles validation for quantity boundaries (1 - 99).
+    Dynamically updates the bag using HTMX if available.
+    """
+
     bag = Bag(request)
     product = get_object_or_404(Product, id=product_id)
     action = request.POST.get("action")
@@ -77,5 +98,9 @@ def update_bag(request, product_id):
 
 
 def view_bag(request):
+    """
+    Display the current contents of the user's shopping bag.
+    """
+
     bag = Bag(request)
     return render(request, "bag/view_bag.html", {"bag": bag})

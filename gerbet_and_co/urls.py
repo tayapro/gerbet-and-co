@@ -19,6 +19,21 @@ handler500 = 'gerbet_and_co.views.custom_500'
 # CSRF-specific 403 error handler
 handler403_csrf = 'gerbet_and_co.views.custom_403_csrf'
 
+"""
+URL configuration for the Gerbet & Co e-commerce platform.
+
+Includes routes for:
+- Store home and general pages
+- User account management (registration, login, profile, addresses, orders)
+- Django admin panel
+- Product browsing and search
+- Shopping bag management
+- Checkout process with Stripe integration
+- WYSIWYG editor (TinyMCE) for content management
+- Serving sitemap.xml and robots.txt files
+- Serving media files during development
+"""
+
 urlpatterns = [
     path("", include("store.urls")),
     path("accounts/", include("accounts.urls")),

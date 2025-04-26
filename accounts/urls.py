@@ -4,6 +4,15 @@ from . import views
 
 from .forms import CustomPasswordResetForm
 
+"""
+URL configuration for account-related views in the Gerbet & Co e-commerce
+platform.
+
+Includes routes for user registration, authentication (login/logout), profile
+management,
+address book operations (CRUD), order history viewing, and password management
+(change and reset).
+"""
 
 urlpatterns = [
     path("register/", views.register, name="register"),

@@ -10,6 +10,11 @@ from tinymce.models import HTMLField
 
 
 class Category(models.Model):
+    """
+    Represents a category for organizing products.
+    Supports hierarchical categories through the optional parent field.
+    """
+
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     # for sub-categories
@@ -33,6 +38,12 @@ FEATURED_BADGES = [
 
 
 class Product(models.Model):
+    """
+    Represents a product with attributes such as title, description, price,
+    image, rating, and category associations. Includes logic for slug
+    generation, image deletion, and checking if a user purchased the product.
+    """
+
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
     description = HTMLField()
@@ -108,7 +119,9 @@ RATING_CHOICES = [(i, f"{i} Star{'s' if i > 1 else ''}") for i in range(1, 6)]
 
 class Rating(models.Model):
     """
-    Represents a user's rating for a product.
+    Represents a user's rating for a product, allowing users to rate products
+    from 1 to 5 stars. Supports ordering by creation date and indexing
+    for efficient queries.
     """
 
     user = models.ForeignKey(User, on_delete=models.CASCADE,

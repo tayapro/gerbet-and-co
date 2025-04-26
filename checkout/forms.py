@@ -17,6 +17,19 @@ def validate_phone(value):
 
 
 class ShippingInfoForm(forms.ModelForm):
+    """
+    A form for collecting and validating shipping address information
+    during the checkout process.
+
+    Handles both authenticated users and guest users:
+    - Authenticated users can use a saved default address or save a new one.
+    - Guest users are required to manually enter all necessary personal and
+    delivery details.
+
+    Provides custom validation for required fields and formats,
+    ensuring accurate data submission.
+    """
+
     guest_first_name = forms.CharField(
         required=False,
         validators=[MinLengthValidator(2)],

@@ -22,12 +22,17 @@ def validate_phone(value):
 
 
 class UserRegistrationForm(UserCreationForm):
+    """
+    A form for user registration, extending Django’s UserCreationForm.
+
+    Adds custom validations for username, email, and first/last name fields.
+    Also customizes placeholders for a smoother user experience.
+    """
+
     username = forms.CharField(min_length=2, required=True)
     email = forms.EmailField(required=True)
     first_name = forms.CharField(min_length=2, required=True)
     last_name = forms.CharField(min_length=2, required=True)
-    # password1 = forms.CharField(required=True)
-    # password2 = forms.CharField(required=True)
 
     class Meta:
         model = User
@@ -80,6 +85,13 @@ class UserRegistrationForm(UserCreationForm):
 
 
 class UserProfileForm(forms.ModelForm):
+    """
+    A form for updating basic user profile details such as
+    first name, last name, and (read-only) email address.
+
+    Includes minimum length validation for names.
+    """
+
     first_name = forms.CharField(
         required=True,
         validators=[MinLengthValidator(2)],
@@ -107,6 +119,13 @@ class UserProfileForm(forms.ModelForm):
 
 
 class AddressForm(forms.ModelForm):
+    """
+    A form for creating and updating shipping addresses.
+
+    Includes optional default address setting,
+    phone number validation, and country selection widget.
+    """
+
     street_address1 = forms.CharField(
         required=True,
         validators=[MinLengthValidator(2)],
@@ -159,6 +178,11 @@ class AddressForm(forms.ModelForm):
 
 
 class CustomPasswordResetForm(PasswordResetForm):
+    """
+    A customized password reset form that verifies whethere
+    the provided email is associated with an existing user.
+    """
+
     def clean_email(self):
         email = self.cleaned_data["email"]
         if not User.objects.filter(email=email).exists():
@@ -168,6 +192,11 @@ class CustomPasswordResetForm(PasswordResetForm):
 
 
 class CustomPasswordChangeForm(PasswordChangeForm):
+    """
+    A customized password change form that prevents users
+    from setting the same password as the old one.
+    """
+
     def clean(self):
         cleaned_data = super().clean()
         old_password = cleaned_data.get("old_password")

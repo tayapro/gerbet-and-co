@@ -2,6 +2,12 @@ from django.urls import path
 
 from . import views
 
+"""
+URL configuration for the Store app.
+
+Includes routes for homepage, about page, help and FAQ sections,
+contact form, subscription form, and information page.
+"""
 
 urlpatterns = [
     path("", views.home, name="home"),

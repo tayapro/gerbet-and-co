@@ -12,11 +12,14 @@ logger = logging.getLogger(__name__)
 def sync_profile_address(sender, instance, save_address_as_default=False,
                          **kwargs):
     """
-    Sync shipping info with user's contact info when:
-    - User is authenticated
-    - User chooses to save as default address
-    - All required fields are populated
+    Signal handling for syncing shipping information with the user's address
+    book.
+
+    When a user saves a shipping address and chooses to mark it as default,
+    this signal updates their profile with the new default address while
+    ensuring data consistency across their saved addresses.
     """
+
     logger.info("Signal triggered for ShippingInfo.")
 
     # Ensure all required fields are present
@@ -27,11 +30,6 @@ def sync_profile_address(sender, instance, save_address_as_default=False,
         instance.postcode,
         instance.country,
     ]
-
-    print('all fields', all(required_fields))
-    print('not instance.is_default', not instance.is_default)
-    print('save_address_as_default', save_address_as_default)
-    print('instance.user', instance.user)
 
     if (
         all(required_fields)
@@ -51,7 +49,6 @@ def sync_profile_address(sender, instance, save_address_as_default=False,
             postcode=instance.postcode,
             country=instance.country
         )
-        print(f"New default address created with ID {new_address.id}")
 
         # Update other addresses to no longer be default
         UserContactInfo.objects.filter(
