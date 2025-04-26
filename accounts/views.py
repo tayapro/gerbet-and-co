@@ -117,13 +117,10 @@ def profile_edit(request):
         form = UserProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            context = {
-                "user": request.user,
-                "toast_message": "Your profile has been successfully changed.",
-            }
+            messages.success(request,
+                             "Your profile has been successfully changed.")
             return render(request,
-                          "accounts/profile_view.html",
-                          context)
+                          "accounts/profile_view.html", {"user": request.user})
     else:
         form = UserProfileForm(instance=request.user)
 

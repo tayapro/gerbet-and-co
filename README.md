@@ -289,6 +289,399 @@ enhancements to improve the user experience in later iterations.
 
 ---
 
+# Features
+
+## Existing Features
+
+### F01 Navigation Bar
+
+The Gerbet & Co site features a sticky, responsive navbar with a refined logo and a clean, user-friendly layout. Navigation elements adjust based on user status: logged-in users see a profile dropdown menu and a real-time shopping bag counter, while visitors are presented with a _Get Started_ button to encourage account creation or login. A collapsible offcanvas search panel offers quick access to product browsing without leaving the current page. The navbar is fully optimized for mobile devices, providing seamless navigation with touch-friendly elements and maintaining accessibility across all screen sizes.
+
+#### Search
+
+Gerbet & Co includes a user-friendly offcanvas search panel, allowing customers to quickly explore products without leaving the current page. The search sidebar is easily accessible from the navbar and opens with a smooth transition. It features a simple input field with placeholder text ("Macaron, tea, or a treat...") to guide users.
+To assist discovery, curated suggestions such as Macarons and Tea are also presented as quick-access buttons, helping users find what they’re looking for with ease.
+
+#### Shopping Bag
+
+Gerbet & Co. provides a seamless shopping experience with real-time updates. When users add a product to their bag, the bag counter in the navbar updates instantly, and a toast message appears to confirm the action. The toast displays the product name and includes a dismiss option, offering clear, unobtrusive feedback without interrupting the browsing flow.
+
+#### Popover Menu for Mobile
+
+Gerbet & Co. uses a clean popover menu on smaller screens, offering quick access to Search, About, FAQs, Contact Us, Account, and Logout/Login links.
+
+The menu:
+
+-   Opens from the right with a smooth slide effect.
+-   Maintains a minimal, elegant design.
+-   Ensures easy navigation without clutter.
+
+Built using Bootstrap’s offcanvas component for a seamless mobile experience.
+
+### F02 Home page
+
+The Gerbet & Co landing page is thoughtfully crafted to create an inviting first impression, blending visual
+elegance with a smooth user experience.
+
+It features:
+
+#### Hero Section
+
+The page opens with a large hero banner, featuring a heartfelt tagline that captures the essence of the brand. Two clear call-to-action buttons invite users to explore either the Macarons Collection or the Tea Collection, ensuring easy
+navigation right from the start.
+
+#### Featured Collections
+
+A highlighted section showcases seasonal selections and customer favorites. Each product card is beautifully presented
+with a product image, name, and an optional label like "spring" or "bestseller," helping users quickly spot new
+arrivals and popular treats.
+
+#### Service Highlights
+
+A dedicated services area reassures customers by highlighting key benefits: express delivery across Europe,
+chilled shipping for freshness, eco-friendly packaging, and responsive customer service. Simple icons and concise descriptions make the services easy to understand at a glance.
+
+#### About Section
+
+An elegant introduction to the story behind Gerbet & Co. This section shares the brand’s passion for delicate flavors and timeless moments, blending French tradition with Irish charm. It adds warmth and authenticity to the overall experience.
+
+#### Awards & Recognition
+
+A trusted and celebrated section showcases awards and accolades, such as "Best Seller Award" and "Premium Quality." This helps to build customer confidence and reflects the brand’s commitment to quality and excellence.
+
+#### Newsletter Signup
+
+Positioned before the footer, the newsletter signup invites visitors to join the Gerbet & Co community. A soft message promises sweet updates without spam, offering a friendly way to stay connected with seasonal launches and news.
+
+#### Footer
+
+The footer contains essential links to shop categories, help pages, shipping policies, and social media profiles. It is styled to match the overall design, reinforcing the brand identity while providing easy access to important information.
+
+### F03 Products page
+
+The Products page presents the Gerbet & Co collection with an inviting and organized layout.
+Each item is displayed with a rich image, name, price, star rating, and a quick "Add to Bag" option, offering a smooth shopping experience without unnecessary steps.
+
+A Filter and Sort Sidebar helps users easily refine results by category, price range, and rating, making it simple to discover the macaron or tea collections.
+This feature supports a faster, more personalized browsing experience.
+
+The visual style of the page stays true to the brand’s elegant and delicate identity, using soft tones,
+rounded cards, and thoughtful spacing to create an effortless and enjoyable atmosphere.
+
+### F04 Product view page
+
+The Product View page offers a detailed look at each item in the collection, highlighting its description, ingredients, weight, and calorie information.
+Customers can easily review the product's average rating, presented with star icons — no written feedback is collected, keeping the experience clean and focused.
+
+If a user has purchased the product in the past, they are given the option to submit their own star rating.
+A _Back_ button ensures smooth navigation, allowing users to return to browsing without any hassle.
+
+### F05 Shopping bag page
+
+The Shopping Bag page provides a clear and inviting overview of the selected items, complete with images, product details, and pricing.
+Users can easily adjust product quantities with a simple click, and remove items if needed.
+
+Quantity changes automatically update:
+
+-   The order summary section, recalculating subtotal, delivery, and grand total.
+-   The shopping bag counter in the navbar, keeping everything in sync.
+
+This seamless real-time behavior is powered by HTMX, ensuring a smooth experience without full page reloads.
+
+Once happy with their selection, users can click the _Proceed to Checkout_ button to move into the checkout flow.
+
+### F06 Checkout page
+
+The checkout page at Gerbet & Co. is designed to provide a smooth and secure experience. Users can choose to
+either use their saved default address or manually fill out the delivery form. If entering new delivery details,
+there is an option to save them as the new default for future purchases.
+
+The checkout form is fully integrated with Stripe API for secure payment processing. After entering delivery
+details, users can review and confirm their order before completing payment.
+
+For mobile devices, the order summary is prioritized and displayed at the top of the page, ensuring users can
+easily review their total before filling out delivery and payment sections listed below.
+
+### F07 Checkout success page
+
+After completing the checkout process, users are directed to a clean and friendly success page.
+A personalized thank you message confirms the order, accompanied by the order number for easy reference.
+
+An order summary clearly lists the purchased items along with subtotal, delivery cost, and total paid.
+A _Continue Shopping_ button is provided, encouraging users to seamlessly return to browsing more products without any interruption.
+
+### F08 About page
+
+The About page shares the story behind Gerbet & Co., a tribute to tradition, craft, and small joys. Through a blend of personal notes from the fictional founders, Isabelle Gerbet and Liam Murphy, the page weaves a light narrative about their journey — from French roots to their cozy Irish kitchen — highlighting their passion for delicate flavors and heartfelt baking. Designed with a warm, inviting layout, the page adds a human touch to the brand’s identity, creating a sense of connection and authenticity.
+
+### F09 FAQ Page
+
+The FAQ page is designed to offer quick, friendly support for visitors. It is divided into sections such as Tasting & Treats, Your Sweet Profile, Orders, Payment, and Delivery. Each section contains expandable questions and answers, helping users find the information they need without leaving the page.
+At the end of the list, a "Still Curious? Contact Us" link directs users to the Contact Us page, offering a simple way to get personalized assistance.
+
+### F10 Contact us page
+
+The Contact Us page features a simple, user-friendly form where visitors can quickly reach out with questions,
+feedback, or special requests.
+The form collects essential details — name, email, and message — ensuring smooth and efficient communication.
+
+To maintain quality interactions, the form uses built-in HTML5 validation combined with custom error messages.
+Users are required to fill out all fields before submitting, with personalized prompts like "Please enter your name."
+and "Please enter your message." to guide them if any fields are left empty.
+
+The page design remains consistent with the brand's warm and welcoming aesthetic, enhanced by a
+vibrant macaron background.
+
+### F11 Sort & filter sidebar
+
+The Sort & Filter sidebar empowers users to refine and personalize their browsing experience with ease. Users can sort products by price (low to high or high to low) or by popularity, helping them quickly find the best fit for their preferences.
+Filtering options include category selection (Macarons, Macaron Sets, Tea), rating (5 stars, 4+ stars, or 3+ stars), and price range adjustment.
+Active filters are displayed as tags above the product grid, with an option to clear all filters in one click.
+The sidebar enhances usability, making product discovery smooth, intuitive, and enjoyable across all devices.
+
+### F12 My account page
+
+The My Account page offers users a welcoming dashboard with quick access to manage their personal information and orders.
+The page is divided into three clear sections:
+
+-   **Resident Profile**: Users can easily update their name, and password to keep their profile up to date.
+-   **Address Book**: Allows users to view, add, and edit their delivery addresses, ensuring their favorite treats always find them, whether at home or away.
+-   **Deliveries at Door**: Provides an overview of past orders, offering a simple way to track what’s been delivered and revisit favorite purchases.
+
+This setup creates a smooth and user-friendly experience, helping users stay connected with their orders and profile in just a few clicks.
+
+### F13 Resident Profile Page
+
+The Resident Profile page offers users a simple and secure way to manage their personal information.
+Here, users can:
+
+-   View their name and email address associated with their account.
+-   Update their details easily by clicking the "Change Details" button.
+-   Change their password securely with a dedicated option.
+
+A _Back to My Account_ button ensures smooth navigation, allowing users to return to the main account dashboard with one click.
+
+### F14 Resident Profile - Change details page
+
+The Change Details page allows users to easily update their name associated with their account.
+Key features:
+
+-   The form is pre-filled with the user's current details for convenience.
+-   HTML5 and custom validations ensure correct input formats.
+-   Users can update the fields and submit changes smoothly.
+
+After a successful update, the user sees a Django message:
+"Your profile has been successfully changed."
+
+After submitting, the user is redirected back to their Resident Profile, where the updated information is displayed immediately.
+
+### F15 Resident Profile - Change Password Page
+
+The Change Password page offers users a secure way to update their login credentials.
+Key features:
+
+-   The user must enter their old password, new password, and confirm the new password.
+-   Django's built-in password validation rules are applied.
+-   Clear validation feedback is provided during form completion.
+
+After a successful password change, the user is redirected to the login page and the message:
+"Your password has been successfully changed. Please log in with your new password."
+
+### F16 Address Book - Address Management (CRUD)
+
+The Address Book page offers a convenient way for users to manage their saved delivery addresses. Each entry displays detailed information, including the street address, city, county, postcode, country, and phone number, ensuring quick reference at a glance.
+
+Users can easily:
+
+-   Edit existing addresses to reflect any changes.
+-   Delete addresses that are no longer needed.
+-   Add New Address to their list to accommodate multiple delivery destinations.
+
+User can designate one address as their default address, which is visually highlighted with a small filled home icon for quick identification. All other addresses display an empty home icon, allowing users to easily set a new default
+address with a single click. After updating the default address, the user will see a confirmation message:
+"Default shipping address updated."
+
+The default address is automatically pre-filled during checkout but can be changed at any time.
+
+#### CREATE
+
+The Create Address page allows users to add new delivery locations to their personal Address Book. Users can enter essential information such as street address, city, postcode, country, and phone number.<br>
+Required fields are clearly marked and enforced with HTML5 validation to ensure data completeness. Custom validation is also implemented to maintain data quality — for example, users are prompted with text like:
+
+-   "Ensure this value has at least 2 characters (it has 1)" for too-short entries,
+-   "Enter a valid phone number (7-15 digits, optional '+')" for invalid phone formats.
+
+Additionally, users can set the newly created address as their default shipping address for future orders.
+
+After successful submission, the new address is saved to their Address Book.
+
+#### READ
+
+The READ functionality is implemented on the Address Book page, where users can view all their saved delivery addresses in one convenient place. Each address is clearly displayed with essential details like street name, city, postcode, and country. This setup allows users to easily review their information at a glance and manage their favorite delivery spots.
+
+#### UPDATE
+
+The Update Address page allows users to modify their existing delivery information using a form that mirrors the structure and validation of the Create Address form. Users can update their street address, town or city, postcode, country, and phone number to keep their delivery details accurate and up to date.
+
+Just like in the creation form, users can select the option to set the updated address as their new default shipping address. If selected, it will automatically be prioritized during checkout.
+
+Custom validation is enforced to ensure data consistency:
+
+-   Fields like street address and town or city must have at least 2 characters.
+-   Phone numbers must follow a valid format: 7–15 digits, with an optional ‘+’ sign.
+
+Upon successful update, users are redirected back to the Address Book page with a Django success message:
+"Address updated successfully."
+
+#### DELETE
+
+When a user chooses to delete a saved address from their Address Book, a confirmation modal window appears to ensure the action is intentional.
+The modal displays the key details of the address being deleted, providing clarity before proceeding.
+
+The user has two options:
+
+-   Cancel — to safely return without making any changes.
+-   Delete — to permanently remove the selected address.
+
+After confirming the deletion, the address is removed from the user's account, and a Django success message appears:
+"Address deleted successfully."
+
+### F17 Deliveries at Door
+
+The Deliveries at Door page allows users to view a summary of their past orders, providing quick access to essential delivery information.
+
+Each order entry displays:
+
+-   Order number (e.g., #GCO-ORD-YYYYMMDD-#####)
+-   Status (e.g., Paid, Failed, etc.)
+-   Date of the order
+-   Total amount paid
+
+A "View Details" button is available for each order, allowing users to dive deeper into the order's full breakdown.
+
+### F18 Deliveries at Door - Order details page
+
+The Order details page provides a detailed recap of a specific order, offering users a clear and organized summary of their purchase.
+
+The page displays:
+
+-   Order number for easy reference.
+-   Delivery address showing where the treats were sent.
+
+Order summary including:
+
+-   Item(s) subtotal
+-   Postage & Packing costs
+-   Grand total
+
+Items list showing each product purchased, its quantity, and price.
+
+A _Back to Orders_ button ensures seamless navigation back to the full list of deliveries.
+
+### F19 User Access and Logout pages
+
+#### Register page
+
+The page allows new users to create an account by filling out a simple form.
+The registration form includes the required fields.
+
+Password creation is guided by built-in Django password validators.
+
+Custom validation is implemented for the first name and last name fields, requiring at least two characters each.
+If any input does not meet the criteria, helpful error messages are displayed to guide users.
+
+Upon successful registration, users can immediately log in and begin exploring the site.
+
+#### Login page
+
+The page offers a clean and intuitive form for users to access their accounts securely.
+Users are asked to enter their username and password.
+For convenience, there are direct links to reset a forgotten password or register for a new account
+if the user is not yet a member.
+
+If incorrect credentials are provided, the user will see the following message:
+"Please enter a correct username and password. Note that both fields may be case-sensitive."
+
+#### Reset password page
+
+The page offers users a straightforward way to request a password reset if they’ve forgotten their login credentials.
+Users simply need to enter the email address associated with their account and click "Send Password Reset Email." Upon submission, a password reset link will be emailed to them if the email matches an existing account.
+
+If incorrect or invalid credentials are provided, the user will be informed with the following message:
+"Please enter a correct username and password. Note that both fields may be case-sensitive."
+
+#### Password reset sent page
+
+After submitting a password reset request, users are directed to the Password Reset Sent page.
+A confirmation message informs users that an email with instructions to reset their password has been
+sent to the provided address.
+
+If the email does not arrive shortly, users are advised to:
+
+-   Check their spam or junk folder.
+-   Try submitting the reset request again.
+
+This page reassures users that the next steps are in progress and encourages them to monitor their inbox for further instructions.
+
+#### Set new password page
+
+The Set New Password page allows users to securely create a new password after initiating a password reset request.
+The form requires the user to enter their new password twice for confirmation, ensuring that both entries match.
+
+Password creation is guided by built-in Django password validation rules.
+
+After successfully setting a new password, the user will be redirected to the login page and can log in with their updated credentials.
+
+#### Logout page
+
+The page provides a simple, user-friendly confirmation window asking if you are sure you want to log out.
+Users can easily choose between staying logged in ("No" button) or ending their session ("Yes" button).
+Upon confirmation, the user is securely logged out of their account and redirected to the homepage and see "
+You have been logged out" message.
+
+### F20 Email Notifications
+
+### F21 Spinner
+
+### F22 Admin Panel / Product Management
+
+---
+
+> [!NOTE] The Gerbet & Co e-commerce website features custom error pages to improve the user experience during unexpected issues.
+> Custom pages are provided for common HTTP errors like 400 (Bad Request), 403 (Forbidden), 404 (Not Found), and 500 (Server Error).
+> These pages deliver clear, user-friendly messages that maintain the website’s consistent design and tone.
+> For instance, the 403 page appears when a user tries to access a restricted area without proper authorization.
+
+## Future Features
+
+### Wishlist Functionality
+
+Allow customers to save their favorite macarons, teas into a personal wishlist. This feature would make it easy for users to return and purchase later, while also enabling the option to share their wishlist with friends and family, perfect for gift ideas or special occasions.
+
+### Order Cancellation
+
+Introduce the ability for customers to request a cancellation of their order directly from the 'Deliveries at the Door' section before the order has been processed or shipped. This will offer greater flexibility and control to users, improving overall customer satisfaction and trust.
+
+### Gift Cards
+
+Launch customizable digital gift cards that customers can purchase, personalize with messages, and send electronically. Gift cards would be a thoughtful option for customers who want to share the Gerbet & Co. experience but let recipients choose their own treats.
+
+### Personalized Recommendations
+
+Introduce a smart recommendation engine that suggests products based on a user's browsing habits, purchase history, and wishlist items. This would create a more tailored shopping experience and help customers discover new favorite treats effortlessly.
+
+### Loyalty Program
+
+Create a loyalty rewards system where customers earn points for every purchase, product review, or referral. Points can be redeemed for exclusive discounts, special products, or early access to new collections, encouraging long-term engagement.
+
+### Live Chat Support
+
+Offer a live chat option on the website, allowing customers to quickly get assistance with product inquiries, orders, or account issues. Friendly real-time support would enhance user confidence and provide a more personalized service experience.
+
+[Back to top](#table-of-contents)
+
+---
+
 # Technologies
 
 ## Languages
