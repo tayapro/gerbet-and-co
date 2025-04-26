@@ -225,44 +225,6 @@
     {{ block.super }}
     {{ stripe_public_key|json_script:"id_stripe_public_key" }}
     {{ client_secret|json_script:"id_client_secret" }}
-    <script src="{% static "checkout/js/checkout_helpers.js" %}"></script>
-    <script src="{% static "checkout/js/stripe_elements.js" %}"></script>
-    <script>
-        function showSpinner() {
-            const spinner = document.getElementById('loading-overlay')
-        
-            // Show spinner on page unload
-            window.addEventListener('beforeunload', function () {
-                if (spinner) {
-                    spinner.classList.remove('d-none')
-                }
-            })
-        
-            // Hide spinner once the page has fully loaded
-            window.addEventListener('load', function () {
-                if (spinner) {
-                    spinner.classList.add('d-none')
-                }
-            })
-        }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            showSpinner()
-
-            const countryEl = document.getElementById("checkout-country-id");
-            
-            if (countryEl) {
-                const countryCode = countryEl.textContent.trim();
-                const countryName = displayCountryName(countryCode);
-                countryEl.textContent = countryName;
-            }
-
-            const countyCell = document.querySelector("#county-row td p");
-
-            if (countyCell && countyCell.textContent.trim() === "") {
-                const row = document.getElementById("county-row");
-                if (row) row.style.display = "none";
-            }
-        });
-    </script>
+    <script src="{% static 'checkout/js/checkout.js' %}"></script>
+    <script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
 {% endblock %}

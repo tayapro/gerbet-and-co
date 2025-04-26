@@ -152,17 +152,6 @@ MESSAGE_TAGS = {
 }
 
 
-SOCIALACCOUNT_PROVIDERS = {
-  "google": {
-    "SCOPE": [
-        "profile",
-        "email"
-    ],
-    "AUTH_PARAMS": {"account_type": "online"}
-  },
-}
-
-
 WSGI_APPLICATION = 'gerbet_and_co.wsgi.application'
 
 

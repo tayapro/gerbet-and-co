@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block body_class %}bag-page{% endblock %}
 
+{% load static %}
+
 {% block content %}
 <section class="container my-5 p-5 card bag-checkout-section">
     <div class="text-center">
@@ -64,17 +66,5 @@
 {% endblock %}
 
 {% block postloadjs %}
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const confirmModal = document.getElementById("confirmRemoveModal");
-        const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
-
-        confirmModal.addEventListener("show.bs.modal", function (event) {
-            const triggerButton = event.relatedTarget;
-            const deleteUrl = triggerButton.getAttribute("data-href");
-
-            confirmDeleteBtn.setAttribute("href", deleteUrl);
-        });
-    });
-</script>
+<script src="{% static "bag/js/view_bag.js" %}"></script>
 {% endblock %}

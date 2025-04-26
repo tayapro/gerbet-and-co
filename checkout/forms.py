@@ -39,7 +39,7 @@ class ShippingInfoForm(forms.ModelForm):
     )
     street_address1 = forms.CharField(
         required=True,
-        validators=[MinLengthValidator(5)],
+        validators=[MinLengthValidator(2)],
         widget=forms.TextInput(),
     )
     town_or_city = forms.CharField(
@@ -49,7 +49,7 @@ class ShippingInfoForm(forms.ModelForm):
     )
     postcode = forms.CharField(
         required=True,
-        validators=[MinLengthValidator(4)],
+        validators=[MinLengthValidator(2)],
         widget=forms.TextInput(),
     )
     country = CountryField(blank_label="Select country").formfield(

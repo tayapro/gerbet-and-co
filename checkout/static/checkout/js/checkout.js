@@ -13,7 +13,27 @@ function displayCountryName(countryCode) {
     return countryName
 }
 
+function showSpinner() {
+    const spinner = document.getElementById('loading-overlay')
+
+    // Show spinner on page unload
+    window.addEventListener('beforeunload', function () {
+        if (spinner) {
+            spinner.classList.remove('d-none')
+        }
+    })
+
+    // Hide spinner once the page has fully loaded
+    window.addEventListener('load', function () {
+        if (spinner) {
+            spinner.classList.add('d-none')
+        }
+    })
+}
+
 document.addEventListener('DOMContentLoaded', function () {
+    showSpinner()
+
     const confirmCheckbox = document.getElementById('confirm-order-checkbox')
     const submitButton = document.getElementById('payment-btn')
 
@@ -66,4 +86,19 @@ document.addEventListener('DOMContentLoaded', function () {
     useDefaultCheckbox.addEventListener('change', (e) => {
         toggleFields(e.target.checked)
     })
+
+    const countryEl = document.getElementById('checkout-country-id')
+
+    if (countryEl) {
+        const countryCode = countryEl.textContent.trim()
+        const countryName = displayCountryName(countryCode)
+        countryEl.textContent = countryName
+    }
+
+    const countyCell = document.querySelector('#county-row td p')
+
+    if (countyCell && countyCell.textContent.trim() === '') {
+        const row = document.getElementById('county-row')
+        if (row) row.style.display = 'none'
+    }
 })
