@@ -1,76 +1,81 @@
+/**
+ * Initializes and manages the Stripe Elements checkout form,
+ * including field validation, form submission, error handling,
+ * and caching checkout data before payment confirmation.
+ */
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('checkout-form')
-    const submitButton = document.getElementById('payment-btn')
-    const cardErrors = document.getElementById('card-errors')
+    const form = document.getElementById('checkout-form');
+    const submitButton = document.getElementById('payment-btn');
+    const cardErrors = document.getElementById('card-errors');
     const csrfToken = document.querySelector(
         '[name=csrfmiddlewaretoken]'
-    )?.value
+    )?.value;
 
-    if (!form || !submitButton || !cardErrors) return
+    if (!form || !submitButton || !cardErrors) return;
 
     const stripePublicKey = JSON.parse(
         document.getElementById('id_stripe_public_key').textContent
-    )
+    );
     const clientSecret = JSON.parse(
         document.getElementById('id_client_secret').textContent
-    )
-    const stripe = window.Stripe(stripePublicKey)
+    );
+    const stripe = window.Stripe(stripePublicKey);
 
     const elements = stripe.elements({
         mode: 'payment',
         currency: document.getElementById('currency').value,
         amount: parseInt(document.getElementById('amount').value),
         paymentMethodCreation: 'manual',
-    })
+    });
 
     const paymentElement = elements.create('payment', {
         layout: {
             type: 'tabs',
             defaultCollapsed: false,
         },
-    })
-    paymentElement.mount('#payment-element')
+    });
+    paymentElement.mount('#payment-element');
 
     // Real-time Validation Setup
-    setupValidation()
-    initializeStripeValidation()
+    setupValidation();
+    initializeStripeValidation();
 
     // Form Submission Handler
     form.addEventListener('submit', async (event) => {
-        event.preventDefault()
-        submitButton.disabled = true
-        clearAllErrors()
+        event.preventDefault();
+        submitButton.disabled = true;
+        clearAllErrors();
 
         // Step 1: Validate form fields before anything else
-        const isFormValid = validateForm()
+        const isFormValid = validateForm();
         if (!isFormValid) {
-            focusFirstInvalidField()
+            focusFirstInvalidField();
             cardErrors.textContent =
-                'Please correct the highlighted errors before continuing.'
-            submitButton.disabled = false
-            return
+                'Please correct the highlighted errors before continuing.';
+            submitButton.disabled = false;
+            return;
         }
 
         try {
             // Step 2: Validate Stripe Elements
-            const { error: elementsError } = await elements.submit()
+            const { error: elementsError } = await elements.submit();
             if (elementsError) {
-                handleError(cardErrors, elementsError)
-                submitButton.disabled = false
-                return
+                handleError(cardErrors, elementsError);
+                submitButton.disabled = false;
+                return;
             }
 
             // Step 3: Cache Checkout Data
-            const cacheResponse = await cacheCheckoutData()
+            const cacheResponse = await cacheCheckoutData();
             if (cacheResponse.redirect) {
-                window.location.href = cacheResponse.redirect
-                return
+                window.location.href = cacheResponse.redirect;
+                return;
             }
             if (cacheResponse.error) {
-                cardErrors.textContent = cacheResponse.error
-                submitButton.disabled = false
-                processResponseErrors(cacheResponse.details)
-                return
+                cardErrors.textContent = cacheResponse.error;
+                submitButton.disabled = false;
+                processResponseErrors(cacheResponse.details);
+                return;
             }
 
             // Step 4: Confirm Payment
@@ -79,55 +84,70 @@ document.addEventListener('DOMContentLoaded', function () {
                 clientSecret,
                 confirmParams: getConfirmParams(),
                 redirect: 'if_required',
-            })
+            });
 
-            if (paymentError) throw paymentError
+            if (paymentError) throw paymentError;
 
             // Final Submission
-            form.submit()
+            form.submit();
         } catch (error) {
-            handleError(error)
+            handleError(error);
         } finally {
-            submitButton.disabled = false
+            submitButton.disabled = false;
         }
-    })
+    });
 
     // Helper Functions
+    /**
+     * Attaches real-time validation listeners to form fields.
+     */
     function setupValidation() {
         document.querySelectorAll('.form-control').forEach((field) => {
-            field.addEventListener('input', handleFieldInput)
-            field.addEventListener('blur', handleFieldBlur)
-        })
+            field.addEventListener('input', handleFieldInput);
+            field.addEventListener('blur', handleFieldBlur);
+        });
     }
 
+    /**
+     * Initializes validation for Stripe's payment element.
+     */
     function initializeStripeValidation() {
         paymentElement.on('change', (event) => {
-            cardErrors.textContent = event.error?.message || ''
-            cardErrors.style.display = event.error ? 'block' : 'none'
-        })
+            cardErrors.textContent = event.error?.message || '';
+            cardErrors.style.display = event.error ? 'block' : 'none';
+        });
     }
 
+    /**
+     * Handles user input into form fields by removing previous error styles.
+     */
     function handleFieldInput(event) {
-        const field = event.target
-        field.classList.remove('is-invalid')
-        hideErrorMessage(field)
-        cardErrors.textContent = ''
+        const field = event.target;
+        field.classList.remove('is-invalid');
+        hideErrorMessage(field);
+        cardErrors.textContent = '';
     }
 
+    /**
+     * Validates individual fields when focus is lost (on blur).
+     */
     function handleFieldBlur(event) {
-        const field = event.target
+        const field = event.target;
         if (field.required && field.value.trim() === '') {
             showErrorMessage(
                 field,
                 `${field.labels[0]?.textContent} is required or invalid`
-            )
+            );
         }
     }
 
+    /**
+     * Validates all required fields in the checkout form before submitting.
+     */
     function validateForm() {
-        let isValid = true
-        const isGuest = !!document.getElementById('id_guest_email')
-        const useDefault = document.getElementById('id_use_default')?.checked
+        let isValid = true;
+        const isGuest = !!document.getElementById('id_guest_email');
+        const useDefault = document.getElementById('id_use_default')?.checked;
 
         // Validate Guest Fields
         if (isGuest) {
@@ -136,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     'guest_first_name',
                     'guest_last_name',
                     'guest_email',
-                ]) && isValid
+                ]) && isValid;
         }
 
         // Validate Address Fields
@@ -148,128 +168,144 @@ document.addEventListener('DOMContentLoaded', function () {
                     'town_or_city',
                     'postcode',
                     'country',
-                ]) && isValid
+                ]) && isValid;
         }
 
-        return isValid
+        return isValid;
     }
 
+    /**
+     * Validates a specific list of fields by their IDs.
+     */
     function validateFields(fieldIds) {
-        let groupIsValid = true
+        let groupIsValid = true;
 
         fieldIds.forEach((id) => {
-            const field = document.getElementById(`id_${id}`)
-            if (!field) return
+            const field = document.getElementById(`id_${id}`);
+            if (!field) return;
 
-            const fieldValid = validateField(field)
+            const fieldValid = validateField(field);
             if (!fieldValid) {
-                groupIsValid = false
+                groupIsValid = false;
             }
-        })
+        });
 
-        return groupIsValid
+        return groupIsValid;
     }
 
+    /**
+     * Validates a single field based on its type and applies error styles.
+     */
     function validateField(field) {
-        if (!field) return true
+        if (!field) return true;
 
-        const fieldType = field.getAttribute('data-validate') || field.type
-        let isValid = true
+        const fieldType = field.getAttribute('data-validate') || field.type;
+        let isValid = true;
 
         switch (fieldType) {
             case 'text':
             case 'textarea':
-                isValid = field.value.trim().length >= 2
-                break
+                isValid = field.value.trim().length >= 2;
+                break;
 
             case 'email':
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-                isValid = emailRegex.test(field.value.trim())
-                break
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                isValid = emailRegex.test(field.value.trim());
+                break;
 
             case 'tel':
-                const phoneRegex = /^\+?\d{7,15}$/
-                isValid = phoneRegex.test(field.value.trim())
-                break
+                const phoneRegex = /^\+?\d{7,15}$/;
+                isValid = phoneRegex.test(field.value.trim());
+                break;
 
             case 'number':
                 isValid =
-                    field.value.trim() !== '' && !isNaN(parseFloat(field.value))
-                break
+                    field.value.trim() !== '' &&
+                    !isNaN(parseFloat(field.value));
+                break;
 
             case 'checkbox':
-                isValid = field.required ? field.checked : true
-                break
+                isValid = field.required ? field.checked : true;
+                break;
 
             case 'select-one':
-                isValid = field.value !== '' && field.value !== 'default'
-                break
+                isValid = field.value !== '' && field.value !== 'default';
+                break;
 
             default:
-                isValid = field.value.trim().length >= 2
+                isValid = field.value.trim().length >= 2;
         }
 
         // Apply validation feedback
-        field.classList.toggle('is-invalid', !isValid)
+        field.classList.toggle('is-invalid', !isValid);
 
         if (!isValid) {
             const label = field.labels
                 ? field.labels[0]?.textContent
-                : 'This field'
+                : 'This field';
 
-            let message
+            let message;
             if (fieldType === 'tel') {
-                message = `${label} must be a valid phone number (7-15 digits, optional + at start)`
+                message = `${label} must be a valid phone number (7-15 digits, optional + at start)`;
             } else if (fieldType === 'email') {
-                message = `${label} must be a valid email address (e.g. name@example.com)`
+                message = `${label} must be a valid email address (e.g. name@example.com)`;
             } else {
-                message = `${label} is required or invalid`
+                message = `${label} is required or invalid`;
             }
 
-            showErrorMessage(field, message)
+            showErrorMessage(field, message);
         } else {
-            clearErrorMessage(field)
+            clearErrorMessage(field);
         }
 
-        return isValid
+        return isValid;
     }
 
+    /**
+     * Clears a field's associated error message if present.
+     */
     function clearErrorMessage(field) {
-        let errorSpan = field.nextElementSibling
+        let errorSpan = field.nextElementSibling;
         if (errorSpan && errorSpan.classList.contains('invalid-feedback')) {
-            errorSpan.style.display = 'none'
+            errorSpan.style.display = 'none';
         }
     }
 
+    /**
+     * Removes a specific key from a FormData object.
+     */
     function removeFromFormData(formData, keyToRemove) {
-        const newFormData = new FormData()
+        const newFormData = new FormData();
         for (let [key, value] of formData.entries()) {
             if (key !== keyToRemove) {
-                newFormData.append(key, value)
+                newFormData.append(key, value);
             }
         }
-        return newFormData
+        return newFormData;
     }
 
+    /**
+     * Sends checkout data to the server to cache it before final payment confirmation.
+     */
     async function cacheCheckoutData() {
-        const form = document.getElementById('checkout-form')
+        const form = document.getElementById('checkout-form');
 
         const postData = removeFromFormData(
             new FormData(form),
             'save_as_default'
-        )
+        );
 
         const isSaveAsDefaultChecked =
-            document.getElementById('id_save_as_default')?.checked
-        postData.set('save_as_default', isSaveAsDefaultChecked || false)
+            document.getElementById('id_save_as_default')?.checked;
+        postData.set('save_as_default', isSaveAsDefaultChecked || false);
 
         const isDefaultAddressChecked =
-            document.getElementById('id_use_default')?.checked
-        postData.append('is_default', isDefaultAddressChecked || false)
+            document.getElementById('id_use_default')?.checked;
+        postData.append('is_default', isDefaultAddressChecked || false);
 
         if (isDefaultAddressChecked) {
             // Select the div element by its ID
-            const div = document.getElementById('default-address-preview')
+            const div = document.getElementById('default-address-preview');
 
             // Extract the data attributes using dataset
             const data = {
@@ -280,21 +316,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 postcode: div.dataset.postcode,
                 country: div.dataset.country,
                 phone: div.dataset.phone,
-            }
+            };
 
             // Set the postData fields with the default address values
-            postData.set('street_address1', data.streetAddress1)
-            postData.set('street_address2', data.streetAddress2)
-            postData.set('town_or_city', data.townOrCity)
-            postData.set('county', data.county)
-            postData.set('postcode', data.postcode)
-            postData.set('country', data.country)
-            postData.set('phone_number', data.phone)
-        }
-
-        console.log('POSTDATA', postData)
-        for (const [key, value] of postData.entries()) {
-            console.log('>>>: ', key, value)
+            postData.set('street_address1', data.streetAddress1);
+            postData.set('street_address2', data.streetAddress2);
+            postData.set('town_or_city', data.townOrCity);
+            postData.set('county', data.county);
+            postData.set('postcode', data.postcode);
+            postData.set('country', data.country);
+            postData.set('phone_number', data.phone);
         }
 
         try {
@@ -305,94 +336,111 @@ document.addEventListener('DOMContentLoaded', function () {
                     'X-CSRFToken': csrfToken,
                 },
                 body: postData,
-            })
+            });
 
-            const data = await response.json()
+            const data = await response.json();
 
             if (data.redirect_url) {
-                return { redirect: true, url: data.redirect_url }
+                return { redirect: true, url: data.redirect_url };
             }
 
             if (response.status !== 200) {
-                let details = {}
+                let details = {};
                 try {
-                    details = JSON.parse(data.details)
+                    details = JSON.parse(data.details);
                 } catch {}
 
                 return {
                     error: data.error || 'Failed to cache checkout data',
                     details: details,
                     status: response.status,
-                }
+                };
             }
 
-            return { success: true }
+            return { success: true };
         } catch (err) {
-            console.error('Cache error:', err)
+            console.error('Cache error:', err);
             return {
                 error: 'A network error occurred.',
                 status: 500,
-            }
+            };
         }
     }
 
+    /**
+     * Prepares Stripe confirmation parameters including return URL and billing details.
+     */
     function getConfirmParams() {
-        const orderId = document.getElementById('order_id').value
-        const returnUrl = `${window.location.origin}/checkout/success/${orderId}/`
+        const orderId = document.getElementById('order_id').value;
+        const returnUrl = `${window.location.origin}/checkout/success/${orderId}/`;
 
         return {
             return_url: returnUrl,
             payment_method_data: {
                 billing_details: getBillingDetailsForStripe(),
             },
-        }
+        };
     }
 
+    /**
+     * Retrieves the full name of the user or guest.
+     */
     function getFullName() {
-        const guestFirstName = document.getElementById('id_guest_first_name')
-        const guestLastName = document.getElementById('id_guest_last_name')
+        const guestFirstName = document.getElementById('id_guest_first_name');
+        const guestLastName = document.getElementById('id_guest_last_name');
 
         if (guestFirstName && guestLastName) {
-            return `${guestFirstName.value} ${guestLastName.value}`.trim()
+            return `${guestFirstName.value} ${guestLastName.value}`.trim();
         }
 
-        return document.getElementById('full_name')?.value.trim() || ''
+        return document.getElementById('full_name')?.value.trim() || '';
     }
 
+    /**
+     * Retrieves the user's or guest's email address.
+     */
     function getEmail() {
-        const guestEmailElement = document.getElementById('id_guest_email')
+        const guestEmailElement = document.getElementById('id_guest_email');
         const guestEmail =
             guestEmailElement && guestEmailElement.value
                 ? guestEmailElement.value.trim()
-                : ''
+                : '';
 
-        const authEmailElement = document.getElementById('email')
+        const authEmailElement = document.getElementById('email');
         const authEmail =
             authEmailElement && authEmailElement.value
                 ? authEmailElement.value.trim()
-                : ''
+                : '';
 
-        const email = guestEmail || authEmail || ''
+        const email = guestEmail || authEmail || '';
 
-        return email
+        return email;
     }
 
+    /**
+     * Retrieves the user's or guest's phone number.
+     */
     function getPhone() {
-        const preview = document.getElementById('default-address-preview')
+        const preview = document.getElementById('default-address-preview');
         const previewPhone =
-            preview && preview.dataset.phone ? preview.dataset.phone.trim() : ''
+            preview && preview.dataset.phone
+                ? preview.dataset.phone.trim()
+                : '';
 
-        const phoneElement = document.getElementById('id_phone_number')
+        const phoneElement = document.getElementById('id_phone_number');
         const phoneInput =
-            phoneElement && phoneElement.value ? phoneElement.value.trim() : ''
+            phoneElement && phoneElement.value ? phoneElement.value.trim() : '';
 
-        const phone = phoneInput || previewPhone || ''
+        const phone = phoneInput || previewPhone || '';
 
-        return phone
+        return phone;
     }
 
+    /**
+     * Retrieves the billing address details from form fields or default address preview.
+     */
     function getBillingAddress() {
-        const preview = document.getElementById('default-address-preview')
+        const preview = document.getElementById('default-address-preview');
 
         const previewValues = {
             street_address1: preview?.dataset.street_address1?.trim() || '',
@@ -401,11 +449,11 @@ document.addEventListener('DOMContentLoaded', function () {
             county: preview?.dataset.county?.trim() || '',
             postcode: preview?.dataset.postcode?.trim() || '',
             country: preview?.dataset.country?.trim() || '',
-        }
+        };
         const getInputValue = (id) => {
-            const el = document.getElementById(id)
-            return el?.value.trim() || ''
-        }
+            const el = document.getElementById(id);
+            return el?.value.trim() || '';
+        };
 
         return {
             street_address1:
@@ -419,14 +467,17 @@ document.addEventListener('DOMContentLoaded', function () {
             county: getInputValue('id_county') || previewValues.county,
             postcode: getInputValue('id_postcode') || previewValues.postcode,
             country: getInputValue('id_country') || previewValues.country,
-        }
+        };
     }
 
+    /**
+     * Constructs the full billing details object required by Stripe.
+     */
     function getBillingDetailsForStripe() {
-        const name = getFullName()
-        const email = getEmail()
-        const phone = getPhone()
-        const billing = getBillingAddress()
+        const name = getFullName();
+        const email = getEmail();
+        const phone = getPhone();
+        const billing = getBillingAddress();
 
         return {
             name: name,
@@ -440,69 +491,87 @@ document.addEventListener('DOMContentLoaded', function () {
                 postal_code: billing.postcode || null,
                 country: billing.country || null,
             },
-        }
+        };
     }
 
+    /**
+     * Handles any general errors during the checkout process.
+     */
     function handleError(error) {
-        console.error('Checkout Error:', error)
-        cardErrors.textContent = error.message
-        cardErrors.style.display = 'block'
+        console.error('Checkout Error:', error);
+        cardErrors.textContent = error.message;
+        cardErrors.style.display = 'block';
 
         if (error.type === 'validation_error') {
             document.querySelector('#payment-element').scrollIntoView({
                 behavior: 'smooth',
                 block: 'center',
-            })
+            });
         }
     }
 
+    /**
+     * Clears all validation errors on the form.
+     */
     function clearAllErrors() {
         document.querySelectorAll('.is-invalid').forEach((field) => {
-            field.classList.remove('is-invalid')
-            hideErrorMessage(field)
-        })
-        cardErrors.textContent = ''
+            field.classList.remove('is-invalid');
+            hideErrorMessage(field);
+        });
+        cardErrors.textContent = '';
     }
 
+    /**
+     * Focuses the first invalid field found on the form.
+     */
     function focusFirstInvalidField() {
-        const firstInvalid = document.querySelector('.is-invalid')
+        const firstInvalid = document.querySelector('.is-invalid');
         if (firstInvalid) {
-            firstInvalid.focus()
+            firstInvalid.focus();
         }
     }
 
+    /**
+     * Processes server-side validation errors returned from the cache API.
+     */
     function processResponseErrors(responseDetails) {
         Object.entries(responseDetails).forEach(([fieldName, errorArray]) => {
             if (errorArray.length > 0) {
-                const firstError = errorArray[0] // Get the first error message
-                const field = document.getElementById(`id_${fieldName}`)
+                const firstError = errorArray[0]; // Get the first error message
+                const field = document.getElementById(`id_${fieldName}`);
                 if (field) {
-                    showErrorMessage(field, firstError.message)
+                    showErrorMessage(field, firstError.message);
                 }
             }
-        })
+        });
     }
 
+    /**
+     * Displays a validation error message next to a specific form field.
+     */
     function showErrorMessage(field, message) {
-        field.setAttribute('aria-invalid', 'true')
-        const errorId = `error_1_${field.id}`
+        field.setAttribute('aria-invalid', 'true');
+        const errorId = `error_1_${field.id}`;
 
-        let errorElement = document.getElementById(errorId)
+        let errorElement = document.getElementById(errorId);
         if (!errorElement) {
-            errorElement = document.createElement('div')
-            errorElement.id = errorId
-            errorElement.className = 'invalid-feedback'
-            field.parentNode.appendChild(errorElement)
+            errorElement = document.createElement('div');
+            errorElement.id = errorId;
+            errorElement.className = 'invalid-feedback';
+            field.parentNode.appendChild(errorElement);
         }
 
-        errorElement.textContent = message
-        field.setAttribute('aria-describedby', errorId)
+        errorElement.textContent = message;
+        field.setAttribute('aria-describedby', errorId);
     }
 
+    /**
+     * Hides a validation error message from a specific form field.
+     */
     function hideErrorMessage(field) {
-        const errorElement = document.getElementById(`error_1_${field.id}`)
-        if (errorElement) errorElement.textContent = ''
-        field.removeAttribute('aria-invalid')
-        field.removeAttribute('aria-describedby')
+        const errorElement = document.getElementById(`error_1_${field.id}`);
+        if (errorElement) errorElement.textContent = '';
+        field.removeAttribute('aria-invalid');
+        field.removeAttribute('aria-describedby');
     }
-})
+});

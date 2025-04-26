@@ -186,12 +186,9 @@ def cache_checkout_data(request):
         )
         user_full_name = f"{user_first_name} {user_last_name}"
 
-        print("pepska --- start")
         shipping_info_form = ShippingInfoForm(request.POST, user=request.user)
 
         if not shipping_info_form.is_valid():
-            print("shipping_info_form is not valid")
-            print(shipping_info_form.errors)
             return JsonResponse({
                 "error": "Shipping info is bad",
                 "details": shipping_info_form.errors.as_json()
@@ -200,14 +197,14 @@ def cache_checkout_data(request):
 
         # Server-side validations
         if len(user_email) == 0:
-            print("user_mail oops")
+            logger.warning(request, "Missing user email")
             return JsonResponse({"error": "Missing user email"}, status=400)
         if len(user_first_name) == 0:
-            print("user_first_name oops")
+            logger.warning(request, "Missing user first name")
             return JsonResponse({"error": "Missing user first name"},
                                 status=400)
         if len(user_last_name) == 0:
-            print("user_last_name oops")
+            logger.warning(request, "Missing user last name")
             return JsonResponse({"error": "Missing user last name"},
                                 status=400)
 
