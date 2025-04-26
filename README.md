@@ -289,6 +289,156 @@ enhancements to improve the user experience in later iterations.
 
 ---
 
+# Technologies
+
+## Languages
+
+-   Python
+-   HTML5
+-   CSS
+-   JavaScript
+
+## Frameworks, Libraries, Apps
+
+| Name                                                         | Purpose                                             |
+| :----------------------------------------------------------- | :-------------------------------------------------- |
+| [Django](https://www.djangoproject.com/)                     | Build the app's backend and manages the database    |
+| [Gunicorn](https://gunicorn.org/)                            | Use as WSGI server that handles web requests        |
+| [Whitenoise](https://whitenoise.readthedocs.io/en/latest/#)  | Work with static files                              |
+| [Gitpod](https://www.gitpod.io/)                             | Serves as cloud-based development environment       |
+| [Heroku](heroku.com)                                         | Deploy and Host the application                     |
+| [Bootstrap5](https://getbootstrap.com/)                      | Enables responsive design and ready-made components |
+| [Neon Console](https://console.neon.tech/)                   | View and manage Gerbet & Co database                |
+| [Psycopg2](https://pypi.org/project/psycopg2/)               | Connects Django to PostgreSQL                       |
+| [Tinymce](https://www.tiny.cloud/)                           | Provide WYSIWYG editing                             |
+| [Cloudinary](https://cloudinary.com/)                        | Store images                                        |
+| [Bootstrap Icons](https://icons.getbootstrap.com/)           | Add icons to enhance user experience                |
+| [Balsamiq](https://balsamiq.com/)                            | Create the wireframes                               |
+| [Photopea](https://www.photopea.com/)                        | Work with images (resize, convert, etc)             |
+| [Vmake.ai](https://vmake.ai/image-outpainting)               | Expand the image                                    |
+| [Websitemockupgenerator](https://websitemockupgenerator.com) | Create the README Mockup image                      |
+| [Diagram.drawio](https://app.diagrams.net/)                  | Create flowcharts                                   |
+| Git                                                          | Use for version control                             |
+| [GitHub](https://github.com/)                                | Store the source code                               |
+| [Pep8ci.herokuapp](https://pep8ci.herokuapp.com)             | Validate Python code                                |
+| [W3C HTML Markup Validator](https://validator.w3.org/)       | Validate HTML code                                  |
+| [W3C CSS Validator](https://jigsaw.w3.org/css-validator/)    | Validate CSS code                                   |
+| [JShint](https://jshint.com/)                                | Validate JS code                                    |
+
+> [!NOTE]
+> A complete list of project dependencies is available in the requirements.txt file.
+
+[Back to top](#table-of-contents)
+
+---
+
+# Deployment
+
+> [!NOTE]
+> Before starting the deployment process, please note that you need two files in your repository:
+>
+> 1. `requirements.txt` with all actual dependencies.
+> 2. `.env` file with environment variables, it's needed for deployment on Heroku and for local deployment as well. Sample `.env` file:
+>
+> ```
+> SECRET_KEY="<USER_VALUE>"
+> DATABASE_URL="<USER_VALUE>"
+>
+> STRIPE_PUBLIC_KEY="<USER_VALUE>"
+> STRIPE_SECRET_KEY="<USER_VALUE>"
+> STRIPE_WH_SECRET="<USER_VALUE>"
+>
+> EMAIL_HOST_USER="<USER_VALUE>"
+> EMAIL_HOST_PASSWORD="<USER_VALUE>"
+> DEFAULT_FROM_EMAIL='"Gerbet & Co" <"<USER_VALUE>">'
+>
+> CLOUDINARY_CLOUD_NAME="<USER_VALUE>"
+> CLOUDINARY_API_KEY="<USER_VALUE>"
+> CLOUDINARY_API_SECRET="<USER_VALUE>"
+>
+> ```
+>
+> Also please note that the `DEPLOYMENT` flag in settings.py should be `False`.
+
+## How to clone
+
+1. Head over to the [Gerbet & Co repository](https://github.com/tayapro/gerbet-and-co) on GitHub.
+2. Click the **Code** button (located on the right side of the page), select **HTTPS**, and copy the provided link.
+3. Open your terminal and navigate to the folder where you want to save the repository.
+4. In the terminal, type `git clone`, paste the copied URL, and hit **Enter** to start cloning.
+
+> [!NOTE]
+> To update requirements.txt with all actual dependencies, run: \
+> `pip3 freeze > requirements.txt` \
+> Check `DEBUG` flag in settings.py, should be `False`. \
+> \
+> Then commit the changes to GitHub, if needed.
+
+## Neon PostgeSQL Database
+
+This project uses Neon Console for PostgreSQL. The `DATABASE_URL` can be found in the Dashboard tab under Connection Details, as Connection string value.
+
+To use your own database, set it up and configure the `DATABASE_URL`.
+
+## Cloudinary API
+
+This project uses the Cloudinary API to store media files, as Heroku doesn’t support persistent storage for this type of data.
+
+To get started with Cloudinary:
+
+1. Create an account and log in.
+2. Head to the settings page.
+3. Click the **"Generate new API key"** button to create your own API credentials.
+
+## Heroku Deployment
+
+Heroku, a cloud platform that enables easy application building, deployment, and management, was chosen for the Gerbet & Co project. \
+Follow these steps to deploy the Gerbet & Co app on Heroku:
+
+1. **Fork or Clone the Repository**  
+   Start by forking or cloning the [Gerbet & Co repository](https://github.com/tayapro/gerbet-and-co) to your local machine.
+
+2. **Log in to Heroku**  
+   Access your Heroku account or create one if you don’t have it yet.
+
+3. **Set Up a New Application**  
+   Create a new application on Heroku and name it as desired.
+
+4. **Configure Settings**
+
+    - Go to the **Settings** tab in your Heroku dashboard.
+
+    - In the **Config Vars** section, add the following environment variables with your own values:
+
+        - `CLOUDINARY_API_KEY`: Cloudinary API key, see the "Cloudinary API" section above.
+        - `CLOUDINARY_API_SECRET`: Cloudinary API secret, see the "Cloudinary API" section above.
+        - `CLOUDINARY_CLOUD_NAME`: Cloudinary cloud name, see the "Cloudinary API" section above.
+        - `DATABASE_URL`: database connection URL, see the "Neon PostgeSQL Database" section above.
+        - `EMAIL_HOST_USER`: Google email address, in current configuration _info.gerbetco@gmail.com_.
+        - `EMAIL_HOST_PASSWORD`: Password to send emails using Google API.
+        - `SECRET_KEY`: secret key.
+        - `STRIPE_PUBLIC_KEY`: publishable key (starts with pk).
+        - `STRIPE_SECRET_KEY`: secret key (starts with sk)
+        - `STRIPE_WH_SECRET`: signing secret (Wehbook) key (starts with wh).
+
+    - In the **Buildpacks** section, add the **Python** buildpack.
+
+5. **Deploy the Application**
+    - Navigate to the **Deploy** tab.
+    - Under **App connected to GitHub**, link your GitHub repository.
+    - In the **Manual deploy** section, select the `main` branch and click **Deploy Branch** to deploy your app.
+
+> [!NOTE]
+> To update requirements.txt with all actual dependencies, run: \
+> `pip3 freeze > requirements.txt` \
+> Check `DEBUG` flag in settings.py, should be `False`. \
+> \
+> Then commit the changes to GitHub.
+
+[Back to top](#table-of-contents)
+
+---
+
 # Testing
 
 ## Responsivness Testing
