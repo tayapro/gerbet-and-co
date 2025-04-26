@@ -288,3 +288,122 @@ enhancements to improve the user experience in later iterations.
 [Back to top](#table-of-contents)
 
 ---
+
+# Testing
+
+## Responsivness Testing
+
+The layout has been thoroughly tested and optimized for widely used screen resolutions, based on current usage statistics. Responsive design principles ensure a consistent experience across devices. For smaller or uncommon screen sizes, scroll behavior has been applied where needed to maintain accessibility and prevent layout issues.
+
+## Browser compatibility Testing
+
+Testing has been carried out on the following devices:
+
+Macbook Sanoma Version 14.4.1:
+
+Chrome Version 131.0.6778.265
+Firefox Version 134.0.2
+Samsung S20:
+
+Chrome Version 132.0.6834.80
+iPhone 14:
+
+Safari ios 18.1.1
+iPad Air 5th generation:
+
+Safari ios 18.1.1
+Windows PC:
+
+Firefox 134.0.2 (Windows 11)
+Macbook Pro 2019:
+
+Safari ios 17.6
+
+## User Stories / Features Testing
+
+Feature and user story testing were carried out in parallel to reflect their close alignment.
+This approach ensured that each implemented feature directly supported its corresponding user story,
+delivering intended functionality and value to users. Testing both together also improved efficiency,
+allowing for streamlined verification of the overall system and user experience.
+
+-   Test Results Spreadsheet — Column I: User Stories, Column H: Features
+
+-   [User Stories](https://github.com/tayapro/gerbet-and-co/issues)
+
+[Back to top](#table-of-contents)
+
+---
+
+# Credits
+
+## Content
+
+-   The fonts used were imported from Google Fonts.
+-   The icons were taken from [Bootstrap Icons](https://icons.getbootstrap.com/) and [Lucide Icons](https://lucide.dev/icons).
+
+## Media
+
+Macaron images were generated with the assistance of ChatGPT image tools for visual consistency across the project.
+
+-   FAQ page <a href="https://www.freepik.com/free-photo/valentines-day-postcard-with-assorted-macarons-pastel-shades-arranged-heart-shape-pris_136731678.htm">Image by frimufilms on Freepik</a>
+
+-   About page:
+
+    -   <a href="https://www.freepik.com/free-photo/young-couple-cooking-together_10041378.htm#fromView=search&page=2&position=41&uuid=9e3ae2f4-1b5c-4d64-90e5-c424de34ca7e&query=bakery+couple">Image by wayhomestudio on Freepik</a>
+    -   <a href="https://www.freepik.com/free-photo/young-couple-cooking-together_10041378.htm#fromView=search&page=2&position=41&uuid=9e3ae2f4-1b5c-4d64-90e5-c424de34ca7e&query=bakery+couple">Image by wayhomestudio on Freepik</a>
+    -   <a href="https://www.freepik.com/free-photo/valentines-day-postcard-with-assorted-macarons-pastel-shades-arranged-heart-shape-pris_136731667.htm#fromView=search&page=1&position=16&uuid=eafd6a96-97fb-419f-9dd9-71c8fa31f15f&query=macaron">Image by frimufilms on Freepik</a>
+
+-   Account pages <a href="https://www.freepik.com/free-photo/top-view-stacked-colorful-french-macaroons-beautiful-flowers-pink-background_27737542.htm">Image by wirestock on Freepik</a>
+
+-   Bag page <a href="https://www.freepik.com/free-photo/row-baked-macaroon-white-desk_4549574.htm">Image by freepik</a>
+
+-   Checkout page <a href="https://www.freepik.com/free-photo/overhead-view-macaroons-white-backdrop_4577781.htm">Image by freepik</a>
+
+-   Main backround <a href="https://www.freepik.com/free-photo/acrylic-brush-stroke-seashell-wallpaper-image_11303175.htm#fromView=search&page=1&position=35&uuid=9ea3789d-5a4d-4a77-874f-4fa1cda6c397&query=soft+background">Image by rawpixel.com on Freepik</a>
+
+-   Home page:
+
+    -   [slices of macarons and flower petals](https://www.pexels.com/photo/slices-of-macarons-and-flower-petals-on-a-plate-7296706/)
+    -   <a href="https://www.freepik.com/free-photo/selective-macaroons-table-with-cream_29505603.htm">Image by wirestock on Freepik</a>
+    -   <a href="https://www.freepik.com/free-vector/premium-quality-product-golden-label-design_1798142.htm">Image by starline on Freepik</a>
+    -   <a href="https://www.freepik.com/free-vector/best-seller-golden-label-badge-design_1798139.htm">Image by starline on Freepik</a>
+    -   <a href="https://www.freepik.com/free-vector/top-rated-golden-label-design_1798143.htm">Image by starline on Freepik</a>
+    -   <a href="https://www.freepik.com/free-vector/golden-badge-premium-products_958892.htm#fromView=search&page=1&position=49&uuid=8dcfd24c-1044-4d88-9e35-bafdfca7243d&query=premium_choice_award">Image by starline on Freepik</a>
+
+-   Error pages <a href="https://www.freepik.com/free-photo/row-pink-green-yellow-macaroons-beige-backdrop_4577756.htm">Image by freepik</a>
+
+-   Tea images:
+    -   [dried blooming tea balls](https://www.pexels.com/photo/dried-blooming-tea-balls-6787016/)
+    -   [full shot of dried tea](https://www.pexels.com/photo/full-shot-of-dried-tea-lea-5501116/)
+    -   [dry flowers fruits and leaves](https://www.pexels.com/photo/dry-flowers-fruits-and-leaves-6787017/)
+    -   [green tea with fruits leaves](https://www.pexels.com/photo/green-dried-leaves-on-ground-6087394/)
+    -   [rooibos tea](https://www.pexels.com/photo/close-up-shot-of-rooibos-tea-6087602/)
+    -   [chamomile tea](https://www.pexels.com/photo/yellow-flower-837275/)
+    -   [black tea](https://www.pexels.com/photo/close-up-shot-of-dried-tea-leaves-6087517/)
+    -   [loose mallow tea](https://www.pexels.com/photo/a-pile-of-loose-mallow-flowers-5988312/)
+    -   [hibiscus tea](https://www.pexels.com/photo/a-close-up-shot-of-loose-tea-leaves-5987947/)
+    -   [tea with fruits](https://www.pexels.com/photo/dried-tea-leaves-5501118/)
+    -   [jasmine tea](https://www.pexels.com/photo/a-pile-of-loose-jasmine-tea-leaves-5988043/)
+    -   [calendula tea](https://www.pexels.com/photo/top-view-of-dried-orange-flowers-5988272/)
+    -   [green tea](https://www.pexels.com/photo/pile-of-dried-leaves-5988177/)
+    -   [rooibos tea](https://www.pexels.com/photo/close-up-shot-of-rooibos-tea-6087602/)
+
+## Code
+
+-   Radio buttons are adapted from the [RADIO BUTTONS ON SORT & FILTER SIDEBAR](https://codepen.io/Noeh-l/pen/QWVxdNr)
+-   Understanding of Django with [Django documentation](https://docs.djangoproject.com/en/5.1/)
+-   Understanding of [Stripe payments with Django](https://www.youtube.com/watch?v=IzxNNWjYsPk)
+
+[Back to top](#table-of-contents)
+
+---
+
+# Acknowledgments
+
+Special thanks to mentor Jubril Akolade for his invaluable guidance and support throughout the project.
+Appreciation is also extended to the Code Institute Slack Community for providing valuable resources
+and assistance during development.
+
+[Back to top](#table-of-contents)
+
+---
