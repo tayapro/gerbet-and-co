@@ -1,8 +1,8 @@
-<div id="faq-sidebar">
+<div id="faq-sidebar" hx-swap-oob="true">
     <div class="list-group">
       {% for value, label in faqs.model.SECTION_CHOICES %}
         <a href="{% url 'help_section' value %}"
-           class="list-group-item list-group-item-action" id="help-section-link"
+           class="list-group-item list-group-item-action help-section-link"
            hx-get="{% url 'help_section' value %}"
            hx-target="#help-content"
            hx-push-url="true">
@@ -10,7 +10,7 @@
         </a>
       {% endfor %}
       <a href="{% url 'contact_us' %}?next={{ request.path }}" 
-         class="list-group-item list-group-item-action contact-link" id="help-section-link">
+         class="list-group-item list-group-item-action contact-link help-section-link">
         <h5>Still Curious? Contact Us</h5>
       </a>
     </div>

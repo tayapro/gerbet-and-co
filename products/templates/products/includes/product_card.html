@@ -1,11 +1,11 @@
 {% load products_filters %}
 
 {% block content %}
-<div class="card shadow-sm border border-opacity-50" id="product-card">
+<div class="card shadow-sm border border-opacity-50 product-card">
     <div class="text-center p-3">
         <a href="{% url 'product_view' product.id %}">
             <img src="{{ product.image }}" 
-                class="card-img-top rounded" id="product-card-image" 
+                class="card-img-top rounded product-card-image" 
                 alt="{{ product.title }}">
         </a>
     </div>
@@ -30,7 +30,7 @@
                 hx-select-oob="#bag-quantity">
                 {% csrf_token %}
                 <input type="hidden" name="quantity" value="1">
-                <button type="submit" class="btn px-3 rose-silk-100 d-inline-flex align-items-center gap-2" id="pl-add-to-bag-btn">
+                <button type="submit" class="btn px-3 rose-silk-100 d-inline-flex align-items-center gap-2 pl-add-to-bag-btn">
                     <i class="bi bi-bag-plus fs-5"></i> Add to Bag
                 </button>
             </form>

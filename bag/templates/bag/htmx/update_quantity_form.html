@@ -11,8 +11,8 @@
     {% csrf_token %}
     <div class="input-group">
         <input type="number" name="quantity" value="{{ item.quantity }}"
-        class="form-control text-center qty_input m-0 p-0 px-1 order-2 rounded-0 {% if error %}is-invalid{% endif %}" 
-        size="3" id="quantity-input-{{ item.product_id }}">
+        class="form-control text-center qty_input m-0 p-0 px-1 order-2 rounded-0 {% if error %}is-invalid{% endif %} qty_input" 
+        id="quantity-input-{{ item.product_id }}">
 
         <button type="submit" name="action" value="decrease"
                 class="btn btn-outline-secondary btn-sm order-1 rounded-start"
