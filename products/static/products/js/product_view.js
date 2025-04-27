@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
             ratingInput.value = this.getAttribute('data-value');
 
             // Enable the submit button
-            saveButton.disabled = !ratingInput.value;
+            saveButton.disabled = false;
         });
     });
 

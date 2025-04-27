@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.db import IntegrityError
 from django.shortcuts import redirect, render
 
 from .forms import ContactForm, SubscribeForm
@@ -40,8 +41,10 @@ def subscribe(request):
                 messages.success(request, "Thanks for subscribing!")
                 return render(request, "store/home-page.html",
                               {"form": form, "next": next})
+            except IntegrityError:
+                messages.warning(request, "This email is already subscribed.")
             except Exception as e:
-                messages.error(e)
+                messages.error(request, str(e))
         else:
             return render(request, "store/home_page.html",
                           {"form": form, "next": next,

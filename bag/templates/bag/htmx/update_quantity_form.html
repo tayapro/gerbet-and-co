@@ -5,14 +5,14 @@
       hx-swap="outerHTML"
       class="d-inline-block update-form text-start">
 
-    <!-- Hidden default submit to prevent "decrease" from firing on Enter -->
-    <button type="submit" name="action" value="update" hidden></button>
+    <!-- Hidden input to ensure 'action' is always sent -->
+    <input type="hidden" name="action" value="update">
 
     {% csrf_token %}
     <div class="input-group">
         <input type="number" name="quantity" value="{{ item.quantity }}"
-        class="form-control text-center qty_input m-0 p-0 px-1 order-2 rounded-0 {% if error %}is-invalid{% endif %} qty_input" 
-        id="quantity-input-{{ item.product_id }}">
+               class="form-control text-center qty_input m-0 p-0 px-1 order-2 rounded-0 {% if error %}is-invalid{% endif %} custom-invalid-style" 
+               id="quantity-input-{{ item.product_id }}">
 
         <button type="submit" name="action" value="decrease"
                 class="btn btn-outline-secondary btn-sm order-1 rounded-start"
@@ -26,6 +26,10 @@
             <i class="bi bi-plus"></i>
         </button>
     </div>
-    <small class="text-start purple-50">* max 99</small>
+    <small class="text-start purple-50">* max 99</small><br>
+    <!-- Changed ID to class for error messages -->
+    <small class="text-danger bag-error-message d-none mt-2">
+        Invalid quantity
+    </small>
 </form>
 {% endblock %}

@@ -922,7 +922,7 @@ This approach ensured that each implemented feature directly supported its corre
 delivering intended functionality and value to users. Testing both together also improved efficiency,
 allowing for streamlined verification of the overall system and user experience.
 
--   Test Results Spreadsheet — Column I: User Stories, Column H: Features
+-   [Test Results Spreadsheet](https://docs.google.com/spreadsheets/d/1nvOqcARGIw93b0v3J0wxBqLBeqMvdN1Np24IdLpj3gQ/edit?usp=sharing)
 
 -   [User Stories](https://github.com/tayapro/gerbet-and-co/issues)
 

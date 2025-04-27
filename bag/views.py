@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
@@ -65,31 +66,44 @@ def update_bag(request, product_id):
     try:
         quantity = int(quantity)
 
-        current_quantity = bag.get_quantity(product_id)
-        result_quantity = current_quantity
-
         if action == "increase":
-            result_quantity += 1
+            quantity += 1
         elif action == "decrease":
-            result_quantity -= 1
-        else:
-            result_quantity = quantity
+            quantity -= 1
 
-        if result_quantity < 1 or result_quantity > 99:
-            result_quantity = current_quantity
+        # Handle invalid quantity
+        if quantity < 1 or quantity > 99:
+            updated_bag_quantity = bag.get_total_quantity()
+            context = {
+                "bag": bag,
+                "bag_total_items": updated_bag_quantity,
+                "product_name": product.title,
+                "error": True,
+            }
 
-        bag.add(product_id,
-                product_data={"title": product.title,
-                              "price": product.price},
-                quantity=result_quantity, action="update")
+            if request.headers.get("HX-Request"):
+                return render(request, "bag/htmx/update_bag.html", context)
+            else:
+                messages.error(request, "Invalid quantity selected.")
+                return redirect("view_bag")
+
+        # Valid quantity, update the bag
+        bag.add(
+            product_id,
+            product_data={"title": product.title, "price": product.price},
+            quantity=quantity,
+            action="update",
+        )
+
     except (ValueError, KeyError):
         pass
 
     updated_bag_quantity = bag.get_total_quantity()
-
-    context = {"bag": bag,
-               "bag_total_items": updated_bag_quantity,
-               "product_name": product.title}
+    context = {
+        "bag": bag,
+        "bag_total_items": updated_bag_quantity,
+        "product_name": product.title,
+    }
 
     if request.headers.get("HX-Request"):
         return render(request, "bag/htmx/update_bag.html", context)

@@ -207,7 +207,7 @@
             <div class="col-12 col-md-6">
                 <form method="POST" action="{% url 'subscribe' %}?next={{ request.path }}">
                     {% if form.errors %}
-                        <div class="alert alert-danger border-0" id="form-errors">
+                        <div class="alert alert-danger border-0 d-flex justify-content-between" id="form-errors">
                             <ul class="list-group">
                                 {% for field in form %}
                                     {% if field.errors %}
@@ -217,6 +217,7 @@
                                     {% endif %}
                                 {% endfor %}
                             </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     {% endif %}
 
@@ -268,7 +269,7 @@
             <!-- Follow Us -->
             <div class="col-12 col-md-4">
                 <h6 class="fw-semibold purple-text-75">Follow Us</h6>
-                <p class="small">Let’s stay in touch — one crumb at a time.</p>
+                <p class="small">Let's stay in touch — one crumb at a time.</p>
                 <div class="d-flex gap-3">
                     <a href="https://www.instagram.com" target="_blank" class="text-muted fs-4" aria-label="Instagram" rel="noopener">
                         <i class="bi bi-instagram"></i>
