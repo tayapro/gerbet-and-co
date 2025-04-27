@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
@@ -363,10 +363,7 @@ def get_order_or_redirect(order_id, request):
                 "redirect_url": reverse("checkout")
             }, status=404)
 
-        return JsonResponse({
-                "error": "order_not_found",
-                "redirect_url": reverse("checkout")
-            }, status=404)
+    raise Http404("Order not found.")
 
 
 def get_full_name(request):
