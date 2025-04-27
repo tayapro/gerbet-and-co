@@ -540,7 +540,6 @@ def finalize_order(request, bag, order):
     Clears the shopping bag, creates order items, and displays
     the success page.
     """
-
     try:
         logger.info(
             f"Finalizing order {order.id} - User: {order.user_id}, "
@@ -560,8 +559,8 @@ def finalize_order(request, bag, order):
                 f"Shipping Info: {order.shipping_info_id}"
             )
             logger.info(f"Order {order.id} finalized successfully")
-            return render(request, "checkout/checkout_success.html",
-                          {"order": order})
+
+            return redirect(reverse('checkout_success', args=[order.id]))
 
         logger.warning(
             f"Payment not successful - Status: {intent.status}, "
