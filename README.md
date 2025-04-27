@@ -88,7 +88,7 @@ The shop follows a direct-to-consumer (DTC) model, selling exclusively through i
 2.  Visual Social Media Presence
     A Facebook page layout was created for Gerbet & Co to represent the brand online and support future social media engagement strategies.
 
-        <img src="readme/gerbet_and_co_facebook_mockup.png" width="700" alt="gerbet_and_co_facebook_mockup">
+    <img src="readme/gerbet_and_co_facebook_mockup.png" width="700" alt="gerbet_and_co_facebook_mockup">
 
 3.  Email Marketing with a Personal Touch
     Subscribers receive curated emails including seasonal collection announcements, restock alerts, and macaron-tea pairing ideas. Limited batch drops and early access to new products help create urgency and community around the brand.
@@ -647,7 +647,8 @@ You have been logged out" message.
 
 ---
 
-> [!NOTE] The Gerbet & Co e-commerce website features custom error pages to improve the user experience during unexpected issues.
+> [!NOTE]
+> The Gerbet & Co e-commerce website features custom error pages to improve the user experience during unexpected issues.
 > Custom pages are provided for common HTTP errors like 400 (Bad Request), 403 (Forbidden), 404 (Not Found), and 500 (Server Error).
 > These pages deliver clear, user-friendly messages that maintain the website’s consistent design and tone.
 > For instance, the 403 page appears when a user tries to access a restricted area without proper authorization.
