@@ -641,9 +641,61 @@ You have been logged out" message.
 
 ### F20 Email Notifications
 
+The application sends automated emails to users at key interaction points to enhance communication and
+user experience. The following email types are supported:
+
+-   **Welcome Email** sent to new users after successful registration to greet them and confirm account creation.
+
+    <img src="readme/email_payment_confirmed.png" width="600" alt="email_payment_confirmed">
+
+-   **Password Reset Email**
+    Sent when a user requests a password reset, providing a secure link to reset their password.
+
+    <img src="readme/email_password_reset_request.png" width="600" alt="email_password_reset_request">
+
+-   **Order Confirmation Email** sent after a successful payment, summarizing the order details and confirming the purchase.
+
+    <img src="readme/email_payment_confirmed.png" width="600" alt="email_payment_confirmed">
+
+-   **Payment Failure Email** sent if a payment attempt fails, informing the user and providing guidance on next steps.
+
+    <img src="readme/email_payment_failed.png" width="600" alt="email_payment_failed">
+
+-   **Contact Us Email** sent internally when a user submits a message via the "Contact Us" form, allowing prompt follow-up.
+
+    <img src="readme/email_contact_us_user.png" width="600" alt="email_contact_us_user">
+
+-   **Subscription Email** sent when a user subscribes to the newsletter, confirming their subscription and welcoming them to the community.
+
+    <img src="readme/email_subscription.png" width="600" alt="email_subscription">
+
 ### F21 Spinner
 
+To improve the user experience during the checkout process, a loading spinner was implemented.
+It appears when the user submits the payment form and remains visible while awaiting a response from the payment provider.
+
+The spinner activates after the user submits the payment and before the result (success or failure) is returned.
+
+Once the payment is successfully processed, the spinner disappears, and the user is redirected to the order confirmation page.
+
+If the payment fails, the spinner also disappears, and an appropriate error message is displayed to the user without reloading the page.
+
 ### F22 Admin Panel / Product Management
+
+The admin panel provides a interface for managing the store’s products easily and efficiently.
+Administrators can:
+
+-   Update the title, description, price, and category assignments for each product.
+-   Quickly select or change product categories using a user-friendly multi-select tool.
+-   View the current product image and optionally upload a new image by providing a direct URL.
+-   Save changes, continue editing, or quickly add new products using the provided action buttons.
+
+<img src="readme/admin_product_edit.png" width="600" alt="admin_product_edit">
+
+#### Other Admin Features
+
+-   **Create New Products**: Add new products by filling in the same fields available for editing: title, description, price, categories, and image URL.
+-   **Manage** categories, shipping information, orders, order items, and checkout configuration.
 
 ---
 
