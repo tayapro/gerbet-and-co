@@ -872,7 +872,7 @@ Administrators can:
 
 ---
 
-> [!NOTE]
+> **Note:**
 > The Gerbet & Co e-commerce website features custom error pages to improve the user experience during unexpected issues.
 > Custom pages are provided for common HTTP errors like 400 (Bad Request), 403 (Forbidden), 404 (Not Found), and 500 (Server Error).
 > These pages deliver clear, user-friendly messages that maintain the website's consistent design and tone.
@@ -944,7 +944,7 @@ Offer a live chat option on the website, allowing customers to quickly get assis
 | [W3C CSS Validator](https://jigsaw.w3.org/css-validator/)    | Validate CSS code                                   |
 | [JShint](https://jshint.com/)                                | Validate JS code                                    |
 
-> [!NOTE]
+> **Note:**
 > A complete list of project dependencies is available in the requirements.txt file.
 
 [Back to top](#table-of-contents)
@@ -953,7 +953,7 @@ Offer a live chat option on the website, allowing customers to quickly get assis
 
 # Deployment
 
-> [!NOTE]
+> **Note:**
 > Before starting the deployment process, please note that you need two files in your repository:
 >
 > 1. `requirements.txt` with all actual dependencies.
@@ -986,7 +986,7 @@ Offer a live chat option on the website, allowing customers to quickly get assis
 3. Open your terminal and navigate to the folder where you want to save the repository.
 4. In the terminal, type `git clone`, paste the copied URL, and hit **Enter** to start cloning.
 
-> [!NOTE]
+> **Note:**
 > To update requirements.txt with all actual dependencies, run: \
 > `pip3 freeze > requirements.txt` \
 > Check `DEBUG` flag in settings.py, should be `False`. \
@@ -1047,7 +1047,7 @@ Follow these steps to deploy the Gerbet & Co app on Heroku:
     - Under **App connected to GitHub**, link your GitHub repository.
     - In the **Manual deploy** section, select the `main` branch and click **Deploy Branch** to deploy your app.
 
-> [!NOTE]
+> **Note:**
 > To update requirements.txt with all actual dependencies, run: \
 > `pip3 freeze > requirements.txt` \
 > Check `DEBUG` flag in settings.py, should be `False`. \
@@ -1178,7 +1178,7 @@ All pages successfully passed validation, with the exception of minor HTMX-relat
  validation image">
 </details>
 
-> [!NOTE] > All other templates (htmx and from includes folder) have been validated under view_bag.html.
+> **Note:** All other templates (htmx and from includes folder) have been validated under view_bag.html.
 
 #### Checkout
 
@@ -1214,7 +1214,7 @@ All pages successfully passed validation, with the exception of minor HTMX-relat
  validation image">
 </details>
 
-> [!NOTE] > All other templates (includes folder) have been validated under templates above.
+> **Note:** All other templates (includes folder) have been validated under templates above.
 
 #### Store
 
@@ -1819,7 +1819,11 @@ Google Lighthouse in Google Chrome Developer Tools was used to check the website
 
     The sort and filter form allows users to submit non-numeric characters such as "+", "-", or "." by themselves in the price range fields. Although these symbols can be submitted, they do not affect the search results or cause any functional issues.
 
-3. `aria-hidden` issue
+3. Country name display issue in confirmation email
+
+    In some rare cases, instead of displaying the full country name, the two-letter country code (e.g., "IE", "FR") may appear.
+
+4. `aria-hidden` issue
 
     ```
     Blocked aria-hidden on an element because its descendant retained focus. The focus must not be
