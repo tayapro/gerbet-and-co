@@ -23,16 +23,19 @@ def validate_phone(value):
 
 class UserRegistrationForm(UserCreationForm):
     """
-    A form for user registration, extending Django’s UserCreationForm.
+    A form for user registration, extending Django's UserCreationForm.
 
     Adds custom validations for username, email, and first/last name fields.
     Also customizes placeholders for a smoother user experience.
     """
 
-    username = forms.CharField(min_length=2, required=True)
+    username = forms.CharField(validators=[MinLengthValidator(2)],
+                               required=True)
     email = forms.EmailField(required=True)
-    first_name = forms.CharField(min_length=2, required=True)
-    last_name = forms.CharField(min_length=2, required=True)
+    first_name = forms.CharField(validators=[MinLengthValidator(2)],
+                                 required=True)
+    last_name = forms.CharField(validators=[MinLengthValidator(2)],
+                                required=True)
 
     class Meta:
         model = User
@@ -57,20 +60,10 @@ class UserRegistrationForm(UserCreationForm):
                 "class": "custom-placeholder"
             })
 
-        def clean(self):
-            cleaned_data = super().clean()
-            first_name = cleaned_data.get("first_name")
-            last_name = cleaned_data.get("last_name")
-            email = cleaned_data.get("email")
+    def clean(self):
+        cleaned_data = super().clean()
 
-            if not first_name:
-                self.add_error("first_name", "First name cannot be empty")
-            if not last_name:
-                self.add_error("last_name", "Last name cannot be empty")
-            if not email:
-                self.add_error("email", "Email cannot be empty")
-
-            return cleaned_data
+        return cleaned_data
 
     def save(self, commit=True):
         user = super().save(commit=False)

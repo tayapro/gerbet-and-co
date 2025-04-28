@@ -242,7 +242,7 @@ Gerbet & Co uses a font pairing that evokes both elegance and readability:
 -   **Playfair Display SC** is used for headings, adding a sense of timelessness and quiet sophistication.
 -   **Nunito Sans** supports the main body text, ensuring clarity, balance, and a modern finish.
 
-This combination provides a calm, welcoming reading experience while aligning with the brand’s
+This combination provides a calm, welcoming reading experience while aligning with the brand's
 handcrafted and refined identity.
 
 [Back to top](#table-of-contents)
@@ -278,9 +278,9 @@ Before implementation began, high-level Epics were broken down into smaller, act
 The MoSCoW method was used to group tasks as follows:
 
 -   **Must Have** – Essential features required for the core functionality and successful delivery.
--   **Should Have** – High-value tasks that enhance the product but aren’t critical for launch.
+-   **Should Have** – High-value tasks that enhance the product but aren't critical for launch.
 -   **Could Have** – Nice-to-have features that provide added value but can be deferred.
--   **Won’t Have** – Tasks intentionally excluded from the current development cycle.
+-   **Won't Have** – Tasks intentionally excluded from the current development cycle.
 
 This structured approach ensured that key features were delivered first, while still making space for future
 enhancements to improve the user experience in later iterations.
@@ -300,7 +300,7 @@ The Gerbet & Co site features a sticky, responsive navbar with a refined logo an
 #### Search
 
 Gerbet & Co includes a user-friendly offcanvas search panel, allowing customers to quickly explore products without leaving the current page. The search sidebar is easily accessible from the navbar and opens with a smooth transition. It features a simple input field with placeholder text ("Macaron, tea, or a treat...") to guide users.
-To assist discovery, curated suggestions such as Macarons and Tea are also presented as quick-access buttons, helping users find what they’re looking for with ease.
+To assist discovery, curated suggestions such as Macarons and Tea are also presented as quick-access buttons, helping users find what they're looking for with ease.
 
 #### Shopping Bag
 
@@ -316,7 +316,7 @@ The menu:
 -   Maintains a minimal, elegant design.
 -   Ensures easy navigation without clutter.
 
-Built using Bootstrap’s offcanvas component for a seamless mobile experience.
+Built using Bootstrap's offcanvas component for a seamless mobile experience.
 
 ### F02 Home page
 
@@ -343,11 +343,11 @@ chilled shipping for freshness, eco-friendly packaging, and responsive customer 
 
 #### About Section
 
-An elegant introduction to the story behind Gerbet & Co. This section shares the brand’s passion for delicate flavors and timeless moments, blending French tradition with Irish charm. It adds warmth and authenticity to the overall experience.
+An elegant introduction to the story behind Gerbet & Co. This section shares the brand's passion for delicate flavors and timeless moments, blending French tradition with Irish charm. It adds warmth and authenticity to the overall experience.
 
 #### Awards & Recognition
 
-A trusted and celebrated section showcases awards and accolades, such as "Best Seller Award" and "Premium Quality." This helps to build customer confidence and reflects the brand’s commitment to quality and excellence.
+A trusted and celebrated section showcases awards and accolades, such as "Best Seller Award" and "Premium Quality." This helps to build customer confidence and reflects the brand's commitment to quality and excellence.
 
 #### Newsletter Signup
 
@@ -365,7 +365,7 @@ Each item is displayed with a rich image, name, price, star rating, and a quick 
 A Filter and Sort Sidebar helps users easily refine results by category, price range, and rating, making it simple to discover the macaron or tea collections.
 This feature supports a faster, more personalized browsing experience.
 
-The visual style of the page stays true to the brand’s elegant and delicate identity, using soft tones,
+The visual style of the page stays true to the brand's elegant and delicate identity, using soft tones,
 rounded cards, and thoughtful spacing to create an effortless and enjoyable atmosphere.
 
 ### F04 Product view page
@@ -412,7 +412,7 @@ A _Continue Shopping_ button is provided, encouraging users to seamlessly return
 
 ### F08 About page
 
-The About page shares the story behind Gerbet & Co., a tribute to tradition, craft, and small joys. Through a blend of personal notes from the fictional founders, Isabelle Gerbet and Liam Murphy, the page weaves a light narrative about their journey — from French roots to their cozy Irish kitchen — highlighting their passion for delicate flavors and heartfelt baking. Designed with a warm, inviting layout, the page adds a human touch to the brand’s identity, creating a sense of connection and authenticity.
+The About page shares the story behind Gerbet & Co., a tribute to tradition, craft, and small joys. Through a blend of personal notes from the fictional founders, Isabelle Gerbet and Liam Murphy, the page weaves a light narrative about their journey — from French roots to their cozy Irish kitchen — highlighting their passion for delicate flavors and heartfelt baking. Designed with a warm, inviting layout, the page adds a human touch to the brand's identity, creating a sense of connection and authenticity.
 
 ### F09 FAQ Page
 
@@ -446,7 +446,7 @@ The page is divided into three clear sections:
 
 -   **Resident Profile**: Users can easily update their name, and password to keep their profile up to date.
 -   **Address Book**: Allows users to view, add, and edit their delivery addresses, ensuring their favorite treats always find them, whether at home or away.
--   **Deliveries at Door**: Provides an overview of past orders, offering a simple way to track what’s been delivered and revisit favorite purchases.
+-   **Deliveries at Door**: Provides an overview of past orders, offering a simple way to track what's been delivered and revisit favorite purchases.
 
 This setup creates a smooth and user-friendly experience, helping users stay connected with their orders and profile in just a few clicks.
 
@@ -528,7 +528,7 @@ Just like in the creation form, users can select the option to set the updated a
 Custom validation is enforced to ensure data consistency:
 
 -   Fields like street address and town or city must have at least 2 characters.
--   Phone numbers must follow a valid format: 7–15 digits, with an optional ‘+’ sign.
+-   Phone numbers must follow a valid format: 7–15 digits, with an optional '+' sign.
 
 Upon successful update, users are redirected back to the Address Book page with a Django success message:
 "Address updated successfully."
@@ -604,7 +604,7 @@ If incorrect credentials are provided, the user will see the following message:
 
 #### Reset password page
 
-The page offers users a straightforward way to request a password reset if they’ve forgotten their login credentials.
+The page offers users a straightforward way to request a password reset if they've forgotten their login credentials.
 Users simply need to enter the email address associated with their account and click "Send Password Reset Email." Upon submission, a password reset link will be emailed to them if the email matches an existing account.
 
 If incorrect or invalid credentials are provided, the user will be informed with the following message:
@@ -682,7 +682,7 @@ If the payment fails, the spinner also disappears, and an appropriate error mess
 
 ### F22 Admin Panel / Product Management
 
-The admin panel provides a interface for managing the store’s products easily and efficiently.
+The admin panel provides a interface for managing the store's products easily and efficiently.
 Administrators can:
 
 -   Update the title, description, price, and category assignments for each product.
@@ -702,7 +702,7 @@ Administrators can:
 > [!NOTE]
 > The Gerbet & Co e-commerce website features custom error pages to improve the user experience during unexpected issues.
 > Custom pages are provided for common HTTP errors like 400 (Bad Request), 403 (Forbidden), 404 (Not Found), and 500 (Server Error).
-> These pages deliver clear, user-friendly messages that maintain the website’s consistent design and tone.
+> These pages deliver clear, user-friendly messages that maintain the website's consistent design and tone.
 > For instance, the 403 page appears when a user tries to access a restricted area without proper authorization.
 
 ## Future Features
@@ -828,7 +828,7 @@ To use your own database, set it up and configure the `DATABASE_URL`.
 
 ## Cloudinary API
 
-This project uses the Cloudinary API to store media files, as Heroku doesn’t support persistent storage for this type of data.
+This project uses the Cloudinary API to store media files, as Heroku doesn't support persistent storage for this type of data.
 
 To get started with Cloudinary:
 
@@ -845,7 +845,7 @@ Follow these steps to deploy the Gerbet & Co app on Heroku:
    Start by forking or cloning the [Gerbet & Co repository](https://github.com/tayapro/gerbet-and-co) to your local machine.
 
 2. **Log in to Heroku**  
-   Access your Heroku account or create one if you don’t have it yet.
+   Access your Heroku account or create one if you don't have it yet.
 
 3. **Set Up a New Application**  
    Create a new application on Heroku and name it as desired.

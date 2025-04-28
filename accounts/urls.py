@@ -36,7 +36,6 @@ urlpatterns = [
     path("account/order/view/<int:id>/", views.order_view, name="order_view"),
     path("account/password/update", views.CustomPasswordChangeView.as_view(),
          name='password_update'),
-
     path("account/", views.account_view, name="account"),
 
     path(

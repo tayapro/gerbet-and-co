@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import (
     PasswordChangeView,
     PasswordResetConfirmView)
+from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
@@ -50,6 +51,8 @@ def register(request):
 
             try:
                 send_welcome_email(request, user)
+            except ValidationError as e:
+                form.add_error(None, e.messages)
             except Exception:
                 messages.warning(request,
                                  "Account created, but welcome email "
@@ -91,7 +94,7 @@ def login(request):
                 request.session.set_expiry(0)
 
             messages.success(request, "Successfully logged in.")
-            return redirect("product_list")
+            return redirect("home")
     else:
         form = AuthenticationForm()
 

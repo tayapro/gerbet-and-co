@@ -272,7 +272,7 @@ h5 {
     z-index: 9999;
 }
 
-/* Tab buttons don’t shrink */
+/* Tab buttons don't shrink */
 .nav-tabs .nav-link {
     white-space: nowrap;
 }
