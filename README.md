@@ -402,7 +402,14 @@ details, users can review and confirm their order before completing payment.
 For mobile devices, the order summary is prioritized and displayed at the top of the page, ensuring users can
 easily review their total before filling out delivery and payment sections listed below.
 
-### F07 Checkout success page
+### F07 Guest Checkout
+
+Gerbet & Co allows users to complete their purchase as a guest without creating an account.
+This feature ensures a fast and hassle-free checkout experience for new or occasional customers.
+Guests can provide their shipping and billing details during checkout, receive email notifications
+about their order, and enjoy a secure payment process via Stripe — all without needing to register.
+
+### F08 Checkout success page
 
 After completing the checkout process, users are directed to a clean and friendly success page.
 A personalized thank you message confirms the order, accompanied by the order number for easy reference.
@@ -410,16 +417,16 @@ A personalized thank you message confirms the order, accompanied by the order nu
 An order summary clearly lists the purchased items along with subtotal, delivery cost, and total paid.
 A _Continue Shopping_ button is provided, encouraging users to seamlessly return to browsing more products without any interruption.
 
-### F08 About page
+### F09 About page
 
 The About page shares the story behind Gerbet & Co., a tribute to tradition, craft, and small joys. Through a blend of personal notes from the fictional founders, Isabelle Gerbet and Liam Murphy, the page weaves a light narrative about their journey — from French roots to their cozy Irish kitchen — highlighting their passion for delicate flavors and heartfelt baking. Designed with a warm, inviting layout, the page adds a human touch to the brand's identity, creating a sense of connection and authenticity.
 
-### F09 FAQ Page
+### F10 FAQ Page
 
 The FAQ page is designed to offer quick, friendly support for visitors. It is divided into sections such as Tasting & Treats, Your Sweet Profile, Orders, Payment, and Delivery. Each section contains expandable questions and answers, helping users find the information they need without leaving the page.
 At the end of the list, a "Still Curious? Contact Us" link directs users to the Contact Us page, offering a simple way to get personalized assistance.
 
-### F10 Contact us page
+### F11 Contact us page
 
 The Contact Us page features a simple, user-friendly form where visitors can quickly reach out with questions,
 feedback, or special requests.
@@ -432,14 +439,14 @@ and "Please enter your message." to guide them if any fields are left empty.
 The page design remains consistent with the brand's warm and welcoming aesthetic, enhanced by a
 vibrant macaron background.
 
-### F11 Sort & filter sidebar
+### F12 Sort & filter sidebar
 
 The Sort & Filter sidebar empowers users to refine and personalize their browsing experience with ease. Users can sort products by price (low to high or high to low) or by popularity, helping them quickly find the best fit for their preferences.
 Filtering options include category selection (Macarons, Macaron Sets, Tea), rating (5 stars, 4+ stars, or 3+ stars), and price range adjustment.
 Active filters are displayed as tags above the product grid, with an option to clear all filters in one click.
 The sidebar enhances usability, making product discovery smooth, intuitive, and enjoyable across all devices.
 
-### F12 My account page
+### F13 My account page
 
 The My Account page offers users a welcoming dashboard with quick access to manage their personal information and orders.
 The page is divided into three clear sections:
@@ -450,7 +457,7 @@ The page is divided into three clear sections:
 
 This setup creates a smooth and user-friendly experience, helping users stay connected with their orders and profile in just a few clicks.
 
-### F13 Resident Profile Page
+### F14 Resident Profile Page
 
 The Resident Profile page offers users a simple and secure way to manage their personal information.
 Here, users can:
@@ -461,7 +468,7 @@ Here, users can:
 
 A _Back to My Account_ button ensures smooth navigation, allowing users to return to the main account dashboard with one click.
 
-### F14 Resident Profile - Change details page
+### F15 Resident Profile - Change details page
 
 The Change Details page allows users to easily update their name associated with their account.
 Key features:
@@ -475,7 +482,7 @@ After a successful update, the user sees a Django message:
 
 After submitting, the user is redirected back to their Resident Profile, where the updated information is displayed immediately.
 
-### F15 Resident Profile - Change Password Page
+### F16 Resident Profile - Change Password Page
 
 The Change Password page offers users a secure way to update their login credentials.
 Key features:
@@ -487,7 +494,7 @@ Key features:
 After a successful password change, the user is redirected to the login page and the message:
 "Your password has been successfully changed. Please log in with your new password."
 
-### F16 Address Book - Address Management (CRUD)
+### F17 Address Book - Address Management (CRUD)
 
 The Address Book page offers a convenient way for users to manage their saved delivery addresses. Each entry displays detailed information, including the street address, city, county, postcode, country, and phone number, ensuring quick reference at a glance.
 
@@ -546,7 +553,7 @@ The user has two options:
 After confirming the deletion, the address is removed from the user's account, and a Django success message appears:
 "Address deleted successfully."
 
-### F17 Deliveries at Door
+### F18 Deliveries at Door
 
 The Deliveries at Door page allows users to view a summary of their past orders, providing quick access to essential delivery information.
 
@@ -559,7 +566,7 @@ Each order entry displays:
 
 A "View Details" button is available for each order, allowing users to dive deeper into the order's full breakdown.
 
-### F18 Deliveries at Door - Order details page
+### F19 Deliveries at Door - Order details page
 
 The Order details page provides a detailed recap of a specific order, offering users a clear and organized summary of their purchase.
 
@@ -578,7 +585,7 @@ Items list showing each product purchased, its quantity, and price.
 
 A _Back to Orders_ button ensures seamless navigation back to the full list of deliveries.
 
-### F19 User Access and Logout pages
+### F20 User Access and Logout pages
 
 #### Register page
 
@@ -639,7 +646,7 @@ Users can easily choose between staying logged in ("No" button) or ending their 
 Upon confirmation, the user is securely logged out of their account and redirected to the homepage and see "
 You have been logged out" message.
 
-### F20 Email Notifications
+### F21 Email Notifications
 
 The application sends automated emails to users at key interaction points to enhance communication and
 user experience. The following email types are supported:
@@ -669,7 +676,7 @@ user experience. The following email types are supported:
 
     <img src="readme/email_subscription.png" width="600" alt="email_subscription">
 
-### F21 Spinner
+### F22 Spinner
 
 To improve the user experience during the checkout process, a loading spinner was implemented.
 It appears when the user submits the payment form and remains visible while awaiting a response from the payment provider.
@@ -680,7 +687,7 @@ Once the payment is successfully processed, the spinner disappears, and the user
 
 If the payment fails, the spinner also disappears, and an appropriate error message is displayed to the user without reloading the page.
 
-### F22 Admin Panel / Product Management
+### F23 Admin Panel / Product Management
 
 The admin panel provides a interface for managing the store's products easily and efficiently.
 Administrators can:
@@ -917,14 +924,31 @@ Safari ios 17.6
 
 ## User Stories / Features Testing
 
-Feature and user story testing were carried out in parallel to reflect their close alignment.
-This approach ensured that each implemented feature directly supported its corresponding user story,
-delivering intended functionality and value to users. Testing both together also improved efficiency,
-allowing for streamlined verification of the overall system and user experience.
+Feature and user story testing were performed together to ensure a strong alignment between functionality and user expectations. Each feature was verified to support its intended user story, focusing on delivering clear value and a seamless user experience. While individual features and user stories were not listed separately in the final test results spreadsheet, the tests were organized by sections that closely correspond to the implemented features, maintaining logical coverage and clarity.
 
 -   [Test Results Spreadsheet](https://docs.google.com/spreadsheets/d/1nvOqcARGIw93b0v3J0wxBqLBeqMvdN1Np24IdLpj3gQ/edit?usp=sharing)
 
 -   [User Stories](https://github.com/tayapro/gerbet-and-co/issues)
+
+## Known Issues
+
+1. OrderItems not created for failed payments
+
+    When a payment attempt fails (e.g., due to a card decline or insufficient funds), the associated OrderItem records are not generated. This behavior prevents incomplete or unpaid orders from affecting the product inventory or order history but may require manual review if troubleshooting failed transactions.
+
+2. Sort & Filter form accepts isolated symbols
+
+    The sort and filter form allows users to submit non-numeric characters such as "+", "-", or "." by themselves in the price range fields. Although these symbols can be submitted, they do not affect the search results or cause any functional issues.
+
+3. `aria-hidden` issue
+
+    ```
+    Blocked aria-hidden on an element because its descendant retained focus. The focus must not be
+    hidden from assistive technology users. Avoid using aria-hidden on a focused element or its
+    ancestor. Consider using the inert attribute instead, which will also prevent focus. For more
+    details, see the aria-hidden section of the WAI-ARIA specification
+    at https://w3c.github.io/aria/#aria-hidden.
+    ```
 
 [Back to top](#table-of-contents)
 

@@ -14,32 +14,63 @@ document.addEventListener('DOMContentLoaded', function () {
      * an error message and disabling the submit button if invalid.
      */
     function validatePriceRange() {
-        const minVal = parseFloat(minInput.value.trim());
-        const maxVal = parseFloat(maxInput.value.trim());
-
-        const min = parseFloat(minVal);
-        const max = parseFloat(maxVal);
-
+        const minStr = minInput.value.trim();
+        const maxStr = maxInput.value.trim();
+        // Allows numbers with optional .xx but blocks symbols
+        const numericRegex = /^(?!0+$)(?!0*\.0*$)\d+(?:\.\d{1,2})?$/;
         let isValid = true;
 
-        if (minVal && (isNaN(min) || min < 1)) {
-            isValid = false;
+        errorMessage.textContent = '';
+        errorMessage.classList.add('d-none');
+        submitBtn.classList.remove('disabled-link');
+
+        // Validate Min Price
+        if (minStr !== '') {
+            if (!numericRegex.test(minStr)) {
+                errorMessage.textContent =
+                    'Min price must be a positive number (e.g., 10 or 10.99)';
+                isValid = false;
+            } else {
+                const min = parseFloat(minStr);
+                if (min <= 0) {
+                    errorMessage.textContent =
+                        'Min price must be greater than 0';
+                    isValid = false;
+                }
+            }
         }
 
-        if (maxVal && (isNaN(max) || max < 1)) {
-            isValid = false;
+        // Validate Max Price (only check if min is valid)
+        if (isValid && maxStr !== '') {
+            if (!numericRegex.test(maxStr)) {
+                errorMessage.textContent =
+                    'Max price must be a positive number (e.g., 100 or 100.99)';
+                isValid = false;
+            } else {
+                const max = parseFloat(maxStr);
+                if (max <= 0) {
+                    errorMessage.textContent =
+                        'Max price must be greater than 0';
+                    isValid = false;
+                }
+            }
         }
 
-        if (minVal && maxVal && min > max) {
-            isValid = false;
+        // Compare prices if both are valid
+        if (isValid && minStr && maxStr) {
+            const min = parseFloat(minStr);
+            const max = parseFloat(maxStr);
+
+            if (min > max) {
+                errorMessage.textContent =
+                    'Min price cannot be greater than Max price';
+                isValid = false;
+            }
         }
 
         if (!isValid) {
             errorMessage.classList.remove('d-none');
-            submitBtn.setAttribute('disabled', true);
-        } else {
-            errorMessage.classList.add('d-none');
-            submitBtn.removeAttribute('disabled');
+            submitBtn.classList.add('disabled-link');
         }
 
         return isValid;
