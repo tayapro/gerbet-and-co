@@ -297,18 +297,27 @@ enhancements to improve the user experience in later iterations.
 
 The Gerbet & Co site features a sticky, responsive navbar with a refined logo and a clean, user-friendly layout. Navigation elements adjust based on user status: logged-in users see a profile dropdown menu and a real-time shopping bag counter, while visitors are presented with a _Get Started_ button to encourage account creation or login. A collapsible offcanvas search panel offers quick access to product browsing without leaving the current page. The navbar is fully optimized for mobile devices, providing seamless navigation with touch-friendly elements and maintaining accessibility across all screen sizes.
 
+<img src="readme/f01_desktop.png" width="500" alt="f01_desktop">
+
 #### Search
 
 Gerbet & Co includes a user-friendly offcanvas search panel, allowing customers to quickly explore products without leaving the current page. The search sidebar is easily accessible from the navbar and opens with a smooth transition. It features a simple input field with placeholder text ("Macaron, tea, or a treat...") to guide users.
 To assist discovery, curated suggestions such as Macarons and Tea are also presented as quick-access buttons, helping users find what they're looking for with ease.
 
+<img src="readme/f01_search.png" width="200" alt="f01_search">
+
 #### Shopping Bag
 
 Gerbet & Co. provides a seamless shopping experience with real-time updates. When users add a product to their bag, the bag counter in the navbar updates instantly, and a toast message appears to confirm the action. The toast displays the product name and includes a dismiss option, offering clear, unobtrusive feedback without interrupting the browsing flow.
 
+<img src="readme/f01_bag_toast.png" width="500" alt="f01_bag_toast">
+
 #### Popover Menu for Mobile
 
 Gerbet & Co. uses a clean popover menu on smaller screens, offering quick access to Search, About, FAQs, Contact Us, Account, and Logout/Login links.
+
+<img src="readme/f01_mobile.png" width="300" alt="f01_mobile">
+<img src="readme/f01_mobile_dropdown_menu.png" width="200" alt="f01_mobile_dropdown_menu">
 
 The menu:
 
@@ -330,32 +339,67 @@ It features:
 The page opens with a large hero banner, featuring a heartfelt tagline that captures the essence of the brand. Two clear call-to-action buttons invite users to explore either the Macarons Collection or the Tea Collection, ensuring easy
 navigation right from the start.
 
+<p float="left">
+<img src="readme/f02_hero_section_desktop.png" width="500" alt="f02_hero_section_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f02_hero_section_mobile.png" width="216" alt="f02_hero_section_mobile">
+</p>
+
 #### Featured Collections
 
 A highlighted section showcases seasonal selections and customer favorites. Each product card is beautifully presented
 with a product image, name, and an optional label like "spring" or "bestseller," helping users quickly spot new
 arrivals and popular treats.
 
+<p float="left">
+<img src="readme/f02_features_products_desktop.png" width="500" alt="f02_features_products_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f02_features_products_mobile.png" width="196" alt="f02_features_products_mobile">
+</p>
+
 #### Service Highlights
 
 A dedicated services area reassures customers by highlighting key benefits: express delivery across Europe,
 chilled shipping for freshness, eco-friendly packaging, and responsive customer service. Simple icons and concise descriptions make the services easy to understand at a glance.
 
+<p float="left">
+<img src="readme/f02_services_highlights_desktop.png" width="500" alt="f02_services_highlights_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f02_services_highlights_mobile.png" width="216" alt="f02_services_highlights_mobile">
+</p>
+
 #### About Section
 
 An elegant introduction to the story behind Gerbet & Co. This section shares the brand's passion for delicate flavors and timeless moments, blending French tradition with Irish charm. It adds warmth and authenticity to the overall experience.
+
+<p float="left">
+<img src="readme/f02_about_desktop.png" width="500" alt="f02_about_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f02_about_mobile.png" width="195" alt="f02_about_mobile">
+</p>
 
 #### Awards & Recognition
 
 A trusted and celebrated section showcases awards and accolades, such as "Best Seller Award" and "Premium Quality." This helps to build customer confidence and reflects the brand's commitment to quality and excellence.
 
+<p float="left">
+<img src="readme/f02_awards _recognition_desktop.png" width="500" alt="f02_awards_recognition_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f02_awards _recognition_mobile.png" width="153" alt="f02_awards_recognition_mobile">
+</p>
+
 #### Newsletter Signup
 
 Positioned before the footer, the newsletter signup invites visitors to join the Gerbet & Co community. A soft message promises sweet updates without spam, offering a friendly way to stay connected with seasonal launches and news.
 
+<p float="left">
+<img src="readme/f02_newsletter_desktop.png" width="500" alt="f02_newsletter_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f02_newsletter_mobile.png" width="135" alt="f02_newsletter_mobile">
+</p>
+
 #### Footer
 
 The footer contains essential links to shop categories, help pages, shipping policies, and social media profiles. It is styled to match the overall design, reinforcing the brand identity while providing easy access to important information.
+
+<p float="left">
+<img src="readme/f02_footer_desktop.png" width="500" alt="f02_footer_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f02_footer_mobile.png" width="115" alt="f02_footer_mobile">
+</p>
 
 ### F03 Products page
 
@@ -365,6 +409,11 @@ Each item is displayed with a rich image, name, price, star rating, and a quick 
 A Filter and Sort Sidebar helps users easily refine results by category, price range, and rating, making it simple to discover the macaron or tea collections.
 This feature supports a faster, more personalized browsing experience.
 
+<p float="left">
+<img src="readme/f03_products_desktop.png" width="500" alt="f03_products_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f03_products_mobile.png" width="218" alt="f03_products_mobile">
+</p>
+
 The visual style of the page stays true to the brand's elegant and delicate identity, using soft tones,
 rounded cards, and thoughtful spacing to create an effortless and enjoyable atmosphere.
 
@@ -373,6 +422,11 @@ rounded cards, and thoughtful spacing to create an effortless and enjoyable atmo
 The Product View page offers a detailed look at each item in the collection, highlighting its description, ingredients, weight, and calorie information.
 Customers can easily review the product's average rating, presented with star icons — no written feedback is collected, keeping the experience clean and focused.
 
+<p float="left">
+<img src="readme/f04_product_desktop.png" width="500" alt="f04_product_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f04_product_mobile.png" width="218" alt="f04_product_mobile">
+</p>
+
 If a user has purchased the product in the past, they are given the option to submit their own star rating.
 A _Back_ button ensures smooth navigation, allowing users to return to browsing without any hassle.
 
@@ -380,6 +434,11 @@ A _Back_ button ensures smooth navigation, allowing users to return to browsing 
 
 The Shopping Bag page provides a clear and inviting overview of the selected items, complete with images, product details, and pricing.
 Users can easily adjust product quantities with a simple click, and remove items if needed.
+
+<p float="left">
+<img src="readme/f05_bag_desktop.png" width="500" alt="f05_bag_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f05_bag_mobile.png" width="215" alt="f05_bag_mobile">
+</p>
 
 Quantity changes automatically update:
 
@@ -399,6 +458,11 @@ there is an option to save them as the new default for future purchases.
 The checkout form is fully integrated with Stripe API for secure payment processing. After entering delivery
 details, users can review and confirm their order before completing payment.
 
+<p float="left">
+<img src="readme/f06_checkout_desktop.png" width="500" alt="f06_checkout_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f06_checkout_mobile.png" width="215" alt="f06_checkout_mobile">
+</p>
+
 For mobile devices, the order summary is prioritized and displayed at the top of the page, ensuring users can
 easily review their total before filling out delivery and payment sections listed below.
 
@@ -414,6 +478,11 @@ about their order, and enjoy a secure payment process via Stripe — all without
 After completing the checkout process, users are directed to a clean and friendly success page.
 A personalized thank you message confirms the order, accompanied by the order number for easy reference.
 
+<p float="left">
+<img src="readme/f08_checkout_success_desktop.png" width="500" alt="f08_checkout_success_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f08_checkout_success_mobile.png" width="215" alt="f08_checkout_success_mobile">
+</p>
+
 An order summary clearly lists the purchased items along with subtotal, delivery cost, and total paid.
 A _Continue Shopping_ button is provided, encouraging users to seamlessly return to browsing more products without any interruption.
 
@@ -421,10 +490,20 @@ A _Continue Shopping_ button is provided, encouraging users to seamlessly return
 
 The About page shares the story behind Gerbet & Co., a tribute to tradition, craft, and small joys. Through a blend of personal notes from the fictional founders, Isabelle Gerbet and Liam Murphy, the page weaves a light narrative about their journey — from French roots to their cozy Irish kitchen — highlighting their passion for delicate flavors and heartfelt baking. Designed with a warm, inviting layout, the page adds a human touch to the brand's identity, creating a sense of connection and authenticity.
 
+<p float="left">
+<img src="readme/f09_about_desktop.png" width="500" alt="f09_about_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f09_about_mobile.png" width="215" alt="f09_about_mobile">
+</p>
+
 ### F10 FAQ Page
 
 The FAQ page is designed to offer quick, friendly support for visitors. It is divided into sections such as Tasting & Treats, Your Sweet Profile, Orders, Payment, and Delivery. Each section contains expandable questions and answers, helping users find the information they need without leaving the page.
 At the end of the list, a "Still Curious? Contact Us" link directs users to the Contact Us page, offering a simple way to get personalized assistance.
+
+<p float="left">
+<img src="readme/f10_faq_desktop.png" width="500" alt="f10_faq_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f10_faq_mobile.png" width="200" alt="f10_faq_mobile">
+</p>
 
 ### F11 Contact us page
 
@@ -436,6 +515,10 @@ To maintain quality interactions, the form uses built-in HTML5 validation combin
 Users are required to fill out all fields before submitting, with personalized prompts like "Please enter your name."
 and "Please enter your message." to guide them if any fields are left empty.
 
+<p float="left">
+<img src="readme/f11_contact_us.png" width="500" alt="f11_contact_us">
+</p>
+
 The page design remains consistent with the brand's warm and welcoming aesthetic, enhanced by a
 vibrant macaron background.
 
@@ -443,6 +526,11 @@ vibrant macaron background.
 
 The Sort & Filter sidebar empowers users to refine and personalize their browsing experience with ease. Users can sort products by price (low to high or high to low) or by popularity, helping them quickly find the best fit for their preferences.
 Filtering options include category selection (Macarons, Macaron Sets, Tea), rating (5 stars, 4+ stars, or 3+ stars), and price range adjustment.
+
+<p float="left">
+<img src="readme/f12_sort_filter.png" width="200" alt="f12_sort_filter">
+</p>
+
 Active filters are displayed as tags above the product grid, with an option to clear all filters in one click.
 The sidebar enhances usability, making product discovery smooth, intuitive, and enjoyable across all devices.
 
@@ -455,11 +543,22 @@ The page is divided into three clear sections:
 -   **Address Book**: Allows users to view, add, and edit their delivery addresses, ensuring their favorite treats always find them, whether at home or away.
 -   **Deliveries at Door**: Provides an overview of past orders, offering a simple way to track what's been delivered and revisit favorite purchases.
 
+<p float="left">
+<img src="readme/f13_account_desktop.png" width="500" alt="f13_account_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f13_account_mobile.png" width="216" alt="f13_account_mobile">
+</p>
+
 This setup creates a smooth and user-friendly experience, helping users stay connected with their orders and profile in just a few clicks.
 
 ### F14 Resident Profile Page
 
 The Resident Profile page offers users a simple and secure way to manage their personal information.
+
+<p float="left">
+<img src="readme/f14_profile_desktop.png" width="500" alt="f14_profile_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f14_profile_mobile.png" width="216" alt="f14_profile_mobile">
+</p>
+
 Here, users can:
 
 -   View their name and email address associated with their account.
@@ -471,6 +570,12 @@ A _Back to My Account_ button ensures smooth navigation, allowing users to retur
 ### F15 Resident Profile - Change details page
 
 The Change Details page allows users to easily update their name associated with their account.
+
+<p float="left">
+<img src="readme/f15_change_details_desktop.png" width="500" alt="f15_change_details_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f15_change_details_mobile.png" width="216" alt="f15_change_details_mobile">
+</p>
+
 Key features:
 
 -   The form is pre-filled with the user's current details for convenience.
@@ -485,6 +590,12 @@ After submitting, the user is redirected back to their Resident Profile, where t
 ### F16 Resident Profile - Change Password Page
 
 The Change Password page offers users a secure way to update their login credentials.
+
+<p float="left">
+<img src="readme/f16_change_password_desktop.png" width="500" alt="f16_change_password_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f16_change_password_mobile.png" width="216" alt="f16_change_password_mobile">
+</p>
+
 Key features:
 
 -   The user must enter their old password, new password, and confirm the new password.
@@ -497,6 +608,11 @@ After a successful password change, the user is redirected to the login page and
 ### F17 Address Book - Address Management (CRUD)
 
 The Address Book page offers a convenient way for users to manage their saved delivery addresses. Each entry displays detailed information, including the street address, city, county, postcode, country, and phone number, ensuring quick reference at a glance.
+
+<p float="left">
+<img src="readme/f17_address_book_desktop.png" width="500" alt="f17_address_book_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f17_address_book_mobile.png" width="216" alt="f17_address_book_mobile">
+</p>
 
 Users can easily:
 
@@ -513,7 +629,14 @@ The default address is automatically pre-filled during checkout but can be chang
 #### CREATE
 
 The Create Address page allows users to add new delivery locations to their personal Address Book. Users can enter essential information such as street address, city, postcode, country, and phone number.<br>
-Required fields are clearly marked and enforced with HTML5 validation to ensure data completeness. Custom validation is also implemented to maintain data quality — for example, users are prompted with text like:
+Required fields are clearly marked and enforced with HTML5 validation to ensure data completeness.
+
+<p float="left">
+<img src="readme/f17_address_create_desktop.png" width="500" alt="f17_address_create_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f17_address_create_mobile.png" width="216" alt="f17_address_create_mobile">
+</p>
+
+Custom validation is also implemented to maintain data quality — for example, users are prompted with text like:
 
 -   "Ensure this value has at least 2 characters (it has 1)" for too-short entries,
 -   "Enter a valid phone number (7-15 digits, optional '+')" for invalid phone formats.
@@ -530,6 +653,11 @@ The READ functionality is implemented on the Address Book page, where users can 
 
 The Update Address page allows users to modify their existing delivery information using a form that mirrors the structure and validation of the Create Address form. Users can update their street address, town or city, postcode, country, and phone number to keep their delivery details accurate and up to date.
 
+<p float="left">
+<img src="readme/f17_address_update_desktop.png" width="500" alt="f17_address_update_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f17_address_update_mobile.png" width="216" alt="f17_address_update_mobile">
+</p>
+
 Just like in the creation form, users can select the option to set the updated address as their new default shipping address. If selected, it will automatically be prioritized during checkout.
 
 Custom validation is enforced to ensure data consistency:
@@ -543,6 +671,11 @@ Upon successful update, users are redirected back to the Address Book page with 
 #### DELETE
 
 When a user chooses to delete a saved address from their Address Book, a confirmation modal window appears to ensure the action is intentional.
+
+<p float="left">
+<img src="readme/f17_address_delete.png" width="200" alt="f17_address_delete">
+</p>
+
 The modal displays the key details of the address being deleted, providing clarity before proceeding.
 
 The user has two options:
@@ -557,6 +690,11 @@ After confirming the deletion, the address is removed from the user's account, a
 
 The Deliveries at Door page allows users to view a summary of their past orders, providing quick access to essential delivery information.
 
+<p float="left">
+<img src="readme/f18_delivery_at_door_desktop.png" width="500" alt="f18_delivery_at_door_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f18_delivery_at_door_mobile.png" width="216" alt="f18_delivery_at_door_mobile">
+</p>
+
 Each order entry displays:
 
 -   Order number (e.g., #GCO-ORD-YYYYMMDD-#####)
@@ -569,6 +707,11 @@ A "View Details" button is available for each order, allowing users to dive deep
 ### F19 Deliveries at Door - Order details page
 
 The Order details page provides a detailed recap of a specific order, offering users a clear and organized summary of their purchase.
+
+<p float="left">
+<img src="readme/f19_order_view_desktop.png" width="500" alt="f19_order_view_desktop">&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="readme/f19_order_view_mobile.png" width="216" alt="f19_order_view_mobile">
+</p>
 
 The page displays:
 
@@ -594,6 +737,10 @@ The registration form includes the required fields.
 
 Password creation is guided by built-in Django password validators.
 
+<p float="left">
+<img src="readme/f20_register.png" width="400" alt="f20_register">
+</p>
+
 Custom validation is implemented for the first name and last name fields, requiring at least two characters each.
 If any input does not meet the criteria, helpful error messages are displayed to guide users.
 
@@ -606,6 +753,10 @@ Users are asked to enter their username and password.
 For convenience, there are direct links to reset a forgotten password or register for a new account
 if the user is not yet a member.
 
+<p float="left">
+<img src="readme/f20_login.png" width="400" alt="f20_login">
+</p>
+
 If incorrect credentials are provided, the user will see the following message:
 "Please enter a correct username and password. Note that both fields may be case-sensitive."
 
@@ -613,6 +764,10 @@ If incorrect credentials are provided, the user will see the following message:
 
 The page offers users a straightforward way to request a password reset if they've forgotten their login credentials.
 Users simply need to enter the email address associated with their account and click "Send Password Reset Email." Upon submission, a password reset link will be emailed to them if the email matches an existing account.
+
+<p float="left">
+<img src="readme/f20_reset_password_request.png" width="400" alt="f20_reset_password_request">
+</p>
 
 If incorrect or invalid credentials are provided, the user will be informed with the following message:
 "Please enter a correct username and password. Note that both fields may be case-sensitive."
@@ -622,6 +777,10 @@ If incorrect or invalid credentials are provided, the user will be informed with
 After submitting a password reset request, users are directed to the Password Reset Sent page.
 A confirmation message informs users that an email with instructions to reset their password has been
 sent to the provided address.
+
+<p float="left">
+<img src="readme/f20_password_reset_sent.png" width="400" alt="f20_password_reset_sent">
+</p>
 
 If the email does not arrive shortly, users are advised to:
 
@@ -637,6 +796,10 @@ The form requires the user to enter their new password twice for confirmation, e
 
 Password creation is guided by built-in Django password validation rules.
 
+<p float="left">
+<img src="readme/f20_set_new_password.png" width="400" alt="f20_set_new_password">
+</p>
+
 After successfully setting a new password, the user will be redirected to the login page and can log in with their updated credentials.
 
 #### Logout page
@@ -646,6 +809,10 @@ Users can easily choose between staying logged in ("No" button) or ending their 
 Upon confirmation, the user is securely logged out of their account and redirected to the homepage and see "
 You have been logged out" message.
 
+<p float="left">
+<img src="readme/f20_logout.png" width="400" alt="f20_logout">
+</p>
+
 ### F21 Email Notifications
 
 The application sends automated emails to users at key interaction points to enhance communication and
@@ -653,28 +820,28 @@ user experience. The following email types are supported:
 
 -   **Welcome Email** sent to new users after successful registration to greet them and confirm account creation.
 
-    <img src="readme/email_payment_confirmed.png" width="600" alt="email_payment_confirmed">
+    <img src="readme/email_payment_confirmed.png" width="400" alt="email_payment_confirmed">
 
 -   **Password Reset Email**
     Sent when a user requests a password reset, providing a secure link to reset their password.
 
-    <img src="readme/email_password_reset_request.png" width="600" alt="email_password_reset_request">
+    <img src="readme/email_password_reset_request.png" width="400" alt="email_password_reset_request">
 
 -   **Order Confirmation Email** sent after a successful payment, summarizing the order details and confirming the purchase.
 
-    <img src="readme/email_payment_confirmed.png" width="600" alt="email_payment_confirmed">
+    <img src="readme/email_payment_confirmed.png" width="400" alt="email_payment_confirmed">
 
 -   **Payment Failure Email** sent if a payment attempt fails, informing the user and providing guidance on next steps.
 
-    <img src="readme/email_payment_failed.png" width="600" alt="email_payment_failed">
+    <img src="readme/email_payment_failed.png" width="400" alt="email_payment_failed">
 
 -   **Contact Us Email** sent internally when a user submits a message via the "Contact Us" form, allowing prompt follow-up.
 
-    <img src="readme/email_contact_us_user.png" width="600" alt="email_contact_us_user">
+    <img src="readme/email_contact_us_user.png" width="400" alt="email_contact_us_user">
 
 -   **Subscription Email** sent when a user subscribes to the newsletter, confirming their subscription and welcoming them to the community.
 
-    <img src="readme/email_subscription.png" width="600" alt="email_subscription">
+    <img src="readme/email_subscription.png" width="400" alt="email_subscription">
 
 ### F22 Spinner
 
