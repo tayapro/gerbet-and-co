@@ -18,7 +18,6 @@
         -   [Imagery](#imagery)
         -   [Color Scheme](#colour-scheme)
         -   [Typography](#typography)
-        -   [Interactive Elements](#interactive-elements)
 -   [Agile Methodology](#agile-methodology)
 -   [Features](#features)
     -   [Existing Features](#existing-features)
@@ -1096,6 +1095,407 @@ Feature and user story testing were performed together to ensure a strong alignm
 -   [Test Results Spreadsheet](https://docs.google.com/spreadsheets/d/1nvOqcARGIw93b0v3J0wxBqLBeqMvdN1Np24IdLpj3gQ/edit?usp=sharing)
 
 -   [User Stories](https://github.com/tayapro/gerbet-and-co/issues)
+
+## Code Validation
+
+### HTML
+
+The website's HTML was validated using the W3C Markup Validation Service.
+All pages successfully passed validation, with the exception of minor HTMX-related warnings.
+
+#### Accounts
+
+<details><summary><code>login.html</code></summary>
+<img src="readme/code_validation/w3_org_account_login_page.png" width="500" alt="w3_org_account_login_page validation image">
+</details>
+
+<details><summary><code>password_reset_form.html</code></summary>
+<img src="readme/code_validation/w3_org_account_password_reset_request_page.png" width="500" alt="w3_org_account_password_reset_request_page validation image">
+</details>
+
+<details><summary><code>account.html</code></summary>
+<img src="readme/code_validation/w3_org_accounts_account_page.png" width="500" alt="w3_org_accounts_account_page validation image">
+</details>
+
+<details><summary><code>address_form.html (for 2 pages: create & update)</code></summary>
+<img src="readme/code_validation/w3_org_accounts_address_create.png" width="500" alt="w3_org_accounts_address_create validation image">
+<img src="readme/code_validation/w3_org_accounts_address_edit.png" width="500" alt="w3_org_accounts_address_edit validation image">
+</details>
+
+<details><summary><code>address_list.html</code></summary>
+<img src="readme/code_validation/w3_org_accounts_address_list_page.png" width="500" alt="w3_org_accounts_address_list_page validation image">
+</details>
+
+<details><summary><code>logout.html</code></summary>
+<img src="readme/code_validation/w3_org_accounts_logout_page.png" width="500" alt="w3_org_accounts_logout_page
+ validation image">
+</details>
+
+<details><summary><code>order_view.html</code></summary>
+<img src="readme/code_validation/w3_org_accounts_order_view_page.png" width="500" alt="w3_org_accounts_order_view_page
+ validation image">
+</details>
+
+<details><summary><code>order_list.html</code></summary>
+<img src="readme/code_validation/w3_org_accounts_orders_list_page.png" width="500" alt="w3_org_accounts_orders_list_page
+ validation image">
+</details>
+
+<details><summary><code>password_reset_confirm.html</code></summary>
+<img src="readme/code_validation/w3_org_accounts_password_change_page.png" width="500" alt="w3_org_accounts_password_change_page
+ validation image">
+</details>
+
+<details><summary><code>password_reset_done.html</code></summary>
+<img src="readme/code_validation/w3_org_accounts_password_request_sent_page.png" width="500" alt="w3_org_accounts_password_request_sent_page
+ validation image">
+</details>
+
+<details><summary><code>profile_edit.html</code></summary>
+<img src="readme/code_validation/w3_org_accounts_profile_edit.png" width="500" alt="w3_org_accounts_profile_edit
+ validation image">
+</details>
+
+<details><summary><code>profile_view.html</code></summary>
+<img src="readme/code_validation/w3_org_accounts_profile_page.png" width="500" alt="w3_org_accounts_profile_page
+ validation image">
+</details>
+
+<details><summary><code>register.html</code></summary>
+<img src="readme/code_validation/w3_org_accounts_register_page.png" width="500" alt="w3_org_accounts_register_page
+ validation image">
+</details>
+
+<details><summary><code>password_update.html</code></summary>
+<img src="readme/code_validation/w3_org_accounts_set_new_password_form_page.png" width="500" alt="w3_org_accounts_set_new_password_form_page
+ validation image">
+</details>
+
+#### Bag
+
+<details><summary><code>view_bag.html</code></summary>
+<img src="readme/code_validation/w3_org_bag_bag_view_page.png" width="500" alt="w3_org_bag_bag_view_page
+ validation image">
+</details>
+
+> [!NOTE] > All other templates (htmx and from includes folder) have been validated under view_bag.html.
+
+#### Checkout
+
+<details><summary><code>checkout.html</code></summary>
+<img src="readme/code_validation/w3_org_checkout_checkout_page.png" width="500" alt="w3_org_checkout_checkout_page
+ validation image">
+</details>
+
+<details><summary><code>checkout_success.html</code></summary>
+<img src="readme/code_validation/w3_org_checkout_checkout_success_page.png" width="500" alt="w3_org_checkout_checkout_success_page
+ validation image">
+</details>
+
+#### Products
+
+<details><summary><code>product_view.html</code></summary>
+<img src="readme/code_validation/w3_org_product_view_page.png" width="500" alt="w3_org_product_view_page
+ validation image">
+</details>
+
+<details><summary><code>product_search.html</code></summary>
+<img src="readme/code_validation/w3_org_product_search_page.png" width="500" alt="w3_org_product_search_page
+ validation image">
+</details>
+
+<details><summary><code>product_view.html</code></summary>
+<img src="readme/code_validation/w3_org_product_view_page.png" width="500" alt="w3_org_product_view_page
+ validation image">
+</details>
+
+<details><summary><code>product_list.html</code></summary>
+<img src="readme/code_validation/w3_org_products_product_list_page.png" width="500" alt="w3_org_products_product_list_page
+ validation image">
+</details>
+
+> [!NOTE] > All other templates (includes folder) have been validated under templates above.
+
+#### Store
+
+<details><summary><code>about_page.html</code></summary>
+<img src="readme/code_validation/w3_org_store_about_page.png" width="500" alt="w3_org_store_about_page
+ validation image">
+</details>
+
+<details><summary><code>contact_us_page.html</code></summary>
+<img src="readme/code_validation/w3_org_store_contact_us_page.png" width="500" alt="w3_org_store_contact_us_page
+ validation image">
+</details>
+
+<details><summary><code>help_page.html</code></summary>
+<img src="readme/code_validation/w3_org_store_faq_page.png" width="500" alt="w3_org_store_faq_page
+ validation image">
+</details>
+
+<details><summary><code>home_page.html</code></summary>
+<img src="readme/code_validation/w3_org_store_home_page.png" width="500" alt="w3_org_store_home_page
+ validation image">
+</details>
+
+<details><summary><code>info_page.html</code></summary>
+<img src="readme/code_validation/w3_org_store_info_page.png" width="500" alt="w3_org_store_info_page
+ validation image">
+</details>
+
+#### HTMX validation issues:
+
+Currently, the templates are encountering errors related to HTMX elements:
+While integrating `HTMX` functionality into the Gerbet & Co project, encountered the following validation issues:
+
+    ```
+    Attribute hx-swap-oob not allowed on element span at this point.
+    Attribute hx-swap-oob not allowed on element div at this point.
+    Attribute hx-get not allowed on element a at this point.
+    Attribute hx-push-url not allowed on element a at this point.
+    Attribute hx-target not allowed on element a at this point.
+    Attribute hx-post not allowed on element form at this point.
+    Attribute hx-trigger not allowed on element form at this point.
+    Attribute hx-target not allowed on element form at this point.
+    Attribute hx-swap not allowed on element form at this point.
+    Attribute hx-headers not allowed on element form at this point.
+    Attribute hx-select-oob not allowed on element form at this point.
+    ```
+
+Some warnings appear because certain HTMX attributes like hx-swap, hx-post, and hx-headers are applied to elements that, under current HTML validation rules, might not be considered standard targets.
+In the Gerbet & Co project, these attributes are intentionally used to enable dynamic content updates and interactions without requiring a full page reload. While elements such as div may trigger validation warnings when combined with HTMX attributes, they operate correctly within the HTMX framework and support the interactive experience of the site.
+
+These HTMX-related validation warnings do not impact functionality. However, future updates to the project may further refine element usage to achieve closer alignment with formal validation standards.
+
+### CSS
+
+<details><summary><code>base.css</code></summary>
+<img src="readme/code_validation/w3_org_css_base.png" width="500" alt="w3_org_css_base
+ validation image">
+</details>
+
+### JS
+
+The JSHint Validation Service was used to validate the JS files, which passed without any errors.
+Some warnings were flagged regarding ES6 compatibility. However, according to "Can I Use", where ES6 is considered "Supported" when at least 95% of the specification is implemented across browsers, these warnings can be safely ignored for the Gerbet & Co project.
+
+#### Accounts
+
+<details><summary><code>address_form.js</code></summary>
+<img src="readme/code_validation/jshint_accounts_address_form.png" width="500" alt="jshint_accounts_address_form validation image">
+</details>
+
+<details><summary><code>address_list.js</code></summary>
+<img src="readme/code_validation/jshint_accounts_address_list.png" width="500" alt="jshint_accounts_address_list validation image">
+</details>
+
+<details><summary><code>order_view.js</code></summary>
+<img src="readme/code_validation/jshint_accounts_order_view.png" width="500" alt="jshint_accounts_order_view validation image">
+</details>
+
+<details><summary><code>utils.js</code></summary>
+<img src="readme/code_validation/jshint_accounts_utils.png" width="500" alt="jshint_accounts_utils validation image">
+</details>
+
+<details><summary><code>view_bag.js</code></summary>
+<img src="readme/code_validation/jshint_bag_bag_view.png" width="500" alt="jshint_bag_bag_view validation image">
+</details>
+
+#### Static/JS
+
+<details><summary><code>base.js</code></summary>
+<img src="readme/code_validation/jshint_base.png" width="500" alt="jshint_base validation image">
+</details>
+
+<details><summary><code>sort_filter.js</code></summary>
+<img src="readme/code_validation/jshint_sort_filter.png" width="500" alt="jshint_sort_filter validation image">
+</details>
+
+#### Checkout
+
+<details><summary><code>checkout.js</code></summary>
+<img src="readme/code_validation/jshint_checkout_checkout.png" width="500" alt="jshint_checkout_checkout validation image">
+</details>
+
+<details><summary><code>stripe_elements.js</code></summary>
+<img src="readme/code_validation/jshint_checkout_stripe_elements.png" width="500" alt="jshint_checkout_stripe_elements validation image">
+</details>
+
+#### Products
+
+<details><summary><code>product_view.js</code></summary>
+<img src="readme/code_validation/jshint_products_product_view.png" width="500" alt="jshint_products_product_view validation image">
+</details>
+
+#### Store
+
+<details><summary><code>contact_us_page.js</code></summary>
+<img src="readme/code_validation/jshint_store_contact_us_page.png" width="500" alt="jshint_store_contact_us_page validation image">
+</details>
+
+<details><summary><code>help_page.js</code></summary>
+<img src="readme/code_validation/jshint_store_help_page.png" width="500" alt="jshint_store_help_page validation image">
+</details>
+
+<details><summary><code>home_page.js</code></summary>
+<img src="readme/code_validation/jshint_store_home_page.png" width="500" alt="jshint_store_home_page validation image">
+</details>
+
+### Python
+
+All files passed without any errors or warnings on [CI Python Linter](https://pep8ci.herokuapp.com/).
+
+#### Accounts
+
+<details><summary><code>models.py</code></summary>
+<img src="readme/code_validation/pep8_account_models.png" width="500" alt="pep8_account_models validation image">
+</details>
+
+<details><summary><code>admin.py</code></summary>
+<img src="readme/code_validation/pep8_accounts_admin.png" width="500" alt="pep8_accounts_admin validation image">
+</details>
+
+<details><summary><code>apps.py</code></summary>
+<img src="readme/code_validation/pep8_accounts_apps.png" width="500" alt="pep8_accounts_apps validation image">
+</details>
+
+<details><summary><code>forms.py</code></summary>
+<img src="readme/code_validation/pep8_accounts_forms.png" width="500" alt="pep8_accounts_forms validation image">
+</details>
+
+<details><summary><code>signals.py</code></summary>
+<img src="readme/code_validation/pep8_accounts_signals.png" width="500" alt="pep8_accounts_signals validation image">
+</details>
+
+<details><summary><code>urls.py</code></summary>
+<img src="readme/code_validation/pep8_accounts_urls.png" width="500" alt="pep8_accounts_urls validation image">
+</details>
+
+<details><summary><code>utils.py</code></summary>
+<img src="readme/code_validation/pep8_accounts_utils.png" width="500" alt="pep8_accounts_utils validation image">
+</details>
+
+<details><summary><code>views.py</code></summary>
+<img src="readme/code_validation/pep8_accounts_views.png" width="500" alt="pep8_accounts_views validation image">
+</details>
+
+#### Bag
+
+<details><summary><code>bag.py</code></summary>
+<img src="readme/code_validation/pep8_bag_bag.png" width="500" alt="pep8_bag_bag validation image">
+</details>
+
+<details><summary><code>context_processors.py</code></summary>
+<img src="readme/code_validation/pep8_bag_context_processors.png" width="500" alt="pep8_bag_context_processors validation image">
+</details>
+
+<details><summary><code>urls.py</code></summary>
+<img src="readme/code_validation/pep8_bag_urls.png" width="500" alt="pep8_bag_urls validation image">
+</details>
+
+<details><summary><code>views.py</code></summary>
+<img src="readme/code_validation/pep8_bag_views.png" width="500" alt="pep8_bag_views validation image">
+</details>
+
+#### Checkout
+
+<details><summary><code>admin.py</code></summary>
+<img src="readme/code_validation/pep8_checkout_admin.png" width="500" alt="pep8_checkout_admin validation image">
+</details>
+
+<details><summary><code>apps.py</code></summary>
+<img src="readme/code_validation/pep8_checkout_apps.png" width="500" alt="pep8_checkout_apps validation image">
+</details>
+
+<details><summary><code>forms.py</code></summary>
+<img src="readme/code_validation/pep8_checkout_forms.png" width="500" alt="pep8_checkout_forms validation image">
+</details>
+
+<details><summary><code>models.py</code></summary>
+<img src="readme/code_validation/pep8_checkout_models.png" width="500" alt="pep8_checkout_models validation image">
+</details>
+
+<details><summary><code>signals.py</code></summary>
+<img src="readme/code_validation/pep8_checkout_signals.png" width="500" alt="pep8_checkout_signals validation image">
+</details>
+
+<details><summary><code>urls.py</code></summary>
+<img src="readme/code_validation/pep8_checkout_urls.png" width="500" alt="pep8_checkout_urls validation image">
+</details>
+
+<details><summary><code>utils.py</code></summary>
+<img src="readme/code_validation/pep8_checkout_utils.png" width="500" alt="pep8_checkout_utils validation image">
+</details>
+
+<details><summary><code>views.py</code></summary>
+<img src="readme/code_validation/pep8_checkout_views.png" width="500" alt="pep8_checkout_views validation image">
+</details>
+
+<details><summary><code>webhooks.py</code></summary>
+<img src="readme/code_validation/pep8_checkout_webhooks.png" width="500" alt="pep8_checkout_webhooks validation image">
+</details>
+
+#### Getbet & Co
+
+<details><summary><code>settings.py</code></summary>
+<img src="readme/code_validation/pep8_gerbet_settings.png" width="500" alt="pep8_gerbet_settings validation image">
+</details>
+
+<details><summary><code>urls.py</code></summary>
+<img src="readme/code_validation/pep8_gerbet_urls.png" width="500" alt="pep8_gerbet_urls validation image">
+</details>
+
+<details><summary><code>views.py</code></summary>
+<img src="readme/code_validation/pep8_checkout_views.png" width="500" alt="pep8_gerbet_views validation image">
+</details>
+
+#### Products
+
+<details><summary><code>admin.py</code></summary>
+<img src="readme/code_validation/pep8_products_admin.png" width="500" alt="pep8_products_admin validation image">
+</details>
+
+<details><summary><code>forms.py</code></summary>
+<img src="readme/code_validation/pep8_products_forms.png" width="500" alt="pep8_products_forms validation image">
+</details>
+
+<details><summary><code>models.py</code></summary>
+<img src="readme/code_validation/pep8_products_models.png" width="500" alt="pep8_products_models validation image">
+</details>
+
+<details><summary><code>urls.py</code></summary>
+<img src="readme/code_validation/pep8_products_urls.png" width="500" alt="pep8_products_urls validation image">
+</details>
+
+<details><summary><code>views.py</code></summary>
+<img src="readme/code_validation/pep8_products_views.png" width="500" alt="pep8_products_views validation image">
+</details>
+
+#### Store
+
+<details><summary><code>admin.py</code></summary>
+<img src="readme/code_validation/pep8_store_admin.png" width="500" alt="pep8_store_admin validation image">
+</details>
+
+<details><summary><code>forms.py</code></summary>
+<img src="readme/code_validation/pep8_store_forms.png" width="500" alt="pep8_store_forms validation image">
+</details>
+
+<details><summary><code>models.py</code></summary>
+<img src="readme/code_validation/pep8_store_models.png" width="500" alt="pep8_store_models validation image">
+</details>
+
+<details><summary><code>urls.py</code></summary>
+<img src="readme/code_validation/pep8_store_urls.png" width="500" alt="pep8_store_urls validation image">
+</details>
+
+<details><summary><code>utils.py</code></summary>
+<img src="readme/code_validation/pep8_store_utils.png" width="500" alt="pep8_store_utils validation image">
+</details>
+
+<details><summary><code>views.py</code></summary>
+<img src="readme/code_validation/pep8_store_views.png" width="500" alt="pep8_store_views validation image">
+</details>
 
 ## Performance
 
