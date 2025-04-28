@@ -359,7 +359,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             return { success: true };
         } catch (err) {
-            console.error('Cache error:', err);
             return {
                 error: 'A network error occurred.',
                 status: 500,
@@ -498,7 +497,6 @@ document.addEventListener('DOMContentLoaded', function () {
      * Handles any general errors during the checkout process.
      */
     function handleError(error) {
-        console.error('Checkout Error:', error);
         cardErrors.textContent = error.message;
         cardErrors.style.display = 'block';
 

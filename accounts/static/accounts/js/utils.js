@@ -16,8 +16,11 @@ function displayCountryName(countryCode) {
             });
             countryName = displayNames.of(countryCode.toUpperCase());
         } catch (error) {
-            console.warn('Could not convert country code:', countryCode);
+            countryName = `Invalid country code ${countryCode}`;
         }
+    } else {
+        countryName = `Invalid country code ${countryCode}`;
     }
+
     return countryName;
 }

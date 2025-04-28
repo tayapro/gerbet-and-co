@@ -50,4 +50,15 @@ document.addEventListener('DOMContentLoaded', function () {
         const actionUrl = trigger.getAttribute('data-action-url');
         form.setAttribute('action', actionUrl);
     });
+
+    // Select all country fields in the table
+    const countryElements = document.querySelectorAll('.address-countries p');
+
+    countryElements.forEach(function (countryElement) {
+        const countryCode = countryElement.textContent.trim();
+        const countryName = displayCountryName(countryCode);
+        if (countryName) {
+            countryElement.textContent = countryName;
+        }
+    });
 });

@@ -1,5 +1,6 @@
 /**
- * Converts a two-letter country code (e.g., 'US') into the full country name (e.g., 'United States').
+ * Converts a two-letter country code (e.g., 'IE') into the full country name
+ * (e.g., 'Ireland').
  *
  * If the input is not a valid 2-letter code, returns it unchanged.
  */
@@ -12,9 +13,12 @@ function displayCountryName(countryCode) {
             });
             countryName = displayNames.of(countryCode.toUpperCase());
         } catch (error) {
-            console.warn('Could not convert country code:', countryCode);
+            countryName = `Invalid country code ${countryCode}`;
         }
+    } else {
+        countryName = `Invalid country code ${countryCode}`;
     }
+
     return countryName;
 }
 
