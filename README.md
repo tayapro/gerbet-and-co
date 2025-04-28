@@ -1097,6 +1097,318 @@ Feature and user story testing were performed together to ensure a strong alignm
 
 -   [User Stories](https://github.com/tayapro/gerbet-and-co/issues)
 
+## Performance
+
+Google Lighthouse in Google Chrome Developer Tools was used to check the website performance.
+
+### Home
+
+<details><summary>Home desktop</summary>
+<img src="readme/lighthouse/home_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/home_page_desktop_numbers.png" width="300px" alt="Home desktop numbers">
+
+<details><summary>Home mobile</summary>
+<img src="readme/lighthouse/home_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/home_page_mobile_numbers.png" width="300px" alt="Home mobile numbers">
+
+### About
+
+<details><summary>About desktop</summary>
+<img src="readme/lighthouse/about_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/about_page_desktop_numbers.png" width="300px" alt="About desktop numbers">
+
+<details><summary>About mobile</summary>
+<img src="readme/lighthouse/about_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/about_page_mobile_numbers.png" width="300px" alt="About mobile numbers">
+
+### Info
+
+<details><summary>Info desktop</summary>
+<img src="readme/lighthouse/info_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/info_page_desktop_numbers.png" width="300px" alt="Info desktop numbers">
+
+<details><summary>Info mobile</summary>
+<img src="readme/lighthouse/info_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/info_page_mobile_numbers.png" width="300px" alt="Info mobile numbers">
+
+### Faq
+
+<details><summary>Faq desktop</summary>
+<img src="readme/lighthouse/faq_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/faq_page_desktop_numbers.png" width="300px" alt="Faq desktop numbers">
+
+<details><summary>Faq mobile</summary>
+<img src="readme/lighthouse/faq_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/faq_page_mobile_numbers.png" width="300px" alt="Faq mobile numbers">
+
+### Contact us
+
+<details><summary>Contact us desktop</summary>
+<img src="readme/lighthouse/contact_us_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/contact_us_page_desktop_numbers.png" width="300px" alt="contact us desktop numbers">
+
+<details><summary>Contact us mobile</summary>
+<img src="readme/lighthouse/contact_us_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/contact_us_page_mobile_numbers.png" width="300px" alt="contact us mobile numbers">
+
+### Account
+
+<details><summary>Account desktop</summary>
+<img src="readme/lighthouse/account_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/account_page_desktop_numbers.png" width="300px" alt="account desktop numbers">
+
+<details><summary>Account mobile</summary>
+<img src="readme/lighthouse/account_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/account_page_mobile_numbers.png" width="300px" alt="account mobile numbers">
+
+### Account - Profile view
+
+<details><summary>Profile view desktop</summary>
+<img src="readme/lighthouse/account_profile_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/account_profile_page_desktop_numbers.png" width="300px" alt="account_profile desktop numbers">
+
+<details><summary>Profile view mobile</summary>
+<img src="readme/lighthouse/account_profile_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/account_profile_page_mobile_numbers.png" width="300px" alt="account_profile mobile numbers">
+
+### Account - Profile edit
+
+<details><summary>Profile edit desktop</summary>
+<img src="readme/lighthouse/account_profile_edit_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/account_profile_edit_page_desktop_numbers.png" width="300px" alt="account_profile_edit desktop numbers">
+
+<details><summary>Profile edit mobile</summary>
+<img src="readme/lighthouse/account_profile_edit_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/account_profile_edit_page_mobile_numbers.png" width="300px" alt="account_profile_edit mobile numbers">
+
+### Account - Address list
+
+<details><summary>Address list desktop</summary>
+<img src="readme/lighthouse/account_address_list_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/account_address_list_page_desktop_numbers.png" width="300px" alt="account_address_list desktop numbers">
+
+<details><summary>Address list mobile</summary>
+<img src="readme/lighthouse/account_address_list_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/account_address_list_page_mobile_numbers.png" width="300px" alt="account_address_list mobile numbers">
+
+### Account - Address create
+
+<details><summary>Address create desktop</summary>
+<img src="readme/lighthouse/account_address_create_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/account_address_create_page_desktop_numbers.png" width="300px" alt="account_address_create desktop numbers">
+
+<details><summary>Address create mobile</summary>
+<img src="readme/lighthouse/account_address_create_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/account_address_create_page_mobile_numbers.png" width="300px" alt="account_address_create mobile numbers">
+
+### Account - Address update
+
+<details><summary>Address update desktop</summary>
+<img src="readme/lighthouse/account_address_update_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/account_address_update_page_desktop_numbers.png" width="300px" alt="account_address_update desktop numbers">
+
+<details><summary>Address update mobile</summary>
+<img src="readme/lighthouse/account_address_update_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/account_address_update_page_mobile_numbers.png" width="300px" alt="account_address_update mobile numbers">
+
+### Account - Order list
+
+<details><summary>Order list desktop</summary>
+<img src="readme/lighthouse/account_order_list_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/account_order_list_page_desktop_numbers.png" width="300px" alt="account_order_list desktop numbers">
+
+<details><summary>Order list mobile</summary>
+<img src="readme/lighthouse/account_order_list_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/account_order_list_page_mobile_numbers.png" width="300px" alt="account_order_list mobile numbers">
+
+### Account - Order view
+
+<details><summary>Order view desktop</summary>
+<img src="readme/lighthouse/account_order_view_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/account_order_view_page_desktop_numbers.png" width="300px" alt="account_order_view desktop numbers">
+
+<details><summary>Order view mobile</summary>
+<img src="readme/lighthouse/account_order_view_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/account_order_view_page_mobile_numbers.png" width="300px" alt="account_order_view mobile numbers">
+
+### Products
+
+<details><summary>Products desktop</summary>
+<img src="readme/lighthouse/products_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/products_page_desktop_numbers.png" width="300px" alt="products desktop numbers">
+
+<details><summary>Products mobile</summary>
+<img src="readme/lighthouse/products_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/products_page_mobile_numbers.png" width="300px" alt="products mobile numbers">
+
+### Product view
+
+<details><summary>Product view desktop</summary>
+<img src="readme/lighthouse/product_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/product_page_desktop_numbers.png" width="300px" alt="product desktop numbers">
+
+<details><summary>Product view mobile</summary>
+<img src="readme/lighthouse/product_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/product_page_mobile_numbers.png" width="300px" alt="product mobile numbers">
+
+### Bag
+
+<details><summary>Bag desktop</summary>
+<img src="readme/lighthouse/bag_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/bag_page_desktop_numbers.png" width="300px" alt="bag desktop numbers">
+
+<details><summary>Bag mobile</summary>
+<img src="readme/lighthouse/bag_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/bag_page_mobile_numbers.png" width="300px" alt="bag mobile numbers">
+
+### Checkout
+
+<details><summary>Checkout desktop</summary>
+<img src="readme/lighthouse/checkout_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/checkout_page_desktop_numbers.png" width="300px" alt="checkout desktop numbers">
+
+<details><summary>Checkout mobile</summary>
+<img src="readme/lighthouse/checkout_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/checkout_page_mobile_numbers.png" width="300px" alt="checkout mobile numbers">
+
+### Register
+
+<details><summary>Register desktop</summary>
+<img src="readme/lighthouse/register_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/register_page_desktop_numbers.png" width="300px" alt="register desktop numbers">
+
+<details><summary>Register mobile</summary>
+<img src="readme/lighthouse/register_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/register_page_mobile_numbers.png" width="300px" alt="register mobile numbers">
+
+### Login
+
+<details><summary>Login desktop</summary>
+<img src="readme/lighthouse/login_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/login_page_desktop_numbers.png" width="300px" alt="login desktop numbers">
+
+<details><summary>Login mobile</summary>
+<img src="readme/lighthouse/login_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/login_page_mobile_numbers.png" width="300px" alt="login mobile numbers">
+
+### Logout
+
+<details><summary>Logout desktop</summary>
+<img src="readme/lighthouse/logout_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/logout_page_desktop_numbers.png" width="300px" alt="logout desktop numbers">
+
+<details><summary>Logout mobile</summary>
+<img src="readme/lighthouse/logout_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/logout_page_mobile_numbers.png" width="300px" alt="logout mobile numbers">
+
+### Forget password
+
+<details><summary>Forget password desktop</summary>
+<img src="readme/lighthouse/forget_password_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/forget_password_page_desktop_numbers.png" width="300px" alt="forget_password desktop numbers">
+
+<details><summary>Forget password mobile</summary>
+<img src="readme/lighthouse/forget_password_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/forget_password_page_mobile_numbers.png" width="300px" alt="forget_password mobile numbers">
+
+### Change password
+
+<details><summary>Change password desktop</summary>
+<img src="readme/lighthouse/change_password_page_desktop.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/change_password_page_desktop_numbers.png" width="300px" alt="change_password desktop numbers">
+
+<details><summary>Change password mobile</summary>
+<img src="readme/lighthouse/change_password_page_mobile.png" width="500px">
+</details>
+
+<img src="readme/lighthouse/change_password_page_mobile_numbers.png" width="300px" alt="change_password mobile numbers">
+
 ## Known Issues
 
 1. OrderItems not created for failed payments
