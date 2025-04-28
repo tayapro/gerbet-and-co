@@ -1823,7 +1823,18 @@ Google Lighthouse in Google Chrome Developer Tools was used to check the website
 
     In some rare cases, instead of displaying the full country name, the two-letter country code (e.g., "IE", "FR") may appear.
 
-4. `aria-hidden` issue
+4. Console warnings related to external services
+
+    During testing, the following console warnings were observed:
+
+    `Unable to download payment manifest "https://pay.google.com/gp/p/web_manifest.json".`
+    `Each dictionary in the list "icons" should contain a non-empty UTF8 string field "type".`
+
+    These warnings originate from third-party services (e.g., Google Pay) and are outside the direct control of the Gerbet & Co platform.
+    They do not impact the core functionality, checkout process, or user experience on the website.
+    Future updates to third-party services may resolve these warnings automatically.
+
+5. `aria-hidden` issue
 
     ```
     Blocked aria-hidden on an element because its descendant retained focus. The focus must not be
