@@ -1,10 +1,7 @@
 from decimal import Decimal
 from django.conf import settings
-import logging
 
 from checkout.utils import get_checkout_settings
-
-logger = logging.getLogger(__name__)
 
 
 # Utility class that manages the shopping bag using Django sessions.
@@ -62,7 +59,6 @@ class Bag:
         product_id = str(product_id)
 
         if not product_data and product_id not in self.bag:
-            logger.error("product_data must be provided for new items")
             raise ValueError("product_data must be provided for new items")
 
         if product_id in self.bag:
@@ -91,10 +87,7 @@ class Bag:
 
         try:
             return self.bag[str(product_id)]["quantity"]
-        except Exception as e:
-            logger.error("Failed to get quantity for "
-                         f"product_id={product_id}: {e}")
-
+        except Exception:
             return 0
 
     def remove(self, product_id):
@@ -126,9 +119,7 @@ class Bag:
 
                 yield item
 
-            except (KeyError, ValueError) as e:
-                logger.error(f"Removing invalid bag item {product_id}: "
-                             f"{str(e)}")
+            except (KeyError, ValueError):
                 del self.bag[product_id]
 
         self.save()

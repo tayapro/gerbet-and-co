@@ -1,10 +1,7 @@
 from django import forms
-import logging
 
 from checkout.models import OrderItem
 from .models import Product, Rating, RATING_CHOICES
-
-logger = logging.getLogger(__name__)
 
 
 class RatingForm(forms.ModelForm):

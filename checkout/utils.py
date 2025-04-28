@@ -1,11 +1,8 @@
 from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-import logging
 
 from checkout.models import CheckoutConfig
-
-logger = logging.getLogger(__name__)
 
 
 def get_checkout_settings():
@@ -88,8 +85,6 @@ def prepare_confirmation_email_details(order):
     shipping = order.shipping_info
     items = []
 
-    logger.info(f"Order: {order}")
-    logger.info(f"Line Items: {order.lineitems.all()}")
     for item in order.lineitems.all():
         items.append({
             "title": item.product.title,
@@ -98,8 +93,6 @@ def prepare_confirmation_email_details(order):
             "quantity": item.quantity,
             "total": item.order_item_total
         })
-
-    logger.info(f"ORDER ITEMS: {items}")
 
     return {
         "order_id": order.order_id,

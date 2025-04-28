@@ -6,7 +6,6 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime, timezone, timedelta
 from decimal import Decimal
-import logging
 import stripe
 
 from accounts.models import UserContactInfo
@@ -14,9 +13,6 @@ from products.models import Product
 from .forms import ShippingInfoForm
 from .models import CheckoutConfig, Order, OrderItem, ShippingInfo
 from bag.bag import Bag
-
-
-logger = logging.getLogger(__name__)
 
 
 def checkout(request):
@@ -137,13 +133,6 @@ def handle_checkout_post(request, bag, order_id, currency):
     and redirects to finalize the payment.
     """
 
-    use_default = request.POST.get("use_default") == "on"
-    logger.info(
-        f"Checkout POST - User: {request.user}, "
-        f"Authenticated: {request.user.is_authenticated}, "
-        f"Use Default: {use_default}"
-    )
-
     order = get_order_or_redirect(order_id, request)
     if not isinstance(order, Order):
         return order
@@ -197,14 +186,11 @@ def cache_checkout_data(request):
 
         # Server-side validations
         if len(user_email) == 0:
-            logger.warning(request, "Missing user email")
             return JsonResponse({"error": "Missing user email"}, status=400)
         if len(user_first_name) == 0:
-            logger.warning(request, "Missing user first name")
             return JsonResponse({"error": "Missing user first name"},
                                 status=400)
         if len(user_last_name) == 0:
-            logger.warning(request, "Missing user last name")
             return JsonResponse({"error": "Missing user last name"},
                                 status=400)
 
@@ -238,7 +224,6 @@ def cache_checkout_data(request):
                     "user_fullname": user_full_name,
                 })
             except stripe.error.StripeError as e:
-                logger.error(f"Stripe error: {str(e)}")
                 return JsonResponse({
                     "error": "Failed to update payment metadata with Stripe.",
                     "details": str(e),
@@ -249,10 +234,8 @@ def cache_checkout_data(request):
         return JsonResponse({"success": True}, status=200)
 
     except KeyError as e:
-        logger.error(f"Missing field in request: {str(e)}")
         return JsonResponse({"error": f"Missing field: {str(e)}"}, status=400)
     except Exception as e:
-        logger.error(f"Cache checkout data error: {str(e)}", exc_info=True)
         return JsonResponse({"error": "Failed to cache checkout data",
                              "details": str(e)}, status=500)
 
@@ -300,11 +283,9 @@ def handle_expired_payment_session(request, order):
         request.session["order_id"] = None
         request.session["checkout_cache"] = None
         request.session.modified = True
-    except Exception as e:
+    except Exception:
         messages.error(request, "An error occurred while canceling your "
                        "payment. Please try again.")
-        logger.error("Payment cancelling error: Stripe_pid "
-                     f"{order.stripe_pid} - {str(e)}")
 
 
 def check_payment_session(request, order):
@@ -349,14 +330,8 @@ def get_order_or_redirect(order_id, request):
 
     try:
         order = Order.objects.get(id=order_id)
-        logger.debug(
-            f"Initial Order State - ID: {order.id}, "
-            f"User: {order.user_id}, Guest Email: {order.guest_email}"
-        )
         return order
     except Order.DoesNotExist:
-        logger.error(f"Order with ID {order_id} not found.")
-
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({
                 "error": "order_not_found",
@@ -538,46 +513,21 @@ def finalize_order(request, bag, order):
     the success page.
     """
     try:
-        logger.info(
-            f"Finalizing order {order.id} - User: {order.user_id}, "
-            f"Guest Email: {order.guest_email}, Status: {order.status}"
-        )
         intent = stripe.PaymentIntent.retrieve(order.stripe_pid)
-        logger.debug(f"PaymentIntent status: {intent.status}")
-        logger.debug(f"Retrieved Stripe PaymentIntent: {intent}")
 
         if intent.status == "succeeded":
-            logger.info("Payment succeeded, creating order items")
             create_order_items(bag, order)
             bag.clear()
-            logger.debug(
-                f"Updated Order State - ID: {order.id}, "
-                f"User: {order.user_id}, Guest Email: {order.guest_email}, "
-                f"Shipping Info: {order.shipping_info_id}"
-            )
-            logger.info(f"Order {order.id} finalized successfully")
 
             return redirect(reverse('checkout_success', args=[order.id]))
 
-        logger.warning(
-            f"Payment not successful - Status: {intent.status}, "
-            f"Last Payment Error: {intent.last_payment_error}"
-        )
         messages.error(request, f"Payment not successful: {intent.status}")
 
     except stripe.error.CardError as e:
         err = e.json_body.get("error", {})
-        logger.error(f"Stripe Card Error: {err}")
         messages.error(request, f"Card Error: {err.get('message')}")
 
     except Exception as e:
-        logger.error(
-            f"Order processing failed - Order: {order.id}, "
-            f"User: {order.user_id}, Guest Email: {order.guest_email}, "
-            f"Error: {str(e)}",
-            exc_info=True
-        )
-        logger.error(f"Order processing failed: {e}")
         messages.error(request, f"Order processing failed: {e}")
 
     return render(request, "checkout/checkout.html",
@@ -590,11 +540,6 @@ def handle_invalid_form(request, form, currency):
 
     Renders the checkout page again with form error messages.
     """
-
-    # Log detailed form errors
-    logger.error("Form validation failed with errors:")
-    for field, errors in form.errors.items():
-        logger.error(f"Field '{field}': {', '.join(errors)}")
 
     messages.error(request, "Please check your form entries")
 

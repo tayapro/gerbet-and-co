@@ -2,10 +2,6 @@
 from django.dispatch import receiver
 from .models import shipping_info_updated
 from accounts.models import UserContactInfo
-import logging
-
-
-logger = logging.getLogger(__name__)
 
 
 @receiver(shipping_info_updated)
@@ -19,8 +15,6 @@ def sync_profile_address(sender, instance, save_address_as_default=False,
     this signal updates their profile with the new default address while
     ensuring data consistency across their saved addresses.
     """
-
-    logger.info("Signal triggered for ShippingInfo.")
 
     # Ensure all required fields are present
     required_fields = [
@@ -54,10 +48,3 @@ def sync_profile_address(sender, instance, save_address_as_default=False,
         UserContactInfo.objects.filter(
             user=instance.user
         ).exclude(id=new_address.id).update(is_default=False)
-    else:
-        if not all(required_fields):
-            logger.info("Signal ignored: Missing required fields.")
-        if not instance.is_default:
-            logger.info("Signal ignored: Address is not marked as default.")
-        if not instance.user:
-            logger.info("Signal ignored: No associated user.")
