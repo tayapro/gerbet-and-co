@@ -1058,13 +1058,13 @@ Before proceeding, ensure the following are set up:
 
     ```
     woofspot.<YOUR_DOMAIN> {
-        reverse_proxy woofspot:8001
+        reverse_proxy woofspot:8002
     }
     ```
 
 > [!NOTE]
 > Replace **`<YOUR_DOMAIN>`** with your actual domain.
-> By default, the Dockerfile uses EXPOSE 8001. If you want to use a different port:
+> By default, the Dockerfile uses EXPOSE 8002. If you want to use a different port:
 >
 > -   Update the port in the Dockerfile
 > -   Rebuild the Docker image
