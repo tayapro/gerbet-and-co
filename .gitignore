@@ -4,7 +4,6 @@ core.mongo*
 .env
 __pycache__/
 *.py[cod]
-.github/
 *.sqlite3
 staticfiles/
 .DS_Store
