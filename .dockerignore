@@ -1,0 +1,11 @@
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+node_modules/
+.env
+creds.json
+myenv/
+readme/

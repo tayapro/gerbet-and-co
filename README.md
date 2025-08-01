@@ -28,6 +28,7 @@
     -   [Neon PostgeSQL Database](#neon-postgesql-database)
     -   [Cloudinary API](#cloudinary-api)
     -   [Google API](#google-api)
+    -   [VPS (Virtual Private Server)](#vps-virtual-private-server)
     -   [Heroku](#heroku)
 -   [Testing](#testing)
     -   [Responsivness Testing](#responsivness-testing)
@@ -1001,7 +1002,7 @@ To use your own database, set it up and configure the `DATABASE_URL`.
 
 ## Cloudinary API
 
-This project uses the Cloudinary API to store media files, as Heroku doesn't support persistent storage for this type of data.
+This project uses the Cloudinary API to store media files.
 
 To get started with Cloudinary:
 
@@ -1027,7 +1028,7 @@ Follow these steps to deploy the Gerbet & Co app on Heroku:
 
     - Go to the **Settings** tab in your Heroku dashboard.
 
-    - In the **Config Vars** section, add the following environment variables with your own values:
+    - In the **Config Vars** section, add the following [environment variables](#environment-variables) with your own values:
 
         - `CLOUDINARY_API_KEY`: Cloudinary API key, see the "Cloudinary API" section above.
         - `CLOUDINARY_API_SECRET`: Cloudinary API secret, see the "Cloudinary API" section above.
@@ -1038,7 +1039,7 @@ Follow these steps to deploy the Gerbet & Co app on Heroku:
         - `SECRET_KEY`: secret key.
         - `STRIPE_PUBLIC_KEY`: publishable key (starts with pk).
         - `STRIPE_SECRET_KEY`: secret key (starts with sk)
-        - `STRIPE_WH_SECRET`: signing secret (Wehbook) key (starts with wh).
+        - `STRIPE_WH_SECRET`: signing secret (Webhook) key (starts with wh).
 
     - In the **Buildpacks** section, add the **Python** buildpack.
 
