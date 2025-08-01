@@ -29,7 +29,7 @@
     -   [Cloudinary API](#cloudinary-api)
     -   [Google API](#google-api)
     -   [VPS (Virtual Private Server)](#vps-virtual-private-server)
-    -   [Heroku](#heroku)
+    -   [Heroku Deployment](#heroku-deployment)
 -   [Testing](#testing)
     -   [Responsivness Testing](#responsivness-testing)
     -   [Browser compatibility Testing](#browser-compatibility-testing)
@@ -1009,6 +1009,119 @@ To get started with Cloudinary:
 1. Create an account and log in.
 2. Head to the settings page.
 3. Click the **"Generate new API key"** button to create your own API credentials.
+
+## VPS (Virtual Private Server)
+
+The Gerbet & Co app is deployed on a VPS using Docker and Caddy for a lightweight, self-hosted setup.
+
+### Pre-requirements
+
+Before proceeding, ensure the following are set up:
+
+-   A running VPS
+-   Docker and Docker Compose installed on the VPS
+-   Git client installed on the VPS
+-   Ports 80 and 443 are open on the VPS
+-   A public domain with an A and/or AAAA DNS record pointing to the VPS
+
+### Deployment Steps on VPS
+
+1.  Clone woofspot repository and move into the project folder
+
+    ```
+    git clone git@github.com:tayapro/gerbet-and-co.git && cd gerbetandco
+    ```
+
+2.  Create `/.env` file inside the `gerbetandco/` folder and set [environment variables](#environment-variables).
+    Add one extra variable: `ALLOWED_HOST=.<YOUR_DOMAIN>`.
+    Full list of environment variables:
+
+    -   DATABASE_URL
+    -   SECRET_KEY
+    -   CLOUDINARY_CLOUD_NAME
+    -   CLOUDINARY_API_KEY
+    -   CLOUDINARY_API_SECRET
+    -   DEFAULT_IMAGE
+    -   EMAIL_HOST_USER
+    -   EMAIL_HOST_PASSWORD
+    -   ALLOWED_HOST
+
+3.  Run the `build.sh` script to build the Docker image.
+
+4.  Create `caddy` folder:
+
+    ```
+    mkdir -p gerbetandco caddy
+    ```
+
+5.  Create the `Caddyfile` in the `caddy/` folder, example:
+
+    ```
+    woofspot.<YOUR_DOMAIN> {
+        reverse_proxy woofspot:8001
+    }
+    ```
+
+> [!NOTE]
+> Replace **`<YOUR_DOMAIN>`** with your actual domain.
+> By default, the Dockerfile uses EXPOSE 8001. If you want to use a different port:
+>
+> -   Update the port in the Dockerfile
+> -   Rebuild the Docker image
+> -   Restart the container
+> -   And update the Caddyfile to match the new port
+
+6.  Create `docker-compose.yml` in the root directory:
+
+    ```
+    networks:
+      mynet:
+
+    services:
+      caddy:
+        image: caddy:latest
+        networks:
+          - mynet
+        ports:
+          - 443:443
+          - 80:80
+        volumes:
+          - ${PWD}/caddy/Caddyfile:/etc/caddy/Caddyfile
+          - ${PWD}/caddy/data:/data
+        container_name: caddy
+        restart: unless-stopped
+      gerbet-and-co:
+        image: gerbet-and-co:dev
+            env_file:
+            - ./gerbetandco/.env
+            networks:
+            - mynet
+            container_name: gerbet-and-co
+            restart: unless-stopped
+    ```
+
+7.  Run the container:
+
+    ```
+    docker-compose up -d
+    ```
+
+Then visit `https://woofspot.<YOUR_DOMAIN>` to verify it's working.
+
+#### File Structure
+
+The project directory on the VPS should look like this:
+
+    ```
+    root@vps:~# tree
+    .
+    ├── caddy
+    │   └── Caddyfile
+    ├── docker-compose.yml
+    └── woofspot
+        ├── .env.woofspot
+        └── ...
+    ```
 
 ## Heroku Deployment
 
