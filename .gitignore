@@ -1,4 +1,6 @@
 core.python*
+core.Microsoft*
+core.mongo*
 .env
 __pycache__/
 *.py[cod]
@@ -8,3 +10,6 @@ staticfiles/
 .DS_Store
 stripe_debug.log
 tmp/
+env.py
+myenv/
+caddy/
