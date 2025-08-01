@@ -1,0 +1,36 @@
+name: Auto Release
+
+on:
+    pull_request:
+        types: [closed]
+        branches: [main]
+
+jobs:
+    create-release:
+        # Only run if the PR was merged AND the branch name starts with 'v'
+        if: >
+            github.event.pull_request.merged == true &&
+            startsWith(github.head_ref, 'v')
+
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write # Allows release creation
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Create Git Tag from Branch Name
+              run: |
+                  TAG_NAME="${{ github.head_ref }}"
+                  git config --global user.name "github-actions[bot]"
+                  git config --global user.email "github-actions[bot]@users.noreply.github.com"
+                  git tag "$TAG_NAME"
+                  git push origin "$TAG_NAME"
+
+            - name: Create GitHub Release
+              uses: softprops/action-gh-release@v1
+              with:
+                  tag_name: ${{ github.head_ref }}
+                  name: ${{ github.head_ref }}
+                  generate_release_notes: true
