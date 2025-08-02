@@ -34,7 +34,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEVELOPMENT', 'False') == 'True'
 
-ALLOWED_HOSTS = [os.getenv("ALLOWED_HOST")]
+ALLOWED_HOSTS = [os.getenv("ALLOWED_HOST"), '127.0.0.1', 'localhost']
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
