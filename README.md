@@ -25,6 +25,7 @@
 -   [Technologies](#technologies)
 -   [Deployment](#deployment)
     -   [How to clone](#how-to-clone)
+    -   [Run Locally](#run-locally)
     -   [Neon PostgeSQL Database](#neon-postgesql-database)
     -   [Cloudinary API](#cloudinary-api)
     -   [Google API](#google-api)
@@ -1009,6 +1010,39 @@ To get started with Cloudinary:
 1. Create an account and log in.
 2. Head to the settings page.
 3. Click the **"Generate new API key"** button to create your own API credentials.
+
+## Run Locally
+
+1. [Clone the project](#how-to-clone) and navigate into the project directory.
+
+2. Create a `.env` file in the root directory and add the necessary environment variables, ALLOWED_HOST=.<YOUR_DOMAIN>.
+
+    ```
+    DATABASE_URL
+    SECRET_KEY
+    CLOUDINARY_CLOUD_NAME
+    CLOUDINARY_API_KEY
+    CLOUDINARY_API_SECRET
+    DEFAULT_IMAGE
+    EMAIL_HOST_USER
+    EMAIL_HOST_PASSWORD
+    ALLOWED_HOST
+    ```
+
+3. If running with `DEBUG=False`, collect static files:
+
+    ```
+    python manage.py collectstatic
+    ```
+
+4. Start the development server:
+
+    ```
+    python manage.py runserver
+    ```
+
+5. Open your browser and visit:
+   [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 ## VPS (Virtual Private Server)
 
