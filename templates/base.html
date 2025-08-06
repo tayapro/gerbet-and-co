@@ -57,7 +57,7 @@
     </head>
     <body class="{% block body_class %}{% endblock %}">
         <div class="w-100 sticky-top">
-            <nav class="navbar navbar-expand-sm navbar-dark container-fluid position-relative" id="navbar-container">
+            <nav class="navbar navbar-expand-sm navbar-dark container-fluid position-relative navbar-shadow" id="navbar-container">
                 <div class="d-flex flex-row">
                     <a class="navbar-brand ms-3" href="/"><h2 class="mb-0">Gerbet & Co.</h2></a>
                     <ul class="navbar-nav flex-sm-row">
@@ -184,7 +184,11 @@
                 </div>
             </nav>
 
-            <div id="toast-container" class="toast border border-0 rounded-0 d-none justify-content-center w-100 py-2"></div>
+            <div class="border-0 rounded-0 text-center w-100 p-2 purple-text-75 white-bg-90 navbar-shadow">
+                ⚠️ <strong>Kindly note</strong>: Gerbet & Co. is a student project - no real orders or payments.
+            </div>
+
+            <div id="toast-container" class="toast border border-0 rounded-0 d-none justify-content-center w-100 py-2 purple-text-75"></div>
 
             {% for message in messages %}
             <div id="messages-container">    

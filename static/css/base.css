@@ -3,6 +3,7 @@
     --font-family: 'Nunito Sans', sans-serif;
     --font-thin: 300;
     --white-color-100: rgb(251, 251, 251);
+    --white-color-90: rgba(251, 251, 251, 0.9);
     --white-color-85: rgba(251, 251, 251, 0.85);
     --white-color-75: rgba(251, 251, 251, 0.75);
     --purple-90: rgba(41, 27, 50, 0.9);
@@ -67,6 +68,10 @@ h5 {
 
 .white-bg-85 {
     background-color: var(--white-color-85) !important;
+}
+
+.white-bg-90 {
+    background-color: var(--white-color-90) !important;
 }
 
 .white-bg-75 {
@@ -178,6 +183,10 @@ h5 {
     background-color: #f2f2f2;
     width: 70px;
     text-align: start;
+}
+
+.navbar-shadow {
+    box-shadow: 0 4px 12px rgba(135, 135, 135, 0.5) !important;
 }
 
 /* Disable the up/down arrows (spinners) on a <input type="number"> field */
@@ -333,14 +342,24 @@ h5 {
 
 #messages-container {
     position: absolute;
-    top: 60px;
+    top: 100px;
     z-index: 9999;
     width: 100%;
     transition: opacity 0.5s ease-in-out !important;
 }
 
+@media (max-width: 570px) {
+    #messages-container {
+        top: 120px;
+    }
+}
+
 #toast-container {
     transition: opacity 0.5s ease-in-out !important;
+}
+
+#close-toast-btn.btn-close {
+    color: var(--purple-75) !important;
 }
 
 /* Horizontal scrolling for Account tabs on mobile */

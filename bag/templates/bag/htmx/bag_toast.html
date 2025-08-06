@@ -6,15 +6,15 @@
 </span>
 
 <!-- Show toast container -->
-<div id="toast-container" class="toast border border-0 rounded-0 d-flex justify-content-center w-100 py-2 position-absolute"
+<div id="toast-container" class="toast border border-0 rounded-0 d-flex justify-content-center w-100 py-2 position-absolute purple-text-75 border-top"
      role="alert" aria-live="assertive" aria-atomic="true">
     <div class="d-flex align-items-center justify-content-center">
         <div class="toast-body d-flex align-items-center p-0">
-            <i class="bi bi-check-circle-fill mx-2 fs-6"></i> 
+            <i class="bi bi-check-circle-fill mx-2 fs-5"></i> 
             <p class="fs-6 m-0">{{ product_name }} has been added to your bag!</p>
         </div>
-        <button type="button" class="fs-6 btn-close mx-2" data-bs-dismiss="toast" 
-                aria-label="Close" id="close-toast-btn"></button>
+        <button type="button" class="fs-2 mx-2 purple-text-75 border border-0 bg-transparent" data-bs-dismiss="toast" 
+                aria-label="Close" id="close-toast-btn">&times;</button>
     </div>
 </div>
 {% endblock %}
