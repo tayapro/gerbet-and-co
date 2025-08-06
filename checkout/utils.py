@@ -106,8 +106,8 @@ def prepare_confirmation_email_details(order):
         "country": shipping.country,
         "phone_number": shipping.phone_number,
         "delivery_cost": order.delivery_cost,
-        "subtotal": order.grand_total,
-        "grand_total": order.order_total,
+        "subtotal": order.order_total,
+        "grand_total": order.grand_total,
         "items": items
     }
 
