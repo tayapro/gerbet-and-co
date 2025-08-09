@@ -1060,10 +1060,10 @@ Before proceeding, ensure the following are set up:
 
 ### Deployment Steps on VPS
 
-1.  Clone woofspot repository and move into the project folder
+1.  Clone gerbet-and-co repository and move into the project folder
 
     ```
-    git clone git@github.com:tayapro/gerbet-and-co.git && cd gerbetandco
+    git clone git@github.com:tayapro/gerbet-and-co.git && cd gerbet-and-co
     ```
 
 2.  Create `/.env` file inside the `gerbetandco/` folder and set [environment variables](#environment-variables).
@@ -1091,8 +1091,8 @@ Before proceeding, ensure the following are set up:
 5.  Create the `Caddyfile` in the `caddy/` folder, example:
 
     ```
-    woofspot.<YOUR_DOMAIN> {
-        reverse_proxy woofspot:8002
+    gerbet-and-co.<YOUR_DOMAIN> {
+        reverse_proxy gerbet-and-co:8002
     }
     ```
 
@@ -1107,29 +1107,29 @@ Before proceeding, ensure the following are set up:
 
 6.  Create `docker-compose.yml` in the root directory:
 
-    ```
+    ```yaml
     networks:
-      mynet:
+        mynet:
 
     services:
-      caddy:
-        image: caddy:latest
-        networks:
-          - mynet
-        ports:
-          - 443:443
-          - 80:80
-        volumes:
-          - ${PWD}/caddy/Caddyfile:/etc/caddy/Caddyfile
-          - ${PWD}/caddy/data:/data
-        container_name: caddy
-        restart: unless-stopped
-      gerbet-and-co:
-        image: gerbet-and-co:dev
-            env_file:
-            - ./gerbetandco/.env
+        caddy:
+            image: caddy:latest
             networks:
-            - mynet
+                - mynet
+            ports:
+                - 443:443
+                - 80:80
+            volumes:
+                - ${PWD}/caddy/Caddyfile:/etc/caddy/Caddyfile
+                - ${PWD}/caddy/data:/data
+            container_name: caddy
+            restart: unless-stopped
+        gerbet-and-co:
+            image: gerbet-and-co:prod
+            env_file:
+                - ./gerbet-and-co/.env
+            networks:
+                - mynet
             container_name: gerbet-and-co
             restart: unless-stopped
     ```
@@ -1140,11 +1140,11 @@ Before proceeding, ensure the following are set up:
     docker-compose up -d
     ```
 
-Then visit `https://woofspot.<YOUR_DOMAIN>` to verify it's working.
+Then visit `https://gerbet-and-co.<YOUR_DOMAIN>` to verify it's working.
 
 #### File Structure
 
-The project directory on the VPS should look like this:
+The root directory on the VPS should look like this:
 
     ```
     root@vps:~# tree
@@ -1152,8 +1152,8 @@ The project directory on the VPS should look like this:
     ├── caddy
     │   └── Caddyfile
     ├── docker-compose.yml
-    └── woofspot
-        ├── .env.woofspot
+    └── gerbet-and-co
+        ├── .env
         └── ...
     ```
 
