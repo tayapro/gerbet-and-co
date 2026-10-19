@@ -964,6 +964,7 @@ Offer a live chat option on the website, allowing customers to quickly get assis
 > ```
 > SECRET_KEY="<USER_VALUE>"
 > DATABASE_URL="<USER_VALUE>"
+> CSRF_TRUSTED_ORIGIN="https://<YOUR_DOMAIN>"
 >
 > STRIPE_PUBLIC_KEY="<USER_VALUE>"
 > STRIPE_SECRET_KEY="<USER_VALUE>"
@@ -1027,6 +1028,7 @@ To get started with Cloudinary:
     EMAIL_HOST_USER
     EMAIL_HOST_PASSWORD
     ALLOWED_HOST
+    CSRF_TRUSTED_ORIGIN
     ```
 
 3. If running with `DEBUG=False`, collect static files:
@@ -1079,6 +1081,7 @@ Before proceeding, ensure the following are set up:
     -   EMAIL_HOST_USER
     -   EMAIL_HOST_PASSWORD
     -   ALLOWED_HOST
+    -   CSRF_TRUSTED_ORIGIN
 
 3.  Run the `build.sh` script to build the Docker image.
 
@@ -1180,6 +1183,7 @@ Follow these steps to deploy the Gerbet & Co app on Heroku:
         - `CLOUDINARY_API_KEY`: Cloudinary API key, see the "Cloudinary API" section above.
         - `CLOUDINARY_API_SECRET`: Cloudinary API secret, see the "Cloudinary API" section above.
         - `CLOUDINARY_CLOUD_NAME`: Cloudinary cloud name, see the "Cloudinary API" section above.
+        - `CSRF_TRUSTED_ORIGIN`: trusted origin for CSRF, including scheme, e.g. `https://<YOUR_DOMAIN>`. Wildcards are supported, e.g. `https://*.<YOUR_DOMAIN>`.
         - `DATABASE_URL`: database connection URL, see the "Neon PostgeSQL Database" section above.
         - `EMAIL_HOST_USER`: Google email address, in current configuration _info.gerbetco@gmail.com_.
         - `EMAIL_HOST_PASSWORD`: Password to send emails using Google API.

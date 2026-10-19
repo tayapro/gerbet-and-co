@@ -38,9 +38,9 @@ ALLOWED_HOSTS = [os.getenv("ALLOWED_HOST"), '127.0.0.1', 'localhost']
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://*.tayadev.com"
-]
+CSRF_TRUSTED_ORIGIN = os.getenv('CSRF_TRUSTED_ORIGIN')
+
+CSRF_TRUSTED_ORIGINS = [CSRF_TRUSTED_ORIGIN] if CSRF_TRUSTED_ORIGIN else []
 
 
 # Static files (CSS, JavaScript, Images)
