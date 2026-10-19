@@ -39,3 +39,10 @@ jobs:
                   tags: ${{ env.IMAGE }}:${{ env.TAG }}
                   cache-from: type=gha
                   cache-to: type=gha,mode=max
+
+            - name: Notify deploy hook
+              run: |
+                  curl --fail --silent --show-error \
+                    --request POST \
+                    --header "Authorization: Bearer ${{ secrets.ONHOOK_TOKEN }}" \
+                    https://ci.taya.one/hooks/gerbert-and-co
