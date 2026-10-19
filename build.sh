@@ -1,6 +1,4 @@
-source .env
-
 IMAGE_REPO=gerbet-and-co
-IMAGE_TAG=prod
+IMAGE_TAG=dev
 
-docker build . --build-arg DATABASE_URL=$DATABASE_URL -t $IMAGE_REPO:$IMAGE_TAG
+docker build . -t $IMAGE_REPO:$IMAGE_TAG
