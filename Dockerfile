@@ -32,6 +32,7 @@ COPY --chown=appuser:appuser store/ store/
 COPY --chown=appuser:appuser templates/ templates/
 COPY --chown=appuser:appuser manage.py .
 COPY --chown=appuser:appuser requirements.txt .
+COPY --chown=appuser:appuser robots.txt sitemap.xml /app/
 
 # --- Install Python deps as root (go to /usr/local, readable by all) ---
 RUN pip install --no-cache-dir -r requirements.txt
